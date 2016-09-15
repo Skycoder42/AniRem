@@ -74,12 +74,21 @@ QVariant AnimeSeasonModel::data(const QModelIndex &index, int role) const
 		}
 		break;
 	case Qt::FontRole:
-		if(index.column() == 1 &&
-		   this->seasonList[index.row()].lastKnownSeasons < 0) {
+		if(this->seasonList[index.row()].hasNewSeasons) {
+			QFont font;
+			font.setBold(true);
+			return font;
+		} else if(index.column() == 1 &&
+				  this->seasonList[index.row()].lastKnownSeasons < 0) {
 			QFont font;
 			font.setItalic(true);
 			return font;
 		} else
+			break;
+	case Qt::ForegroundRole:
+		if(this->seasonList[index.row()].hasNewSeasons)
+			return QColor(Qt::red);
+		else
 			break;
 	default:
 		break;
