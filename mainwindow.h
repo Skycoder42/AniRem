@@ -23,6 +23,10 @@ private slots:
 
 	void on_actionAdd_Anime_triggered();
 	void on_actionRemove_Anime_triggered();
+	void on_actionPaste_ID_URL_triggered();
+	void on_actionCopy_selected_Info_triggered();
+
+	void on_seasonTreeView_activated(const QModelIndex &index);
 
 private:
 	Ui::MainWindow *ui;

@@ -3,6 +3,10 @@
 #include "addanimedialog.h"
 #include <dialogmaster.h>
 #include <QSettings>
+#include <QClipboard>
+#include <QMimeData>
+#include <QStringList>
+#include <QDesktopServices>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -59,12 +63,78 @@ void MainWindow::modelError(QString error)
 void MainWindow::on_actionAdd_Anime_triggered()
 {
 	auto info = AddAnimeDialog::createInfo(-1, this);
-	if(info.id != -1) {
+	if(info.id != -1)
 		this->model->addAnime(info);
-	}
 }
 
 void MainWindow::on_actionRemove_Anime_triggered()
 {
-	this->model->removeInfo(this->proxyModel->mapToSource(this->ui->seasonTreeView->currentIndex()));
+	auto index = this->ui->seasonTreeView->currentIndex();
+	if(index.isValid())
+		this->model->removeInfo(this->proxyModel->mapToSource(index));
+}
+
+void MainWindow::on_actionPaste_ID_URL_triggered()
+{
+	auto clipBoard = QApplication::clipboard();
+	auto text = clipBoard->text();
+
+	auto id = -1;
+	auto url = QUrl::fromUserInput(text);
+	if(url.isValid() && !url.isRelative()) {
+		if(url.host() == QStringLiteral("proxer.me")) {
+			QStringList pathElements = url.path().split("/", QString::SkipEmptyParts);
+			if(pathElements.size() >= 2) {
+				bool ok = false;
+				id = pathElements[1].toInt(&ok);
+				if(!ok)
+					id = -1;
+			}
+		}
+	}
+
+	if(id == -1) {
+		bool ok = false;
+		id = text.toInt(&ok);
+		if(!ok)
+			id = -1;
+	}
+
+	if(id != -1) {
+		auto info = AddAnimeDialog::createInfo(id, this);
+		if(info.id != -1)
+			this->model->addAnime(info);
+	}
+}
+
+void MainWindow::on_actionCopy_selected_Info_triggered()
+{
+	auto index = this->ui->seasonTreeView->currentIndex();
+	if(index.isValid()) {
+		auto clipBoard = QApplication::clipboard();
+
+		auto rIndex = this->proxyModel->mapToSource(index);
+		auto info = this->model->animeInfo(rIndex);
+		switch (rIndex.column()) {
+		case 0:
+			clipBoard->setText(info.title);
+			break;
+		case 1:
+			clipBoard->setText(QLocale().toString(info.lastKnownSeasons));
+			break;
+		case 2:
+			clipBoard->setText(info.relationsUrl().toString());
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void MainWindow::on_seasonTreeView_activated(const QModelIndex &index)
+{
+	if(index.isValid()) {
+		auto info = this->model->animeInfo(this->proxyModel->mapToSource(index));
+		QDesktopServices::openUrl(info.relationsUrl());
+	}
 }

@@ -50,6 +50,9 @@ AnimeInfo AddAnimeDialog::createInfo(int id, QWidget *parent)
 
 void AddAnimeDialog::reloadAnime()
 {
+	if(!this->ui->proxerIDLineEdit->isEnabled())
+		return;
+
 	if(!this->ui->proxerIDLineEdit->text().isEmpty()) {
 		this->ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 		this->ui->proxerIDLineEdit->setEnabled(false);
@@ -84,7 +87,7 @@ void AddAnimeDialog::imageLoaded()
 		if(reply->error() == QNetworkReply::NoError) {
 			this->cPixmap.loadFromData(reply->readAll(), "jpg");
 			this->tryCompleted();
-		} else
+		} else if(reply->error() != QNetworkReply::OperationCanceledError)
 			this->abortError(reply->errorString());
 	}
 
@@ -117,7 +120,7 @@ void AddAnimeDialog::pageLoaded()
 				} else
 					this->abortError(tr("Unable to load anime name from webpage!"));
 			}
-		} else
+		} else if(reply->error() != QNetworkReply::OperationCanceledError)
 			this->abortError(reply->errorString());
 	}
 

@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QPixmap>
+#include <QUrl>
 
 struct AnimeInfo
 {
@@ -12,6 +13,8 @@ struct AnimeInfo
 
 	int lastKnownSeasons;
 	bool hasNewSeasons;
+
+	QUrl relationsUrl() const;
 
 	AnimeInfo();
 };

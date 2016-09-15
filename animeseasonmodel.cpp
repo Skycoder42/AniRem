@@ -68,7 +68,7 @@ QVariant AnimeSeasonModel::data(const QModelIndex &index, int role) const
 					tr("Not loaded") :
 					QLocale().toString(this->seasonList[index.row()].lastKnownSeasons);
 		case 2:
-			return tr("proxer.me/info/%1/relation").arg(this->seasonList[index.row()].id);
+			return this->seasonList[index.row()].relationsUrl();
 		default:
 			break;
 		}
