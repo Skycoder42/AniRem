@@ -22,6 +22,7 @@ private slots:
 	void modelError(QString error);
 
 	void on_actionAdd_Anime_triggered();
+	void on_actionRemove_Anime_triggered();
 
 private:
 	Ui::MainWindow *ui;

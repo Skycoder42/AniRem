@@ -16,6 +16,7 @@ public:
 public slots:
 	void loadAnimes();
 	void saveAnime(const AnimeInfo &info);
+	void forgetAnime(int id);
 
 signals:
 	void loadingCompleted(QList<AnimeInfo> infoList);
@@ -27,6 +28,7 @@ private:
 
 	QJsonArray loadList();
 	void saveList(const QJsonArray &array);
+	QString imgPath(int id);
 };
 
 #endif // ANIMESTORE_H

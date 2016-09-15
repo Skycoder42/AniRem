@@ -111,10 +111,11 @@ void AnimeSeasonModel::addAnime(const AnimeInfo &info)
 	this->endInsertRows();
 }
 
-void AnimeSeasonModel::removeInfo(int index)
+void AnimeSeasonModel::removeInfo(const QModelIndex &index)
 {
-	this->beginRemoveRows(QModelIndex(), index, index);
-	this->seasonList.removeAt(index);
+	this->beginRemoveRows(index.parent(), index.row(), index.row());
+	auto info = this->seasonList.takeAt(index.row());
+	this->store->forgetAnime(info.id);
 	this->endRemoveRows();
 }
 

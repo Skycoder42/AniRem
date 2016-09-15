@@ -28,10 +28,6 @@ void AnimeStore::loadAnimes()
 	QtConcurrent::run([this](){
 		R_LOCK();
 		try {
-			QDir cacheDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
-			cacheDir.mkpath(QStringLiteral("./imgCache"));
-			cacheDir.cd(QStringLiteral("./imgCache"));
-
 			QList<AnimeInfo> infoList;
 			foreach(auto value, this->loadList()) {
 				auto obj = value.toObject();
@@ -40,7 +36,7 @@ void AnimeStore::loadAnimes()
 				info.id = obj[QStringLiteral("id")].toInt();
 				info.title = obj[QStringLiteral("title")].toString();
 				info.lastKnownSeasons = obj[QStringLiteral("seasons")].toInt();
-				info.previewImage = QPixmap(cacheDir.absoluteFilePath(QStringLiteral("pimg_%1.png").arg(info.id)));
+				info.previewImage = QPixmap(this->imgPath(info.id));
 
 				infoList.append(info);
 			}
@@ -70,10 +66,41 @@ void AnimeStore::saveAnime(const AnimeInfo &info)
 			obj[QStringLiteral("id")] = info.id;
 			obj[QStringLiteral("title")] = info.title;
 			obj[QStringLiteral("seasons")] = info.lastKnownSeasons;
-			info.previewImage.save(cacheDir.absoluteFilePath(QStringLiteral("pimg_%1.png").arg(info.id)));
+			info.previewImage.save(this->imgPath(info.id));
 
 			saveList.append(obj);
 			this->saveList(saveList);
+		} catch(QString error) {
+			emit storeError(error);
+		}
+	});
+}
+
+void AnimeStore::forgetAnime(int id)
+{
+	QtConcurrent::run([this, id](){
+		W_LOCK();
+		if(!this->canSave)
+			return;
+
+		try {
+
+			QJsonArray saveList = this->loadList();
+			bool found = false;
+			for(auto i = 0; i < saveList.size(); i++) {
+				auto obj = saveList[i].toObject();
+				if(obj[QStringLiteral("id")].toInt() == id) {
+					found = true;
+					saveList.removeAt(i);
+					QFile::remove(this->imgPath(id));
+					break;
+				}
+			}
+
+			if(found)
+				this->saveList(saveList);
+			else
+				emit storeError(tr("No Anime with id %1 to be removed!").arg(id));
 		} catch(QString error) {
 			emit storeError(error);
 		}
@@ -113,4 +140,12 @@ void AnimeStore::saveList(const QJsonArray &array)
 		if(!animeStore.commit())
 			throw animeStore.errorString();
 	}
+}
+
+QString AnimeStore::imgPath(int id)
+{
+	QDir cacheDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+	cacheDir.mkpath(QStringLiteral("./imgCache"));
+	cacheDir.cd(QStringLiteral("./imgCache"));
+	return cacheDir.absoluteFilePath(QStringLiteral("pimg_%1.png").arg(id));
 }

@@ -26,7 +26,7 @@ public:
 
 public slots:
 	void addAnime(const AnimeInfo &info);
-	void removeInfo(int index);
+	void removeInfo(const QModelIndex &index);
 
 signals:
 	void modelError(QString error);
