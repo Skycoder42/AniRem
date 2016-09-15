@@ -1,20 +1,9 @@
 #include "animeseasonmodel.h"
-#include <QLocale>
-#include <QFont>
 
 AnimeSeasonModel::AnimeSeasonModel(QObject *parent) :
 	QAbstractTableModel(parent),
-	seasonList(),
-	store(new AnimeStore(this))
+	seasonList()
 {
-	connect(this->store, &AnimeStore::loadingCompleted,
-			this, &AnimeSeasonModel::storeLoaded,
-			Qt::QueuedConnection);
-	connect(this->store, &AnimeStore::storeError,
-			this, &AnimeSeasonModel::modelError,
-			Qt::QueuedConnection);
-
-	this->store->loadAnimes();
 }
 
 QVariant AnimeSeasonModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -48,7 +37,7 @@ int AnimeSeasonModel::columnCount(const QModelIndex &parent) const
 	else
 		return 3;
 }
-
+#include <QLocale>
 QVariant AnimeSeasonModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid() ||
@@ -73,14 +62,6 @@ QVariant AnimeSeasonModel::data(const QModelIndex &index, int role) const
 			break;
 		}
 		break;
-	case Qt::FontRole:
-		if(index.column() == 1 &&
-		   this->seasonList[index.row()].lastKnownSeasons < 0) {
-			QFont font;
-			font.setItalic(true);
-			return font;
-		} else
-			break;
 	default:
 		break;
 	}
@@ -88,16 +69,10 @@ QVariant AnimeSeasonModel::data(const QModelIndex &index, int role) const
 	return QVariant();
 }
 
-QList<AnimeInfo> AnimeSeasonModel::animeList() const
-{
-	return this->seasonList;
-}
-
 void AnimeSeasonModel::addAnime(const AnimeInfo &info)
 {
 	this->beginInsertRows(QModelIndex(), this->seasonList.size(), this->seasonList.size());
 	this->seasonList.append(info);
-	this->store->saveAnime(info);
 	this->endInsertRows();
 }
 
@@ -106,11 +81,4 @@ void AnimeSeasonModel::removeInfo(int index)
 	this->beginRemoveRows(QModelIndex(), index, index);
 	this->seasonList.removeAt(index);
 	this->endRemoveRows();
-}
-
-void AnimeSeasonModel::storeLoaded(QList<AnimeInfo> seasonList)
-{
-	this->beginResetModel();
-	this->seasonList = seasonList;
-	this->endResetModel();
 }

@@ -16,4 +16,6 @@ struct AnimeInfo
 	AnimeInfo();
 };
 
+Q_DECLARE_METATYPE(AnimeInfo)
+
 #endif // ANIMEINFO_H

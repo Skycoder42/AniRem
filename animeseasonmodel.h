@@ -4,6 +4,7 @@
 #include <QAbstractTableModel>
 #include <QList>
 #include "animeinfo.h"
+#include "animestore.h"
 
 class AnimeSeasonModel : public QAbstractTableModel
 {
@@ -20,12 +21,22 @@ public:
 
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+	QList<AnimeInfo> animeList() const;
+
 public slots:
 	void addAnime(const AnimeInfo &info);
 	void removeInfo(int index);
 
+signals:
+	void modelError(QString error);
+
+private slots:
+	void storeLoaded(QList<AnimeInfo> seasonList);
+
 private:
 	QList<AnimeInfo> seasonList;
+
+	AnimeStore *store;
 };
 
 #endif // ANIMESEASONMODEL_H

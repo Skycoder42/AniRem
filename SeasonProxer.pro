@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets network
+QT       += core gui widgets network concurrent
 
 TEMPLATE = app
 
@@ -30,14 +30,16 @@ HEADERS += \
     app.h \
     animeseasonmodel.h \
     animeinfo.h \
-    addanimedialog.h
+    addanimedialog.h \
+    animestore.h
 
 SOURCES += \
     mainwindow.cpp \
     app.cpp \
     animeseasonmodel.cpp \
     animeinfo.cpp \
-    addanimedialog.cpp
+    addanimedialog.cpp \
+    animestore.cpp
 
 FORMS += \
 	mainwindow.ui \

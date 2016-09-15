@@ -18,6 +18,8 @@ public:
 	~MainWindow();
 
 private slots:
+	void modelError(QString error);
+
 	void on_actionAdd_Anime_triggered();
 
 private:

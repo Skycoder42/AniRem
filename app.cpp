@@ -11,6 +11,8 @@ App::App(int &argc, char **argv) :
 	QApplication::setApplicationDisplayName(DISPLAY_NAME);
 	QApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 
+	qRegisterMetaType<AnimeInfo>();
+
 	this->mainWindow = new MainWindow(nullptr);
 }
 
