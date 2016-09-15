@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	proxyModel(new QSortFilterProxyModel(this))
 {
 	this->ui->setupUi(this);
+	this->ui->menuView->addAction(this->ui->previewDock->toggleViewAction());
 
 	connect(this->model, &AnimeSeasonModel::modelError,
 			this, &MainWindow::modelError);
@@ -18,11 +19,20 @@ MainWindow::MainWindow(QWidget *parent) :
 	this->proxyModel->setSortLocaleAware(true);
 	this->proxyModel->setSourceModel(this->model);
 	this->ui->seasonTreeView->setModel(this->proxyModel);
+
+	connect(this->ui->seasonTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
+			this, &MainWindow::updatePreview);
 }
 
 MainWindow::~MainWindow()
 {
 	delete this->ui;
+}
+
+void MainWindow::updatePreview(const QModelIndex &index)
+{
+	auto info = this->model->animeInfo(this->proxyModel->mapToSource(index));
+	this->ui->dockWidgetContents->setPixmap(info.previewImage);
 }
 
 void MainWindow::modelError(QString error)

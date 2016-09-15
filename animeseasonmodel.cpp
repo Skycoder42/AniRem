@@ -14,7 +14,7 @@ AnimeSeasonModel::AnimeSeasonModel(QObject *parent) :
 			this, &AnimeSeasonModel::modelError,
 			Qt::QueuedConnection);
 
-	this->store->loadAnimes();
+	QMetaObject::invokeMethod(this->store, "loadAnimes", Qt::QueuedConnection);
 }
 
 QVariant AnimeSeasonModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -86,6 +86,16 @@ QVariant AnimeSeasonModel::data(const QModelIndex &index, int role) const
 	}
 
 	return QVariant();
+}
+
+AnimeInfo AnimeSeasonModel::animeInfo(const QModelIndex &index)
+{
+	if (!index.isValid() ||
+		index.row() < 0 ||
+		index.row() >= this->seasonList.size())
+		return AnimeInfo();
+	else
+		return this->seasonList[index.row()];
 }
 
 QList<AnimeInfo> AnimeSeasonModel::animeList() const

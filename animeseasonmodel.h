@@ -21,6 +21,7 @@ public:
 
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+	AnimeInfo animeInfo(const QModelIndex &index);
 	QList<AnimeInfo> animeList() const;
 
 public slots:

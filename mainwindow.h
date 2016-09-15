@@ -18,6 +18,7 @@ public:
 	~MainWindow();
 
 private slots:
+	void updatePreview(const QModelIndex &index);
 	void modelError(QString error);
 
 	void on_actionAdd_Anime_triggered();
