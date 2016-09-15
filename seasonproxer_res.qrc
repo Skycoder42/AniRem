@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="remove.ico">resources/cross.ico</file>
+        <file alias="add.ico">resources/plus.ico</file>
+        <file alias="main.ico">resources/main.ico</file>
+        <file alias="inverted.ico">resources/mainInverted.ico</file>
+    </qresource>
+    <qresource prefix="/animations">
+        <file alias="loading.gif">resources/ajax-loader.gif</file>
+    </qresource>
+</RCC>
