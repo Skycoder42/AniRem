@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QMovie>
+#include <QNetworkAccessManager>
 #include "animeinfo.h"
 
 namespace Ui {
@@ -19,9 +20,21 @@ public:
 private slots:
 	void reloadAnime();
 
+	void imageLoaded();
+	void pageLoaded();
+	void tryCompleted();
+	void abortError(const QString &error);
+
 private:
 	Ui::AddAnimeDialog *ui;
 	QMovie *loadingMovie;
+
+	QNetworkAccessManager *nam;
+	QList<QNetworkReply*> activeReplies;
+
+	int currentId;
+	QPixmap cPixmap;
+	QString cTitle;
 
 	explicit AddAnimeDialog(QWidget *parent = nullptr);
 	~AddAnimeDialog();
