@@ -113,20 +113,28 @@ void MainWindow::on_actionCopy_selected_Info_triggered()
 	if(index.isValid()) {
 		auto clipBoard = QApplication::clipboard();
 
-		auto rIndex = this->proxyModel->mapToSource(index);
-		auto info = this->model->animeInfo(rIndex);
-		switch (rIndex.column()) {
-		case 0:
-			clipBoard->setText(info.title);
-			break;
-		case 1:
-			clipBoard->setText(QLocale().toString(info.lastKnownSeasons));
-			break;
-		case 2:
-			clipBoard->setText(info.relationsUrl().toString());
-			break;
-		default:
-			break;
+		if(this->ui->dockWidgetContents->hasFocus()) {
+			clipBoard->setImage(this->ui->dockWidgetContents->pixmap()->toImage());
+			this->statusBar()->showMessage(tr("Copied Preview image"));
+		} else {
+			auto rIndex = this->proxyModel->mapToSource(index);
+			auto info = this->model->animeInfo(rIndex);
+			switch (rIndex.column()) {
+			case 0:
+				clipBoard->setText(info.title);
+				this->statusBar()->showMessage(tr("Copied Anime Title: %1").arg(info.title));
+				break;
+			case 1:
+				clipBoard->setText(QLocale().toString(info.lastKnownSeasons));
+				this->statusBar()->showMessage(tr("Copied Season Count: %1").arg(info.lastKnownSeasons));
+				break;
+			case 2:
+				clipBoard->setText(info.relationsUrl().toString());
+				this->statusBar()->showMessage(tr("Copied Relations URL: %1").arg(info.relationsUrl().toString()));
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }
@@ -135,6 +143,7 @@ void MainWindow::on_seasonTreeView_activated(const QModelIndex &index)
 {
 	if(index.isValid()) {
 		auto info = this->model->animeInfo(this->proxyModel->mapToSource(index));
+		this->model->uncheckAnime(index);
 		QDesktopServices::openUrl(info.relationsUrl());
 	}
 }

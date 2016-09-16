@@ -112,6 +112,17 @@ QList<AnimeInfo> AnimeSeasonModel::animeList() const
 	return this->seasonList;
 }
 
+void AnimeSeasonModel::uncheckAnime(const QModelIndex &index)
+{
+	if (index.isValid() &&
+		index.row() >= 0 &&
+		index.row() < this->seasonList.size()) {
+		this->seasonList[index.row()].hasNewSeasons = false;
+		emit dataChanged(index.sibling(index.row(), 0),
+						 index.sibling(index.row(), 2));
+	}
+}
+
 void AnimeSeasonModel::addAnime(const AnimeInfo &info)
 {
 	this->beginInsertRows(QModelIndex(), this->seasonList.size(), this->seasonList.size());

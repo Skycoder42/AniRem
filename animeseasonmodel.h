@@ -23,6 +23,7 @@ public:
 
 	AnimeInfo animeInfo(const QModelIndex &index);
 	QList<AnimeInfo> animeList() const;
+	void uncheckAnime(const QModelIndex &index);
 
 public slots:
 	void addAnime(const AnimeInfo &info);
