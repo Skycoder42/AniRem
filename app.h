@@ -5,6 +5,7 @@
 #include <QSystemTrayIcon>
 #include "animestore.h"
 #include "mainwindow.h"
+#include "seasonstatusloader.h"
 
 class App : public QApplication
 {
@@ -19,14 +20,19 @@ private slots:
 	void showError(QString title, QString message);
 	void trayActivated();
 
-	void storeLoaded(QList<AnimeInfo> infoList);
+	void reload();
+	void storeLoaded();
+	void seasonsLoaded(bool hasNew);
 
 private:
 	AnimeStore *store;
+	SeasonStatusLoader *loader;
 	bool isUpdateMode;
 
-	QSystemTrayIcon *trayIco;
 	MainWindow *mainWindow;
+
+	QSystemTrayIcon *trayIco;
+	bool trayHigh;
 
 	void init();
 	void initTray();

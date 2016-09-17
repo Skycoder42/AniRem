@@ -24,12 +24,12 @@ public:
 	AnimeInfo animeInfo(const QModelIndex &index);
 	void uncheckAnime(const QModelIndex &index);
 
-	void setAnimeList(const QList<AnimeInfo> &infoList);
-	QList<AnimeInfo> animeList() const;
-
 public slots:
 	void addAnime(const AnimeInfo &info);
 	AnimeInfo removeInfo(const QModelIndex &index);
+
+private slots:
+	void setAnimeList(const QList<AnimeInfo> &infoList);
 
 private:
 	QList<AnimeInfo> seasonList;

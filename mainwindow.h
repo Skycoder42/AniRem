@@ -24,7 +24,10 @@ public slots:
 	void clearStatus();
 	void setProgress(int value, int max);
 
-	void loadingCompleted(const QList<AnimeInfo> &animeInfos, bool canEdit);
+	void updateLoadStatus(bool isFinished);
+
+signals:
+	void reload();
 
 private slots:
 	void updatePreview(const QModelIndex &index);

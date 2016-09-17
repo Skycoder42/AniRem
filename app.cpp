@@ -1,13 +1,16 @@
 #include "app.h"
 #include <QCommandLineParser>
+#include <QTimer>
 #include <dialogmaster.h>
 
 App::App(int &argc, char **argv) :
 	QApplication(argc, argv),
 	store(nullptr),
+	loader(nullptr),
 	isUpdateMode(false),
+	mainWindow(nullptr),
 	trayIco(nullptr),
-	mainWindow(nullptr)
+	trayHigh(false)
 {
 	QApplication::setApplicationName(QStringLiteral(TARGET));
 	QApplication::setApplicationVersion(QStringLiteral(VERSION));
@@ -17,6 +20,7 @@ App::App(int &argc, char **argv) :
 	QApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 
 	qRegisterMetaType<AnimeInfo>();
+	qRegisterMetaType<QList<AnimeInfo>>();
 }
 
 App::~App()
@@ -44,7 +48,6 @@ int App::exec()
 	if(!this->isUpdateMode)
 		this->mainWindow->open();
 	this->mainWindow->showStatus(tr("Loading saved animes…"), true);
-	QMetaObject::invokeMethod(this->store, "loadAnimes", Qt::QueuedConnection);
 	return QApplication::exec();
 }
 
@@ -56,18 +59,43 @@ void App::showError(QString title, QString message)
 void App::trayActivated()
 {
 	this->trayIco->hide();
+	this->trayIco->deleteLater();
+	this->trayIco = nullptr;
 	this->mainWindow->open();
+	this->isUpdateMode = false;
 }
 
-void App::storeLoaded(QList<AnimeInfo> infoList)
+void App::reload()
 {
-	if(this->isUpdateMode) {
-		this->mainWindow->loadingCompleted(infoList, false);
+	this->mainWindow->updateLoadStatus(false);
+	this->mainWindow->showStatus(tr("Checking for new seasons…"), true);
+	this->loader->load();
+}
 
-		//TODO if run in background mode
-		this->initTray();
-	} else
-		this->mainWindow->loadingCompleted(infoList, true);
+void App::storeLoaded()
+{
+	if(this->isUpdateMode)
+		this->reload();
+	else {
+		this->mainWindow->updateLoadStatus(true);
+		this->mainWindow->clearStatus();
+	}
+}
+
+void App::seasonsLoaded(bool hasNew)
+{
+	this->mainWindow->clearStatus();
+	this->mainWindow->updateLoadStatus(true);
+
+	if(this->isUpdateMode) {
+		if(hasNew)
+			this->initTray();
+		else
+			qApp->quit();
+	} else {
+		this->alert(this->mainWindow);
+		this->beep();
+	}
 }
 
 void App::init()
@@ -80,7 +108,15 @@ void App::init()
 		this->showError(tr("Data Error"), error);
 	}, Qt::QueuedConnection);
 
+	this->loader = new SeasonStatusLoader(this->store, this);
+	connect(this->loader, &SeasonStatusLoader::completed,
+			this, &App::seasonsLoaded);
+
 	this->mainWindow = new MainWindow(this->store, nullptr);
+	connect(this->mainWindow, &MainWindow::reload,
+			this, &App::reload);
+	connect(this->loader, &SeasonStatusLoader::updated,
+			this->mainWindow, &MainWindow::setProgress);
 }
 
 void App::initTray()
@@ -93,7 +129,21 @@ void App::initTray()
 	connect(this->trayIco, &QSystemTrayIcon::messageClicked,
 			this, &App::trayActivated);
 
+	auto trayIcoTimer = new QTimer(this->trayIco);
+	connect(trayIcoTimer, &QTimer::timeout, this->trayIco, [this](){
+		if(this->trayHigh)
+			this->trayIco->setIcon(QIcon(QStringLiteral(":/icons/main.ico")));
+		else
+			this->trayIco->setIcon(QIcon(QStringLiteral(":/icons/inverted.ico")));
+		this->trayHigh = !this->trayHigh;
+	});
+	trayIcoTimer->start(500);
+
 	this->trayIco->show();
+	this->trayIco->showMessage(tr("New Seasons!"),
+							   tr("One or more animes have new seasons! Click this message "
+								  "to show the animes."),
+							   QSystemTrayIcon::Information);
 }
 
 int main(int argc, char *argv[])

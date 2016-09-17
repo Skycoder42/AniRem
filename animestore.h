@@ -4,27 +4,43 @@
 #include <QObject>
 #include <QJsonArray>
 #include <QReadWriteLock>
+#include <QThreadPool>
 #include "animeinfo.h"
 
 class AnimeStore : public QObject
 {
 	Q_OBJECT
+
+	Q_PROPERTY(QList<AnimeInfo> animeInfoList READ animeInfoList NOTIFY animeInfoListChanged)
+
 public:
 	explicit AnimeStore(QObject *parent = nullptr);
-	~AnimeStore();
+
+	QList<AnimeInfo> animeInfoList() const;
 
 public slots:
-	void loadAnimes();
-	void saveAnime(const AnimeInfo &info);
-	void forgetAnime(int id);
+	void saveAnime(AnimeInfo info);
+	void saveAll(QList<AnimeInfo> infoList);
+	bool forgetAnime(int id);
 
 signals:
-	void loadingCompleted(QList<AnimeInfo> infoList);
+	void loadingCompleted();
 	void storeError(QString error);
 
+	void animeInfoListChanged(QList<AnimeInfo> infoList);
+
+private slots:
+	void loadAnimes();
+	void setInternal(QList<AnimeInfo> infoList);
+
+	void saveQuitApp();
+
 private:
+	QThreadPool *tp;
 	QReadWriteLock saveLock;
 	bool canSave;
+
+	QList<AnimeInfo> infoList;
 
 	QJsonArray loadList();
 	void saveList(const QJsonArray &array);

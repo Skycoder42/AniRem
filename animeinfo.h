@@ -5,7 +5,7 @@
 #include <QPixmap>
 #include <QUrl>
 
-struct AnimeInfo
+struct AnimeInfo//TODO shared data
 {
 	int id;
 	QString title;

@@ -43,8 +43,10 @@ MainWindow::MainWindow(AnimeStore *store, QWidget *parent) :
 
 	connect(this->ui->seasonTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
 			this, &MainWindow::updatePreview);
+	connect(this->ui->actionReload_Seasons, &QAction::triggered,
+			this, &MainWindow::reload);
 
-	this->loadingCompleted({}, false);
+	this->updateLoadStatus(false);
 }
 
 MainWindow::~MainWindow()
@@ -83,16 +85,15 @@ void MainWindow::setProgress(int value, int max)
 	this->statusProgress->setValue(value);
 }
 
-void MainWindow::loadingCompleted(const QList<AnimeInfo> &animeInfos, bool canEdit)
+void MainWindow::updateLoadStatus(bool isFinished)
 {
-	this->model->setAnimeList(animeInfos);
-	this->ui->actionReload_Seasons->setEnabled(canEdit);
-	this->ui->actionAdd_Anime->setEnabled(canEdit);
-	this->ui->actionRemove_Anime->setEnabled(canEdit);
-	this->ui->actionPaste_ID_URL->setEnabled(canEdit);
+	this->ui->actionReload_Seasons->setEnabled(isFinished);
+	this->ui->actionAdd_Anime->setEnabled(isFinished);
+	this->ui->actionRemove_Anime->setEnabled(isFinished);
+	this->ui->actionPaste_ID_URL->setEnabled(isFinished);
 
 	this->statusProgress->setRange(0, 0);
-	this->statusProgress->setVisible(!canEdit);
+	this->statusProgress->setVisible(!isFinished);
 }
 
 void MainWindow::updatePreview(const QModelIndex &index)

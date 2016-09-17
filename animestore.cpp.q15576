@@ -19,12 +19,13 @@ AnimeStore::AnimeStore(QObject *parent) :
 	infoList()
 {
 	this->tp->setMaxThreadCount(1);//1 thread to keep the order
-
-	connect(qApp, &QCoreApplication::aboutToQuit,
-			this, &AnimeStore::saveQuitApp,
-			Qt::DirectConnection);
-
 	QMetaObject::invokeMethod(this, "loadAnimes", Qt::QueuedConnection);
+}
+
+AnimeStore::~AnimeStore()
+{
+	W_LOCK();
+	this->canSave = false;//TODO wait until ALL saves completed
 }
 
 QList<AnimeInfo> AnimeStore::animeInfoList() const
@@ -32,7 +33,7 @@ QList<AnimeInfo> AnimeStore::animeInfoList() const
 	return this->infoList;
 }
 
-void AnimeStore::saveAnime(AnimeInfo info)
+void AnimeStore::saveAnime(const AnimeInfo &info)
 {
 	auto index = -1;
 	for(auto i = 0; i < this->infoList.size(); i++) {
@@ -47,37 +48,37 @@ void AnimeStore::saveAnime(AnimeInfo info)
 		this->infoList.replace(index, info);
 	emit animeInfoListChanged(this->infoList);
 
-	QtConcurrent::run(this->tp, [this, info, index](){
-		W_LOCK();
-		if(!this->canSave)
-			return;
+	QtConcurrent::run(this->tp, [this](){
+//		W_LOCK();
+//		if(!this->canSave)
+//			return;
 
-		try {
-			QJsonArray saveList = this->loadList();
+//		try {
+//			QJsonArray saveList = this->loadList();
 
-			QJsonObject obj;
-			obj[QStringLiteral("id")] = info.id;
-			obj[QStringLiteral("title")] = info.title;
-			obj[QStringLiteral("seasons")] = info.lastKnownSeasons;
-			obj[QStringLiteral("hasNew")] = info.hasNewSeasons;
-			info.previewImage.save(this->imgPath(info.id));
+//			QJsonObject obj;
+//			obj[QStringLiteral("id")] = info.id;
+//			obj[QStringLiteral("title")] = info.title;
+//			obj[QStringLiteral("seasons")] = info.lastKnownSeasons;
+//			obj[QStringLiteral("hasNew")] = info.hasNewSeasons;
+//			info.previewImage.save(this->imgPath(info.id));
 
-			if(index == -1)
-				saveList.append(obj);
-			else {
-				//sanity check
-				if(saveList[index].toObject()[QStringLiteral("id")].toInt() != info.id)
-					throw tr("DATA CORRUPTED! Cannot save data anymore. Please restart the application!");
-				saveList.replace(index, obj);
-			}
-			this->saveList(saveList);
-		} catch(QString error) {
-			emit storeError(error);
-		}
+//			if(index == -1)
+//				saveList.append(obj);
+//			else {
+//				//sanity check
+//				if(saveList[index].toObject()[QStringLiteral("id")].toInt() != info.id)
+//					throw tr("DATA CORRUPTED! Cannot save data anymore. Please restart the application!");
+//				saveList.replace(index, obj);
+//			}
+//			this->saveList(saveList);
+//		} catch(QString error) {
+//			emit storeError(error);
+//		}
 	});
 }
 
-void AnimeStore::saveAll(QList<AnimeInfo> infoList)
+void AnimeStore::saveAll(const QList<AnimeInfo> &infoList)
 {
 	this->infoList = infoList;
 	emit animeInfoListChanged(this->infoList);
@@ -177,37 +178,23 @@ void AnimeStore::loadAnimes()
 	});
 }
 
-void AnimeStore::setInternal(QList<AnimeInfo> infoList)
+void AnimeStore::setInternal(const QList<AnimeInfo> &infoList)
 {
 	this->infoList = infoList;
 	emit animeInfoListChanged(infoList);
 	emit loadingCompleted();
 }
 
-void AnimeStore::saveQuitApp()
-{
-	W_LOCK();
-	this->canSave = false;//TODO wait until ALL saves completed
-}
-
 QJsonArray AnimeStore::loadList()
 {
 	QDir appDataFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-#ifdef QT_NO_DEBUG
 	QFile animeStore(appDataFolder.absoluteFilePath(QStringLiteral("animestore.dat")));
-#else
-	QFile animeStore(appDataFolder.absoluteFilePath(QStringLiteral("animestore.json")));
-#endif
 	if(!animeStore.exists())
 		return QJsonArray();
 	else if(!animeStore.open(QIODevice::ReadOnly | QIODevice::Text))
 		throw animeStore.errorString();
 	else {
-#ifdef QT_NO_DEBUG
 		auto doc = QJsonDocument::fromBinaryData(animeStore.readAll());
-#else
-		auto doc = QJsonDocument::fromJson(animeStore.readAll());
-#endif
 		animeStore.close();
 		if(doc.isNull())
 			throw tr("Failed to load anime data");
@@ -220,21 +207,13 @@ void AnimeStore::saveList(const QJsonArray &array)
 {
 	QDir appDataFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
 	appDataFolder.mkpath(QStringLiteral("."));
-#ifdef QT_NO_DEBUG
 	QSaveFile animeStore(appDataFolder.absoluteFilePath(QStringLiteral("animestore.dat")));
-#else
-	QSaveFile animeStore(appDataFolder.absoluteFilePath(QStringLiteral("animestore.json")));
-#endif
 
 	if(!animeStore.open(QIODevice::WriteOnly | QIODevice::Text))
 		throw animeStore.errorString();
 	else {
 		QJsonDocument doc(array);
-#ifdef QT_NO_DEBUG
 		animeStore.write(doc.toBinaryData());
-#else
-		animeStore.write(doc.toJson(QJsonDocument::Indented));
-#endif
 		if(!animeStore.commit())
 			throw animeStore.errorString();
 	}

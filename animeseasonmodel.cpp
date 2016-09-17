@@ -6,7 +6,10 @@ AnimeSeasonModel::AnimeSeasonModel(AnimeStore *store, QObject *parent) :
 	QAbstractTableModel(parent),
 	seasonList(),
 	store(store)
-{}
+{
+	connect(this->store, &AnimeStore::animeInfoListChanged,
+			this, &AnimeSeasonModel::setAnimeList);
+}
 
 QVariant AnimeSeasonModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
@@ -104,21 +107,10 @@ void AnimeSeasonModel::uncheckAnime(const QModelIndex &index)
 		index.row() >= 0 &&
 		index.row() < this->seasonList.size()) {
 		this->seasonList[index.row()].hasNewSeasons = false;
+		this->store->saveAnime(this->seasonList[index.row()]);
 		emit dataChanged(index.sibling(index.row(), 0),
 						 index.sibling(index.row(), 2));
 	}
-}
-
-void AnimeSeasonModel::setAnimeList(const QList<AnimeInfo> &infoList)
-{
-	this->beginResetModel();
-	this->seasonList = infoList;
-	this->endResetModel();
-}
-
-QList<AnimeInfo> AnimeSeasonModel::animeList() const
-{
-	return this->seasonList;
 }
 
 void AnimeSeasonModel::addAnime(const AnimeInfo &info)
@@ -136,4 +128,11 @@ AnimeInfo AnimeSeasonModel::removeInfo(const QModelIndex &index)
 	this->store->forgetAnime(info.id);
 	this->endRemoveRows();
 	return info;
+}
+
+void AnimeSeasonModel::setAnimeList(const QList<AnimeInfo> &infoList)
+{
+	this->beginResetModel();
+	this->seasonList = infoList;
+	this->endResetModel();
 }
