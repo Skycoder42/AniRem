@@ -14,12 +14,17 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	explicit MainWindow(QWidget *parent = nullptr);
+	explicit MainWindow(AnimeStore *store, QWidget *parent = nullptr);
 	~MainWindow();
+
+public slots:
+	void open();
+	void showStatus(QString message);
+
+	void loadingCompleted(const QList<AnimeInfo> &animeInfos, bool canEdit);
 
 private slots:
 	void updatePreview(const QModelIndex &index);
-	void modelError(QString error);
 
 	void on_actionAdd_Anime_triggered();
 	void on_actionRemove_Anime_triggered();

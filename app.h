@@ -2,6 +2,8 @@
 #define APP_H
 
 #include <QApplication>
+#include <QSystemTrayIcon>
+#include "animestore.h"
 #include "mainwindow.h"
 
 class App : public QApplication
@@ -13,7 +15,16 @@ public:
 
 	int exec();
 
+private slots:
+	void showError(QString title, QString message);
+	void trayActivated();
+
+	void storeLoaded(QList<AnimeInfo> infoList);
+
 private:
+	AnimeStore *store;
+
+	QSystemTrayIcon *trayIco;
 	MainWindow *mainWindow;
 };
 

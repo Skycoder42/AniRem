@@ -11,7 +11,7 @@ class AnimeSeasonModel : public QAbstractTableModel
 	Q_OBJECT
 
 public:
-	explicit AnimeSeasonModel(QObject *parent = nullptr);
+	explicit AnimeSeasonModel(AnimeStore *store, QObject *parent = nullptr);
 
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
@@ -22,18 +22,14 @@ public:
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 	AnimeInfo animeInfo(const QModelIndex &index);
-	QList<AnimeInfo> animeList() const;
 	void uncheckAnime(const QModelIndex &index);
+
+	void setAnimeList(const QList<AnimeInfo> &infoList);
+	QList<AnimeInfo> animeList() const;
 
 public slots:
 	void addAnime(const AnimeInfo &info);
-	void removeInfo(const QModelIndex &index);
-
-signals:
-	void modelError(QString error);
-
-private slots:
-	void storeLoaded(QList<AnimeInfo> seasonList);
+	AnimeInfo removeInfo(const QModelIndex &index);
 
 private:
 	QList<AnimeInfo> seasonList;

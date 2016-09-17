@@ -2,20 +2,11 @@
 #include <QLocale>
 #include <QFont>
 
-AnimeSeasonModel::AnimeSeasonModel(QObject *parent) :
+AnimeSeasonModel::AnimeSeasonModel(AnimeStore *store, QObject *parent) :
 	QAbstractTableModel(parent),
 	seasonList(),
-	store(new AnimeStore(this))
-{
-	connect(this->store, &AnimeStore::loadingCompleted,
-			this, &AnimeSeasonModel::storeLoaded,
-			Qt::QueuedConnection);
-	connect(this->store, &AnimeStore::storeError,
-			this, &AnimeSeasonModel::modelError,
-			Qt::QueuedConnection);
-
-	QMetaObject::invokeMethod(this->store, "loadAnimes", Qt::QueuedConnection);
-}
+	store(store)
+{}
 
 QVariant AnimeSeasonModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
@@ -107,11 +98,6 @@ AnimeInfo AnimeSeasonModel::animeInfo(const QModelIndex &index)
 		return this->seasonList[index.row()];
 }
 
-QList<AnimeInfo> AnimeSeasonModel::animeList() const
-{
-	return this->seasonList;
-}
-
 void AnimeSeasonModel::uncheckAnime(const QModelIndex &index)
 {
 	if (index.isValid() &&
@@ -123,6 +109,18 @@ void AnimeSeasonModel::uncheckAnime(const QModelIndex &index)
 	}
 }
 
+void AnimeSeasonModel::setAnimeList(const QList<AnimeInfo> &infoList)
+{
+	this->beginResetModel();
+	this->seasonList = infoList;
+	this->endResetModel();
+}
+
+QList<AnimeInfo> AnimeSeasonModel::animeList() const
+{
+	return this->seasonList;
+}
+
 void AnimeSeasonModel::addAnime(const AnimeInfo &info)
 {
 	this->beginInsertRows(QModelIndex(), this->seasonList.size(), this->seasonList.size());
@@ -131,17 +129,11 @@ void AnimeSeasonModel::addAnime(const AnimeInfo &info)
 	this->endInsertRows();
 }
 
-void AnimeSeasonModel::removeInfo(const QModelIndex &index)
+AnimeInfo AnimeSeasonModel::removeInfo(const QModelIndex &index)
 {
 	this->beginRemoveRows(index.parent(), index.row(), index.row());
 	auto info = this->seasonList.takeAt(index.row());
 	this->store->forgetAnime(info.id);
 	this->endRemoveRows();
-}
-
-void AnimeSeasonModel::storeLoaded(QList<AnimeInfo> seasonList)
-{
-	this->beginResetModel();
-	this->seasonList = seasonList;
-	this->endResetModel();
+	return info;
 }
