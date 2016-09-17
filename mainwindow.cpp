@@ -7,11 +7,11 @@
 #include <QMimeData>
 #include <QStringList>
 #include <QDesktopServices>
-#include <QProgressBar>
 
 MainWindow::MainWindow(AnimeStore *store, QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
+	statusProgress(new QProgressBar(this)),
 	model(new AnimeSeasonModel(store, this)),//TODO!!!
 	proxyModel(new QSortFilterProxyModel(this))
 {
@@ -22,6 +22,11 @@ MainWindow::MainWindow(AnimeStore *store, QWidget *parent) :
 											 this->ui->actionRemove_Anime,
 											 this->ui->actionCopy_selected_Info
 										 });
+
+	this->statusProgress->setTextVisible(false);
+	this->statusProgress->setFixedSize(125, 16);
+	this->statusBar()->addPermanentWidget(this->statusProgress);
+	this->statusProgress->hide();
 
 	QSettings settings;
 	settings.beginGroup(this->objectName());
@@ -62,9 +67,20 @@ void MainWindow::open()
 	this->activateWindow();
 }
 
-void MainWindow::showStatus(QString message)
+void MainWindow::showStatus(QString message, bool permanent)
 {
-	this->statusBar()->showMessage(message, 5000);
+	this->statusBar()->showMessage(message, permanent ? 0 : 5000);
+}
+
+void MainWindow::clearStatus()
+{
+	this->statusBar()->clearMessage();
+}
+
+void MainWindow::setProgress(int value, int max)
+{
+	this->statusProgress->setMaximum(max);
+	this->statusProgress->setValue(value);
 }
 
 void MainWindow::loadingCompleted(const QList<AnimeInfo> &animeInfos, bool canEdit)
@@ -74,6 +90,9 @@ void MainWindow::loadingCompleted(const QList<AnimeInfo> &animeInfos, bool canEd
 	this->ui->actionAdd_Anime->setEnabled(canEdit);
 	this->ui->actionRemove_Anime->setEnabled(canEdit);
 	this->ui->actionPaste_ID_URL->setEnabled(canEdit);
+
+	this->statusProgress->setRange(0, 0);
+	this->statusProgress->setVisible(!canEdit);
 }
 
 void MainWindow::updatePreview(const QModelIndex &index)

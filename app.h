@@ -23,9 +23,13 @@ private slots:
 
 private:
 	AnimeStore *store;
+	bool isUpdateMode;
 
 	QSystemTrayIcon *trayIco;
 	MainWindow *mainWindow;
+
+	void init();
+	void initTray();
 };
 
 #endif // APP_H

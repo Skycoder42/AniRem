@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QProgressBar>
 #include <QSortFilterProxyModel>
 #include "animeseasonmodel.h"
 
@@ -19,7 +20,9 @@ public:
 
 public slots:
 	void open();
-	void showStatus(QString message);
+	void showStatus(QString message, bool permanent = false);
+	void clearStatus();
+	void setProgress(int value, int max);
 
 	void loadingCompleted(const QList<AnimeInfo> &animeInfos, bool canEdit);
 
@@ -35,6 +38,7 @@ private slots:
 
 private:
 	Ui::MainWindow *ui;
+	QProgressBar *statusProgress;
 
 	AnimeSeasonModel *model;
 	QSortFilterProxyModel *proxyModel;

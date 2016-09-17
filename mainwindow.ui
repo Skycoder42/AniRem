@@ -193,7 +193,7 @@
     <string>&amp;Reload Seasons</string>
    </property>
    <property name="shortcut">
-    <string>F5</string>
+    <string>Ctrl+R</string>
    </property>
   </action>
  </widget>
