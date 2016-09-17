@@ -96,10 +96,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionPaste_ID_URL"/>
+   <addaction name="actionReload_Seasons"/>
    <addaction name="separator"/>
    <addaction name="actionAdd_Anime"/>
    <addaction name="actionRemove_Anime"/>
+   <addaction name="actionPaste_ID_URL"/>
   </widget>
   <widget class="QDockWidget" name="previewDock">
    <property name="windowTitle">
@@ -189,6 +190,10 @@
    </property>
   </action>
   <action name="actionReload_Seasons">
+   <property name="icon">
+    <iconset resource="seasonproxer_res.qrc">
+     <normaloff>:/icons/reload.ico</normaloff>:/icons/reload.ico</iconset>
+   </property>
    <property name="text">
     <string>&amp;Reload Seasons</string>
    </property>

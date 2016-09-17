@@ -74,11 +74,6 @@ void MainWindow::showStatus(QString message, bool permanent)
 	this->statusBar()->showMessage(message, permanent ? 0 : 5000);
 }
 
-void MainWindow::clearStatus()
-{
-	this->statusBar()->clearMessage();
-}
-
 void MainWindow::setProgress(int value, int max)
 {
 	this->statusProgress->setMaximum(max);
@@ -94,6 +89,8 @@ void MainWindow::updateLoadStatus(bool isFinished)
 
 	this->statusProgress->setRange(0, 0);
 	this->statusProgress->setVisible(!isFinished);
+	if(isFinished)
+		this->statusBar()->clearMessage();
 }
 
 void MainWindow::updatePreview(const QModelIndex &index)

@@ -76,15 +76,12 @@ void App::storeLoaded()
 {
 	if(this->isUpdateMode)
 		this->reload();
-	else {
+	else
 		this->mainWindow->updateLoadStatus(true);
-		this->mainWindow->clearStatus();
-	}
 }
 
 void App::seasonsLoaded(bool hasNew)
 {
-	this->mainWindow->clearStatus();
 	this->mainWindow->updateLoadStatus(true);
 
 	if(this->isUpdateMode) {

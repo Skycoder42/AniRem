@@ -21,7 +21,6 @@ public:
 public slots:
 	void open();
 	void showStatus(QString message, bool permanent = false);
-	void clearStatus();
 	void setProgress(int value, int max);
 
 	void updateLoadStatus(bool isFinished);
