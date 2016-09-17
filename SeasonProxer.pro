@@ -31,7 +31,8 @@ HEADERS += \
     animeseasonmodel.h \
     animeinfo.h \
     addanimedialog.h \
-    animestore.h
+    animestore.h \
+    proxerconnector.h
 
 SOURCES += \
     mainwindow.cpp \
@@ -39,7 +40,8 @@ SOURCES += \
     animeseasonmodel.cpp \
     animeinfo.cpp \
     addanimedialog.cpp \
-    animestore.cpp
+    animestore.cpp \
+    proxerconnector.cpp
 
 FORMS += \
 	mainwindow.ui \

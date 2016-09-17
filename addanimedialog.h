@@ -5,6 +5,7 @@
 #include <QMovie>
 #include <QNetworkAccessManager>
 #include "animeinfo.h"
+#include "proxerconnector.h"
 
 namespace Ui {
 	class AddAnimeDialog;
@@ -20,21 +21,14 @@ public:
 private slots:
 	void reloadAnime();
 
-	void imageLoaded();
-	void pageLoaded();
-	void tryCompleted();
-	void abortError(const QString &error);
+	void loaded(int id, QString title, QPixmap preview);
+	void loadError(QString error);
 
 private:
 	Ui::AddAnimeDialog *ui;
+	ProxerConnector *connector;
 	QMovie *loadingMovie;
-
-	QNetworkAccessManager *nam;
-	QList<QNetworkReply*> activeReplies;
-
 	int currentId;
-	QPixmap cPixmap;
-	QString cTitle;
 
 	explicit AddAnimeDialog(QWidget *parent = nullptr);
 	~AddAnimeDialog();
