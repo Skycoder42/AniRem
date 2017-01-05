@@ -24,6 +24,7 @@ DEFINES += "COMPANY=\"\\\"$$QMAKE_TARGET_COMPANY\\\"\""
 DEFINES += "DISPLAY_NAME=\"\\\"$$QMAKE_TARGET_PRODUCT\\\"\""
 
 include(./QtUtils/DialogMaster/dialogmaster.pri)
+include(./QtRestClient/qtrestclient.pri)
 
 HEADERS += \
     mainwindow.h \
