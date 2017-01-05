@@ -10,6 +10,9 @@ SeasonStatusLoader::SeasonStatusLoader(AnimeStore *store, QObject *parent) :
 {
 	connect(this->connector, &ProxerConnector::seasonsLoaded,
 			this, &SeasonStatusLoader::seasonsLoaded);
+	connect(connector, &ProxerConnector::apiError, this, [this](QString error){
+		emit errorMessage(tr("API Error"), error);
+	});
 }
 
 void SeasonStatusLoader::load()

@@ -14,8 +14,8 @@ class ProxerEntryData : public QtRestClient::RestObject
 	//all other are currently not required
 
 	//special properties from seasons
-	Q_PROPERTY(int year MEMBER year)
-	Q_PROPERTY(int season MEMBER season)
+	//TODO Q_PROPERTY(int year MEMBER year)
+	//TODO Q_PROPERTY(int season MEMBER season)
 
 public:
 	Q_INVOKABLE ProxerEntryData(QObject *parent = nullptr);

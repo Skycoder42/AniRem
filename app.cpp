@@ -111,6 +111,8 @@ void App::init()
 	this->loader = new SeasonStatusLoader(this->store, this);
 	connect(this->loader, &SeasonStatusLoader::completed,
 			this, &App::seasonsLoaded);
+	connect(this->loader, &SeasonStatusLoader::errorMessage,
+			this, &App::showError);
 
 	this->mainWindow = new MainWindow(this->store, nullptr);
 	connect(this->mainWindow, &MainWindow::reload,

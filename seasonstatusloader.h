@@ -18,6 +18,7 @@ public slots:
 signals:
 	void updated(int value, int max);
 	void completed(bool hasNewSeasons);
+	void errorMessage(QString title, QString message);
 
 private slots:
 	void seasonsLoaded(int id, int count);

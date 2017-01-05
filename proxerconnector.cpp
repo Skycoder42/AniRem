@@ -2,6 +2,7 @@
 #include "proxer-api-key.h"
 #include "ProxerApi/proxerentry.h"
 #include <QtRestClient>
+#include <ProxerApi/proxerrelations.h>
 using namespace QtRestClient;
 
 struct MetaRequest : public QObject
@@ -68,7 +69,20 @@ void ProxerConnector::loadMetaData(int id)
 
 void ProxerConnector::loadSeasonCount(int id)
 {
-
+	infoClass->get<ProxerRelations, ProxerStatus>("relations", RestClass::concatParameters("id", id))
+			->enableAutoDelete()
+			->onSucceeded([=](RestReply*, int, ProxerRelations *entry){
+				if(entry->error == 0)
+					emit seasonsLoaded(id, entry->data.count());
+				else
+					emit apiError(tr("Proxer-API Error: ") + entry->message);
+			})->onFailed([=](RestReply*, int, ProxerStatus *status){
+				emit apiError(tr("Proxer-API Error: ") + status->message);
+			})->onError([=](RestReply*, QString error, int, RestReply::ErrorType){
+				emit apiError(tr("Network Error: ") + error);
+			})->onSerializeException([=](RestReply*, SerializerException exception){
+				emit apiError(tr("Data Error: ") + exception.qWhat());
+			});
 }
 
 void ProxerConnector::imageReplyFinished()
