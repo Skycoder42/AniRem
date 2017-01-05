@@ -13,7 +13,7 @@ class ProxerRelations : public ProxerStatus
 	QTRESTCLIENT_OBJECT_LIST_PROPERTY(data, ProxerEntryData*)
 
 public:
-	explicit ProxerRelations(QObject *parent = nullptr);
+	Q_INVOKABLE ProxerRelations(QObject *parent = nullptr);
 
 	QList<ProxerEntryData*> data;
 };

@@ -13,7 +13,7 @@ class ProxerStatus : public QtRestClient::RestObject
 	Q_PROPERTY(int code MEMBER code)
 
 public:
-	explicit ProxerStatus(QObject *parent = nullptr);
+	Q_INVOKABLE ProxerStatus(QObject *parent = nullptr);
 
 	int error;
 	QString message;

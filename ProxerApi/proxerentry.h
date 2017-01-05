@@ -18,7 +18,7 @@ class ProxerEntryData : public QtRestClient::RestObject
 	Q_PROPERTY(int season MEMBER season)
 
 public:
-	explicit ProxerEntryData(QObject *parent = nullptr);
+	Q_INVOKABLE ProxerEntryData(QObject *parent = nullptr);
 
 	int id;
 	QString name;
@@ -34,7 +34,7 @@ class ProxerEntry : public ProxerStatus
 	Q_PROPERTY(ProxerEntryData* data MEMBER data)
 
 public:
-	explicit ProxerEntry(QObject *parent = nullptr);
+	Q_INVOKABLE ProxerEntry(QObject *parent = nullptr);
 
 	ProxerEntryData* data;
 };

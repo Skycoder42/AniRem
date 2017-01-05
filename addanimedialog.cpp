@@ -22,7 +22,7 @@ AddAnimeDialog::AddAnimeDialog(QWidget *parent) :
 
 	connect(this->connector, &ProxerConnector::metaDataLoaded,
 			this, &AddAnimeDialog::loaded);
-	connect(this->connector, &ProxerConnector::networkError,
+	connect(this->connector, &ProxerConnector::apiError,
 			this, &AddAnimeDialog::loadError);
 }
 
