@@ -34,7 +34,11 @@ HEADERS += \
     addanimedialog.h \
     animestore.h \
     proxerconnector.h \
-    seasonstatusloader.h
+    seasonstatusloader.h \
+    ProxerApi/proxerstatus.h \
+    ProxerApi/proxerentry.h \
+    ProxerApi/proxerrelations.h \
+    proxer-api-key.h
 
 SOURCES += \
     mainwindow.cpp \
@@ -44,7 +48,10 @@ SOURCES += \
     addanimedialog.cpp \
     animestore.cpp \
     proxerconnector.cpp \
-    seasonstatusloader.cpp
+    seasonstatusloader.cpp \
+    ProxerApi/proxerstatus.cpp \
+    ProxerApi/proxerentry.cpp \
+    ProxerApi/proxerrelations.cpp
 
 FORMS += \
 	mainwindow.ui \

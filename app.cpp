@@ -1,7 +1,9 @@
 #include "app.h"
 #include <QCommandLineParser>
 #include <QTimer>
+#include <QtRestClient>
 #include <dialogmaster.h>
+#include <ProxerApi/proxerentry.h>
 
 App::App(int &argc, char **argv) :
 	QApplication(argc, argv),
@@ -21,6 +23,7 @@ App::App(int &argc, char **argv) :
 
 	qRegisterMetaType<AnimeInfo>();
 	qRegisterMetaType<QList<AnimeInfo>>();
+	QtRestClient::registerListConverters<ProxerEntryData*>();
 }
 
 App::~App()

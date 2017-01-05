@@ -2,8 +2,8 @@
 #define PROXERCONNECTOR_H
 
 #include <QObject>
-#include <QNetworkAccessManager>
 #include <QPixmap>
+#include <restclient.h>
 
 class ProxerConnector : public QObject
 {
@@ -22,17 +22,9 @@ signals:
 	void networkError(const QString &error);
 
 private slots:
-	void metaRequestFinished();
-	void seasonRequestFinished();
 
 private:
-	QNetworkAccessManager *nam;
-
-	QString extractName(QNetworkReply *reply);
-	QPixmap extractImage(QNetworkReply *reply);
-
-	int findIndex(QString raw, QString target, int offset = 0, bool allowsError = false) const;
-	void checkHentai(QString raw) const;
+	QtRestClient::RestClient *client;
 };
 
 #endif // PROXERCONNECTOR_H
