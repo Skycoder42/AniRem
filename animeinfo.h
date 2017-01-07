@@ -7,7 +7,7 @@
 #include <QSharedDataPointer>
 
 struct AnimeInfoData;
-class AnimeInfo//TODO shared data
+class AnimeInfo//TODO : public QObject
 {
 public:
 	AnimeInfo();
