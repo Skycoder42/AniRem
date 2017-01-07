@@ -27,6 +27,7 @@ ProxerConnector::ProxerConnector(QObject *parent) :
 	client->setBaseUrl(QStringLiteral("https://proxer.me/api"));
 	client->setApiVersion({1});
 	client->addGlobalHeader("proxer-api-key", PROXER_API_KEY);
+	client->serializer()->setAllowDefaultNull(true);//TODO use this to provoke an error to test error handling
 
 	infoClass = client->createClass("info", this);
 }
@@ -35,7 +36,7 @@ void ProxerConnector::loadMetaData(int id)
 {
 	auto request = new MetaRequest(this);
 
-	infoClass->get<ProxerEntry, ProxerStatus>("entry", RestClass::concatParameters("id", id))
+	infoClass->get<ProxerEntry, ProxerStatus>("entry", CONCAT_PARAMS("id", id))
 			->enableAutoDelete()
 			->onSucceeded([=](RestReply*, int, ProxerEntry *entry){
 				if(entry->error == 0)
@@ -44,19 +45,11 @@ void ProxerConnector::loadMetaData(int id)
 					emit apiError(tr("Proxer-API Error: ") + entry->message);
 				request->completor++;
 				tryFinishMetaRequest(request);
-			})->onFailed([=](RestReply*, int, ProxerStatus *status){
-				emit apiError(tr("Proxer-API Error: ") + status->message);
-				request->completor++;
-				tryFinishMetaRequest(request);
-			})->onError([=](RestReply*, QString error, int, RestReply::ErrorType){
-				emit apiError(tr("Network Error: ") + error);
-				request->completor++;
-				tryFinishMetaRequest(request);
-			})->onSerializeException([=](RestReply*, SerializerException exception){
-				emit apiError(tr("Data Error: ") + exception.qWhat());
-				request->completor++;
-				tryFinishMetaRequest(request);
-			});
+	})->onAllErrors([=](RestReply *, QString error, int, RestReply::ErrorType type){
+		formatError(error, type);
+		request->completor++;
+		tryFinishMetaRequest(request);
+	}, &ProxerConnector::tranformError);
 
 
 	QNetworkRequest iconRequest(QUrl(QStringLiteral("http://cdn.proxer.me/cover/%1.jpg").arg(id)));
@@ -69,20 +62,16 @@ void ProxerConnector::loadMetaData(int id)
 
 void ProxerConnector::loadSeasonCount(int id)
 {
-	infoClass->get<ProxerRelations, ProxerStatus>("relations", RestClass::concatParameters("id", id))
+	infoClass->get<ProxerRelations, ProxerStatus>("relations", CONCAT_PARAMS("id", id))
 			->enableAutoDelete()
 			->onSucceeded([=](RestReply*, int, ProxerRelations *entry){
 				if(entry->error == 0)
 					emit seasonsLoaded(id, entry->data.count());
 				else
 					emit apiError(tr("Proxer-API Error: ") + entry->message);
-			})->onFailed([=](RestReply*, int, ProxerStatus *status){
-				emit apiError(tr("Proxer-API Error: ") + status->message);
-			})->onError([=](RestReply*, QString error, int, RestReply::ErrorType){
-				emit apiError(tr("Network Error: ") + error);
-			})->onSerializeException([=](RestReply*, SerializerException exception){
-				emit apiError(tr("Data Error: ") + exception.qWhat());
-			});
+			})->onAllErrors([this](RestReply *, QString error, int, RestReply::ErrorType type){
+				formatError(error, type);
+			}, &ProxerConnector::tranformError);
 }
 
 void ProxerConnector::imageReplyFinished()
@@ -113,5 +102,30 @@ void ProxerConnector::tryFinishMetaRequest(MetaRequest *request)
 		emit metaDataLoaded(request->entry->data->id,
 							request->entry->data->name,
 							request->pixmap);
+	}
+}
+
+QString ProxerConnector::tranformError(ProxerStatus *status, int)
+{
+	return status->message;
+}
+
+void ProxerConnector::formatError(const QString &error, RestReply::ErrorType type)
+{
+	switch (type) {
+	case QtRestClient::RestReply::NetworkError:
+		emit apiError(tr("Network Error: ") + error);
+		break;
+	case QtRestClient::RestReply::JsonParseError:
+		emit apiError(tr("Data Error: ") + error);
+		break;
+	case QtRestClient::RestReply::FailureError:
+		emit apiError(tr("Proxer-API Error: ") + error);
+		break;
+	case QtRestClient::RestReply::DeserializationError:
+		emit apiError(tr("Data Error: ") + error);
+		break;
+	default:
+		Q_UNREACHABLE();
 	}
 }

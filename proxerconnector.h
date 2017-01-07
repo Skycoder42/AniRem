@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QPixmap>
 #include <restclient.h>
+#include <restreply.h>
 #include "ProxerApi/proxerentry.h"
 
 struct MetaRequest;
@@ -30,6 +31,9 @@ private slots:
 private:
 	QtRestClient::RestClient *client;	
 	QtRestClient::RestClass *infoClass;
+
+	static QString tranformError(ProxerStatus *status, int);
+	void formatError(const QString &error, QtRestClient::RestReply::ErrorType type);
 };
 
 #endif // PROXERCONNECTOR_H
