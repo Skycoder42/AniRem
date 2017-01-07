@@ -14,7 +14,7 @@ AddAnimeDialog::AddAnimeDialog(QWidget *parent) :
 {
 	ui->setupUi(this);
 	DialogMaster::masterDialog(this, true);
-	this->ui->proxerIDLineEdit->setValidator(new QIntValidator(0, INT_MAX, this->ui->proxerIDLineEdit));
+	this->ui->proxerIDLineEdit->setValidator(new QIntValidator(0, INT_MAX, this->ui->proxerIDLineEdit));//TODO combobox with all names
 	this->ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
 	connect(this->ui->proxerIDLineEdit, &QLineEdit::editingFinished,
@@ -41,11 +41,9 @@ AnimeInfo AddAnimeDialog::createInfo(int id, QWidget *parent)
 	}
 
 	if(dialog.exec() == QDialog::Accepted) {
-		AnimeInfo info;
-		info.id = dialog.currentId;
-		info.title = dialog.ui->titleLineEdit->text();
+		AnimeInfo info(dialog.currentId, dialog.ui->titleLineEdit->text());
 		if(dialog.ui->previewLabel->pixmap())
-			info.previewImage = *(dialog.ui->previewLabel->pixmap());
+			info.setPreviewImage(*(dialog.ui->previewLabel->pixmap()));
 		return info;
 	} else
 		return AnimeInfo();
@@ -69,13 +67,13 @@ void AddAnimeDialog::reloadAnime()
 	}
 }
 
-void AddAnimeDialog::loaded(int id, QString title, QPixmap preview)
+void AddAnimeDialog::loaded(const AnimeInfo &info)
 {
-	if(id == this->currentId) {
+	if(info.id() == this->currentId) {
 		this->ui->proxerIDLineEdit->setEnabled(true);
-		this->ui->titleLineEdit->setText(title);
+		this->ui->titleLineEdit->setText(info.title());
 		this->ui->previewLabel->setScaledContents(true);
-		this->ui->previewLabel->setPixmap(preview);
+		this->ui->previewLabel->setPixmap(info.previewImage());
 		this->loadingMovie->stop();
 		this->ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 	}

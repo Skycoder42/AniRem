@@ -21,7 +21,7 @@ public:
 private slots:
 	void reloadAnime();
 
-	void loaded(int id, QString title, QPixmap preview);
+	void loaded(const AnimeInfo &info);
 	void loadError(QString error);
 
 private:

@@ -5,6 +5,7 @@
 #include <QJsonArray>
 #include <QReadWriteLock>
 #include <QThreadPool>
+#include <QFileDevice>
 #include "animeinfo.h"
 
 class AnimeStore : public QObject
@@ -15,6 +16,7 @@ class AnimeStore : public QObject
 
 public:
 	explicit AnimeStore(QObject *parent = nullptr);
+	~AnimeStore();
 
 	QList<AnimeInfo> animeInfoList() const;
 
@@ -36,15 +38,13 @@ private slots:
 	void saveQuitApp();
 
 private:
+	static const QString dbName;
+
 	QThreadPool *tp;
 	QReadWriteLock saveLock;
 	bool canSave;
 
 	QList<AnimeInfo> infoList;
-
-	QJsonArray loadList();
-	void saveList(const QJsonArray &array);
-	QString imgPath(int id);
 };
 
 #endif // ANIMESTORE_H

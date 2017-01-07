@@ -96,15 +96,15 @@ void MainWindow::updateLoadStatus(bool isFinished)
 void MainWindow::updatePreview(const QModelIndex &index)
 {
 	auto info = this->model->animeInfo(this->proxyModel->mapToSource(index));
-	this->ui->dockWidgetContents->setPixmap(info.previewImage);
+	this->ui->dockWidgetContents->setPixmap(info.previewImage());
 }
 
 void MainWindow::on_actionAdd_Anime_triggered()
 {
 	auto info = AddAnimeDialog::createInfo(-1, this);
-	if(info.id != -1) {
+	if(info.id() != -1) {
 		this->model->addAnime(info);
-		this->showStatus(tr("Added Anime: %1").arg(info.title));
+		this->showStatus(tr("Added Anime: %1").arg(info.title()));
 	}
 }
 
@@ -113,7 +113,7 @@ void MainWindow::on_actionRemove_Anime_triggered()
 	auto index = this->ui->seasonTreeView->currentIndex();
 	if(index.isValid()) {
 		auto info = this->model->removeInfo(this->proxyModel->mapToSource(index));
-		this->showStatus(tr("Removed Anime: %1").arg(info.title));
+		this->showStatus(tr("Removed Anime: %1").arg(info.title()));
 	}
 }
 
@@ -145,7 +145,7 @@ void MainWindow::on_actionPaste_ID_URL_triggered()
 
 	if(id != -1) {
 		auto info = AddAnimeDialog::createInfo(id, this);
-		if(info.id != -1)
+		if(info.id() != -1)
 			this->model->addAnime(info);
 	}
 }
@@ -164,12 +164,12 @@ void MainWindow::on_actionCopy_selected_Info_triggered()
 			auto info = this->model->animeInfo(rIndex);
 			switch (rIndex.column()) {
 			case 0:
-				clipBoard->setText(info.title);
-				this->showStatus(tr("Copied Anime Title: %1").arg(info.title));
+				clipBoard->setText(info.title());
+				this->showStatus(tr("Copied Anime Title: %1").arg(info.title()));
 				break;
 			case 1:
-				clipBoard->setText(QLocale().toString(info.lastKnownSeasons));
-				this->showStatus(tr("Copied Season Count: %1").arg(info.lastKnownSeasons));
+				clipBoard->setText(QLocale().toString(info.lastKnownSeasons()));
+				this->showStatus(tr("Copied Season Count: %1").arg(info.lastKnownSeasons()));
 				break;
 			case 2:
 				clipBoard->setText(info.relationsUrl().toString());

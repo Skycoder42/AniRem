@@ -23,19 +23,19 @@ void SeasonStatusLoader::load()
 	if(this->animes.isEmpty())
 		emit completed(false);
 	else
-		this->connector->loadSeasonCount(this->animes[0].id);
+		this->connector->loadSeasonCount(this->animes[0].id());
 }
 
 void SeasonStatusLoader::seasonsLoaded(int id, int count)
 {
 	auto &info = this->animes[this->cIndex];
-	Q_ASSERT(id == info.id);
+	Q_ASSERT(id == info.id());
 
-	if(info.lastKnownSeasons != count) {
-		info.hasNewSeasons = info.lastKnownSeasons != -1;
-		info.lastKnownSeasons = count;
+	if(info.lastKnownSeasons() != count) {
+		info.setHasNewSeasons(info.lastKnownSeasons() != -1);
+		info.setLastKnownSeasons(count);
 	}
-	if(info.hasNewSeasons)
+	if(info.hasNewSeasons())
 		this->hasNew = true;
 
 	emit updated(++this->cIndex, this->animes.size());
@@ -44,5 +44,5 @@ void SeasonStatusLoader::seasonsLoaded(int id, int count)
 		this->animes.clear();
 		emit completed(this->hasNew);
 	} else
-		this->connector->loadSeasonCount(this->animes[this->cIndex].id);
+		this->connector->loadSeasonCount(this->animes[this->cIndex].id());
 }

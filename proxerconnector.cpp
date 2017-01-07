@@ -69,6 +69,7 @@ void ProxerConnector::loadSeasonCount(int id)
 					emit seasonsLoaded(id, entry->data.count());
 				else
 					emit apiError(tr("Proxer-API Error: ") + entry->message);
+				entry->deleteLater();
 			})->onAllErrors([this](RestReply *, QString error, int, RestReply::ErrorType type){
 				formatError(error, type);
 			}, &ProxerConnector::tranformError);
@@ -86,7 +87,7 @@ void ProxerConnector::imageReplyFinished()
 		if(pm.loadFromData(reply->readAll(), "jpg"))
 			request->pixmap = pm;
 		else
-			emit apiError(tr("Unable to load preview image"));
+			emit apiError(tr("Unable to load preview image. Data corrupted"));
 	} else
 		emit apiError(tr("Network Error: ") + reply->errorString());
 
@@ -99,9 +100,11 @@ void ProxerConnector::tryFinishMetaRequest(MetaRequest *request)
 	if(request->completor < 2)
 		return;
 	if(request->entry && !request->pixmap.isNull()) {
-		emit metaDataLoaded(request->entry->data->id,
-							request->entry->data->name,
-							request->pixmap);
+		AnimeInfo info(request->entry->data->id, request->entry->data->name);
+		info.setPreviewImage(request->pixmap);
+		emit metaDataLoaded(info);
+		request->entry->deleteLater();
+		request->deleteLater();
 	}
 }
 

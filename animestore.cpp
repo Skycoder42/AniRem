@@ -1,15 +1,21 @@
 #include "animestore.h"
 #include <QtConcurrent>
-#include <QFile>
-#include <QSaveFile>
 #include <QDir>
 #include <QStandardPaths>
-#include <QJsonDocument>
-#include <QJsonParseError>
-#include <QJsonObject>
+#include <QtSql>
 
 #define R_LOCK() QReadLocker lock(&this->saveLock)
 #define W_LOCK() QWriteLocker lock(&this->saveLock)
+
+#define EXEC_QUERY(query) do {\
+	if(!query.exec()) {\
+		emit storeError(query.lastError().text());\
+		db.close();\
+		return;\
+	}\
+} while(false)
+
+const QString AnimeStore::dbName("Animes_db");
 
 AnimeStore::AnimeStore(QObject *parent) :
 	QObject(parent),
@@ -20,11 +26,24 @@ AnimeStore::AnimeStore(QObject *parent) :
 {
 	this->tp->setMaxThreadCount(1);//1 thread to keep the order
 
+	QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+	dir.mkpath(".");
+	auto path = dir.absoluteFilePath("animestore.db");
+	if(QFile::copy(":/template.db", path))
+		QFile::setPermissions(path, QFile::ReadUser | QFile::WriteUser);
+	auto db = QSqlDatabase::addDatabase("QSQLITE", dbName);
+	db.setDatabaseName(path);
+
 	connect(qApp, &QCoreApplication::aboutToQuit,
 			this, &AnimeStore::saveQuitApp,
 			Qt::DirectConnection);
 
 	QMetaObject::invokeMethod(this, "loadAnimes", Qt::QueuedConnection);
+}
+
+AnimeStore::~AnimeStore()
+{
+	QSqlDatabase::removeDatabase(dbName);
 }
 
 QList<AnimeInfo> AnimeStore::animeInfoList() const
@@ -36,7 +55,7 @@ void AnimeStore::saveAnime(AnimeInfo info)
 {
 	auto index = -1;
 	for(auto i = 0; i < this->infoList.size(); i++) {
-		if(this->infoList[i].id == info.id) {
+		if(this->infoList[i].id() == info.id()) {
 			index = i;
 			break;
 		}
@@ -52,28 +71,24 @@ void AnimeStore::saveAnime(AnimeInfo info)
 		if(!this->canSave)
 			return;
 
-		try {
-			QJsonArray saveList = this->loadList();
-
-			QJsonObject obj;
-			obj[QStringLiteral("id")] = info.id;
-			obj[QStringLiteral("title")] = info.title;
-			obj[QStringLiteral("seasons")] = info.lastKnownSeasons;
-			obj[QStringLiteral("hasNew")] = info.hasNewSeasons;
-			info.previewImage.save(this->imgPath(info.id));
-
-			if(index == -1)
-				saveList.append(obj);
-			else {
-				//sanity check
-				if(saveList[index].toObject()[QStringLiteral("id")].toInt() != info.id)
-					throw tr("DATA CORRUPTED! Cannot save data anymore. Please restart the application!");
-				saveList.replace(index, obj);
-			}
-			this->saveList(saveList);
-		} catch(QString error) {
-			emit storeError(error);
+		auto db = QSqlDatabase::database(dbName);
+		if(!db.isOpen()) {
+			emit storeError(db.lastError().text());
+			return;
 		}
+
+		QSqlQuery infoQuery(db);
+		if(index == -1)
+			infoQuery.prepare("INSERT INTO Animes (Id, Title, Seasons, Changed) VALUES(:id, :title, :seasons, :changed)");
+		else
+			infoQuery.prepare("UPDATE Animes SET Title = :title, Season = :season, Changed = :changed WHERE Id = :id");
+		infoQuery.bindValue(":id", info.id());
+		infoQuery.bindValue(":title", info.title());
+		infoQuery.bindValue(":seasons", info.lastKnownSeasons());
+		infoQuery.bindValue(":changed", info.hasNewSeasons());
+		EXEC_QUERY(infoQuery);
+
+		db.close();
 	});
 }
 
@@ -87,22 +102,27 @@ void AnimeStore::saveAll(QList<AnimeInfo> infoList)
 		if(!this->canSave)
 			return;
 
-		try {
-			QJsonArray saveList;
-
-			foreach(auto info, infoList) {
-				QJsonObject obj;
-				obj[QStringLiteral("id")] = info.id;
-				obj[QStringLiteral("title")] = info.title;
-				obj[QStringLiteral("seasons")] = info.lastKnownSeasons;
-				obj[QStringLiteral("hasNew")] = info.hasNewSeasons;
-				info.previewImage.save(this->imgPath(info.id));
-				saveList.append(obj);
-			}
-			this->saveList(saveList);
-		} catch(QString error) {
-			emit storeError(error);
+		auto db = QSqlDatabase::database(dbName);
+		if(!db.isOpen()) {
+			emit storeError(db.lastError().text());
+			return;
 		}
+
+		QSqlQuery truncQuery(db);
+		truncQuery.prepare("DELETE FROM Animes");
+		EXEC_QUERY(truncQuery);
+
+		foreach(auto info, infoList) {
+			QSqlQuery infoQuery(db);
+			infoQuery.prepare("INSERT INTO Animes (Id, Title, Seasons, Changed) VALUES(:id, :title, :seasons, :changed)");
+			infoQuery.bindValue("id", info.id());
+			infoQuery.bindValue("title", info.title());
+			infoQuery.bindValue("seasons", info.lastKnownSeasons());
+			infoQuery.bindValue("changed", info.hasNewSeasons());
+			EXEC_QUERY(infoQuery);
+		}
+
+		db.close();
 	});
 }
 
@@ -110,7 +130,7 @@ bool AnimeStore::forgetAnime(int id)
 {
 	auto didRemove = false;
 	for(auto it = this->infoList.begin(); it != this->infoList.end(); it++) {
-		if(it->id == id) {
+		if(it->id() == id) {
 			this->infoList.erase(it);
 			didRemove = true;
 			break;
@@ -126,25 +146,18 @@ bool AnimeStore::forgetAnime(int id)
 		if(!this->canSave)
 			return;
 
-		try {
-			QJsonArray saveList = this->loadList();
-
-			bool found = false;
-			for(auto i = 0; i < saveList.size(); i++) {
-				auto obj = saveList[i].toObject();
-				if(obj[QStringLiteral("id")].toInt() == id) {
-					found = true;
-					saveList.removeAt(i);
-					QFile::remove(this->imgPath(id));
-					break;
-				}
-			}
-
-			if(found)
-				this->saveList(saveList);
-		} catch(QString error) {
-			emit storeError(error);
+		auto db = QSqlDatabase::database(dbName);
+		if(!db.isOpen()) {
+			emit storeError(db.lastError().text());
+			return;
 		}
+
+		QSqlQuery deleteQuery(db);
+		deleteQuery.prepare("DELETE FROM Animes WHERE Id = ?");
+		deleteQuery.addBindValue(id);
+		EXEC_QUERY(deleteQuery);
+
+		db.close();
 	});
 
 	return true;
@@ -154,26 +167,28 @@ void AnimeStore::loadAnimes()
 {
 	QtConcurrent::run(this->tp, [this](){
 		R_LOCK();
-		try {
-			QList<AnimeInfo> infoList;
-			foreach(auto value, this->loadList()) {
-				auto obj = value.toObject();
+		QList<AnimeInfo> infoList;
 
-				AnimeInfo info;
-				info.id = obj[QStringLiteral("id")].toInt();
-				info.title = obj[QStringLiteral("title")].toString();
-				info.lastKnownSeasons = obj[QStringLiteral("seasons")].toInt();
-				info.hasNewSeasons = obj[QStringLiteral("hasNew")].toBool();
-				info.previewImage = QPixmap(this->imgPath(info.id));
-
-				infoList.append(info);
-			}
-
-			QMetaObject::invokeMethod(this, "setInternal", Qt::QueuedConnection,
-									  Q_ARG(QList<AnimeInfo>, infoList));
-		} catch(QString error) {
-			emit storeError(error);
+		auto db = QSqlDatabase::database(dbName);
+		if(!db.isOpen()) {
+			emit storeError(db.lastError().text());
+			return;
 		}
+
+		QSqlQuery loadQuery(db);
+		loadQuery.prepare("SELECT Id, Title, Seasons, Changed FROM Animes");
+		EXEC_QUERY(loadQuery);
+
+		while (loadQuery.next()) {
+			AnimeInfo info(loadQuery.value(0).toInt(),
+						   loadQuery.value(1).toString());
+			info.setLastKnownSeasons(loadQuery.value(2).toInt());
+			info.setHasNewSeasons(loadQuery.value(3).toBool());
+			infoList.append(info);
+		}
+
+		QMetaObject::invokeMethod(this, "setInternal", Qt::QueuedConnection,
+								  Q_ARG(QList<AnimeInfo>, infoList));
 	});
 }
 
@@ -188,62 +203,4 @@ void AnimeStore::saveQuitApp()
 {
 	W_LOCK();
 	this->canSave = false;//TODO wait until ALL saves completed
-}
-
-QJsonArray AnimeStore::loadList()
-{
-	QDir appDataFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-#ifdef QT_NO_DEBUG
-	QFile animeStore(appDataFolder.absoluteFilePath(QStringLiteral("animestore.dat")));
-#else
-	QFile animeStore(appDataFolder.absoluteFilePath(QStringLiteral("animestore.json")));
-#endif
-	if(!animeStore.exists())
-		return QJsonArray();
-	else if(!animeStore.open(QIODevice::ReadOnly | QIODevice::Text))
-		throw animeStore.errorString();
-	else {
-#ifdef QT_NO_DEBUG
-		auto doc = QJsonDocument::fromBinaryData(animeStore.readAll());
-#else
-		auto doc = QJsonDocument::fromJson(animeStore.readAll());
-#endif
-		animeStore.close();
-		if(doc.isNull())
-			throw tr("Failed to load anime data");
-		else
-			return doc.array();
-	}
-}
-
-void AnimeStore::saveList(const QJsonArray &array)
-{
-	QDir appDataFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-	appDataFolder.mkpath(QStringLiteral("."));
-#ifdef QT_NO_DEBUG
-	QSaveFile animeStore(appDataFolder.absoluteFilePath(QStringLiteral("animestore.dat")));
-#else
-	QSaveFile animeStore(appDataFolder.absoluteFilePath(QStringLiteral("animestore.json")));
-#endif
-
-	if(!animeStore.open(QIODevice::WriteOnly | QIODevice::Text))
-		throw animeStore.errorString();
-	else {
-		QJsonDocument doc(array);
-#ifdef QT_NO_DEBUG
-		animeStore.write(doc.toBinaryData());
-#else
-		animeStore.write(doc.toJson(QJsonDocument::Indented));
-#endif
-		if(!animeStore.commit())
-			throw animeStore.errorString();
-	}
-}
-
-QString AnimeStore::imgPath(int id)
-{
-	QDir cacheDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
-	cacheDir.mkpath(QStringLiteral("./imgCache"));
-	cacheDir.cd(QStringLiteral("./imgCache"));
-	return cacheDir.absoluteFilePath(QStringLiteral("pimg_%1.png").arg(id));
 }

@@ -6,6 +6,7 @@
 #include <restclient.h>
 #include <restreply.h>
 #include "ProxerApi/proxerentry.h"
+#include "animeinfo.h"
 
 struct MetaRequest;
 class ProxerConnector : public QObject
@@ -20,7 +21,7 @@ public slots:
 	void loadSeasonCount(int id);
 
 signals:
-	void metaDataLoaded(int id, QString title, QPixmap preview);
+	void metaDataLoaded(const AnimeInfo &info);
 	void seasonsLoaded(int id, int seasonCount);
 	void apiError(const QString &error);
 
@@ -29,7 +30,7 @@ private slots:
 	void tryFinishMetaRequest(MetaRequest *entry);
 
 private:
-	QtRestClient::RestClient *client;	
+	QtRestClient::RestClient *client;
 	QtRestClient::RestClass *infoClass;
 
 	static QString tranformError(ProxerStatus *status, int);

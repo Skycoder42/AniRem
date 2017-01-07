@@ -11,4 +11,7 @@
     <qresource prefix="/animations">
         <file alias="loading.gif">resources/ajax-loader.gif</file>
     </qresource>
+    <qresource prefix="/">
+        <file>template.db</file>
+    </qresource>
 </RCC>

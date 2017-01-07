@@ -4,19 +4,33 @@
 #include <QString>
 #include <QPixmap>
 #include <QUrl>
+#include <QSharedDataPointer>
 
-struct AnimeInfo//TODO shared data
+struct AnimeInfoData;
+class AnimeInfo//TODO shared data
 {
-	int id;
-	QString title;
-	QPixmap previewImage;
+public:
+	AnimeInfo();
+	AnimeInfo(int id, const QString &title);
+	AnimeInfo(const AnimeInfo &other);
+	~AnimeInfo();
 
-	int lastKnownSeasons;
-	bool hasNewSeasons;
+	int id() const;
+	QString title() const;
+	QPixmap previewImage() const;
+	void setPreviewImage(QPixmap previewImage);
+
+	int lastKnownSeasons() const;
+	void setLastKnownSeasons(int lastKnownSeasons);
+	bool hasNewSeasons() const;
+	void setHasNewSeasons(bool hasNewSeasons);
 
 	QUrl relationsUrl() const;
 
-	AnimeInfo();
+	AnimeInfo &operator =(const AnimeInfo &other);
+
+private:
+	QSharedDataPointer<AnimeInfoData> data;
 };
 
 Q_DECLARE_METATYPE(AnimeInfo)
