@@ -7,7 +7,7 @@ TEMPLATE = lib
 
 QT       += core gui network concurrent sql
 
-TARGET = Core
+TARGET = SeasonProxerCore
 
 DEFINES += CORE_LIBRARY
 DEFINES += QT_DEPRECATED_WARNINGS

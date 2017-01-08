@@ -1,13 +1,14 @@
 #ifndef ANIMESTORE_H
 #define ANIMESTORE_H
 
+#include "core_global.h"
 #include "animeinfo.h"
 #include "countlock.h"
 #include <QObject>
 #include <QSemaphore>
 #include <QThreadPool>
 
-class AnimeStore : public QObject
+class CORESHARED_EXPORT AnimeStore : public QObject
 {
 	Q_OBJECT
 

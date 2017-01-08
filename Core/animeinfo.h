@@ -1,11 +1,13 @@
 #ifndef ANIMEINFO_H
 #define ANIMEINFO_H
 
+#include "core_global.h"
 #include <QObject>
 #include <QPixmap>
 #include <QSharedPointer>
+#include <QUrl>
 
-class AnimeInfo : public QObject
+class CORESHARED_EXPORT AnimeInfo : public QObject
 {
 	Q_OBJECT
 
@@ -21,6 +23,8 @@ public:
 	QString title() const;
 	int lastKnownSeasons() const;
 	bool hasNewSeasons() const;
+
+	QUrl relationsUrl() const;
 
 public slots:
 	void setLastKnownSeasons(int lastKnownSeasons);
@@ -40,5 +44,8 @@ private:
 
 typedef QSharedPointer<AnimeInfo> AnimePtr;
 typedef QList<AnimePtr> AnimeList;
+
+Q_DECLARE_METATYPE(AnimePtr)
+Q_DECLARE_METATYPE(AnimeList)
 
 #endif // ANIMEINFO_H

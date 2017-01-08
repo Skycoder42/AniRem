@@ -25,7 +25,12 @@ int AnimeInfo::lastKnownSeasons() const
 
 bool AnimeInfo::hasNewSeasons() const
 {
-    return _hasNewSeasons;
+	return _hasNewSeasons;
+}
+
+QUrl AnimeInfo::relationsUrl() const
+{
+	return QStringLiteral("https://proxer.me/info/%1/relation").arg(_id);
 }
 
 void AnimeInfo::setLastKnownSeasons(int lastKnownSeasons)

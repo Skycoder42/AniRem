@@ -5,9 +5,7 @@
 
 class CORESHARED_EXPORT Core
 {
-
 public:
-	Core();
 };
 
 #endif // CORE_H

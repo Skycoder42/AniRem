@@ -7,21 +7,39 @@ TEMPLATE = app
 
 QT       += core gui  widgets
 
-TARGET = Desktop
+TARGET = SeasonProxer
+VERSION = 1.0.0
+
+RC_ICONS += ./resources/main.ico
+QMAKE_TARGET_COMPANY = "Skycoder42"
+QMAKE_TARGET_PRODUCT = "Proxer.me Season Reminder"
+QMAKE_TARGET_DESCRIPTION = $$QMAKE_TARGET_PRODUCT
+QMAKE_TARGET_COPYRIGHT = "Felix Barz"
+
+DEFINES += "TARGET=\\\"$$TARGET\\\""
+DEFINES += "VERSION=\\\"$$VERSION\\\""
+DEFINES += "COMPANY=\"\\\"$$QMAKE_TARGET_COMPANY\\\"\""
+DEFINES += "DISPLAY_NAME=\"\\\"$$QMAKE_TARGET_PRODUCT\\\"\""
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-HEADERS  += mainwindow.h
+include(../QtUtils/DialogMaster/dialogmaster.pri)
 
-SOURCES += main.cpp\
-		mainwindow.cpp
+HEADERS  += mainwindow.h \
+    animemodel.h \
+    app.h
+
+SOURCES += \
+	mainwindow.cpp \
+    animemodel.cpp \
+    app.cpp
 
 FORMS    += mainwindow.ui
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lCore
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lCore
-else:mac: LIBS += -F$$OUT_PWD/../Core/ -framework Core
-else:unix: LIBS += -L$$OUT_PWD/../Core/ -lCore
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore
+else:mac: LIBS += -F$$OUT_PWD/../Core/ -framework SeasonProxerCore
+else:unix: LIBS += -L$$OUT_PWD/../Core/ -lSeasonProxerCore
 
 INCLUDEPATH += $$PWD/../Core
 DEPENDPATH += $$PWD/../Core

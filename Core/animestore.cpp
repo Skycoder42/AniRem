@@ -70,7 +70,7 @@ void AnimeStore::saveAnime(AnimePtr info)
 
 		QSqlQuery infoQuery(db);
 		if(update)
-			infoQuery.prepare("UPDATE Animes SET Title = :title, Season = :season, Changed = :changed WHERE Id = :id");
+			infoQuery.prepare("UPDATE Animes SET Title = :title, Seasons = :seasons, Changed = :changed WHERE Id = :id");
 		else
 			infoQuery.prepare("INSERT INTO Animes (Id, Title, Seasons, Changed) VALUES(:id, :title, :seasons, :changed)");
 		infoQuery.bindValue(":id", info->id());
@@ -173,8 +173,9 @@ void AnimeStore::setInternal(AnimeList infoList, bool emitComplete)
 	infoMap.clear();
 	foreach(auto ptr, infoList)
 		infoMap.insert(ptr->id(), ptr);
+	emit animeInfoListChanged(infoMap.values());
 	if(emitComplete)
-		emit animeInfoListChanged(infoMap.values());
+		emit loadingCompleted();
 }
 
 void AnimeStore::saveQuitApp()
