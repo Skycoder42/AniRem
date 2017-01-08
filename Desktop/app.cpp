@@ -6,6 +6,7 @@
 App::App(int &argc, char **argv) :
 	QApplication(argc, argv),
 	store(nullptr),
+	imgLoader(nullptr),
 	mainWindow(nullptr)
 {
 	QApplication::setApplicationName(QStringLiteral(TARGET));
@@ -19,6 +20,11 @@ App::App(int &argc, char **argv) :
 App::~App()
 {
 	delete mainWindow;
+}
+
+ImageLoader *App::imageLoader() const
+{
+	return imgLoader;
 }
 
 int App::exec()
@@ -55,6 +61,8 @@ void App::init()
 	connect(store, &AnimeStore::storeError, this, [this](QString error){
 		showError(tr("Data Error"), error);
 	}, Qt::QueuedConnection);
+
+	imgLoader = new ImageLoader(this);
 
 	mainWindow = new MainWindow(store, nullptr);
 	connect(mainWindow, &MainWindow::reload,

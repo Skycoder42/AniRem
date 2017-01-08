@@ -1,6 +1,7 @@
 #ifndef APP_H
 #define APP_H
 
+#include "imageloader.h"
 #include "mainwindow.h"
 
 #include <QApplication>
@@ -15,6 +16,8 @@ public:
 	explicit App(int &argc, char **argv);
 	~App();
 
+	ImageLoader *imageLoader() const;
+
 	int exec();
 
 private slots:
@@ -25,9 +28,13 @@ private slots:
 
 private:
 	AnimeStore *store;
+	ImageLoader *imgLoader;
 	MainWindow *mainWindow;
 
 	void init();
 };
+
+#undef qApp
+#define qApp static_cast<App*>(QApplication::instance())
 
 #endif // APP_H

@@ -5,7 +5,7 @@
 #-------------------------------------------------
 TEMPLATE = app
 
-QT       += core gui  widgets
+QT       += core gui widgets network
 
 TARGET = SeasonProxer
 VERSION = 1.0.0
@@ -27,14 +27,19 @@ include(../QtUtils/DialogMaster/dialogmaster.pri)
 
 HEADERS  += mainwindow.h \
     animemodel.h \
-    app.h
+    app.h \
+    addanimedialog.h \
+    imageloader.h
 
 SOURCES += \
 	mainwindow.cpp \
     animemodel.cpp \
-    app.cpp
+    app.cpp \
+    addanimedialog.cpp \
+    imageloader.cpp
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    addanimedialog.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore

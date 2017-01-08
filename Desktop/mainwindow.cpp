@@ -4,6 +4,8 @@
 #include <QClipboard>
 #include <QDesktopServices>
 #include <QSettings>
+#include "addanimedialog.h"
+#include "app.h"
 
 MainWindow::MainWindow(AnimeStore *store, QWidget *parent) :
 	QMainWindow(parent),
@@ -92,19 +94,22 @@ void MainWindow::updateLoadStatus(bool isFinished)
 
 void MainWindow::updatePreview(const QModelIndex &index)
 {
-	Q_UNIMPLEMENTED();
-	//auto info = model->animeInfo(proxyModel->mapToSource(index));
-	//ui->dockWidgetContents->setPixmap(info.previewImage());
+	auto info = model->animeInfo(proxyModel->mapToSource(index));
+	ui->dockWidgetContents->setText("<i>Loading preview image&#8230;</i>");
+	qApp->imageLoader()->loadImage(info->id(), [this](int id, QPixmap pm){
+		auto info = model->animeInfo(proxyModel->mapToSource(ui->seasonTreeView->currentIndex()));
+		if(info->id() == id)
+			ui->dockWidgetContents->setPixmap(pm);
+	});
 }
 
 void MainWindow::on_actionAdd_Anime_triggered()
 {
-	Q_UNIMPLEMENTED();
-//	auto info = AddAnimeDialog::createInfo(-1, this);
-//	if(info->id() != -1) {
-//		model->addAnime(info);
-//		showStatus(tr("Added Anime: %1").arg(info->title()));
-//	}
+	auto info = AddAnimeDialog::createInfo(-1, this);
+	if(info) {
+		model->addAnime(info);
+		showStatus(tr("Added Anime: %1").arg(info->title()));
+	}
 }
 
 void MainWindow::on_actionRemove_Anime_triggered()
@@ -143,10 +148,11 @@ void MainWindow::on_actionPaste_ID_URL_triggered()
 	}
 
 	if(id != -1) {
-		Q_UNIMPLEMENTED();
-//		auto info = AddAnimeDialog::createInfo(id, this);
-//		if(info->id() != -1)
-//			model->addAnime(info);
+		auto info = AddAnimeDialog::createInfo(id, this);
+		if(info){
+			model->addAnime(info);
+			showStatus(tr("Added Anime: %1").arg(info->title()));
+		}
 	}
 }
 
