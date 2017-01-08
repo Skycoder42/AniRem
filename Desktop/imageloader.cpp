@@ -17,7 +17,7 @@ void ImageLoader::loadImage(int id, std::function<void (int, QPixmap)> imgFunc)
 	if(cache.contains(id))
 		imgFunc(id, cache.value(id));
 	else {
-		auto reply = nam->get(QNetworkRequest(QStringLiteral("https://cdn.proxer.me/cover/%1.jpg").arg(id)));
+		auto reply = nam->get(QNetworkRequest(QStringLiteral("https://cdn.proxer.me/cover/%1.jpg").arg(id)));//TODO get is blocking
 		connect(reply, &QNetworkReply::finished, this, [=](){
 			auto pm = getPixmap(id, reply);
 			if(!pm.isNull())
