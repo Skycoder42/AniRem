@@ -5,8 +5,7 @@
 #-------------------------------------------------
 TEMPLATE = lib
 
-QT       += network
-QT       -= gui
+QT       += core gui network concurrent sql
 
 TARGET = Core
 
@@ -16,9 +15,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 include(../QtRestClient/qtrestclient.pri)
 
 HEADERS += core.h\
-        core_global.h
+        core_global.h \
+    animestore.h \
+    animeinfo.h \
+    countlock.h
 
-SOURCES += core.cpp
+SOURCES += core.cpp \
+    animestore.cpp \
+    animeinfo.cpp \
+    countlock.cpp
 
 unix {
     target.path = /usr/lib
