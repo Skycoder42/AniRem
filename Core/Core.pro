@@ -18,7 +18,8 @@ HEADERS += core.h\
         core_global.h \
     animestore.h \
     animeinfo.h \
-    countlock.h
+    countlock.h \
+    proxer-api-key.h
 
 SOURCES += core.cpp \
     animestore.cpp \
@@ -29,3 +30,6 @@ unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+RESOURCES += \
+    seasonproxer_core.qrc

@@ -3,12 +3,14 @@
 
 #include <QNetworkAccessManager>
 #include <QObject>
+#include <QPixmap>
 
 #include <functional>
 
 class ImageLoader : public QObject//TODO async
 {
 	Q_OBJECT
+
 public:
 	explicit ImageLoader(QObject *parent = nullptr);
 

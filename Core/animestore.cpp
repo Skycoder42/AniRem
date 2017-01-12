@@ -19,7 +19,7 @@ AnimeStore::AnimeStore(QObject *parent) :
 	lock(),
 	infoMap()
 {
-	tp->setMaxThreadCount(1);//1 thread to simnply make it async
+	tp->setMaxThreadCount(1);//1 thread to simply make it async
 
 	QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
 	dir.mkpath(".");
