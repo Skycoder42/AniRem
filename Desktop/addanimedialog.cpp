@@ -3,13 +3,16 @@
 #include <QPushButton>
 #include <QIntValidator>
 #include <QDebug>
+#include <QtRestClient>
+#include "core.h"
 #include "app.h"
 #include "dialogmaster.h"
+using namespace QtRestClient;
 
 AddAnimeDialog::AddAnimeDialog(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::AddAnimeDialog),
-//	connector(new ProxerConnector(this)),
+	infoClass(new InfoClass(this)),
 	loadingMovie(new QMovie(QStringLiteral(":/animations/loading.gif"), "gif", this)),
 	currentId(-1)
 {
@@ -20,11 +23,9 @@ AddAnimeDialog::AddAnimeDialog(QWidget *parent) :
 
 	connect(ui->proxerIDLineEdit, &QLineEdit::editingFinished,
 			this, &AddAnimeDialog::reloadAnime);
-//TODO
-//	connect(connector, &ProxerConnector::metaDataLoaded,
-//			this, &AddAnimeDialog::loaded);
-//	connect(connector, &ProxerConnector::apiError,
-//			this, &AddAnimeDialog::loadError);
+
+	connect(infoClass, &InfoClass::apiError,
+			this, &AddAnimeDialog::loadError);
 }
 
 AddAnimeDialog::~AddAnimeDialog()
@@ -61,7 +62,15 @@ void AddAnimeDialog::reloadAnime()
 		loadingMovie->start();
 
 		currentId = QLocale().toInt(ui->proxerIDLineEdit->text());
-//		connector->loadMetaData(currentId);
+		infoClass->getEntry(currentId)->onSucceeded([this](RestReply*, int code, ProxerEntry *entry){
+			if(infoClass->testValid(code, entry)) {
+				Q_ASSERT(entry->data->id == currentId);
+				ui->proxerIDLineEdit->setEnabled(true);
+				ui->titleLineEdit->setText(entry->data->name);
+				ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+			}
+			entry->deleteLater();
+		});
 
 		qApp->imageLoader()->loadImage(currentId, [this](int id, QPixmap pm){
 			Q_ASSERT(id == currentId);
@@ -69,15 +78,6 @@ void AddAnimeDialog::reloadAnime()
 			ui->previewLabel->setPixmap(pm);
 			loadingMovie->stop();
 		});
-	}
-}
-
-void AddAnimeDialog::loaded(AnimePtr info)
-{
-	if(info->id() == currentId) {
-		ui->proxerIDLineEdit->setEnabled(true);
-		ui->titleLineEdit->setText(info->title());
-		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 	}
 }
 

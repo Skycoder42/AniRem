@@ -5,6 +5,7 @@
 #include <QMovie>
 #include "animeinfo.h"
 #include "imageloader.h"
+#include "ProxerApi/infoclass.h"
 
 namespace Ui {
 	class AddAnimeDialog;
@@ -20,11 +21,11 @@ public:
 private slots:
 	void reloadAnime();
 
-	void loaded(AnimePtr info);
 	void loadError(QString error);
 
 private:
 	Ui::AddAnimeDialog *ui;
+	InfoClass *infoClass;
 	QMovie *loadingMovie;
 	int currentId;
 

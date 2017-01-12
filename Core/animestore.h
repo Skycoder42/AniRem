@@ -19,6 +19,7 @@ public:
 	~AnimeStore();
 
 	AnimeList animeInfoList() const;
+	bool containsAnime(int id) const;
 
 public slots:
 	void saveAnime(AnimePtr info);

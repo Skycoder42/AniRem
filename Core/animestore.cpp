@@ -47,6 +47,11 @@ AnimeList AnimeStore::animeInfoList() const
 	return infoMap.values();
 }
 
+bool AnimeStore::containsAnime(int id) const
+{
+	return infoMap.contains(id);
+}
+
 void AnimeStore::saveAnime(AnimePtr info)
 {
 	auto update = false;

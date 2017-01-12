@@ -10,17 +10,17 @@ AnimeInfo::AnimeInfo(int id, const QString &title) :
 
 int AnimeInfo::id() const
 {
-    return _id;
+	return _id;
 }
 
 QString AnimeInfo::title() const
 {
-    return _title;
+	return _title;
 }
 
 int AnimeInfo::lastKnownSeasons() const
 {
-    return _lastKnownSeasons;
+	return _lastKnownSeasons;
 }
 
 bool AnimeInfo::hasNewSeasons() const

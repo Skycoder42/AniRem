@@ -14,8 +14,11 @@ MainWindow::MainWindow(AnimeStore *store, QWidget *parent) :
 	model(new AnimeModel(store, this)),
 	proxyModel(new QSortFilterProxyModel(this))
 {
-	ui->setupUi(this);	
+	ui->setupUi(this);
 	ui->menuView->addAction(ui->previewDock->toggleViewAction());
+
+	connect(ui->actionQuit, &QAction::triggered,
+			this, &MainWindow::close);
 
 	ui->seasonTreeView->addActions({
 									   ui->actionRemove_Anime,
@@ -94,13 +97,16 @@ void MainWindow::updateLoadStatus(bool isFinished)
 
 void MainWindow::updatePreview(const QModelIndex &index)
 {
-	auto info = model->animeInfo(proxyModel->mapToSource(index));
-	ui->dockWidgetContents->setText("<i>Loading preview image&#8230;</i>");
-	qApp->imageLoader()->loadImage(info->id(), [this](int id, QPixmap pm){
-		auto info = model->animeInfo(proxyModel->mapToSource(ui->seasonTreeView->currentIndex()));
-		if(info->id() == id)
-			ui->dockWidgetContents->setPixmap(pm);
-	});
+	if(index.isValid()) {
+		auto info = model->animeInfo(proxyModel->mapToSource(index));
+		ui->dockWidgetContents->setText("<i>Loading preview image&#8230;</i>");
+		qApp->imageLoader()->loadImage(info->id(), [this](int id, QPixmap pm){
+			auto info = model->animeInfo(proxyModel->mapToSource(ui->seasonTreeView->currentIndex()));
+			if(info->id() == id)
+				ui->dockWidgetContents->setPixmap(pm);
+		});
+	} else
+		ui->dockWidgetContents->clear();
 }
 
 void MainWindow::on_actionAdd_Anime_triggered()
@@ -153,7 +159,8 @@ void MainWindow::on_actionPaste_ID_URL_triggered()
 			model->addAnime(info);
 			showStatus(tr("Added Anime: %1").arg(info->title()));
 		}
-	}
+	} else
+		showStatus(tr("Clipboard does not contain a proxer url or an id"));
 }
 
 void MainWindow::on_actionCopy_selected_Info_triggered()

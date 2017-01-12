@@ -1,4 +1,5 @@
 #include "animemodel.h"
+#include "app.h"
 
 #include <QFont>
 #include <QLocale>
@@ -116,10 +117,14 @@ void AnimeModel::uncheckAnime(const QModelIndex &index)
 
 void AnimeModel::addAnime(const AnimePtr &info)
 {
-	beginInsertRows(QModelIndex(), currentList.size(), currentList.size());
-	currentList.append(info);
-	endInsertRows();
-	store->saveAnime(info);
+	if(store->containsAnime(info->id()))
+		qApp->showMessage(QMessageBox::Warning, tr("Anime duplicated"), tr("Anime \"%1\" is already in the list!").arg(info->title()));
+	else {
+		beginInsertRows(QModelIndex(), currentList.size(), currentList.size());
+		currentList.append(info);
+		endInsertRows();
+		store->saveAnime(info);
+	}
 }
 
 AnimePtr AnimeModel::removeInfo(const QModelIndex &index)

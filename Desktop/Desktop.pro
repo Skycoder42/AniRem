@@ -23,23 +23,24 @@ DEFINES += "DISPLAY_NAME=\"\\\"$$QMAKE_TARGET_PRODUCT\\\"\""
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
+include(../QtRestClient/qtrestclient.pri)
 include(../QtUtils/DialogMaster/dialogmaster.pri)
 
 HEADERS  += mainwindow.h \
-    animemodel.h \
-    app.h \
-    addanimedialog.h \
-    imageloader.h
+	animemodel.h \
+	app.h \
+	addanimedialog.h \
+	imageloader.h
 
 SOURCES += \
 	mainwindow.cpp \
-    animemodel.cpp \
-    app.cpp \
-    addanimedialog.cpp \
-    imageloader.cpp
+	animemodel.cpp \
+	app.cpp \
+	addanimedialog.cpp \
+	imageloader.cpp
 
 FORMS    += mainwindow.ui \
-    addanimedialog.ui
+	addanimedialog.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore
@@ -50,4 +51,4 @@ INCLUDEPATH += $$PWD/../Core
 DEPENDPATH += $$PWD/../Core
 
 RESOURCES += \
-    seasonproxer_desktop.qrc
+	seasonproxer_desktop.qrc

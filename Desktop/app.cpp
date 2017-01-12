@@ -1,4 +1,5 @@
 #include "app.h"
+#include "core.h"
 
 #include <QIcon>
 #include <dialogmaster.h>
@@ -38,7 +39,29 @@ int App::exec()
 
 void App::showError(QString title, QString message)
 {
-	DialogMaster::critical(activeWindow(), message, title);
+	showMessage(QMessageBox::Critical, title, message);
+}
+
+void App::showMessage(QMessageBox::Icon icon, QString title, QString message)
+{
+	switch(icon) {
+	case QMessageBox::NoIcon:
+	case QMessageBox::Information:
+		DialogMaster::information(activeWindow(), message, title);
+		break;
+	case QMessageBox::Warning:
+		DialogMaster::warning(activeWindow(), message, title);
+		break;
+	case QMessageBox::Critical:
+		DialogMaster::critical(activeWindow(), message, title);
+		break;
+	case QMessageBox::Question:
+		DialogMaster::question(activeWindow(), message, title);
+		break;
+	default:
+		Q_UNREACHABLE();
+		break;
+	}
 }
 
 void App::reload()
@@ -54,6 +77,8 @@ void App::storeLoaded()
 
 void App::init()
 {
+	Core::createProxerApi();
+
 	store = new AnimeStore(this);
 	connect(store, &AnimeStore::loadingCompleted,
 			this, &App::storeLoaded,

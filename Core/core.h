@@ -9,6 +9,9 @@ class QNetworkAccessManager;
 class CORESHARED_EXPORT Core
 {
 public:
+	static const QString ProxerRest;
+
+	static void createProxerApi();
 	static QNetworkAccessManager *createImageLoaderNam(QObject *parent = nullptr);
 };
 

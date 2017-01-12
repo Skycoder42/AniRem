@@ -10,12 +10,6 @@
     <height>600</height>
    </rect>
   </property>
-  <property name="iconSize">
-   <size>
-    <width>32</width>
-    <height>32</height>
-   </size>
-  </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
   </property>
@@ -54,7 +48,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -135,7 +129,7 @@
   </widget>
   <action name="actionAdd_Anime">
    <property name="icon">
-    <iconset resource="seasonproxer_desktop.qrc">
+    <iconset theme="gtk-add" resource="seasonproxer_desktop.qrc">
      <normaloff>:/icons/add.ico</normaloff>:/icons/add.ico</iconset>
    </property>
    <property name="text">
@@ -147,7 +141,7 @@
   </action>
   <action name="actionRemove_Anime">
    <property name="icon">
-    <iconset resource="seasonproxer_desktop.qrc">
+    <iconset theme="edit-delete" resource="seasonproxer_desktop.qrc">
      <normaloff>:/icons/remove.ico</normaloff>:/icons/remove.ico</iconset>
    </property>
    <property name="text">
@@ -159,7 +153,7 @@
   </action>
   <action name="actionPaste_ID_URL">
    <property name="icon">
-    <iconset resource="seasonproxer_desktop.qrc">
+    <iconset theme="edit-paste" resource="seasonproxer_desktop.qrc">
      <normaloff>:/icons/paste.ico</normaloff>:/icons/paste.ico</iconset>
    </property>
    <property name="text">
@@ -171,7 +165,7 @@
   </action>
   <action name="actionCopy_selected_Info">
    <property name="icon">
-    <iconset resource="seasonproxer_desktop.qrc">
+    <iconset theme="edit-copy" resource="seasonproxer_desktop.qrc">
      <normaloff>:/icons/copy.ico</normaloff>:/icons/copy.ico</iconset>
    </property>
    <property name="text">
@@ -182,6 +176,10 @@
    </property>
   </action>
   <action name="actionQuit">
+   <property name="icon">
+    <iconset theme="gtk-quit">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
    <property name="text">
     <string>&amp;Quit</string>
    </property>
@@ -194,7 +192,7 @@
   </action>
   <action name="actionReload_Seasons">
    <property name="icon">
-    <iconset resource="seasonproxer_desktop.qrc">
+    <iconset theme="view-refresh" resource="seasonproxer_desktop.qrc">
      <normaloff>:/icons/reload.ico</normaloff>:/icons/reload.ico</iconset>
    </property>
    <property name="text">

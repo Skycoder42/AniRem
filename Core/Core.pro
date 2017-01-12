@@ -19,12 +19,20 @@ HEADERS += core.h\
     animestore.h \
     animeinfo.h \
     countlock.h \
-    proxer-api-key.h
+    proxer-api-key.h \
+    ProxerApi/proxerentry.h \
+    ProxerApi/proxerrelations.h \
+    ProxerApi/proxerstatus.h \
+    ProxerApi/infoclass.h
 
 SOURCES += core.cpp \
     animestore.cpp \
     animeinfo.cpp \
-    countlock.cpp
+    countlock.cpp \
+    ProxerApi/proxerentry.cpp \
+    ProxerApi/proxerrelations.cpp \
+    ProxerApi/proxerstatus.cpp \
+    ProxerApi/infoclass.cpp
 
 unix {
     target.path = /usr/lib

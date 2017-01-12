@@ -4,6 +4,8 @@
 #include <QNetworkAccessManager>
 #include <QNetworkDiskCache>
 #include <QStandardPaths>
+#include <QtRestClient>
+#include "proxer-api-key.h"
 
 #include "animeinfo.h"
 
@@ -18,10 +20,22 @@ protected:
 static void startup();
 Q_COREAPP_STARTUP_FUNCTION(startup)
 
+const QString Core::ProxerRest(QStringLiteral("proxer"));
+
 static void startup()
 {
 	qRegisterMetaType<AnimePtr>();
 	qRegisterMetaType<AnimeList>();
+}
+
+void Core::createProxerApi()
+{
+	auto client = new QtRestClient::RestClient(qApp);
+	client->setBaseUrl(QStringLiteral("https://proxer.me/api"));
+	client->setApiVersion({1});
+	client->addGlobalHeader("proxer-api-key", PROXER_API_KEY);//TODO "hide" key
+	client->serializer()->setAllowDefaultNull(true);//DEBUG use this to provoke an error to test error handling
+	QtRestClient::RestClient::addGlobalApi(Core::ProxerRest, client);
 }
 
 QNetworkAccessManager *Core::createImageLoaderNam(QObject *parent)

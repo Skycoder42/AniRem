@@ -5,6 +5,7 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QMessageBox>
 
 #include <animestore.h>
 
@@ -20,9 +21,11 @@ public:
 
 	int exec();
 
-private slots:
+public slots:
 	void showError(QString title, QString message);
+	void showMessage(QMessageBox::Icon icon, QString title, QString message);
 
+private slots:
 	void reload();
 	void storeLoaded();
 
