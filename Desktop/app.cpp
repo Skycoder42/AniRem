@@ -1,5 +1,5 @@
 #include "app.h"
-#include "core.h"
+#include <coreapp.h>
 
 #include <QIcon>
 #include <dialogmaster.h>
@@ -77,8 +77,6 @@ void App::storeLoaded()
 
 void App::init()
 {
-	Core::createProxerApi();
-
 	store = new AnimeStore(this);
 	connect(store, &AnimeStore::loadingCompleted,
 			this, &App::storeLoaded,
@@ -97,5 +95,6 @@ void App::init()
 int main(int argc, char *argv[])
 {
 	App a(argc, argv);
+	CoreApp::setMainPresenter(nullptr);//TODO
 	return a.exec();
 }

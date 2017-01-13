@@ -1,0 +1,1 @@
+INCLUDEPATH += $$PWD/../core $$PWD

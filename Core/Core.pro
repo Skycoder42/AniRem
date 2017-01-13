@@ -13,6 +13,7 @@ DEFINES += CORE_LIBRARY
 DEFINES += QT_DEPRECATED_WARNINGS
 
 include(../QtRestClient/qtrestclient.pri)
+include(../QtMvvm/core/qtmvvmcore.pri)
 
 HEADERS += core.h\
         core_global.h \
@@ -23,7 +24,8 @@ HEADERS += core.h\
     ProxerApi/proxerentry.h \
     ProxerApi/proxerrelations.h \
     ProxerApi/proxerstatus.h \
-    ProxerApi/infoclass.h
+    ProxerApi/infoclass.h \
+    proxerapp.h
 
 SOURCES += core.cpp \
     animestore.cpp \
@@ -32,7 +34,8 @@ SOURCES += core.cpp \
     ProxerApi/proxerentry.cpp \
     ProxerApi/proxerrelations.cpp \
     ProxerApi/proxerstatus.cpp \
-    ProxerApi/infoclass.cpp
+    ProxerApi/infoclass.cpp \
+    proxerapp.cpp
 
 unix {
     target.path = /usr/lib
