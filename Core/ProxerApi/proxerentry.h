@@ -1,10 +1,11 @@
 #ifndef PROXERENTRY_H
 #define PROXERENTRY_H
 
+#include "core_global.h"
 #include <QObject>
 #include "proxerstatus.h"
 
-class ProxerEntryData : public QtRestClient::RestObject
+class CORESHARED_EXPORT ProxerEntryData : public QtRestClient::RestObject
 {
 	Q_OBJECT
 
@@ -27,7 +28,7 @@ public:
 	int season;
 };
 
-class ProxerEntry : public ProxerStatus
+class CORESHARED_EXPORT ProxerEntry : public ProxerStatus
 {
 	Q_OBJECT
 

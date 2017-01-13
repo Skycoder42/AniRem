@@ -1,6 +1,7 @@
 #ifndef INFOCLASS_H
 #define INFOCLASS_H
 
+#include "core_global.h"
 #include "proxerentry.h"
 #include "proxerstatus.h"
 
@@ -9,7 +10,7 @@
 #include <functional>
 #include <restclass.h>
 
-class InfoClass : public QObject
+class CORESHARED_EXPORT InfoClass : public QObject
 {
 	Q_OBJECT
 public:

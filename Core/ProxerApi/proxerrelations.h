@@ -1,11 +1,12 @@
 #ifndef PROXERRELATIONS_H
 #define PROXERRELATIONS_H
 
+#include "core_global.h"
 #include <QObject>
 #include "proxerstatus.h"
 #include "proxerentry.h"
 
-class ProxerRelations : public ProxerStatus
+class CORESHARED_EXPORT ProxerRelations : public ProxerStatus
 {
 	Q_OBJECT
 

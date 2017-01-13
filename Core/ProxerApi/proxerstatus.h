@@ -1,10 +1,11 @@
 #ifndef PROXERSTATUS_H
 #define PROXERSTATUS_H
 
+#include "core_global.h"
 #include <QObject>
 #include <restobject.h>
 
-class ProxerStatus : public QtRestClient::RestObject
+class CORESHARED_EXPORT ProxerStatus : public QtRestClient::RestObject
 {
 	Q_OBJECT
 
