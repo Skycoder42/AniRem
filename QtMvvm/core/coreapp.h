@@ -23,6 +23,8 @@ public:
 	Q_INVOKABLE bool showControl(Control *control);
 	Q_INVOKABLE bool closeControl(Control *control);
 
+	IPresenter *presenter() const;
+
 public slots:
 	void registerApp();
 

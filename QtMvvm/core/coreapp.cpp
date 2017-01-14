@@ -36,6 +36,11 @@ bool CoreApp::closeControl(Control *control)
 	return _presenter->withdraw(control);
 }
 
+IPresenter *CoreApp::presenter() const
+{
+	return _presenter.data();
+}
+
 void CoreApp::setupParser(QCommandLineParser &parser, bool &allowInvalid)
 {
 	parser.addHelpOption();
