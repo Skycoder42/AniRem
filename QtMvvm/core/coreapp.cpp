@@ -1,5 +1,6 @@
 #include "coreapp.h"
 #include <iostream>
+#include "coremessage.h"
 
 QPointer<CoreApp> CoreApp::_instance;
 
@@ -50,10 +51,16 @@ void CoreApp::setupParser(QCommandLineParser &parser, bool &allowInvalid)
 
 bool CoreApp::autoShowHelpOrVersion(const QCommandLineParser &parser)
 {
-	Q_UNUSED(parser);
-	Q_UNIMPLEMENTED();
-	//TODO do so...
-	return false;
+	if(parser.isSet("help")) {
+		if(!CoreMessage::information(tr("Usage"), parser.helpText()))
+			std::cout << parser.helpText().toStdString() << std::endl;
+		return true;
+	} else if(parser.isSet("version")) {
+		if(!CoreMessage::information(tr("Usage"), QCoreApplication::applicationVersion()))//TODO test if correct like this
+			std::cout << QCoreApplication::applicationVersion().toStdString() << std::endl;
+		return true;
+	} else
+		return false;
 }
 
 void CoreApp::aboutToQuit() {}
@@ -71,7 +78,7 @@ void CoreApp::initiate()
 		} else
 			qApp->exit(EXIT_FAILURE);
 	} else {
-		//TODO pass error to ui
-		std::cerr << parser.errorText().toStdString() << std::endl;
+		if(!CoreMessage::critical(tr("Invalid Arguments"), parser.errorText()))
+			std::cerr << parser.errorText().toStdString() << std::endl;
 	}
 }

@@ -81,9 +81,6 @@ void App::init()
 	connect(store, &AnimeStore::loadingCompleted,
 			this, &App::storeLoaded,
 			Qt::QueuedConnection);
-	connect(store, &AnimeStore::storeError, this, [this](QString error){
-		showError(tr("Data Error"), error);
-	}, Qt::QueuedConnection);
 
 	imgLoader = new ImageLoader(this);
 

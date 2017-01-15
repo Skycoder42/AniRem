@@ -28,7 +28,6 @@ public slots:
 
 signals:
 	void loadingCompleted();
-	void storeError(QString error);
 
 	void animeInfoListChanged(AnimeList infoList);
 

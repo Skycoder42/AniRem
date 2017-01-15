@@ -1,6 +1,9 @@
 #ifndef PROXERAPP_H
 #define PROXERAPP_H
 
+#include "animestore.h"
+#include "maincontrol.h"
+
 #include <coreapp.h>
 
 class ProxerApp : public CoreApp
@@ -16,6 +19,13 @@ protected:
 
 protected slots:
 	void aboutToQuit() override;
+
+private slots:
+	void storeLoaded();
+
+private:
+	AnimeStore *store;
+	MainControl *mainControl;
 };
 
 #endif // PROXERAPP_H

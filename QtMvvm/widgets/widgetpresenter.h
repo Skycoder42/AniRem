@@ -9,6 +9,7 @@ class WidgetPresenter : public IPresenter
 public:
 	WidgetPresenter();
 
+	static void registerAsPresenter();
 	template <typename T>
 	static void registerWidget();
 	static void registerWidget(const QMetaObject &widgetType);
@@ -18,10 +19,14 @@ public:
 
 	bool present(Control *control) override;
 	bool withdraw(Control *control) override;
+	MessageResult *showMessage(MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType);
 
 protected:
 	virtual QMetaObject findWidgetMetaObject(const QMetaObject *controlMetaObject, bool &ok);
 	virtual bool tryPresent(QWidget *widget, QWidget *parent, bool &makeNewRoot);
+
+	virtual QDialog *createInputDialog(const QString &title, const QString &text, int inputType, const QString &positiveText, const QString &negativeText, const QString &neutralText);
+	virtual QVariant extractInputResult(QDialog *inputDialog);
 
 private:
 	QList<QMetaObject> implicitMappings;

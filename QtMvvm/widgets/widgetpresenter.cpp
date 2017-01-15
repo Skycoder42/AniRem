@@ -1,4 +1,5 @@
 #include "ipresentingwidget.h"
+#include "widgetmessageresult.h"
 #include "widgetpresenter.h"
 
 #include <coreapp.h>
@@ -8,6 +9,9 @@
 #include <QDockWidget>
 #include <QMdiSubWindow>
 #include <QMdiArea>
+#include <QMessageBox>
+#include <QInputDialog>
+#include <QPushButton>
 
 WidgetPresenter::WidgetPresenter() :
 	implicitMappings(),
@@ -16,22 +20,41 @@ WidgetPresenter::WidgetPresenter() :
 	currentRoot(nullptr)
 {}
 
+void WidgetPresenter::registerAsPresenter()
+{
+	CoreApp::setMainPresenter(new WidgetPresenter());
+}
+
 void WidgetPresenter::registerWidget(const QMetaObject &widgetType)
 {
-	Q_ASSERT(dynamic_cast<WidgetPresenter*>(CoreApp::instance()->presenter()));
 	auto presenter = static_cast<WidgetPresenter*>(CoreApp::instance()->presenter());
+	if(!presenter) {
+		presenter = new WidgetPresenter();
+		CoreApp::setMainPresenter(presenter);
+	}
 	presenter->implicitMappings.append(widgetType);
 }
 
 void WidgetPresenter::registerWidgetExplicitly(const char *controlName, const QMetaObject &widgetType)
 {
-	Q_ASSERT(dynamic_cast<WidgetPresenter*>(CoreApp::instance()->presenter()));
 	auto presenter = static_cast<WidgetPresenter*>(CoreApp::instance()->presenter());
+	if(!presenter) {
+		presenter = new WidgetPresenter();
+		CoreApp::setMainPresenter(presenter);
+	}
 	presenter->explicitMappings.insert(controlName, widgetType);
 }
 
 bool WidgetPresenter::present(Control *control)
 {
+	auto active = activeControls.value(control);
+	if(active) {
+		active->show();
+		active->raise();
+		active->activateWindow();
+		return true;
+	}
+
 	auto ok = false;
 	auto widgetMetaObject = findWidgetMetaObject(control->metaObject(), ok);
 	if(ok && widgetMetaObject.className()) {//TODO test
@@ -68,9 +91,12 @@ bool WidgetPresenter::present(Control *control)
 				currentRoot = widget;
 		}
 
-		if(presented)
+		if(presented) {
 			activeControls.insert(control, widget);
-		else
+			QObject::connect(widget, &QWidget::destroyed, [this, control](){
+				activeControls.remove(control);
+			});
+		} else
 			widget->deleteLater();
 		return presented;
 	} else {
@@ -90,6 +116,87 @@ bool WidgetPresenter::withdraw(Control *control)
 		return true;
 	} else
 		return false;
+}
+
+MessageResult *WidgetPresenter::showMessage(IPresenter::MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType)
+{
+	QDialog *dialog = nullptr;
+	if(type == Input)
+		dialog = createInputDialog(title, text, inputType, positiveAction, negativeAction, neutralAction);
+	else {
+		auto msgBox = new QMessageBox();
+		if(title.isEmpty())
+			msgBox->setText(text);
+		else {
+			msgBox->setText(QStringLiteral("<b>%1</b>").arg(title));
+			msgBox->setInformativeText(text);
+		}
+
+		QPushButton *aBtn = nullptr;
+		QPushButton *rBtn = nullptr;
+		QPushButton *nBtn = nullptr;
+		if(!positiveAction.isNull())
+			aBtn = msgBox->addButton(positiveAction, QMessageBox::AcceptRole);
+		if(!negativeAction.isNull())
+			rBtn = msgBox->addButton(negativeAction, QMessageBox::RejectRole);
+		if(!neutralAction.isNull())
+			nBtn = msgBox->addButton(neutralAction, QMessageBox::DestructiveRole);
+
+		//default button
+		if(aBtn)
+			msgBox->setDefaultButton(aBtn);
+		else if(rBtn)
+			msgBox->setDefaultButton(rBtn);
+		else if(nBtn)
+			msgBox->setDefaultButton(nBtn);
+
+		//escape button
+		if(rBtn)
+			msgBox->setEscapeButton(rBtn);
+		else if(aBtn)
+			msgBox->setEscapeButton(aBtn);
+		else if(nBtn)
+			msgBox->setEscapeButton(nBtn);
+
+		switch (type) {
+		case Information:
+			msgBox->setIcon(QMessageBox::Information);
+			msgBox->setWindowTitle(WidgetMessageResult::tr("Information"));
+			break;
+		case Question:
+			msgBox->setIcon(QMessageBox::Question);
+			msgBox->setWindowTitle(WidgetMessageResult::tr("Question"));
+			break;
+		case Warning:
+			msgBox->setIcon(QMessageBox::Warning);
+			msgBox->setWindowTitle(WidgetMessageResult::tr("Warning"));
+			break;
+		case Critical:
+			msgBox->setIcon(QMessageBox::Critical);
+			msgBox->setWindowTitle(WidgetMessageResult::tr("Error"));
+			break;
+		default:
+			Q_UNREACHABLE();
+			break;
+		}
+
+		dialog = msgBox;
+	}
+
+	if(dialog) {
+		//TODO dialogmaster
+		dialog->setParent(currentRoot);
+		dialog->setAttribute(Qt::WA_DeleteOnClose);
+		auto result = new WidgetMessageResult(dialog);
+		if(type == Input) {
+			QObject::connect(result, &WidgetMessageResult::positiveAction, result, [this, dialog, result](){
+				result->setResult(extractInputResult(dialog));
+			});
+		}
+		dialog->open();
+		return result;
+	} else
+		return nullptr;
 }
 
 QMetaObject WidgetPresenter::findWidgetMetaObject(const QMetaObject *controlMetaObject, bool &ok)
@@ -138,4 +245,53 @@ bool WidgetPresenter::tryPresent(QWidget *widget, QWidget *parent, bool &makeNew
 	makeNewRoot = true;
 	widget->show();
 	return true;
+}
+
+QDialog *WidgetPresenter::createInputDialog(const QString &title, const QString &text, int inputType, const QString &positiveText, const QString &negativeText, const QString &neutralText)
+{
+	Q_UNUSED(neutralText);
+
+	QInputDialog::InputMode mode;
+	switch (inputType) {
+	case QMetaType::QString:
+		mode = QInputDialog::TextInput;
+		break;
+	case QMetaType::Int:
+		mode = QInputDialog::TextInput;
+		break;
+	case QMetaType::Double:
+		mode = QInputDialog::TextInput;
+		break;
+	default:
+		return nullptr;
+	}
+
+	auto dialog = new QInputDialog();
+	dialog->setInputMode(mode);
+	dialog->setWindowTitle(title);
+	dialog->setLabelText(text);
+	dialog->setOkButtonText(positiveText);
+	dialog->setCancelButtonText(negativeText);
+
+	return dialog;
+}
+
+QVariant WidgetPresenter::extractInputResult(QDialog *inputDialog)
+{
+	auto dialog = qobject_cast<QInputDialog*>(inputDialog);
+	if(dialog) {
+		switch (dialog->inputMode()) {
+		case QInputDialog::TextInput:
+			return dialog->textValue();
+		case QInputDialog::IntInput:
+			return dialog->intValue();
+		case QInputDialog::DoubleInput:
+			return dialog->doubleValue();
+		default:
+			Q_UNREACHABLE();
+			break;
+		}
+	}
+
+	return QVariant();
 }

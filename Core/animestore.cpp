@@ -3,12 +3,20 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QtSql>
+#include "coremessage.h"
 
 #define EXEC_QUERY(query) do {\
 	if(!query.exec()) {\
-		emit storeError(query.lastError().text());\
+		CoreMessage::critical(tr("Data Error"), query.lastError().text());\
 		return;\
 	}\
+} while(false)
+
+#define CHECK_DB_OPEN(db) do {\
+	if(!db.isOpen()) { \
+		CoreMessage::critical(tr("Data Error"), db.lastError().text()); \
+		return; \
+	} \
 } while(false)
 
 const QString AnimeStore::dbName("Animes_db");
@@ -68,10 +76,7 @@ void AnimeStore::saveAnime(AnimePtr info)
 		CountLocker locker(lock, true);
 
 		auto db = QSqlDatabase::database(dbName);
-		if(!db.isOpen()) {
-			emit storeError(db.lastError().text());
-			return;
-		}
+		CHECK_DB_OPEN(db);
 
 		QSqlQuery infoQuery(db);
 		if(update)
@@ -95,10 +100,7 @@ void AnimeStore::saveAll(AnimeList infoList)
 		CountLocker locker(lock, true);
 
 		auto db = QSqlDatabase::database(dbName);
-		if(!db.isOpen()) {
-			emit storeError(db.lastError().text());
-			return;
-		}
+		CHECK_DB_OPEN(db);
 
 		QSqlQuery truncQuery(db);
 		truncQuery.prepare("DELETE FROM Animes");
@@ -127,10 +129,7 @@ void AnimeStore::forgetAnime(int id)
 		CountLocker locker(lock, true);
 
 		auto db = QSqlDatabase::database(dbName);
-		if(!db.isOpen()) {
-			emit storeError(db.lastError().text());
-			return;
-		}
+		CHECK_DB_OPEN(db);
 
 		QSqlQuery deleteQuery(db);
 		deleteQuery.prepare("DELETE FROM Animes WHERE Id = ?");
@@ -150,10 +149,7 @@ void AnimeStore::loadAnimes()
 		AnimeList infoList;
 
 		auto db = QSqlDatabase::database(dbName);
-		if(!db.isOpen()) {
-			emit storeError(db.lastError().text());
-			return;
-		}
+		CHECK_DB_OPEN(db);
 
 		QSqlQuery loadQuery(db);
 		loadQuery.prepare("SELECT Id, Title, Seasons, Changed FROM Animes");
