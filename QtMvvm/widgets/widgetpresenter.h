@@ -3,14 +3,16 @@
 
 #include "ipresenter.h"
 #include <QWidget>
+#include <coreapp.h>
 
 class WidgetPresenter : public IPresenter
 {
 public:
 	WidgetPresenter();
 
+	template <typename TPresenter = WidgetPresenter>
 	static void registerAsPresenter();
-	template <typename T>
+	template <typename TWidget>
 	static void registerWidget();
 	static void registerWidget(const QMetaObject &widgetType);
 	template <typename TControl, typename TWidget>
@@ -35,13 +37,21 @@ private:
 	QHash<Control*, QWidget*> activeControls;
 	QWidget *currentRoot;
 };
+
 // ------------- Generic Implementation -------------
 
-template<typename T>
+template<typename TPresenter>
+void WidgetPresenter::registerAsPresenter()
+{
+	static_assert(std::is_base_of<WidgetPresenter, TPresenter>::value, "TPresenter must inherit WidgetPresenter!");
+	CoreApp::setMainPresenter(new TPresenter());
+}
+
+template<typename TWidget>
 void WidgetPresenter::registerWidget()
 {
-	static_assert(std::is_base_of<QWidget, T>::value, "T must inherit QWidget!");
-	registerWidget(T::staticMetaObject);
+	static_assert(std::is_base_of<QWidget, TWidget>::value, "TWidget must inherit QWidget!");
+	registerWidget(TWidget::staticMetaObject);
 }
 
 template<typename TControl, typename TWidget>

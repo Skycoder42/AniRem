@@ -5,7 +5,6 @@
 #include <QDebug>
 #include <QtRestClient>
 #include "core.h"
-#include "app.h"
 #include "dialogmaster.h"
 using namespace QtRestClient;
 
@@ -72,7 +71,7 @@ void AddAnimeDialog::reloadAnime()
 			entry->deleteLater();
 		});
 
-		qApp->imageLoader()->loadImage(currentId, [this](int id, QPixmap pm){
+		ImageLoader::instance()->loadImage(currentId, [this](int id, QPixmap pm){
 			Q_ASSERT(id == currentId);
 			ui->previewLabel->setScaledContents(true);
 			ui->previewLabel->setPixmap(pm);

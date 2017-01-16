@@ -2,7 +2,6 @@
 #include "widgetmessageresult.h"
 #include "widgetpresenter.h"
 
-#include <coreapp.h>
 #include <QDebug>
 #include <QMainWindow>
 #include <QDialog>
@@ -19,11 +18,6 @@ WidgetPresenter::WidgetPresenter() :
 	activeControls(),
 	currentRoot(nullptr)
 {}
-
-void WidgetPresenter::registerAsPresenter()
-{
-	CoreApp::setMainPresenter(new WidgetPresenter());
-}
 
 void WidgetPresenter::registerWidget(const QMetaObject &widgetType)
 {
@@ -58,20 +52,12 @@ bool WidgetPresenter::present(Control *control)
 	auto ok = false;
 	auto widgetMetaObject = findWidgetMetaObject(control->metaObject(), ok);
 	if(ok && widgetMetaObject.className()) {//TODO test
-		auto widget = qobject_cast<QWidget*>(widgetMetaObject.newInstance(Q_ARG(QWidget*, currentRoot)));
+		auto widget = qobject_cast<QWidget*>(widgetMetaObject.newInstance(Q_ARG(Control *, control),
+																		  Q_ARG(QWidget*, currentRoot)));
 		if(!widget) {
 			qCritical() << "Failed to create widget of type"
 						<< widgetMetaObject.className()
-						<< "(did you mark the constructor as Q_INVOKABLE?)";
-			return false;
-		}
-
-		widget->setAttribute(Qt::WA_DeleteOnClose, true);
-		if(!QMetaObject::invokeMethod(widget, "setControl", Q_ARG(Control*, control))) {
-			qCritical() << "Failed to pass control to widget of type"
-						<< widgetMetaObject.className()
-						<< "(requires slot: \"void setControl(Control*)\")";
-			widget->deleteLater();
+						<< "(did you mark the constructor as Q_INVOKABLE? Required signature: \"Contructor(Control *, QWidget*);\")";
 			return false;
 		}
 
@@ -95,7 +81,9 @@ bool WidgetPresenter::present(Control *control)
 			activeControls.insert(control, widget);
 			QObject::connect(widget, &QWidget::destroyed, [this, control](){
 				activeControls.remove(control);
+				control->onClose();
 			});
+			control->onShow();
 		} else
 			widget->deleteLater();
 		return presented;

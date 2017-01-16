@@ -13,6 +13,7 @@ public:
 	explicit ObjectProxyModel(QStringList headers, QObject *parent = nullptr);
 
 	void addMapping(int column, int role, int sourceRole);
+	bool addMapping(int column, int role, const char *sourceRoleName);
 
 public:
 	QModelIndex index(int row, int column, const QModelIndex &parent = {}) const;
@@ -26,6 +27,7 @@ public:
 	QHash<int, QByteArray> roleNames() const;
 
 	void setSourceModel(ObjectListModel *sourceModel);
+	ObjectListModel *sourceModel() const;
 	QModelIndex mapToSource(const QModelIndex &proxyIndex) const;
 	QModelIndex mapFromSource(const QModelIndex &sourceIndex) const;
 

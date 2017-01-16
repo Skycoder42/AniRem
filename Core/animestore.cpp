@@ -161,6 +161,7 @@ void AnimeStore::loadAnimes()
 									  loadQuery.value(1).toString());// parenting done in "set internal"
 			info->setLastKnownSeasons(loadQuery.value(2).toInt());
 			info->setHasNewSeasons(loadQuery.value(3).toBool());
+			info->moveToThread(thread());
 			infoList.append(info);
 		}
 

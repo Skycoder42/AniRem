@@ -53,7 +53,7 @@ private:
 	const QMetaObject *_metaObject;
 	QHash<int, QByteArray> _roleNames;
 	bool _editable;
-	QObjectList _objects;
+	QObjectList _objects;//TODO connect property changed
 };
 
 Q_DECLARE_METATYPE(ObjectListModel*)

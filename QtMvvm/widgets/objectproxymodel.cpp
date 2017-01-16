@@ -15,6 +15,17 @@ void ObjectProxyModel::addMapping(int column, int role, int sourceRole)
 	endResetModel();
 }
 
+bool ObjectProxyModel::addMapping(int column, int role, const char *sourceRoleName)
+{
+	auto sRole = sourceModel()->roleNames().key(sourceRoleName, -1);
+	if(sRole == -1)
+		return false;
+	else {
+		addMapping(column, role, sRole);
+		return true;
+	}
+}
+
 QModelIndex ObjectProxyModel::index(int row, int column, const QModelIndex &parent) const
 {
 	if(parent.isValid())
@@ -92,6 +103,11 @@ QHash<int, QByteArray> ObjectProxyModel::roleNames() const
 void ObjectProxyModel::setSourceModel(ObjectListModel *sourceModel)
 {
 	QAbstractProxyModel::setSourceModel(sourceModel);
+}
+
+ObjectListModel *ObjectProxyModel::sourceModel() const
+{
+	return qobject_cast<ObjectListModel*>(QAbstractProxyModel::sourceModel());
 }
 
 QModelIndex ObjectProxyModel::mapToSource(const QModelIndex &proxyIndex) const

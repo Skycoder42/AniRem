@@ -12,7 +12,7 @@ class ImageLoader : public QObject//TODO async
 	Q_OBJECT
 
 public:
-	explicit ImageLoader(QObject *parent = nullptr);
+	static ImageLoader *instance();
 
 public slots:
 	void loadImage(int id, std::function<void(int, QPixmap)> imgFunc);
@@ -23,10 +23,12 @@ signals:
 
 private:
 	static const char *IdProperty;
+	static ImageLoader *_instance;
 
 	QNetworkAccessManager *nam;
 	QHash<int, QPixmap> cache;
 
+	explicit ImageLoader(QObject *parent = nullptr);
 	QPixmap getPixmap(int id, QNetworkReply *reply);
 };
 

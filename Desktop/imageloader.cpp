@@ -1,16 +1,25 @@
 #include "imageloader.h"
 #include <core.h>
+#include <QApplication>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QPixmap>
 
 const char *ImageLoader::IdProperty = "__imgloader_request_id";
+ImageLoader *ImageLoader::_instance = nullptr;
 
 ImageLoader::ImageLoader(QObject *parent) :
 	QObject(parent),
 	nam(Core::createImageLoaderNam(this)),
 	cache()
 {}
+
+ImageLoader *ImageLoader::instance()
+{
+	if(!_instance)
+		_instance = new ImageLoader(qApp);
+	return _instance;
+}
 
 void ImageLoader::loadImage(int id, std::function<void (int, QPixmap)> imgFunc)
 {

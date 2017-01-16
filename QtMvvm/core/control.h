@@ -11,14 +11,14 @@ class QTMVVM_CORE_SHARED_EXPORT Control : public QObject
 public:
 	explicit Control(QObject *parent = nullptr);
 
+	virtual void onShow();
+	virtual void onClose();
+
 public slots:
 	bool close();
 
 protected:
 	Q_INVOKABLE bool showControl(Control *control) const;
-
-	virtual void onShow();
-	virtual void onClose();
 };
 
 Q_DECLARE_METATYPE(Control*)
