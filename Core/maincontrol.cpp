@@ -1,8 +1,18 @@
 #include "maincontrol.h"
 
 MainControl::MainControl(AnimeStore *store, QObject *parent) :
-	Control(parent)
-{}
+	Control(parent),
+	store(store),
+	model(new GenericListModel<AnimeInfo>(false, this))
+{
+	connect(store, &AnimeStore::animeInfoListChanged,
+			this, &MainControl::setAnimeList);
+}
+
+GenericListModel<AnimeInfo> *MainControl::animeModel() const
+{
+	return model;
+}
 
 void MainControl::reload()
 {
@@ -25,6 +35,11 @@ void MainControl::addAnimeFromClipboard()
 void MainControl::showDetails(int id)
 {
 	Q_UNIMPLEMENTED();
+}
+
+void MainControl::setAnimeList(AnimeList list)
+{
+
 }
 
 void MainControl::onShow()

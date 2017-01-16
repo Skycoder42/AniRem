@@ -3,14 +3,18 @@
 
 #include "animestore.h"
 #include "control.h"
+#include <objectlistmodel.h>
 
 class MainControl : public Control
 {
 	Q_OBJECT
 
-	//TODO model property
+	Q_PROPERTY(GenericListModel<AnimeInfo>* animeModel READ animeModel CONSTANT)
+
 public:
 	explicit MainControl(AnimeStore *store, QObject *parent = nullptr);
+
+	GenericListModel<AnimeInfo>* animeModel() const;
 
 public slots:
 	void reload();
@@ -24,10 +28,16 @@ signals:
 	void setProgress(int value, int max);
 
 	void updateLoadStatus(bool isFinished);
-	//TODO AnimeModel *model;
+
+private slots:
+	void setAnimeList(AnimeList list);
 
 protected:
 	void onShow();
+
+private:
+	AnimeStore *store;
+	GenericListModel<AnimeInfo> *model;
 };
 
 #endif // MAINCONTROL_H
