@@ -25,6 +25,7 @@ void MainControl::reload()
 	emit showStatus(tr("Checking for new seasons…"), true);
 
 	//TODO perform loading
+	Q_UNIMPLEMENTED();
 }
 
 void MainControl::uncheckAnime(const QModelIndex index)

@@ -116,6 +116,13 @@ void MainWindow::updatePreview(const QModelIndex &index)
 
 void MainWindow::on_actionRemove_Anime_triggered()
 {
+	//DEBUG
+	qDebug() << control->animeModel()->rowCount()
+			 << animeModel->rowCount()
+			 << proxyModel->rowCount();
+	return;
+
+
 	auto index = mapToCtrl(ui->seasonTreeView->currentIndex());
 	if(index.isValid())
 		control->removeAnime(index);
