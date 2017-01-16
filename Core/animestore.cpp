@@ -60,13 +60,14 @@ bool AnimeStore::containsAnime(int id) const
 	return infoMap.contains(id);
 }
 
-void AnimeStore::saveAnime(AnimePtr info)
+void AnimeStore::saveAnime(AnimeInfo *info)
 {
 	auto update = false;
 	if(infoMap.contains(info->id())) {
 		update = true;
 		Q_ASSERT(infoMap.value(info->id()) == info);
 	} else {
+		info->setParent(this);//take own
 		infoMap.insert(info->id(), info);
 		emit animeInfoListChanged(infoMap.values());
 	}
@@ -122,7 +123,7 @@ void AnimeStore::saveAll(AnimeList infoList)
 
 void AnimeStore::forgetAnime(int id)
 {
-	infoMap.remove(id);
+	infoMap.take(id)->deleteLater();
 
 	lock.addLock();
 	QtConcurrent::run(tp, [this, id](){
@@ -156,8 +157,8 @@ void AnimeStore::loadAnimes()
 		EXEC_QUERY(loadQuery);
 
 		while (loadQuery.next()) {
-			auto info = AnimePtr::create(loadQuery.value(0).toInt(),
-										 loadQuery.value(1).toString());
+			auto info = new AnimeInfo(loadQuery.value(0).toInt(),
+									  loadQuery.value(1).toString());// parenting done in "set internal"
 			info->setLastKnownSeasons(loadQuery.value(2).toInt());
 			info->setHasNewSeasons(loadQuery.value(3).toBool());
 			infoList.append(info);
@@ -171,9 +172,15 @@ void AnimeStore::loadAnimes()
 
 void AnimeStore::setInternal(AnimeList infoList, bool emitComplete)
 {
+	auto oldPtrs = infoMap.values();
 	infoMap.clear();
-	foreach(auto ptr, infoList)
+	foreach(auto ptr, infoList) {
 		infoMap.insert(ptr->id(), ptr);
+		ptr->setParent(this);//take own
+		oldPtrs.removeOne(ptr);
+	}
+	foreach (auto ptr, oldPtrs)
+		ptr->deleteLater();
 	emit animeInfoListChanged(infoMap.values());
 	if(emitComplete)
 		emit loadingCompleted();

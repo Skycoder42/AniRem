@@ -16,7 +16,6 @@ class CORESHARED_EXPORT InfoClass : public QObject
 public:
 	explicit InfoClass(QObject *parent = nullptr);
 
-	void getEntry(int id, std::function<void(AnimePtr)> replyHandler);
 	QtRestClient::GenericRestReply<ProxerEntry, ProxerStatus> *getEntry(int id);
 
 	bool testValid(int code, ProxerStatus *status);

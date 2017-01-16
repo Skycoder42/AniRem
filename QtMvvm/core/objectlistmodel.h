@@ -14,11 +14,14 @@ public:
 	explicit ObjectListModel(const QMetaObject *objectType, bool objectOwner, QObject *parent = nullptr);
 
 	QObjectList objects() const;
-	QObject *objectAt(int index) const;
+	QObject *object(const QModelIndex &index) const;
+	QObject *object(int index) const;
 
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+	using QAbstractListModel::index;
+	QModelIndex index(QObject *object) const;
 
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 	bool setData(const QModelIndex &index, const QVariant &value,
@@ -63,7 +66,8 @@ public:
 	explicit GenericListModel(bool objectOwner, QObject *parent = nullptr);
 
 	QList<T*> objects() const;
-	T *objectAt(int index) const;
+	T *object(const QModelIndex &index) const;
+	T *object(int index) const;
 
 	void addObject(T *object);
 	void insertObject(const QModelIndex &index, T *object);
@@ -88,9 +92,15 @@ QList<T*> GenericListModel<T>::objects() const
 }
 
 template<typename T>
-T *GenericListModel<T>::objectAt(int index) const
+T *GenericListModel<T>::object(const QModelIndex &index) const
 {
-	return qobject_cast<T*>(ObjectListModel::objectAt(index));
+	return qobject_cast<T*>(ObjectListModel::object(index));
+}
+
+template<typename T>
+T *GenericListModel<T>::object(int index) const
+{
+	return qobject_cast<T*>(ObjectListModel::object(index));
 }
 
 template<typename T>
@@ -112,9 +122,12 @@ void GenericListModel<T>::insertObject(int index, T *object)
 }
 
 template<typename T>
-void GenericListModel<T>::resetModel(QList<T *> objects)
+void GenericListModel<T>::resetModel(QList<T*> objects)
 {
-	ObjectListModel::resetModel(objects);
+	QObjectList list;
+	foreach(auto obj, objects)
+		list.append(obj);
+	ObjectListModel::resetModel(list);
 }
 
 #endif // OBJECTLISTMODEL_H

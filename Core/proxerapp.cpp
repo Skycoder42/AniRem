@@ -11,7 +11,6 @@ ProxerApp::ProxerApp(QObject *parent) :
 	store(nullptr),
 	mainControl(nullptr)
 {
-	qRegisterMetaType<AnimePtr>();
 	qRegisterMetaType<AnimeList>();
 }
 

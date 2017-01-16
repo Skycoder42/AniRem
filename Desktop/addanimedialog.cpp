@@ -33,7 +33,7 @@ AddAnimeDialog::~AddAnimeDialog()
 	delete ui;
 }
 
-AnimePtr AddAnimeDialog::createInfo(int id, QWidget *parent)
+AnimeInfo *AddAnimeDialog::createInfo(int id, QWidget *parent)
 {
 	AddAnimeDialog dialog(parent);
 
@@ -43,7 +43,7 @@ AnimePtr AddAnimeDialog::createInfo(int id, QWidget *parent)
 	}
 
 	if(dialog.exec() == QDialog::Accepted)
-		return AnimePtr::create(dialog.currentId, dialog.ui->titleLineEdit->text());
+		return new AnimeInfo(dialog.currentId, dialog.ui->titleLineEdit->text());//TODO parent
 	else
 		return {};
 }

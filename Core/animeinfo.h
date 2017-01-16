@@ -17,7 +17,7 @@ class CORESHARED_EXPORT AnimeInfo : public QObject
 	Q_PROPERTY(bool hasNewSeasons READ hasNewSeasons WRITE setHasNewSeasons NOTIFY hasNewSeasonsChanged)
 
 public:
-	explicit AnimeInfo(int id = -1, const QString &title = {});
+	explicit AnimeInfo(int id, const QString &title, QObject *parent = nullptr);
 
 	int id() const;
 	QString title() const;
@@ -42,10 +42,8 @@ private:
 	bool _hasNewSeasons;
 };
 
-typedef QSharedPointer<AnimeInfo> AnimePtr;
-typedef QList<AnimePtr> AnimeList;
+typedef QList<AnimeInfo*> AnimeList;
 
-Q_DECLARE_METATYPE(AnimePtr)
 Q_DECLARE_METATYPE(AnimeList)
 
 #endif // ANIMEINFO_H

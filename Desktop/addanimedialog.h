@@ -16,7 +16,7 @@ class AddAnimeDialog : public QDialog
 	Q_OBJECT
 
 public:
-	static AnimePtr createInfo(int id, QWidget *parent = nullptr);
+	static AnimeInfo *createInfo(int id, QWidget *parent = nullptr);
 
 private slots:
 	void reloadAnime();

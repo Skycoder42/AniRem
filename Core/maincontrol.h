@@ -19,9 +19,13 @@ public:
 public slots:
 	void reload();
 
+	void uncheckAnime(const QModelIndex index);
+
 	void addAnime();
 	void addAnimeFromClipboard();
 	void showDetails(int id);
+
+	void removeAnime(QModelIndex index);
 
 signals:
 	void showStatus(QString message, bool permanent = false);
@@ -30,7 +34,7 @@ signals:
 	void updateLoadStatus(bool isFinished);
 
 private slots:
-	void setAnimeList(AnimeList list);
+	void storeListLoaded(AnimeList list);
 
 protected:
 	void onShow();
@@ -38,6 +42,8 @@ protected:
 private:
 	AnimeStore *store;
 	GenericListModel<AnimeInfo> *model;
+
+	void internalSave(AnimeInfo *info);
 };
 
 #endif // MAINCONTROL_H

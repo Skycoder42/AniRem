@@ -1,7 +1,7 @@
 #include "animeinfo.h"
 
-AnimeInfo::AnimeInfo(int id, const QString &title) :
-	QObject(),
+AnimeInfo::AnimeInfo(int id, const QString &title, QObject *parent) :
+	QObject(parent),
 	_id(id),
 	_title(title),
 	_lastKnownSeasons(-1),
