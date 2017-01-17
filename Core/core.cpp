@@ -18,8 +18,8 @@ QNetworkAccessManager *Core::createImageLoaderNam(QObject *parent)
 {
 	auto nam = new CachingNam(parent);
 	auto cache = new QNetworkDiskCache(nam);
-	QDir cacheDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
-	cache->setCacheDirectory(cacheDir.absoluteFilePath(QStringLiteral("./netcache")));
+	QDir cacheDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+	cache->setCacheDirectory(cacheDir.absoluteFilePath(QStringLiteral("./images")));
 	nam->setCache(cache);
 	return nam;
 }
