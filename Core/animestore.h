@@ -37,6 +37,8 @@ private slots:
 
 	void saveQuitApp();
 
+	void showError(const QString &error);
+
 private:
 	static const QString dbName;
 

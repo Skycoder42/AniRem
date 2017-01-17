@@ -7,14 +7,14 @@
 
 #define EXEC_QUERY(query) do {\
 	if(!query.exec()) {\
-		CoreMessage::critical(tr("Data Error"), query.lastError().text());\
+		QMetaObject::invokeMethod(this, "showError", Qt::QueuedConnection, Q_ARG(QString, query.lastError().text())); \
 		return;\
 	}\
 } while(false)
 
 #define CHECK_DB_OPEN(db) do {\
 	if(!db.isOpen()) { \
-		CoreMessage::critical(tr("Data Error"), db.lastError().text()); \
+		QMetaObject::invokeMethod(this, "showError", Qt::QueuedConnection, Q_ARG(QString, db.lastError().text())); \
 		return; \
 	} \
 } while(false)
@@ -190,4 +190,9 @@ void AnimeStore::setInternal(AnimeList infoList, bool emitComplete)
 void AnimeStore::saveQuitApp()
 {
 	lock.fullLock();//waits until all locks are released
+}
+
+void AnimeStore::showError(const QString &error)
+{
+	CoreMessage::critical(tr("Data Error"), error);
 }

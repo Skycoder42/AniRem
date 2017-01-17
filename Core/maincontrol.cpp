@@ -5,6 +5,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <coremessage.h>
+#include <QTimer>
 
 MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	Control(parent),
@@ -113,9 +114,13 @@ void MainControl::createAddControl(int id)
 
 void MainControl::internalAddInfo(AnimeInfo *info)
 {
-	if(store->containsAnime(info->id()))
-		CoreMessage::warning(tr("Anime duplicated"), tr("Anime \"%1\" is already in the list!").arg(info->title()));
-	else {
+	if(store->containsAnime(info->id())) {
+		//DEBUG remove, after presenting was made async
+		auto title = info->title();
+		QTimer::singleShot(200, this, [=](){
+			CoreMessage::warning(tr("Anime duplicated"), tr("Anime \"%1\" is already in the list!").arg(title));
+		});
+	} else {
 		model->addObject(info);
 		store->saveAnime(info);
 		showStatus(tr("Added Anime: %1").arg(info->title()));

@@ -4,7 +4,7 @@
 #include "control.h"
 #include "messageresult.h"
 
-class IPresenter
+class IPresenter//TODO make async
 {
 public:
 	enum MessageType {
