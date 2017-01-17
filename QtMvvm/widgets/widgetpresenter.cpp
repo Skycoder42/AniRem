@@ -172,9 +172,21 @@ MessageResult *WidgetPresenter::showMessage(IPresenter::MessageType type, const 
 	}
 
 	if(dialog) {
-		//TODO dialogmaster
 		dialog->setParent(currentRoot);
 		dialog->setAttribute(Qt::WA_DeleteOnClose);
+
+		//"dialog master" stuff
+		Qt::WindowFlags flags = Qt::MSWindowsFixedSizeDialogHint | Qt::WindowCloseButtonHint;
+		dialog->setSizeGripEnabled(false);
+		if(dialog->parentWidget()) {
+			dialog->setWindowModality(Qt::WindowModal);
+			flags |= Qt::Sheet;
+		} else {
+			dialog->setWindowModality(Qt::ApplicationModal);
+			flags |= Qt::Dialog;
+		}
+		dialog->setWindowFlags(flags);
+
 		auto result = new WidgetMessageResult(dialog);
 		if(type == Input) {
 			QObject::connect(result, &WidgetMessageResult::positiveAction, result, [this, dialog, result](){
