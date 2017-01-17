@@ -14,6 +14,8 @@ public:
 	virtual void onShow();
 	virtual void onClose();
 
+	virtual Control *parentControl() const;
+
 public slots:
 	bool close();
 

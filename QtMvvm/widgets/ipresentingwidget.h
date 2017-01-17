@@ -9,7 +9,7 @@ class IPresentingWidget
 public:
 	inline virtual ~IPresentingWidget() {}
 
-	virtual bool tryPresent(QWidget *widget, bool &makeNewRoot) = 0;
+	virtual bool tryPresent(QWidget *widget) = 0;
 };
 
 #endif // IPRESENTINGWIDGET_H

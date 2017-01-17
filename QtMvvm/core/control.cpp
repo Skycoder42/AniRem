@@ -9,6 +9,11 @@ void Control::onShow() {}
 
 void Control::onClose() {}
 
+Control *Control::parentControl() const
+{
+	return qobject_cast<Control*>(parent());
+}
+
 bool Control::close()
 {
 	return CoreApp::instance()->closeControl(this);

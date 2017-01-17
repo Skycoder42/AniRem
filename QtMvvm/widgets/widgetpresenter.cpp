@@ -11,12 +11,12 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QPushButton>
+#include <QApplication>
 
 WidgetPresenter::WidgetPresenter() :
 	implicitMappings(),
 	explicitMappings(),
-	activeControls(),
-	currentRoot(nullptr)
+	activeControls()
 {}
 
 void WidgetPresenter::registerWidget(const QMetaObject &widgetType)
@@ -52,8 +52,11 @@ bool WidgetPresenter::present(Control *control)
 	auto ok = false;
 	auto widgetMetaObject = findWidgetMetaObject(control->metaObject(), ok);
 	if(ok) {
+		auto parentControl = control->parentControl();
+		auto parentWidget = parentControl ? activeControls.value(parentControl, nullptr) : nullptr;
+
 		auto widget = qobject_cast<QWidget*>(widgetMetaObject.newInstance(Q_ARG(Control *, control),
-																		  Q_ARG(QWidget*, currentRoot)));
+																		  Q_ARG(QWidget*, parentWidget)));
 		if(!widget) {
 			qCritical() << "Failed to create widget of type"
 						<< widgetMetaObject.className()
@@ -62,28 +65,17 @@ bool WidgetPresenter::present(Control *control)
 		}
 
 		auto presented = false;
-		auto tPresenter = dynamic_cast<IPresentingWidget*>(widget);
-		if(tPresenter) {
-			auto newRoot = false;
-			presented = tPresenter->tryPresent(widget, newRoot);
-			if(newRoot)
-				currentRoot = widget;
-		}
-
-		if(!presented) {
-			auto newRoot = false;
-			presented = tryPresent(widget, currentRoot, newRoot);
-			if(newRoot)
-				currentRoot = widget;
-		}
+		auto tPresenter = dynamic_cast<IPresentingWidget*>(parentWidget);
+		if(tPresenter)
+			presented = tPresenter->tryPresent(widget);
+		if(!presented)
+			presented = tryPresent(widget, parentWidget);
 
 		if(presented) {
 			activeControls.insert(control, widget);
 			widget->setAttribute(Qt::WA_DeleteOnClose);
 			QObject::connect(widget, &QWidget::destroyed, [=](){
 				activeControls.remove(control);
-				if(currentRoot == widget)
-					currentRoot = nullptr;
 				control->onClose();
 			});
 			control->onShow();
@@ -99,10 +91,8 @@ bool WidgetPresenter::present(Control *control)
 
 bool WidgetPresenter::withdraw(Control *control)
 {
-	auto widget = activeControls.take(control);
+	auto widget = activeControls.value(control);
 	if(widget) {
-		if(currentRoot == widget)
-			currentRoot = widget->parentWidget();
 		widget->close();
 		return true;
 	} else
@@ -175,7 +165,7 @@ MessageResult *WidgetPresenter::showMessage(IPresenter::MessageType type, const 
 	}
 
 	if(dialog) {
-		dialog->setParent(currentRoot);
+		//TODO dialog->setParent(QApplication::activeWindow());
 		dialog->setAttribute(Qt::WA_DeleteOnClose);
 
 		//"dialog master" stuff
@@ -223,13 +213,10 @@ QMetaObject WidgetPresenter::findWidgetMetaObject(const QMetaObject *controlMeta
 	return QMetaObject();
 }
 
-bool WidgetPresenter::tryPresent(QWidget *widget, QWidget *parent, bool &makeNewRoot)
+bool WidgetPresenter::tryPresent(QWidget *widget, QWidget *parent)
 {
-	makeNewRoot = false;
-
 	auto metaObject = widget->metaObject();
 	if(metaObject->inherits(&QDialog::staticMetaObject)) {
-		makeNewRoot = true;
 		qobject_cast<QDialog*>(widget)->open();
 		return true;
 	} else if(parent && parent->metaObject()->inherits(&QMainWindow::staticMetaObject)) {
@@ -245,7 +232,7 @@ bool WidgetPresenter::tryPresent(QWidget *widget, QWidget *parent, bool &makeNew
 			return true;
 		}
 	}
-	makeNewRoot = true;
+
 	widget->show();
 	return true;
 }
