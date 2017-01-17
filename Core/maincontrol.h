@@ -43,7 +43,8 @@ private:
 	AnimeStore *store;
 	GenericListModel<AnimeInfo> *model;
 
-	void internalSave(AnimeInfo *info);
+	void createAddControl(int id = -1);
+	void internalAddInfo(AnimeInfo *info);
 };
 
 #endif // MAINCONTROL_H

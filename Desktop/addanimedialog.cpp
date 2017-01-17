@@ -8,23 +8,37 @@
 #include "dialogmaster.h"
 using namespace QtRestClient;
 
-AddAnimeDialog::AddAnimeDialog(QWidget *parent) :
+AddAnimeDialog::AddAnimeDialog(Control *mControl, QWidget *parent) :
 	QDialog(parent),
+	control(static_cast<AddAnimeControl*>(mControl)),
 	ui(new Ui::AddAnimeDialog),
-	infoClass(new InfoClass(this)),
 	loadingMovie(new QMovie(QStringLiteral(":/animations/loading.gif"), "gif", this)),
-	currentId(-1)
+	currentPixmap(),
+	pmLoading(false)
 {
 	ui->setupUi(this);
 	DialogMaster::masterDialog(this, true);
-	ui->proxerIDLineEdit->setValidator(new QIntValidator(0, INT_MAX, ui->proxerIDLineEdit));//TODO combobox with all names
-	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+	ui->proxerIDLineEdit->setValidator(new QIntValidator(0, INT_MAX, ui->proxerIDLineEdit));
 
 	connect(ui->proxerIDLineEdit, &QLineEdit::editingFinished,
 			this, &AddAnimeDialog::reloadAnime);
 
-	connect(infoClass, &InfoClass::apiError,
+	//control
+	connect(control, &AddAnimeControl::idChanged,
+			this, &AddAnimeDialog::idChanged);
+	connect(control, &AddAnimeControl::titleChanged,
+			ui->titleLineEdit, &QLineEdit::setText);
+	connect(control, &AddAnimeControl::loadingChanged,
+			this, &AddAnimeDialog::loadingChanged);
+	connect(control, &AddAnimeControl::acceptableChanged,
+			ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::setEnabled);
+	connect(control, &AddAnimeControl::loadError,
 			this, &AddAnimeDialog::loadError);
+
+	idChanged(control->id());//TODO mvvm: add "init-connect" that does both
+	ui->titleLineEdit->setText(control->title());
+	loadingChanged(control->isLoading());
+	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(control->isAcceptable());
 }
 
 AddAnimeDialog::~AddAnimeDialog()
@@ -32,19 +46,39 @@ AddAnimeDialog::~AddAnimeDialog()
 	delete ui;
 }
 
-AnimeInfo *AddAnimeDialog::createInfo(int id, QWidget *parent)
+void AddAnimeDialog::accept()
 {
-	AddAnimeDialog dialog(parent);
+	control->accept(!ui->titleLineEdit->isReadOnly());
+	QDialog::accept();
+}
 
-	if(id != -1) {
-		dialog.ui->proxerIDLineEdit->setText(QString::number(id));
-		dialog.reloadAnime();
+void AddAnimeDialog::idChanged(int id)
+{
+	if(id == -1) {
+		ui->proxerIDLineEdit->clear();
+		currentPixmap = QPixmap();
+		pmLoading = false;
+		updatePm();
+	} else {
+		ui->proxerIDLineEdit->setText(QString::number(id));
+
+		currentPixmap = QPixmap();
+		pmLoading = true;
+		updatePm();
+		ImageLoader::instance()->loadImage(id, [=](int id, QPixmap pm){
+			if(control->id() == id) {
+				currentPixmap = pm;
+				pmLoading = false;
+				updatePm();
+			}
+		});
 	}
+}
 
-	if(dialog.exec() == QDialog::Accepted)
-		return new AnimeInfo(dialog.currentId, dialog.ui->titleLineEdit->text());//TODO parent
-	else
-		return {};
+void AddAnimeDialog::loadingChanged(bool loading)
+{
+	ui->proxerIDLineEdit->setEnabled(!loading);
+	updatePm();
 }
 
 void AddAnimeDialog::reloadAnime()
@@ -54,40 +88,12 @@ void AddAnimeDialog::reloadAnime()
 		return;
 
 	if(!ui->proxerIDLineEdit->text().isEmpty()) {
-		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-		ui->proxerIDLineEdit->setEnabled(false);
-		ui->previewLabel->setScaledContents(false);
-		ui->previewLabel->setMovie(loadingMovie);
-		loadingMovie->start();
-
-		currentId = QLocale().toInt(ui->proxerIDLineEdit->text());
-		infoClass->getEntry(currentId)->onSucceeded([this](RestReply*, int code, ProxerEntry *entry){
-			if(infoClass->testValid(code, entry)) {
-				Q_ASSERT(entry->data->id == currentId);
-				ui->proxerIDLineEdit->setEnabled(true);
-				ui->titleLineEdit->setText(entry->data->name);
-				ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
-			}
-			entry->deleteLater();
-		});
-
-		ImageLoader::instance()->loadImage(currentId, [this](int id, QPixmap pm){
-			Q_ASSERT(id == currentId);
-			ui->previewLabel->setScaledContents(true);
-			ui->previewLabel->setPixmap(pm);
-			loadingMovie->stop();
-		});
+		control->setId(QLocale().toInt(ui->proxerIDLineEdit->text()));
 	}
 }
 
 void AddAnimeDialog::loadError(QString error)
 {
-	ui->proxerIDLineEdit->setEnabled(true);
-	ui->titleLineEdit->clear();
-	ui->previewLabel->setScaledContents(false);
-	ui->previewLabel->setText(QStringLiteral("<i>preview</i>"));
-	loadingMovie->stop();
-
 	auto config = DialogMaster::createCritical(QString(), this);
 	config.title = tr("Network Error");
 	config.text = tr("Unable to download data about the Anime from the server.<br>"
@@ -100,17 +106,32 @@ void AddAnimeDialog::loadError(QString error)
 	config.buttonTexts.insert(QMessageBox::Apply, tr("Manually"));
 	switch (DialogMaster::messageBox(config)) {
 	case QMessageBox::Retry:
-		reloadAnime();
+		control->retry();
 		break;
 	case QMessageBox::Cancel:
 		reject();
 		break;
 	case QMessageBox::Apply:
-		ui->proxerIDLineEdit->setEnabled(true);
-		ui->titleLineEdit->setReadOnly(false);
+		ui->titleLineEdit->setReadOnly(false);//TODO move logic to model
 		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 		break;
 	default:
 		break;
+	}
+}
+
+void AddAnimeDialog::updatePm()
+{
+	if(control->isLoading() || pmLoading) {
+		loadingMovie->start();
+		ui->previewLabel->setScaledContents(false);
+		ui->previewLabel->setMovie(loadingMovie);
+	} else {
+		if(!currentPixmap.isNull()) {
+			ui->previewLabel->setScaledContents(true);
+			ui->previewLabel->setPixmap(currentPixmap);
+		} else
+			ui->previewLabel->setText(QStringLiteral("<i>preview</i>"));
+		loadingMovie->stop();
 	}
 }

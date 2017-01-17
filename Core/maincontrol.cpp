@@ -1,3 +1,4 @@
+#include "addanimecontrol.h"
 #include "maincontrol.h"
 #include <QGuiApplication>
 #include <QClipboard>
@@ -40,10 +41,7 @@ void MainControl::uncheckAnime(const QModelIndex index)
 
 void MainControl::addAnime()
 {
-	Q_UNIMPLEMENTED();
-	//TODO show anime control, then add info to store
-	//internalSave(...);
-	//showStatus(tr("Added Anime: %1").arg(info->title()));
+	createAddControl();
 }
 
 void MainControl::addAnimeFromClipboard()
@@ -72,12 +70,9 @@ void MainControl::addAnimeFromClipboard()
 			id = -1;
 	}
 
-	if(id != -1) {
-		Q_UNIMPLEMENTED();
-		//TODO show anime control, then add info to store
-		//internalSave(...);
-		//showStatus(tr("Added Anime: %1").arg(info->title()));
-	} else
+	if(id != -1)
+		createAddControl(id);
+	else
 		showStatus(tr("Clipboard does not contain a proxer url or an id"));
 }
 
@@ -107,12 +102,22 @@ void MainControl::onShow()
 	emit updateLoadStatus(false);
 }
 
-void MainControl::internalSave(AnimeInfo *info)
+void MainControl::createAddControl(int id)
+{
+	auto control = new AddAnimeControl(this);
+	connect(control, &AddAnimeControl::completed,
+			this, &MainControl::internalAddInfo);
+	control->setId(id);
+	showControl(control);
+}
+
+void MainControl::internalAddInfo(AnimeInfo *info)
 {
 	if(store->containsAnime(info->id()))
 		CoreMessage::warning(tr("Anime duplicated"), tr("Anime \"%1\" is already in the list!").arg(info->title()));
 	else {
 		model->addObject(info);
 		store->saveAnime(info);
+		showStatus(tr("Added Anime: %1").arg(info->title()));
 	}
 }

@@ -82,9 +82,6 @@
      <property name="text">
       <string>&lt;i&gt;Preview&lt;/i&gt;</string>
      </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>

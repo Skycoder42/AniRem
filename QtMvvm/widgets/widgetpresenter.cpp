@@ -79,8 +79,11 @@ bool WidgetPresenter::present(Control *control)
 
 		if(presented) {
 			activeControls.insert(control, widget);
-			QObject::connect(widget, &QWidget::destroyed, [this, control](){
+			widget->setAttribute(Qt::WA_DeleteOnClose);
+			QObject::connect(widget, &QWidget::destroyed, [=](){
 				activeControls.remove(control);
+				if(currentRoot == widget)
+					currentRoot = nullptr;
 				control->onClose();
 			});
 			control->onShow();

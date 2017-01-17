@@ -26,7 +26,8 @@ HEADERS += core.h\
 	ProxerApi/proxerstatus.h \
 	ProxerApi/infoclass.h \
 	proxerapp.h \
-	maincontrol.h
+	maincontrol.h \
+    addanimecontrol.h
 
 SOURCES += core.cpp \
 	animestore.cpp \
@@ -37,7 +38,8 @@ SOURCES += core.cpp \
 	ProxerApi/proxerstatus.cpp \
 	ProxerApi/infoclass.cpp \
 	proxerapp.cpp \
-	maincontrol.cpp
+	maincontrol.cpp \
+    addanimecontrol.cpp
 
 unix {
 	target.path = /usr/lib

@@ -3,9 +3,9 @@
 
 #include <QDialog>
 #include <QMovie>
-#include "animeinfo.h"
+#include <addanimecontrol.h>
+#include <animeinfo.h>
 #include "imageloader.h"
-#include "ProxerApi/infoclass.h"
 
 namespace Ui {
 	class AddAnimeDialog;
@@ -16,21 +16,27 @@ class AddAnimeDialog : public QDialog
 	Q_OBJECT
 
 public:
-	static AnimeInfo *createInfo(int id, QWidget *parent = nullptr);
+	Q_INVOKABLE AddAnimeDialog(Control *mControl, QWidget *parent = nullptr);
+	~AddAnimeDialog();
+
+	void accept() override;
 
 private slots:
+	void idChanged(int id);
+	void loadingChanged(bool loading);
+
 	void reloadAnime();
 
 	void loadError(QString error);
 
 private:
+	AddAnimeControl *control;
 	Ui::AddAnimeDialog *ui;
-	InfoClass *infoClass;
 	QMovie *loadingMovie;
-	int currentId;
+	QPixmap currentPixmap;
+	bool pmLoading;
 
-	explicit AddAnimeDialog(QWidget *parent = nullptr);
-	~AddAnimeDialog();
+	void updatePm();
 };
 
 #endif // ADDANIMEDIALOG_H

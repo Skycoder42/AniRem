@@ -1,6 +1,7 @@
 #include <coreapp.h>
 #include <QApplication>
 #include <QIcon>
+#include "addanimedialog.h"
 #include "mainwindow.h"
 #include "widgetpresenter.h"
 
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
 	QApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 
 	WidgetPresenter::registerWidget<MainWindow>();
+	WidgetPresenter::registerWidget<AddAnimeDialog>();
 
 	return a.exec();
 }
