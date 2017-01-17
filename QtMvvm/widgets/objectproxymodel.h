@@ -12,6 +12,8 @@ class ObjectProxyModel : public QAbstractProxyModel
 public:
 	explicit ObjectProxyModel(QStringList headers, QObject *parent = nullptr);
 
+	void appendColumn(const QString &text);
+	void insertColumn(int index, const QString &text);
 	void addMapping(int column, int role, int sourceRole);
 	bool addMapping(int column, int role, const char *sourceRoleName);
 
@@ -34,11 +36,10 @@ public:
 private:
 	QStringList _headers;
 	QHash<QPair<int, int>, int> _roleMapping;
-
-	mutable bool _roleNamesChanged;
-	mutable QHash<int, QByteArray> _roleNames;
+	QHash<int, QByteArray> _roleNames;
 
 	void setSourceModel(QAbstractItemModel *sourceModel);
+	void reloadRoles();
 };
 
 #endif // OBJECTPROXYMODEL_H

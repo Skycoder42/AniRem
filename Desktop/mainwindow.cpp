@@ -54,7 +54,9 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 	proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 	proxyModel->setSortLocaleAware(true);
 	proxyModel->setSourceModel(animeModel);
-	ui->seasonTreeView->setModel(proxyModel);
+	//ui->seasonTreeView->setModel(proxyModel);
+	ui->seasonTreeView->setModel(animeModel);
+	//ui->seasonTreeView->setModel(control->animeModel());
 
 	connect(ui->seasonTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
 			this, &MainWindow::updatePreview);
@@ -120,6 +122,13 @@ void MainWindow::on_actionRemove_Anime_triggered()
 	qDebug() << control->animeModel()->rowCount()
 			 << animeModel->rowCount()
 			 << proxyModel->rowCount();
+	qDebug() << animeModel->columnCount({})
+			 << proxyModel->columnCount({});
+	qDebug() << control->animeModel()->object(0)->title();
+	qDebug() << control->animeModel()->data(control->animeModel()->index(0, 0),
+											control->animeModel()->roleNames().key("title"));
+	qDebug() << animeModel->data(animeModel->index(0, 0), Qt::DisplayRole);
+	qDebug() << proxyModel->data(proxyModel->index(0, 0), Qt::DisplayRole);
 	return;
 
 

@@ -1,5 +1,8 @@
 #include "objectlistmodel.h"
 #include <QMetaProperty>
+#ifndef QT_NO_DEBUG
+#include "modeltest.h"
+#endif
 
 ObjectListModel::ObjectListModel(const QMetaObject *objectType, bool objectOwner, QObject *parent) :
 	QAbstractListModel(parent),
@@ -13,6 +16,10 @@ ObjectListModel::ObjectListModel(const QMetaObject *objectType, bool objectOwner
 	for(auto i = 1; i < _metaObject->propertyCount(); i++)
 		_roleNames.insert(roleIndex++, _metaObject->property(i).name());
 	_roleNames.insert(Qt::DisplayRole, _metaObject->property(0).name());
+
+#ifndef QT_NO_DEBUG
+	new ModelTest(this, this);
+#endif
 }
 
 QObjectList ObjectListModel::objects() const

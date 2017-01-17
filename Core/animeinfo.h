@@ -12,7 +12,7 @@ class CORESHARED_EXPORT AnimeInfo : public QObject
 	Q_OBJECT
 
 	Q_PROPERTY(int id READ id CONSTANT)
-	Q_PROPERTY(QString title READ id CONSTANT)
+	Q_PROPERTY(QString title READ title CONSTANT)
 	Q_PROPERTY(int lastKnownSeasons READ lastKnownSeasons WRITE setLastKnownSeasons NOTIFY lastKnownSeasonsChanged)
 	Q_PROPERTY(bool hasNewSeasons READ hasNewSeasons WRITE setHasNewSeasons NOTIFY hasNewSeasonsChanged)
 	Q_PROPERTY(QUrl relationsUrl READ relationsUrl CONSTANT)

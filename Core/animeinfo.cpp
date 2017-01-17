@@ -6,7 +6,9 @@ AnimeInfo::AnimeInfo(int id, const QString &title, QObject *parent) :
 	_title(title),
 	_lastKnownSeasons(-1),
 	_hasNewSeasons(false)
-{}
+{
+	setObjectName(QStringLiteral("AnimeInfo<%1>").arg(id));
+}
 
 int AnimeInfo::id() const
 {
