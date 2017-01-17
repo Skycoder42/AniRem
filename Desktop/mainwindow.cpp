@@ -135,14 +135,18 @@ void MainWindow::on_actionCopy_selected_Info_triggered()
 			auto info = control->animeModel()->object(rIndex);
 			switch (index.column()) {//columns are unchanged
 			case 0:
+				clipBoard->setText(QString::number(info->id()));
+				showStatus(tr("Copied Anime Id: %1").arg(info->id()));
+				break;
+			case 1:
 				clipBoard->setText(info->title());
 				showStatus(tr("Copied Anime Title: %1").arg(info->title()));
 				break;
-			case 1:
+			case 2:
 				clipBoard->setText(QLocale().toString(info->lastKnownSeasons()));
 				showStatus(tr("Copied Season Count: %1").arg(info->lastKnownSeasons()));
 				break;
-			case 2:
+			case 3:
 				clipBoard->setText(info->relationsUrl().toString());
 				showStatus(tr("Copied Relations URL: %1").arg(info->relationsUrl().toString()));
 				break;

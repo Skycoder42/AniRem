@@ -99,14 +99,12 @@ void AddAnimeDialog::loadError(QString error)
 
 	auto config = DialogMaster::createCritical(QString(), this);
 	config.title = tr("Network Error");
-	config.text = tr("Unable to download data about the Anime from the server.<br>"
-					 "You can either cancel or add the anime without details. With the "
-					 "next update check the data will be completed.");
+	config.text = tr("Unable to download data about the Anime from the server!");
 	config.details = error;
 	config.buttons = QMessageBox::Retry | QMessageBox::Cancel | QMessageBox::Apply;
 	config.defaultButton = QMessageBox::Retry;
 	config.escapeButton = QMessageBox::Cancel;
-	config.buttonTexts.insert(QMessageBox::Apply, tr("Manually"));
+	config.buttonTexts.insert(QMessageBox::Apply, tr("Save Anyway"));
 	switch (DialogMaster::messageBox(config)) {
 	case QMessageBox::Retry:
 		control->retry();
@@ -115,8 +113,8 @@ void AddAnimeDialog::loadError(QString error)
 		reject();
 		break;
 	case QMessageBox::Apply:
-		ui->titleLineEdit->setReadOnly(false);//TODO move logic to model
-		ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+		control->accept(true);
+		QDialog::accept();
 		break;
 	default:
 		break;

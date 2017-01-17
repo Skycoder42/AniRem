@@ -55,6 +55,11 @@ AnimeList AnimeStore::animeInfoList() const
 	return infoMap.values();
 }
 
+AnimeInfo *AnimeStore::animeInfo(int id) const
+{
+	return infoMap.value(id);
+}
+
 bool AnimeStore::containsAnime(int id) const
 {
 	return infoMap.contains(id);

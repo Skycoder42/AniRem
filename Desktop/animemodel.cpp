@@ -4,12 +4,13 @@
 #include <QLocale>
 
 AnimeModel::AnimeModel(GenericListModel<AnimeInfo> *srcModel, QObject *parent) :
-	ObjectProxyModel({tr("Name"), tr("Season Count"), tr("Season Overview")}, parent)
+	ObjectProxyModel({tr("Id"), tr("Name"), tr("Season Count"), tr("Season Overview")}, parent)
 {
 	setSourceModel(srcModel);
-	addMapping(0, Qt::DisplayRole, "title");
-	addMapping(1, Qt::DisplayRole, "lastKnownSeasons");
-	addMapping(2, Qt::DisplayRole, "relationsUrl");
+	addMapping(0, Qt::DisplayRole, "id");
+	addMapping(1, Qt::DisplayRole, "title");
+	addMapping(2, Qt::DisplayRole, "lastKnownSeasons");
+	addMapping(3, Qt::DisplayRole, "relationsUrl");
 }
 
 QVariant AnimeModel::data(const QModelIndex &index, int role) const
@@ -22,7 +23,7 @@ QVariant AnimeModel::data(const QModelIndex &index, int role) const
 	switch (role) {
 	case Qt::DisplayRole:
 		switch(index.column()) {
-		case 1:
+		case 2:
 			return info->lastKnownSeasons() < 0 ?
 					tr("Not loaded") :
 					QLocale().toString(info->lastKnownSeasons());
@@ -35,7 +36,7 @@ QVariant AnimeModel::data(const QModelIndex &index, int role) const
 			QFont font;
 			font.setBold(true);
 			return font;
-		} else if(index.column() == 1 &&
+		} else if(index.column() == 2 &&
 				  info->lastKnownSeasons() < 0) {
 			QFont font;
 			font.setItalic(true);
