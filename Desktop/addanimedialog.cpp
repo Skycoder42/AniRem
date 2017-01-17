@@ -35,7 +35,7 @@ AddAnimeDialog::AddAnimeDialog(Control *mControl, QWidget *parent) :
 	connect(control, &AddAnimeControl::loadError,
 			this, &AddAnimeDialog::loadError);
 
-	idChanged(control->id());//TODO mvvm: add "init-connect" that does both
+	idChanged(control->id());
 	ui->titleLineEdit->setText(control->title());
 	loadingChanged(control->isLoading());
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(control->isAcceptable());

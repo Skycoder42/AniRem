@@ -10,6 +10,9 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonFollowStyle</enum>
+  </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
   </property>
