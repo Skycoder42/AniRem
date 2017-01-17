@@ -7,10 +7,10 @@ ObjectProxyModel::ObjectProxyModel(QStringList headers, QObject *parent) :
 	QAbstractProxyModel(parent),
 	_headers(headers),
 	_roleMapping(),
-	_roleNames(QAbstractProxyModel::roleNames())
+	_extraRoles()
 {
 #ifndef QT_NO_DEBUG
-	new ModelTest(this, this);
+	//new ModelTest(this, this);
 #endif
 }
 
@@ -33,6 +33,8 @@ void ObjectProxyModel::addMapping(int column, int role, int sourceRole)
 	beginResetModel();
 	Q_ASSERT(column < _headers.size());
 	_roleMapping.insert({column, role}, sourceRole);
+	if(!_extraRoles.contains(role))
+		_extraRoles.insert(role, defaultRoleName(role));
 	endResetModel();
 }
 
@@ -48,6 +50,13 @@ bool ObjectProxyModel::addMapping(int column, int role, const char *sourceRoleNa
 		addMapping(column, role, sRole);
 		return true;
 	}
+}
+
+void ObjectProxyModel::setRoleName(int role, const QByteArray &name)
+{
+	beginResetModel();
+	_extraRoles.insert(role, name);
+	endResetModel();
 }
 
 QModelIndex ObjectProxyModel::index(int row, int column, const QModelIndex &parent) const
@@ -127,13 +136,15 @@ Qt::ItemFlags ObjectProxyModel::flags(const QModelIndex &index) const
 
 QHash<int, QByteArray> ObjectProxyModel::roleNames() const
 {
-	return _roleNames;
+	auto roles = QAbstractProxyModel::roleNames();
+	for(auto it = _extraRoles.constBegin(); it != _extraRoles.constEnd(); it++)
+		roles.insert(it.key(), it.value());
+	return roles;
 }
 
 void ObjectProxyModel::setSourceModel(ObjectListModel *sourceModel)
 {
 	QAbstractProxyModel::setSourceModel(sourceModel);
-	reloadRoles();
 }
 
 ObjectListModel *ObjectProxyModel::sourceModel() const
@@ -165,12 +176,24 @@ void ObjectProxyModel::setSourceModel(QAbstractItemModel *sourceModel)
 {
 	Q_ASSERT(sourceModel->inherits("ObjectListModel"));
 	QAbstractProxyModel::setSourceModel(sourceModel);
-	reloadRoles();
 }
 
-void ObjectProxyModel::reloadRoles()
+QByteArray ObjectProxyModel::defaultRoleName(int role)
 {
-	_roleNames.clear();
-	_roleNames = QAbstractProxyModel::roleNames();
-	_roleNames.unite(sourceModel()->roleNames());
+	switch (role) {
+	case Qt::DisplayRole:
+		return "display";
+	case Qt::DecorationRole:
+		return "decoration";
+	case Qt::EditRole:
+		return "edit";
+	case Qt::ToolTipRole:
+		return "toolTip";
+	case Qt::StatusTipRole:
+		return "statusTip";
+	case Qt::WhatsThisRole:
+		return "whatsThis";
+	default:
+		return "role_" + QByteArray::number(role);
+	}
 }

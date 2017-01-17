@@ -16,6 +16,7 @@ public:
 	void insertColumn(int index, const QString &text);
 	void addMapping(int column, int role, int sourceRole);
 	bool addMapping(int column, int role, const char *sourceRoleName);
+	void setRoleName(int role, const QByteArray &name);
 
 public:
 	QModelIndex index(int row, int column, const QModelIndex &parent = {}) const;
@@ -36,9 +37,10 @@ public:
 private:
 	QStringList _headers;
 	QHash<QPair<int, int>, int> _roleMapping;
-	QHash<int, QByteArray> _roleNames;
+	QHash<int, QByteArray> _extraRoles;
 
 	void setSourceModel(QAbstractItemModel *sourceModel);
+	static QByteArray defaultRoleName(int role);
 	void reloadRoles();
 };
 
