@@ -4,13 +4,13 @@
 #endif
 
 ObjectProxyModel::ObjectProxyModel(QStringList headers, QObject *parent) :
-	QAbstractProxyModel(parent),
+	QIdentityProxyModel(parent),
 	_headers(headers),
 	_roleMapping(),
 	_extraRoles()
 {
 #ifndef QT_NO_DEBUG
-	//new ModelTest(this, this);
+	new ModelTest(this, this);
 #endif
 }
 
@@ -79,16 +79,6 @@ QModelIndex ObjectProxyModel::parent(const QModelIndex &) const
 	return {};
 }
 
-int ObjectProxyModel::rowCount(const QModelIndex &parent) const
-{
-	if(!sourceModel())
-		return 0;
-	if(parent.isValid())
-		return 0;
-	else
-		return sourceModel()->rowCount();
-}
-
 int ObjectProxyModel::columnCount(const QModelIndex &parent) const
 {
 	if(parent.isValid())
@@ -126,17 +116,9 @@ QVariant ObjectProxyModel::headerData(int section, Qt::Orientation orientation, 
 		return {};
 }
 
-Qt::ItemFlags ObjectProxyModel::flags(const QModelIndex &index) const
-{
-	if(!sourceModel())
-		return Qt::NoItemFlags;
-	else
-		return sourceModel()->flags(mapToSource(index));
-}
-
 QHash<int, QByteArray> ObjectProxyModel::roleNames() const
 {
-	auto roles = QAbstractProxyModel::roleNames();
+	auto roles = QIdentityProxyModel::roleNames();
 	for(auto it = _extraRoles.constBegin(); it != _extraRoles.constEnd(); it++)
 		roles.insert(it.key(), it.value());
 	return roles;
@@ -144,12 +126,12 @@ QHash<int, QByteArray> ObjectProxyModel::roleNames() const
 
 void ObjectProxyModel::setSourceModel(ObjectListModel *sourceModel)
 {
-	QAbstractProxyModel::setSourceModel(sourceModel);
+	QIdentityProxyModel::setSourceModel(sourceModel);
 }
 
 ObjectListModel *ObjectProxyModel::sourceModel() const
 {
-	return qobject_cast<ObjectListModel*>(QAbstractProxyModel::sourceModel());
+	return qobject_cast<ObjectListModel*>(QIdentityProxyModel::sourceModel());
 }
 
 QModelIndex ObjectProxyModel::mapToSource(const QModelIndex &proxyIndex) const
@@ -175,7 +157,7 @@ QModelIndex ObjectProxyModel::mapFromSource(const QModelIndex &sourceIndex) cons
 void ObjectProxyModel::setSourceModel(QAbstractItemModel *sourceModel)
 {
 	Q_ASSERT(sourceModel->inherits("ObjectListModel"));
-	QAbstractProxyModel::setSourceModel(sourceModel);
+	QIdentityProxyModel::setSourceModel(sourceModel);
 }
 
 QByteArray ObjectProxyModel::defaultRoleName(int role)

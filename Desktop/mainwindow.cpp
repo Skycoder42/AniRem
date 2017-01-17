@@ -54,9 +54,7 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 	proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 	proxyModel->setSortLocaleAware(true);
 	proxyModel->setSourceModel(animeModel);
-	//ui->seasonTreeView->setModel(proxyModel);
-	ui->seasonTreeView->setModel(animeModel);
-	//ui->seasonTreeView->setModel(control->animeModel());
+	ui->seasonTreeView->setModel(proxyModel);
 
 	connect(ui->seasonTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
 			this, &MainWindow::updatePreview);
