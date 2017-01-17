@@ -4,6 +4,7 @@
 #include "qtmvvm_core_global.h"
 #include <QAbstractListModel>
 
+class ObjectSignalHelper;
 class QTMVVM_CORE_SHARED_EXPORT ObjectListModel : public QAbstractListModel
 {
 	Q_OBJECT
@@ -48,12 +49,18 @@ signals:
 protected:
 	bool testValid(const QModelIndex &index, int role = -1) const;
 
+private slots:
+	void objectPropertyChanged();
+
 private:
 	bool _objectOwner;
 	const QMetaObject *_metaObject;
 	QHash<int, QByteArray> _roleNames;
 	bool _editable;
-	QObjectList _objects;//TODO connect property changed
+	QObjectList _objects;
+	QHash<int, ObjectSignalHelper*> _propertyHelpers;
+
+	void connectPropertyChanges(QObject *object);
 };
 
 Q_DECLARE_METATYPE(ObjectListModel*)

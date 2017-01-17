@@ -51,7 +51,7 @@ bool WidgetPresenter::present(Control *control)
 
 	auto ok = false;
 	auto widgetMetaObject = findWidgetMetaObject(control->metaObject(), ok);
-	if(ok && widgetMetaObject.className()) {//TODO test
+	if(ok) {
 		auto widget = qobject_cast<QWidget*>(widgetMetaObject.newInstance(Q_ARG(Control *, control),
 																		  Q_ARG(QWidget*, currentRoot)));
 		if(!widget) {

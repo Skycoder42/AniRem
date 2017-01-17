@@ -1,4 +1,5 @@
 #include "coreapp.h"
+#include <QGuiApplication>
 #include <iostream>
 #include "coremessage.h"
 
@@ -56,8 +57,11 @@ bool CoreApp::autoShowHelpOrVersion(const QCommandLineParser &parser)
 			std::cout << parser.helpText().toStdString() << std::endl;
 		return true;
 	} else if(parser.isSet("version")) {
-		if(!CoreMessage::information(tr("Version"), QCoreApplication::applicationVersion()))//TODO test if correct like this
-			std::cout << QCoreApplication::applicationVersion().toStdString() << std::endl;
+		auto text = QGuiApplication::applicationDisplayName() +
+					QLatin1Char(' ') +
+					QGuiApplication::applicationVersion();
+		if(!CoreMessage::information(tr("Version"), text))
+			std::cout << text.toStdString() << std::endl;
 		return true;
 	} else
 		return false;

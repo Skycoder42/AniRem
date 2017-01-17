@@ -7,14 +7,16 @@ HEADERS += \
 	$$PWD/qtmvvm_core_global.h \
 	$$PWD/messageresult.h \
 	$$PWD/coremessage.h \
-	$$PWD/objectlistmodel.h
+	$$PWD/objectlistmodel.h \
+    $$PWD/objectsignalhelper.h
 
 SOURCES += \
 	$$PWD/coreapp.cpp \
 	$$PWD/control.cpp \
 	$$PWD/messageresult.cpp \
 	$$PWD/coremessage.cpp \
-	$$PWD/objectlistmodel.cpp
+	$$PWD/objectlistmodel.cpp \
+    $$PWD/objectsignalhelper.cpp
 
 INCLUDEPATH += $$PWD
 

@@ -2,6 +2,7 @@
 #include <QMetaProperty>
 #ifndef QT_NO_DEBUG
 #include "modeltest.h"
+#include "objectsignalhelper.h"
 #endif
 
 ObjectListModel::ObjectListModel(const QMetaObject *objectType, bool objectOwner, QObject *parent) :
@@ -10,12 +11,18 @@ ObjectListModel::ObjectListModel(const QMetaObject *objectType, bool objectOwner
 	_metaObject(objectType),
 	_roleNames(),
 	_editable(true),
-	_objects()
+	_objects(),
+	_propertyHelpers()
 {
 	auto roleIndex = Qt::UserRole + 1;
-	for(auto i = 1; i < _metaObject->propertyCount(); i++)
-		_roleNames.insert(roleIndex++, _metaObject->property(i).name());
+	for(auto i = 1; i < _metaObject->propertyCount(); i++) {
+		auto prop = _metaObject->property(i);
+		if(prop.hasNotifySignal())
+			_propertyHelpers.insert(i, new ObjectSignalHelper(roleIndex, prop.notifySignal(), this));
+		_roleNames.insert(roleIndex++, prop.name());
+	}
 	_roleNames.insert(Qt::DisplayRole, _metaObject->property(0).name());
+	_propertyHelpers.insert(0, new ObjectSignalHelper(Qt::DisplayRole, _metaObject->property(0).notifySignal(), this));
 
 #ifndef QT_NO_DEBUG
 	new ModelTest(this, this);
@@ -121,6 +128,7 @@ void ObjectListModel::addObject(QObject *object)
 	_objects.append(object);
 	if(_objectOwner)
 		object->setParent(this);
+	connectPropertyChanges(object);
 	endInsertRows();
 }
 
@@ -135,6 +143,7 @@ void ObjectListModel::insertObject(int index, QObject *object)
 	_objects.insert(index, object);
 	if(_objectOwner)
 		object->setParent(this);
+	connectPropertyChanges(object);
 	endInsertRows();
 }
 
@@ -149,6 +158,8 @@ void ObjectListModel::removeObject(int index)
 	auto obj = _objects.takeAt(index);
 	if(_objectOwner && obj->parent() == this)
 		obj->deleteLater();
+	else
+		obj->disconnect(this);
 	endRemoveRows();
 }
 
@@ -159,6 +170,8 @@ void ObjectListModel::resetModel(QObjectList objects)
 		foreach(auto obj, _objects) {
 			if(obj->parent() == this)
 				obj->deleteLater();
+			else
+				obj->disconnect(this);
 		}
 	}
 	_objects = objects;
@@ -180,4 +193,20 @@ bool ObjectListModel::testValid(const QModelIndex &index, int role) const
 			index.column() == 0 &&
 			index.row() < _objects.size() &&
 			(role < 0 || _roleNames.contains(role));
+}
+
+void ObjectListModel::objectPropertyChanged()
+{
+	auto senderIndex = _objects.indexOf(sender());
+	if(senderIndex != -1)
+		emit dataChanged(index(senderIndex, 0), index(senderIndex, 0));
+}
+
+void ObjectListModel::connectPropertyChanges(QObject *object)
+{
+	for(auto i = 1; i < _metaObject->propertyCount(); i++) {
+		auto helper = _propertyHelpers.value(i, nullptr);
+		if(helper)
+			helper->addObject(object);
+	}
 }
