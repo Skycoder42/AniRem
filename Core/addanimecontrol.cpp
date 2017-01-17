@@ -9,8 +9,10 @@ AddAnimeControl::AddAnimeControl(QObject *parent) :
 	_loading(false),
 	_acceptable(false)
 {
-	connect(infoClass, &InfoClass::apiError,
-			this, &AddAnimeControl::loadError);
+	connect(infoClass, &InfoClass::apiError, this, [this](QString error){
+		setLoading(false);
+		emit loadError(error);
+	});
 }
 
 int AddAnimeControl::id() const
@@ -35,7 +37,6 @@ bool AddAnimeControl::isAcceptable() const
 
 void AddAnimeControl::onClose()
 {
-	qDebug() << "closed!";
 	this->deleteLater();
 }
 
@@ -61,6 +62,7 @@ void AddAnimeControl::setId(int id)
 
 	_id = id;
 	emit idChanged(id);
+	setTitle(QString());
 	setLoading(true);
 
 	infoClass->getEntry(_id)->onSucceeded([this](RestReply*, int code, ProxerEntry *entry){

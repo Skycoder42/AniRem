@@ -165,12 +165,12 @@ MessageResult *WidgetPresenter::showMessage(IPresenter::MessageType type, const 
 	}
 
 	if(dialog) {
-		//TODO dialog->setParent(QApplication::activeWindow());
 		dialog->setAttribute(Qt::WA_DeleteOnClose);
 
 		//"dialog master" stuff
 		Qt::WindowFlags flags = Qt::MSWindowsFixedSizeDialogHint | Qt::WindowCloseButtonHint;
 		dialog->setSizeGripEnabled(false);
+		dialog->setModal(true);
 		if(dialog->parentWidget()) {
 			dialog->setWindowModality(Qt::WindowModal);
 			flags |= Qt::Sheet;

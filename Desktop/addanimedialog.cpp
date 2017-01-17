@@ -94,6 +94,9 @@ void AddAnimeDialog::reloadAnime()
 
 void AddAnimeDialog::loadError(QString error)
 {
+	pmLoading = false;
+	updatePm();
+
 	auto config = DialogMaster::createCritical(QString(), this);
 	config.title = tr("Network Error");
 	config.text = tr("Unable to download data about the Anime from the server.<br>"
@@ -124,14 +127,18 @@ void AddAnimeDialog::updatePm()
 {
 	if(control->isLoading() || pmLoading) {
 		loadingMovie->start();
+		ui->previewLabel->clear();
 		ui->previewLabel->setScaledContents(false);
 		ui->previewLabel->setMovie(loadingMovie);
 	} else {
 		if(!currentPixmap.isNull()) {
+			ui->previewLabel->clear();
 			ui->previewLabel->setScaledContents(true);
 			ui->previewLabel->setPixmap(currentPixmap);
-		} else
+		} else {
+			ui->previewLabel->clear();
 			ui->previewLabel->setText(QStringLiteral("<i>preview</i>"));
+		}
 		loadingMovie->stop();
 	}
 }
