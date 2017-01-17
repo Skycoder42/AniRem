@@ -56,7 +56,7 @@ bool CoreApp::autoShowHelpOrVersion(const QCommandLineParser &parser)
 			std::cout << parser.helpText().toStdString() << std::endl;
 		return true;
 	} else if(parser.isSet("version")) {
-		if(!CoreMessage::information(tr("Usage"), QCoreApplication::applicationVersion()))//TODO test if correct like this
+		if(!CoreMessage::information(tr("Version"), QCoreApplication::applicationVersion()))//TODO test if correct like this
 			std::cout << QCoreApplication::applicationVersion().toStdString() << std::endl;
 		return true;
 	} else

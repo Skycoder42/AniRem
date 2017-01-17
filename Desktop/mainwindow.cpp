@@ -116,26 +116,12 @@ void MainWindow::updatePreview(const QModelIndex &index)
 
 void MainWindow::on_actionRemove_Anime_triggered()
 {
-	//DEBUG
-	qDebug() << control->animeModel()->rowCount()
-			 << animeModel->rowCount()
-			 << proxyModel->rowCount();
-	qDebug() << animeModel->columnCount({})
-			 << proxyModel->columnCount({});
-	qDebug() << control->animeModel()->object(0)->title();
-	qDebug() << control->animeModel()->data(control->animeModel()->index(0, 0),
-											control->animeModel()->roleNames().key("title"));
-	qDebug() << animeModel->data(animeModel->index(0, 0), Qt::DisplayRole);
-	qDebug() << proxyModel->data(proxyModel->index(0, 0), Qt::DisplayRole);
-	return;
-
-
 	auto index = mapToCtrl(ui->seasonTreeView->currentIndex());
 	if(index.isValid())
 		control->removeAnime(index);
 }
 
-void MainWindow::on_actionCopy_selected_Info_triggered()//TODO move to core?
+void MainWindow::on_actionCopy_selected_Info_triggered()
 {
 	auto index = ui->seasonTreeView->currentIndex();
 	if(index.isValid()) {
@@ -147,7 +133,7 @@ void MainWindow::on_actionCopy_selected_Info_triggered()//TODO move to core?
 		} else {
 			auto rIndex = mapToCtrl(index);
 			auto info = control->animeModel()->object(rIndex);
-			switch (rIndex.column()) {
+			switch (index.column()) {//columns are unchanged
 			case 0:
 				clipBoard->setText(info->title());
 				showStatus(tr("Copied Anime Title: %1").arg(info->title()));
