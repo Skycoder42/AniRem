@@ -37,7 +37,7 @@ private slots:
 	void storeListLoaded(AnimeList list);
 
 protected:
-	void onShow();
+	void onShow() override;
 
 private:
 	AnimeStore *store;

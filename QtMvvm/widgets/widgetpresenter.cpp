@@ -1,5 +1,4 @@
 #include "ipresentingwidget.h"
-#include "widgetmessageresult.h"
 #include "widgetpresenter.h"
 
 #include <QDebug>

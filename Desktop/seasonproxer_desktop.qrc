@@ -2,7 +2,6 @@
     <qresource prefix="/icons">
         <file alias="remove.ico">resources/cross.ico</file>
         <file alias="add.ico">resources/plus.ico</file>
-        <file alias="main.ico">resources/main.ico</file>
         <file alias="inverted.ico">resources/mainInverted.ico</file>
         <file alias="paste.ico">resources/paste_plain.ico</file>
         <file alias="copy.ico">resources/page_white_copy.ico</file>

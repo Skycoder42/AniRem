@@ -19,25 +19,25 @@ public:
 	void setRoleName(int role, const QByteArray &name);
 
 public:
-	QModelIndex index(int row, int column, const QModelIndex &parent = {}) const;
-	QModelIndex parent(const QModelIndex &) const;
-	int columnCount(const QModelIndex &parent = {}) const;
-	QVariant data(const QModelIndex &index, int role) const;
-	bool setData(const QModelIndex &index, const QVariant &value, int role);
-	QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-	QHash<int, QByteArray> roleNames() const;
+	QModelIndex index(int row, int column, const QModelIndex &parent = {}) const override;
+	QModelIndex parent(const QModelIndex &) const override;
+	int columnCount(const QModelIndex &parent = {}) const override;
+	QVariant data(const QModelIndex &index, int role) const override;
+	bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+	QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+	QHash<int, QByteArray> roleNames() const override;
 
 	void setSourceModel(ObjectListModel *sourceModel);
 	ObjectListModel *sourceModel() const;
-	QModelIndex mapToSource(const QModelIndex &proxyIndex) const;
-	QModelIndex mapFromSource(const QModelIndex &sourceIndex) const;
+	QModelIndex mapToSource(const QModelIndex &proxyIndex) const override;
+	QModelIndex mapFromSource(const QModelIndex &sourceIndex) const override;
 
 private:
 	QStringList _headers;
 	QHash<QPair<int, int>, int> _roleMapping;
 	QHash<int, QByteArray> _extraRoles;
 
-	void setSourceModel(QAbstractItemModel *sourceModel);
+	void setSourceModel(QAbstractItemModel *sourceModel) override;
 	static QByteArray defaultRoleName(int role);
 	void reloadRoles();
 };

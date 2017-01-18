@@ -1,29 +1,40 @@
-QT += qml quick
+TEMPLATE = app
 
+QT += qml quick network
 CONFIG += c++11
+
+TARGET = SeasonProxer
+VERSION = 1.0.0
+
+RC_ICONS += ./resources/main.ico
+QMAKE_TARGET_COMPANY = "Skycoder42"
+QMAKE_TARGET_PRODUCT = "Proxer.me Season Reminder"
+QMAKE_TARGET_DESCRIPTION = $$QMAKE_TARGET_PRODUCT
+QMAKE_TARGET_COPYRIGHT = "Felix Barz"
+
+DEFINES += "TARGET=\\\"$$TARGET\\\""
+DEFINES += "VERSION=\\\"$$VERSION\\\""
+DEFINES += "COMPANY=\"\\\"$$QMAKE_TARGET_COMPANY\\\"\""
+DEFINES += "DISPLAY_NAME=\"\\\"$$QMAKE_TARGET_PRODUCT\\\"\""
+
+DEFINES += QT_DEPRECATED_WARNINGS
+
+include(../QtMvvm/quick/qtmvvmquick.pri)
 
 SOURCES += main.cpp
 
 RESOURCES += qml.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore
+else:mac: LIBS += -F$$OUT_PWD/../Core/ -framework SeasonProxerCore
+else:unix: LIBS += -L$$OUT_PWD/../Core/ -lSeasonProxerCore
+
+INCLUDEPATH += $$PWD/../Core
+DEPENDPATH += $$PWD/../Core
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
-
-# The following define makes your compiler emit warnings if you use
-# any feature of Qt which as been marked deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
-# deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
-
-# You can also make your code fail to compile if you use deprecated APIs.
-# In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target

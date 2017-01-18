@@ -31,7 +31,7 @@ public:
 					 const QString &positiveAction,
 					 const QString &negativeAction,
 					 const QString &neutralAction,
-					 int inputType);
+					 int inputType) override;
 
 protected:
 	virtual QMetaObject findWidgetMetaObject(const QMetaObject *controlMetaObject, bool &ok);

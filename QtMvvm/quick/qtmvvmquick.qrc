@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/qtmvvm/qml">
+        <file>App.qml</file>
+    </qresource>
+</RCC>

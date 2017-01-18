@@ -1,4 +1,5 @@
 #include "addanimecontrol.h"
+#include <ProxerApi/infoclass.h>
 using namespace QtRestClient;
 
 AddAnimeControl::AddAnimeControl(QObject *parent) :

@@ -6,6 +6,7 @@
 TEMPLATE = app
 
 QT       += core gui widgets network
+CONFIG += c++11
 
 TARGET = SeasonProxer
 VERSION = 1.0.0
@@ -23,7 +24,6 @@ DEFINES += "DISPLAY_NAME=\"\\\"$$QMAKE_TARGET_PRODUCT\\\"\""
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-include(../QtRestClient/qtrestclient.pri)
 include(../QtMvvm/widgets/qtmvvmwidgets.pri)
 include(../QtUtils/DialogMaster/dialogmaster.pri)
 
@@ -37,10 +37,13 @@ SOURCES += \
 	animemodel.cpp \
 	addanimedialog.cpp \
 	imageloader.cpp \
-    main.cpp
+	main.cpp
 
 FORMS    += mainwindow.ui \
 	addanimedialog.ui
+
+RESOURCES += \
+    seasonproxer_desktop.qrc
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore
@@ -49,6 +52,3 @@ else:unix: LIBS += -L$$OUT_PWD/../Core/ -lSeasonProxerCore
 
 INCLUDEPATH += $$PWD/../Core
 DEPENDPATH += $$PWD/../Core
-
-RESOURCES += \
-	seasonproxer_desktop.qrc

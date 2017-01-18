@@ -29,7 +29,7 @@ public:
 				 int role = Qt::EditRole) override;
 
 	Qt::ItemFlags flags(const QModelIndex& index) const override;
-	QHash<int, QByteArray> roleNames() const;
+	QHash<int, QByteArray> roleNames() const override;
 
 	bool editable() const;
 

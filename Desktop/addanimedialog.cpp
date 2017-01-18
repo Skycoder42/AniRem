@@ -2,11 +2,8 @@
 #include "ui_addanimedialog.h"
 #include <QPushButton>
 #include <QIntValidator>
-#include <QDebug>
-#include <QtRestClient>
 #include "core.h"
 #include "dialogmaster.h"
-using namespace QtRestClient;
 
 AddAnimeDialog::AddAnimeDialog(Control *mControl, QWidget *parent) :
 	QDialog(parent),

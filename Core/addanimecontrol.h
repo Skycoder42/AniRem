@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include <control.h>
-
-#include <ProxerApi/infoclass.h>
+#include "animeinfo.h"
+class InfoClass;
 
 class AddAnimeControl : public Control
 {
