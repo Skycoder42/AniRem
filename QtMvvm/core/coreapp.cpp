@@ -2,6 +2,7 @@
 #include <QGuiApplication>
 #include <iostream>
 #include "coremessage.h"
+#include "ipresenter.h"
 
 QPointer<CoreApp> CoreApp::_instance;
 
@@ -9,6 +10,8 @@ CoreApp::CoreApp(QObject *parent) :
 	QObject(parent),
 	_presenter(nullptr)
 {}
+
+CoreApp::~CoreApp() {}
 
 CoreApp *CoreApp::instance()
 {
@@ -21,26 +24,37 @@ void CoreApp::setMainPresenter(IPresenter *presenter)
 	_instance->_presenter.reset(presenter);
 }
 
+IPresenter *CoreApp::presenter() const
+{
+	return _presenter.data();
+}
+
 void CoreApp::registerApp()
 {
+	//register metatypes
+	qRegisterMetaType<QMetaMethod>("QMetaMethod");
+	qRegisterMetaType<MessageResult*>();
+	qRegisterMetaType<CoreApp::MessageType>();
+	qRegisterMetaType<MessageResult::ResultType>();
+
 	setParent(qApp);
 	_instance = this;
 	QMetaObject::invokeMethod(this, "initiate", Qt::QueuedConnection);
 }
 
-bool CoreApp::showControl(Control *control)
+void CoreApp::showControl(Control *control)
 {
-	return _presenter->present(control);
+	_presenter->present(control);
 }
 
-bool CoreApp::closeControl(Control *control)
+void CoreApp::closeControl(Control *control)
 {
-	return _presenter->withdraw(control);
+	_presenter->withdraw(control);
 }
 
-IPresenter *CoreApp::presenter() const
+void CoreApp::showMessage(MessageResult *result, MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType)
 {
-	return _presenter.data();
+	_presenter->showMessage(result, type, title, text, positiveAction, negativeAction, neutralAction, inputType);
 }
 
 void CoreApp::setupParser(QCommandLineParser &parser, bool &allowInvalid)

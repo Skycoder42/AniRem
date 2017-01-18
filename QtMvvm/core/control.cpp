@@ -14,12 +14,12 @@ Control *Control::parentControl() const
 	return qobject_cast<Control*>(parent());
 }
 
-bool Control::close()
+void Control::close()
 {
-	return CoreApp::instance()->closeControl(this);
+	QMetaObject::invokeMethod(CoreApp::instance(), "closeControl", Q_ARG(Control*, this));
 }
 
-bool Control::showControl(Control *control) const
+void Control::showControl(Control *control) const
 {
-	return CoreApp::instance()->showControl(control);
+	QMetaObject::invokeMethod(CoreApp::instance(), "showControl", Q_ARG(Control*, control));
 }

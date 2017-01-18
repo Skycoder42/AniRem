@@ -41,7 +41,8 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 
 	mainControl = new MainControl(store, this);
 
-	return showControl(mainControl);
+	showControl(mainControl);
+	return true;
 }
 
 void ProxerApp::aboutToQuit()

@@ -3,30 +3,24 @@
 
 #include "control.h"
 #include "messageresult.h"
+#include "coreapp.h"
 
-class IPresenter//TODO make async
+class IPresenter
 {
 public:
-	enum MessageType {
-		Information,
-		Question,
-		Warning,
-		Critical,
-		Input
-	};
-
 	inline virtual ~IPresenter() {}
 
-	virtual bool present(Control *control) = 0;
-	virtual bool withdraw(Control *control) = 0;
+	virtual void present(Control *control) = 0;
+	virtual void withdraw(Control *control) = 0;
 
-	virtual MessageResult *showMessage(MessageType type,
-									   const QString &title,
-									   const QString &text,
-									   const QString &positiveAction = {},
-									   const QString &negativeAction = {},
-									   const QString &neutralAction = {},
-									   int inputType = QMetaType::UnknownType) = 0;
+	virtual void showMessage(MessageResult *result,
+							 CoreApp::MessageType type,
+							 const QString &title,
+							 const QString &text,
+							 const QString &positiveAction,
+							 const QString &negativeAction,
+							 const QString &neutralAction,
+							 int inputType) = 0;
 
 };
 

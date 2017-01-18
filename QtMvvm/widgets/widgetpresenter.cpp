@@ -39,14 +39,14 @@ void WidgetPresenter::registerWidgetExplicitly(const char *controlName, const QM
 	presenter->explicitMappings.insert(controlName, widgetType);
 }
 
-bool WidgetPresenter::present(Control *control)
+void WidgetPresenter::present(Control *control)
 {
 	auto active = activeControls.value(control);
 	if(active) {
 		active->show();
 		active->raise();
 		active->activateWindow();
-		return true;
+		return;
 	}
 
 	auto ok = false;
@@ -61,7 +61,7 @@ bool WidgetPresenter::present(Control *control)
 			qCritical() << "Failed to create widget of type"
 						<< widgetMetaObject.className()
 						<< "(did you mark the constructor as Q_INVOKABLE? Required signature: \"Contructor(Control *, QWidget*);\")";
-			return false;
+			return;
 		}
 
 		auto presented = false;
@@ -81,28 +81,23 @@ bool WidgetPresenter::present(Control *control)
 			control->onShow();
 		} else
 			widget->deleteLater();
-		return presented;
 	} else {
 		qCritical() << "Unable to find widget for control of type"
 					<< control->metaObject()->className();
-		return false;
 	}
 }
 
-bool WidgetPresenter::withdraw(Control *control)
+void WidgetPresenter::withdraw(Control *control)
 {
 	auto widget = activeControls.value(control);
-	if(widget) {
+	if(widget)
 		widget->close();
-		return true;
-	} else
-		return false;
 }
 
-MessageResult *WidgetPresenter::showMessage(IPresenter::MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType)
+void WidgetPresenter::showMessage(MessageResult *result, CoreApp::MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType)
 {
 	QDialog *dialog = nullptr;
-	if(type == Input)
+	if(type == CoreApp::Input)
 		dialog = createInputDialog(title, text, inputType, positiveAction, negativeAction, neutralAction);
 	else {
 		auto msgBox = new QMessageBox();
@@ -140,21 +135,21 @@ MessageResult *WidgetPresenter::showMessage(IPresenter::MessageType type, const 
 			msgBox->setEscapeButton(nBtn);
 
 		switch (type) {
-		case Information:
+		case CoreApp::Information:
 			msgBox->setIcon(QMessageBox::Information);
-			msgBox->setWindowTitle(WidgetMessageResult::tr("Information"));
+			msgBox->setWindowTitle("Information");
 			break;
-		case Question:
+		case CoreApp::Question:
 			msgBox->setIcon(QMessageBox::Question);
-			msgBox->setWindowTitle(WidgetMessageResult::tr("Question"));
+			msgBox->setWindowTitle(tr("Question"));
 			break;
-		case Warning:
+		case CoreApp::Warning:
 			msgBox->setIcon(QMessageBox::Warning);
-			msgBox->setWindowTitle(WidgetMessageResult::tr("Warning"));
+			msgBox->setWindowTitle(tr("Warning"));
 			break;
-		case Critical:
+		case CoreApp::Critical:
 			msgBox->setIcon(QMessageBox::Critical);
-			msgBox->setWindowTitle(WidgetMessageResult::tr("Error"));
+			msgBox->setWindowTitle(tr("Error"));
 			break;
 		default:
 			Q_UNREACHABLE();
@@ -180,16 +175,18 @@ MessageResult *WidgetPresenter::showMessage(IPresenter::MessageType type, const 
 		}
 		dialog->setWindowFlags(flags);
 
-		auto result = new WidgetMessageResult(dialog);
-		if(type == Input) {
-			QObject::connect(result, &WidgetMessageResult::positiveAction, result, [this, dialog, result](){
-				result->setResult(extractInputResult(dialog));
-			});
-		}
+		QObject::connect(dialog, &QDialog::finished, dialog, [=](int diagRes){
+			auto res = getResult(diagRes);
+			QVariant value;
+			if(type == CoreApp::Input && res == MessageResult::PositiveResult)
+				value = extractInputResult(dialog);
+			result->complete(res, value);
+		});
+		result->setCloseTarget(dialog, QDialog::staticMetaObject.method(QDialog::staticMetaObject.indexOfSlot("close()")));
+
 		dialog->open();
-		return result;
 	} else
-		return nullptr;
+		result->complete(MessageResult::NegativeResult, {});
 }
 
 QMetaObject WidgetPresenter::findWidgetMetaObject(const QMetaObject *controlMetaObject, bool &ok)
@@ -284,4 +281,16 @@ QVariant WidgetPresenter::extractInputResult(QDialog *inputDialog)
 	}
 
 	return QVariant();
+}
+
+MessageResult::ResultType WidgetPresenter::getResult(int dialogResult)
+{
+	switch (dialogResult) {
+	case QDialog::Accepted:
+		return MessageResult::PositiveResult;
+	case QDialog::Rejected:
+		return MessageResult::NegativeResult;
+	default:
+		return MessageResult::NeutralResult;
+	}
 }

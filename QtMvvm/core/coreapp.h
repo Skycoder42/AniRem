@@ -8,25 +8,45 @@
 #include <type_traits>
 
 #include "control.h"
-#include "ipresenter.h"
+#include "messageresult.h"
+class IPresenter;
 
 class QTMVVM_CORE_SHARED_EXPORT CoreApp : public QObject
 {
 	Q_OBJECT
 
 public:
+	enum MessageType {
+		Information,
+		Question,
+		Warning,
+		Critical,
+		Input
+	};
+	Q_ENUM(MessageType)
+
 	explicit CoreApp(QObject *parent = nullptr);
+	~CoreApp();
 
 	static CoreApp *instance();
 	static void setMainPresenter(IPresenter *presenter);
 
-	Q_INVOKABLE bool showControl(Control *control);
-	Q_INVOKABLE bool closeControl(Control *control);
-
+	//internal use only!
 	IPresenter *presenter() const;
 
 public slots:
 	void registerApp();
+
+	void showControl(Control *control);
+	void closeControl(Control *control);
+	void showMessage(MessageResult *result,
+					 CoreApp::MessageType type,
+					 const QString &title,
+					 const QString &text,
+					 const QString &positiveAction = {},
+					 const QString &negativeAction = {},
+					 const QString &neutralAction = {},
+					 int inputType = QMetaType::UnknownType);
 
 protected:
 	virtual void setupParser(QCommandLineParser &parser, bool &allowInvalid);

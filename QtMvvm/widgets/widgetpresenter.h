@@ -2,11 +2,14 @@
 #define WIDGETPRESENTER_H
 
 #include "ipresenter.h"
+#include "messageresult.h"
 #include <QWidget>
 #include <coreapp.h>
 
 class WidgetPresenter : public IPresenter
 {
+	Q_DECLARE_TR_FUNCTIONS(WidgetPresenter)
+
 public:
 	WidgetPresenter();
 
@@ -19,9 +22,16 @@ public:
 	static void registerWidgetExplicitly();
 	static void registerWidgetExplicitly(const char *controlName, const QMetaObject &widgetType);
 
-	bool present(Control *control) override;
-	bool withdraw(Control *control) override;
-	MessageResult *showMessage(MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType);
+	void present(Control *control) override;
+	void withdraw(Control *control) override;
+	void showMessage(MessageResult *result,
+					 CoreApp::MessageType type,
+					 const QString &title,
+					 const QString &text,
+					 const QString &positiveAction,
+					 const QString &negativeAction,
+					 const QString &neutralAction,
+					 int inputType);
 
 protected:
 	virtual QMetaObject findWidgetMetaObject(const QMetaObject *controlMetaObject, bool &ok);
@@ -35,6 +45,8 @@ private:
 	QHash<QByteArray, QMetaObject> explicitMappings;
 
 	QHash<Control*, QWidget*> activeControls;
+
+	static MessageResult::ResultType getResult(int dialogResult);
 };
 
 // ------------- Generic Implementation -------------

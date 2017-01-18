@@ -17,10 +17,10 @@ public:
 	virtual Control *parentControl() const;
 
 public slots:
-	bool close();
+	void close();
 
-protected:
-	Q_INVOKABLE bool showControl(Control *control) const;
+protected slots:
+	void showControl(Control *control) const;
 };
 
 Q_DECLARE_METATYPE(Control*)
