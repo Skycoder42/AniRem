@@ -9,18 +9,24 @@ ApplicationWindow {
 	width: 360
 	height: 520
 
+	function presentItem(item) {
+		return mainStack.push(item) ? true : false;
+	}
+
+	function presentPopup(popup) {
+		popup.parent = root;
+		popup.open();
+		return true;
+	}
+
+	Component.onCompleted: QuickPresenter.qmlPresenter = root
+
 	StackView { //TODO move into own file!
 		id: mainStack
 		anchors.fill: parent
 
 		readonly property int animDuration: 150
 		readonly property int opDuration: 75
-
-		Component.onCompleted: QuickPresenter.stackView = mainStack
-
-		function itemPush(item) {
-			push(item);
-		}
 
 		pushEnter: Transition {
 			PropertyAnimation {
@@ -79,11 +85,13 @@ ApplicationWindow {
 	}
 
 	onClosing: {
-		if(mainStack.depth <= 1)
+		if(mainStack.depth <= 1) {
+			mainStack.currentItem.destroy();
 			close.accepted = true;
-		else {
+		} else {
 			close.accepted = false;
-			mainStack.pop();
+			var item = mainStack.pop();
+			item.destroy();
 		}
 	}
 }

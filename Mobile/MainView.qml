@@ -4,8 +4,15 @@ import QtQuick.Controls 2.0
 Page {
 	property var control: null
 
-	Label {
-		text: control ? "loaded!" : "loading..."
-		anchors.centerIn: parent
+	ListView {
+		anchors.fill: parent
+		model: control ? control.animeModel : null
+
+		ScrollBar.vertical: ScrollBar {}
+
+		delegate: ItemDelegate {
+			width: parent.width
+			text: title
+		}
 	}
 }

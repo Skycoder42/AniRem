@@ -11,19 +11,12 @@ QuickPresenter::QuickPresenter() :
 	_singleton(nullptr)
 {}
 
-void QuickPresenter::registerAsPresenter()
-{
-	CoreApp::setMainPresenter(new QuickPresenter());
-	qmlRegisterSingletonType<QuickPresenterQmlSingleton>("com.skycoder42.qtmvvm", 1, 0, "QuickPresenter", createQuickPresenterQmlSingleton);
-}
-
 void QuickPresenter::registerViewExplicitly(const char *controlName, const QUrl &viewUrl)
 {
 	auto presenter = static_cast<QuickPresenter*>(CoreApp::instance()->presenter());
 	if(!presenter) {
 		presenter = new QuickPresenter();
-		CoreApp::setMainPresenter(presenter);
-		qmlRegisterSingletonType<QuickPresenterQmlSingleton>("com.skycoder42.qtmvvm", 1, 0, "QuickPresenter", createQuickPresenterQmlSingleton);
+		doRegister(presenter);
 	}
 	presenter->_explicitMappings.insert(controlName, viewUrl);
 }
@@ -70,6 +63,17 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *controlMetaObject)
 	return QUrl();
 }
 
+bool QuickPresenter::tryPresentView(QObject *qmlPresenter, QObject *viewObject)
+{
+	QVariant presented = false;
+	if(viewObject->inherits("QQuickItem")) {
+		QMetaObject::invokeMethod(qmlPresenter, "presentItem",
+								  Q_RETURN_ARG(QVariant, presented),
+								  Q_ARG(QVariant, QVariant::fromValue(viewObject)));
+	}
+	return presented.toBool();
+}
+
 void QuickPresenter::setQmlSingleton(QuickPresenterQmlSingleton *singleton)
 {
 	Q_ASSERT_X(!_singleton, Q_FUNC_INFO, "rigth now, only a single qml engine is supported!");
@@ -81,13 +85,19 @@ void QuickPresenter::setQmlSingleton(QuickPresenterQmlSingleton *singleton)
 	});
 }
 
+void QuickPresenter::doRegister(QuickPresenter *presenter)
+{
+	CoreApp::setMainPresenter(presenter);
+	qmlRegisterSingletonType<QuickPresenterQmlSingleton>("com.skycoder42.qtmvvm", 1, 0, "QuickPresenter", createQuickPresenterQmlSingleton);
+}
+
 
 
 QuickPresenterQmlSingleton::QuickPresenterQmlSingleton(QQmlEngine *engine, QObject *parent) :
 	QObject(parent),
 	_engine(engine),
 	_presenter(static_cast<QuickPresenter*>(CoreApp::instance()->presenter())),
-	_stackView(nullptr),
+	_qmlPresenter(nullptr),
 	_latestComponent(nullptr),
 	_loadCache()
 {
@@ -96,7 +106,6 @@ QuickPresenterQmlSingleton::QuickPresenterQmlSingleton(QQmlEngine *engine, QObje
 
 void QuickPresenterQmlSingleton::present(Control *control)
 {
-	Q_ASSERT(_stackView);
 	auto url = _presenter->findViewUrl(control->metaObject());
 	if(!url.isValid())
 		return;
@@ -169,17 +178,28 @@ void QuickPresenterQmlSingleton::statusChanged(QQmlComponent::Status status)
 
 void QuickPresenterQmlSingleton::addObject(QQmlComponent *component, Control *control)
 {
-	auto item = qobject_cast<QQuickItem*>(component->create());
+	Q_ASSERT(_qmlPresenter);
+	auto item = component->create();
 	if(!item) {
-		qCritical() << "Unable to create quick item from the loaded component"
+		qCritical() << "Unable to create quick view from the loaded component"
 					<< component->url();
 		return;
 	}
 
 	item->setProperty("control", QVariant::fromValue(control));
+	auto presented = _presenter->tryPresentView(_qmlPresenter, item);
+	if(presented) {
+		connect(item, &QObject::destroyed, this, [=](){
+			control->onClose();
+		});
+		control->onShow();
+		QQmlEngine::setObjectOwnership(item, QQmlEngine::JavaScriptOwnership);
+	} else {
+		qCritical() << "Failed to present item!";
+		item->deleteLater();
+	}
 
-	item->setParentItem(_stackView);
-	QMetaObject::invokeMethod(_stackView, "itemPush", Q_ARG(QVariant, QVariant::fromValue(item)));
+	component->deleteLater();
 }
 
 

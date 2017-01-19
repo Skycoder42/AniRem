@@ -14,6 +14,7 @@ class QuickPresenter : public IPresenter
 public:
 	QuickPresenter();
 
+	template <typename TPresenter = QuickPresenter>
 	static void registerAsPresenter();
 	template <typename TControl>
 	static void registerViewExplicitly(const QUrl &viewUrl);
@@ -32,19 +33,21 @@ public:
 
 protected:
 	virtual QUrl findViewUrl(const QMetaObject *controlMetaObject);
+	virtual bool tryPresentView(QObject *qmlPresenter, QObject *viewObject);
 
 private:
 	QuickPresenterQmlSingleton *_singleton;
 	QHash<QByteArray, QUrl> _explicitMappings;
 
 	void setQmlSingleton(QuickPresenterQmlSingleton *singleton);
+	static void doRegister(QuickPresenter *presenter);
 };
 
 class QuickPresenterQmlSingleton : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QQuickItem* stackView MEMBER _stackView NOTIFY stackViewChanged)
+	Q_PROPERTY(QObject* qmlPresenter MEMBER _qmlPresenter NOTIFY stackViewChanged)
 
 	Q_PROPERTY(bool viewLoading READ isViewLoading NOTIFY viewLoadingChanged)
 	Q_PROPERTY(qreal loadingProgress READ loadingProgress NOTIFY loadingProgressChanged)
@@ -77,7 +80,7 @@ private slots:
 private:
 	QQmlEngine *_engine;
 	QuickPresenter *_presenter;
-	QQuickItem *_stackView;
+	QObject *_qmlPresenter;
 
 	QQmlComponent *_latestComponent;
 	QHash<QQmlComponent*, Control*> _loadCache;
@@ -86,6 +89,12 @@ private:
 };
 
 // ------------- Generic Implementation -------------
+
+template<typename TPresenter>
+void QuickPresenter::registerAsPresenter()
+{
+	doRegister(new TPresenter());
+}
 
 template<typename TControl>
 void QuickPresenter::registerViewExplicitly(const QUrl &viewUrl)

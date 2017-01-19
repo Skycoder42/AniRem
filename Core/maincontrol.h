@@ -47,4 +47,6 @@ private:
 	void internalAddInfo(AnimeInfo *info);
 };
 
+Q_DECLARE_METATYPE(GenericListModel<AnimeInfo>*)
+
 #endif // MAINCONTROL_H
