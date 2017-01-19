@@ -57,6 +57,7 @@ Page {
 					MenuItem {
 						id: aboutQt
 						text: qsTr("About Qt")
+						onClicked: Qt.openUrlExternally("https://www.qt.io/")
 					}
 				}
 			}

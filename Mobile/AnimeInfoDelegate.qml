@@ -8,6 +8,7 @@ SwipeDelegate {
 	id: delegate
 	width: parent.width
 	text: title
+	highlighted: hasNewSeasons
 
 	signal animeDeleted
 

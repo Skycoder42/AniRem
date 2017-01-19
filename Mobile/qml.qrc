@@ -8,6 +8,7 @@
     </qresource>
     <qresource prefix="/qml/views">
         <file>MainView.qml</file>
+        <file>AddAnimeDialog.qml</file>
     </qresource>
     <qresource prefix="/icons">
         <file alias="ic_more_vert_white.svg">icons/svgs/ic_more_vert_white_24px.svg</file>

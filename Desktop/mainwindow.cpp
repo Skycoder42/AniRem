@@ -58,6 +58,8 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 
 	connect(ui->seasonTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
 			this, &MainWindow::updatePreview);
+	connect(ui->actionAbout_Qt, &QAction::triggered,
+			qApp, &QApplication::aboutQt);
 }
 
 MainWindow::~MainWindow()
@@ -162,6 +164,11 @@ void MainWindow::on_seasonTreeView_activated(const QModelIndex &index)
 	auto rIndex = mapToCtrl(index);
 	if(rIndex.isValid())
 		control->uncheckAnime(rIndex);
+}
+
+void MainWindow::on_action_About_triggered()
+{
+
 }
 
 QModelIndex MainWindow::mapToCtrl(const QModelIndex &uiIndex) const
