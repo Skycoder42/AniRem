@@ -7,13 +7,17 @@ AppBase {
 	id: root
 
 	function presentItem(item) {
-		return mainStack.push(item) ? true : false;
+		return mainStack.presentItem(item);
 	}
 
 	function presentPopup(popup) {
 		popup.parent = root;
 		popup.open();
 		return true;
+	}
+
+	function withdrawItem(item) {
+		return mainStack.withdrawItem(item);
 	}
 
 	PresentingStackView {

@@ -10,6 +10,17 @@ StackView {
 	readonly property int animDuration: 150
 	readonly property int opDuration: 75
 
+	function presentItem(item) {
+		return push(item) ? true : false;
+	}
+
+	function withdrawItem(item) {
+		if(currentItem === item)
+			pop();
+		item.destroy();
+		return true;
+	}
+
 	function closeAction() {
 		if(mainStack.depth <= 1) {
 			mainStack.currentItem.destroy();

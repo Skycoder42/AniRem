@@ -74,6 +74,18 @@ bool QuickPresenter::tryPresentView(QObject *qmlPresenter, QObject *viewObject)
 	return presented.toBool();
 }
 
+bool QuickPresenter::tryWithdrawView(QObject *qmlPresenter, QObject *viewObject)
+{
+	QVariant withdrawed = false;
+	if(viewObject->inherits("QQuickItem")) {
+		QMetaObject::invokeMethod(qmlPresenter, "withdrawItem",
+								  Q_RETURN_ARG(QVariant, withdrawed),
+								  Q_ARG(QVariant, QVariant::fromValue(viewObject)));
+	} else
+		return QMetaObject::invokeMethod(viewObject, "deleteLater");
+	return withdrawed.toBool();
+}
+
 void QuickPresenter::setQmlSingleton(QuickPresenterQmlSingleton *singleton)
 {
 	Q_ASSERT_X(!_singleton, Q_FUNC_INFO, "rigth now, only a single qml engine is supported!");
@@ -98,6 +110,7 @@ QuickPresenterQmlSingleton::QuickPresenterQmlSingleton(QQmlEngine *engine, QObje
 	_engine(engine),
 	_presenter(static_cast<QuickPresenter*>(CoreApp::instance()->presenter())),
 	_qmlPresenter(nullptr),
+	_activeControls(),
 	_latestComponent(nullptr),
 	_loadCache(),
 	_componentCache()
@@ -137,7 +150,13 @@ void QuickPresenterQmlSingleton::present(Control *control)
 
 void QuickPresenterQmlSingleton::withdraw(Control *control)
 {
-
+	auto item = _activeControls.value(control);
+	if(item) {
+		if(!_presenter->tryWithdrawView(_qmlPresenter, item)) {
+			qCritical() << "Failed to withdraw view for control"
+						<< control->objectName();
+		}
+	}
 }
 
 void QuickPresenterQmlSingleton::showMessage(MessageResult *result, CoreApp::MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType)
@@ -196,7 +215,9 @@ void QuickPresenterQmlSingleton::addObject(QQmlComponent *component, Control *co
 	item->setProperty("control", QVariant::fromValue(control));
 	auto presented = _presenter->tryPresentView(_qmlPresenter, item);
 	if(presented) {
+		_activeControls.insert(control, item);
 		connect(item, &QObject::destroyed, this, [=](){
+			_activeControls.remove(control);
 			control->onClose();
 		});
 		control->onShow();

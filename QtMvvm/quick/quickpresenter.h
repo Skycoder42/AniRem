@@ -35,6 +35,7 @@ public:
 protected:
 	virtual QUrl findViewUrl(const QMetaObject *controlMetaObject);
 	virtual bool tryPresentView(QObject *qmlPresenter, QObject *viewObject);
+	virtual bool tryWithdrawView(QObject *qmlPresenter, QObject *viewObject);
 
 private:
 	QuickPresenterQmlSingleton *_singleton;
@@ -82,6 +83,8 @@ private:
 	QQmlEngine *_engine;
 	QuickPresenter *_presenter;
 	QObject *_qmlPresenter;
+
+	QHash<Control*, QObject*> _activeControls;
 
 	QPointer<QQmlComponent> _latestComponent;
 	QHash<QQmlComponent*, Control*> _loadCache;
