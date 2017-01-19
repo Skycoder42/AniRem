@@ -65,6 +65,7 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *controlMetaObject)
 
 bool QuickPresenter::tryPresentView(QObject *qmlPresenter, QObject *viewObject)
 {
+	//TODO present method on parent item
 	QVariant presented = false;
 	if(viewObject->inherits("QQuickItem")) {
 		QMetaObject::invokeMethod(qmlPresenter, "presentItem",

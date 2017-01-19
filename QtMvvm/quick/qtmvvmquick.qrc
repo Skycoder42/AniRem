@@ -3,5 +3,6 @@
         <file>App.qml</file>
         <file>AppBase.qml</file>
         <file>PresentingStackView.qml</file>
+        <file>PresenterProgress.qml</file>
     </qresource>
 </RCC>
