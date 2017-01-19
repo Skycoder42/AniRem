@@ -4,3 +4,6 @@
 [submodule "QtRestClient"]
 	path = QtRestClient
 	url = https://github.com/Skycoder42/QtRestClient
+[submodule "QtAndroidStuff"]
+	path = QtAndroidStuff
+	url = git@github.com:Skycoder42/QtAndroidStuff.git
