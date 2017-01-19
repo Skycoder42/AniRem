@@ -5,6 +5,7 @@
 #include <QQmlComponent>
 #include <QQuickItem>
 #include <ipresenter.h>
+#include <QCache>
 class QuickPresenterQmlSingleton;
 
 class QuickPresenter : public IPresenter
@@ -82,8 +83,9 @@ private:
 	QuickPresenter *_presenter;
 	QObject *_qmlPresenter;
 
-	QQmlComponent *_latestComponent;
+	QPointer<QQmlComponent> _latestComponent;
 	QHash<QQmlComponent*, Control*> _loadCache;
+	QCache<QUrl, QQmlComponent> _componentCache;
 
 	void addObject(QQmlComponent *component, Control *control);
 };

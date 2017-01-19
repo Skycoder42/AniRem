@@ -99,7 +99,8 @@ QuickPresenterQmlSingleton::QuickPresenterQmlSingleton(QQmlEngine *engine, QObje
 	_presenter(static_cast<QuickPresenter*>(CoreApp::instance()->presenter())),
 	_qmlPresenter(nullptr),
 	_latestComponent(nullptr),
-	_loadCache()
+	_loadCache(),
+	_componentCache()
 {
 	_presenter->setQmlSingleton(this);
 }
@@ -110,23 +111,28 @@ void QuickPresenterQmlSingleton::present(Control *control)
 	if(!url.isValid())
 		return;
 
-	if(_latestComponent) {
-		disconnect(_latestComponent, &QQmlComponent::progressChanged,
-				   this, &QuickPresenterQmlSingleton::loadingProgressChanged);
+	auto component = _componentCache.object(url);
+	if(component)
+		addObject(component, control);
+	else {
+		if(_latestComponent) {
+			disconnect(_latestComponent, &QQmlComponent::progressChanged,
+					   this, &QuickPresenterQmlSingleton::loadingProgressChanged);
+		}
+
+		_latestComponent = new QQmlComponent(_engine, this);
+		_loadCache.insert(_latestComponent, control);
+
+		//setup ui status
+		emit viewLoadingChanged(true);
+		emit loadingProgressChanged(0.0);
+		connect(_latestComponent, &QQmlComponent::progressChanged,
+				this, &QuickPresenterQmlSingleton::loadingProgressChanged);
+
+		connect(_latestComponent, &QQmlComponent::statusChanged,
+				this, &QuickPresenterQmlSingleton::statusChanged);
+		_latestComponent->loadUrl(url, QQmlComponent::Asynchronous);
 	}
-
-	_latestComponent = new QQmlComponent(_engine, this);
-	_loadCache.insert(_latestComponent, control);
-
-	//setup ui status
-	emit viewLoadingChanged(true);
-	emit loadingProgressChanged(0.0);
-	connect(_latestComponent, &QQmlComponent::progressChanged,
-			this, &QuickPresenterQmlSingleton::loadingProgressChanged);
-
-	connect(_latestComponent, &QQmlComponent::statusChanged,
-			this, &QuickPresenterQmlSingleton::statusChanged);
-	_latestComponent->loadUrl(url, QQmlComponent::Asynchronous);
 }
 
 void QuickPresenterQmlSingleton::withdraw(Control *control)
@@ -157,6 +163,7 @@ void QuickPresenterQmlSingleton::statusChanged(QQmlComponent::Status status)
 
 	switch(status) {
 	case QQmlComponent::Ready:
+		_componentCache.insert(component->url(), component);
 		addObject(component, _loadCache.value(component));
 		break;
 	case QQmlComponent::Error:
@@ -198,8 +205,6 @@ void QuickPresenterQmlSingleton::addObject(QQmlComponent *component, Control *co
 		qCritical() << "Failed to present item!";
 		item->deleteLater();
 	}
-
-	component->deleteLater();
 }
 
 
