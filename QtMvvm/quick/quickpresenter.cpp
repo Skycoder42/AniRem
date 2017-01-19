@@ -56,7 +56,8 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *controlMetaObject)
 		QDirIterator iterator(searchDir, QDirIterator::Subdirectories);
 		if(iterator.hasNext()) {
 			iterator.next();
-			return QUrl::fromLocalFile(iterator.filePath());
+			return QUrl(QStringLiteral("qrc:/qml/views/") +
+						searchDir.relativeFilePath(iterator.filePath()));
 		}
 	}
 

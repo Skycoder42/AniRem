@@ -1,12 +1,14 @@
 #ifndef ADDANIMECONTROL_H
 #define ADDANIMECONTROL_H
 
+#include "core_global.h"
+
 #include <QObject>
 #include <control.h>
 #include "animeinfo.h"
 class InfoClass;
 
-class AddAnimeControl : public Control
+class CORESHARED_EXPORT AddAnimeControl : public Control
 {
 	Q_OBJECT
 

@@ -1,11 +1,12 @@
 #ifndef MAINCONTROL_H
 #define MAINCONTROL_H
 
+#include "core_global.h"
 #include "animestore.h"
 #include "control.h"
 #include <objectlistmodel.h>
 
-class MainControl : public Control
+class CORESHARED_EXPORT MainControl : public Control
 {
 	Q_OBJECT
 

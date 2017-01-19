@@ -11,7 +11,7 @@ CONFIG += c++11
 TARGET = SeasonProxer
 VERSION = 1.0.0
 
-RC_ICONS += ./resources/main.ico
+RC_ICONS += ../Core/main.ico
 QMAKE_TARGET_COMPANY = "Skycoder42"
 QMAKE_TARGET_PRODUCT = "Proxer.me Season Reminder"
 QMAKE_TARGET_DESCRIPTION = $$QMAKE_TARGET_PRODUCT
@@ -52,3 +52,18 @@ else:unix: LIBS += -L$$OUT_PWD/../Core/ -lSeasonProxerCore
 
 INCLUDEPATH += $$PWD/../Core
 DEPENDPATH += $$PWD/../Core
+
+win32 {
+	msvc {
+		contains(QT_ARCH, x86_64) {
+			CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/msvc64/release/
+			else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/msvc64/debug/
+		} else {
+			CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/msvc/release/
+			else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/msvc/debug/
+		}
+	} else:win32-g++ {
+		CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/mingw/release/
+		else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/mingw/debug/
+	}
+}
