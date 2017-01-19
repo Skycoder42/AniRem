@@ -118,7 +118,7 @@ void MainWindow::on_actionRemove_Anime_triggered()
 {
 	auto index = mapToCtrl(ui->seasonTreeView->currentIndex());
 	if(index.isValid())
-		control->removeAnime(index);
+		control->removeAnime(index.row());
 }
 
 void MainWindow::on_actionCopy_selected_Info_triggered()

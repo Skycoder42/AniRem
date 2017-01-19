@@ -26,7 +26,7 @@ public slots:
 	void addAnimeFromClipboard();
 	void showDetails(int id);
 
-	void removeAnime(QModelIndex index);
+	void removeAnime(int index);
 
 signals:
 	void showStatus(QString message, bool permanent = false);

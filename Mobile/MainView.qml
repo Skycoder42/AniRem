@@ -1,7 +1,8 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.0
+import QtQuick 2.8
+import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
-import "qrc:///qtmvvm/qml"
+import "../../qtmvvm/qml"
+import "../../qtandroidstuff/qml"
 import ".."
 
 Page {
@@ -12,6 +13,8 @@ Page {
 
 		RowLayout {
 			anchors.fill: parent
+			spacing: 0
+
 			Label {
 				id: titleLabel
 				font.pointSize: 16
@@ -26,9 +29,36 @@ Page {
 			}
 
 			AppBarButton {
+				id: refreshButton
+				imageSource: "qrc:/icons/ic_refresh_white.svg"
+				text: qsTr("Refresh")
+			}
+
+			AppBarButton {
 				id: moreButton
-				imageSource: "qrc:/icons/more.png"
+				imageSource: "qrc:/icons/ic_more_vert_white.svg"
 				text: qsTr("More")
+				onClicked: moreMenu.open()
+
+				Menu {
+					id: moreMenu
+
+					MenuItem {
+						id: pasteId
+						text: qsTr("Paste ID/URL")
+						onClicked: control.addAnimeFromClipboard()
+					}
+
+					MenuItem {
+						id: about
+						text: qsTr("About")
+					}
+
+					MenuItem {
+						id: aboutQt
+						text: qsTr("About Qt")
+					}
+				}
 			}
 		}
 	}
@@ -43,9 +73,23 @@ Page {
 
 		ScrollBar.vertical: ScrollBar {}
 
-		delegate: ItemDelegate {
-			width: parent.width
-			text: title
+		delegate: AnimeInfoDelegate {
+			onAnimeDeleted: control.removeAnime(index)
 		}
+	}
+
+	FloatingActionButton {
+		id: addButton
+		size: 56
+
+		anchors.right: parent.right
+		anchors.rightMargin: 10
+		anchors.bottom: parent.bottom
+		anchors.bottomMargin: 10
+
+		imageSource: "qrc:/icons/ic_add_white.svg"
+		text: qsTr("Add Anime")
+
+		onClicked: control.addAnime()
 	}
 }

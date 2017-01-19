@@ -6,6 +6,7 @@
 #include <QUrl>
 #include <coremessage.h>
 #include <QTimer>
+#include <QDebug>
 
 MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	Control(parent),
@@ -83,7 +84,7 @@ void MainControl::showDetails(int id)
 	//TODO "invent"
 }
 
-void MainControl::removeAnime(QModelIndex index)
+void MainControl::removeAnime(int index)
 {
 	auto info = model->object(index);
 	if(info) {

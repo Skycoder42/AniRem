@@ -3,9 +3,16 @@
         <file>qtquickcontrols2.conf</file>
     </qresource>
     <qresource prefix="/qml">
-        <file>AppBarButton.qml</file>
+        <file>App.qml</file>
+        <file>AnimeInfoDelegate.qml</file>
     </qresource>
     <qresource prefix="/qml/views">
         <file>MainView.qml</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file alias="ic_more_vert_white.svg">icons/svgs/ic_more_vert_white_24px.svg</file>
+        <file alias="ic_refresh_white.svg">icons/svgs/ic_refresh_white_24px.svg</file>
+        <file alias="ic_add_white.svg">icons/svgs/ic_add_white_24px.svg</file>
+        <file alias="ic_delete_forever_white.svg">icons/svgs/ic_delete_forever_white_24px.svg</file>
     </qresource>
 </RCC>

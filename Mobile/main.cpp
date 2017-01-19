@@ -2,6 +2,8 @@
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <quickpresenter.h>
+#include <qtandroidstuff.h>
+#include "cachingnamfactory.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,8 +17,11 @@ int main(int argc, char *argv[])
 	QGuiApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 
 	QuickPresenter::registerAsPresenter();
+
 	QQmlApplicationEngine engine;
-	engine.load(QUrl(QLatin1String("qrc:/qtmvvm/qml/App.qml")));
+	engine.setNetworkAccessManagerFactory(new CachingNamFactory());
+	QtAndroidStuff::loadResolution(&engine);
+	engine.load(QUrl(QLatin1String("qrc:///qml/App.qml")));
 
 	return app.exec();
 }

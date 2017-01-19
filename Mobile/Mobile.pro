@@ -20,8 +20,10 @@ DEFINES += "DISPLAY_NAME=\"\\\"$$QMAKE_TARGET_PRODUCT\\\"\""
 DEFINES += QT_DEPRECATED_WARNINGS
 
 include(../QtMvvm/quick/qtmvvmquick.pri)
+include(../QtAndroidStuff/qtandroidstuff.pri)
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    cachingnamfactory.cpp
 
 RESOURCES += qml.qrc
 
@@ -53,3 +55,6 @@ win32 {
 		else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/mingw/debug/
 	}
 }
+
+HEADERS += \
+    cachingnamfactory.h
