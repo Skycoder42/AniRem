@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/qtmvvm/qml">
         <file>App.qml</file>
+        <file>AppBase.qml</file>
+        <file>PresentingStackView.qml</file>
     </qresource>
 </RCC>
