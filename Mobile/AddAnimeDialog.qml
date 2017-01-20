@@ -14,13 +14,14 @@ AlertDialog {
 		width: parent.width
 
 		Label {
-			text: qsTr("Id:")
+			text: qsTr("Proxer-ID:")
 		}
 
 		TextField {
 			Layout.fillWidth: true
 			placeholderText: "894"
 			focus: true
+			selectByMouse: true
 			validator: IntValidator {
 				bottom: 1
 				top: 2147483647
@@ -30,16 +31,29 @@ AlertDialog {
 			onEditingFinished: control.id = text
 		}
 
-		Image {
-			id: previewImage
+		Item {
+			id: previewItem
 			Layout.rowSpan: 2
 			Layout.preferredHeight: 100
 			Layout.preferredWidth: 66
-			asynchronous: true
-			fillMode: Image.PreserveAspectFit
-			horizontalAlignment: Image.AlignHCenter
-			verticalAlignment: Image.AlignVCenter
-			source: control && control.id > 0 ? "https://cdn.proxer.me/cover/%1.jpg".arg(control.id) : ""
+
+			readonly property bool showLoading: (control && control.loading) || previewImage.status == Image.Loading
+
+			Image {
+				id: previewImage
+				anchors.fill: parent
+				asynchronous: true
+				fillMode: Image.PreserveAspectFit
+				horizontalAlignment: Image.AlignHCenter
+				verticalAlignment: Image.AlignVCenter
+				source: control && control.id > 0 ? "https://cdn.proxer.me/cover/%1.jpg".arg(control.id) : ""
+				visible: !previewItem.showLoading
+			}
+
+			BusyIndicator {
+				anchors.fill: parent
+				visible: previewItem.showLoading
+			}
 		}
 
 		Label {
@@ -49,9 +63,17 @@ AlertDialog {
 		TextField {
 			Layout.fillWidth: true
 			readOnly: true
+			selectByMouse: true
 			text: control ? control.title : ""
 		}
 	}
 
-	standardButtons: Dialog.Ok | Dialog.Cancel
+	footer: DialogButtonBox {
+		id: btnBox
+		standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+
+		Component.onCompleted: standardButton(DialogButtonBox.Ok).enabled = Qt.binding(function() { return control && control.loading })
+	}
+
+	onAccepted: control.accept(false);
 }

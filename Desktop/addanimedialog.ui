@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>360</width>
-    <height>110</height>
+    <width>371</width>
+    <height>97</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -63,29 +63,46 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="previewLabel">
-     <property name="minimumSize">
-      <size>
-       <width>52</width>
-       <height>69</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>52</width>
-       <height>69</height>
-      </size>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="text">
-      <string>&lt;i&gt;Preview&lt;/i&gt;</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="previewLabel">
+       <property name="minimumSize">
+        <size>
+         <width>52</width>
+         <height>69</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>52</width>
+         <height>69</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="text">
+        <string>&lt;i&gt;Preview&lt;/i&gt;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
