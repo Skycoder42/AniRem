@@ -3,6 +3,7 @@
 
 #include "animemodel.h"
 
+#include <QLabel>
 #include <QMainWindow>
 #include <QProgressBar>
 #include <QSortFilterProxyModel>
@@ -22,10 +23,10 @@ public:
 	~MainWindow();
 
 public slots:
-	void showStatus(QString message, bool permanent = false);
+	void showStatus(QString message);
 	void setProgress(int value, int max);
 
-	void updateLoadStatus(bool isFinished);
+	void updateLoadStatus(bool isLoading);
 
 private slots:
 	void updatePreview(const QModelIndex &index);
@@ -39,6 +40,7 @@ private:
 	MainControl *control;
 
 	Ui::MainWindow *ui;
+	QLabel *statusLabel;
 	QProgressBar *statusProgress;
 
 	AnimeModel *animeModel;

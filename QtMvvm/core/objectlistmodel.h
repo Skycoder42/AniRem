@@ -61,6 +61,7 @@ private:
 	QHash<int, ObjectSignalHelper*> _propertyHelpers;
 
 	void connectPropertyChanges(QObject *object);
+	void disconnectPropertyChanges(QObject *object);
 };
 
 Q_DECLARE_METATYPE(ObjectListModel*)

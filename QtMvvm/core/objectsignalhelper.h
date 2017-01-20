@@ -13,6 +13,7 @@ public:
 	explicit ObjectSignalHelper(int role, const QMetaMethod &signal, ObjectListModel *parent = nullptr);
 
 	void addObject(QObject *object);
+	void removeObject(QObject *object);
 
 private slots:
 	void propertyChanged();

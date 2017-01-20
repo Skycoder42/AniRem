@@ -35,7 +35,7 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 
 	//anime data store
 	store = new AnimeStore(this);
-	connect(store, &AnimeStore::loadingCompleted,
+	connect(store, &AnimeStore::loadingChanged,
 			this, &ProxerApp::storeLoaded,
 			Qt::QueuedConnection);
 
@@ -50,7 +50,7 @@ void ProxerApp::aboutToQuit()
 
 }
 
-void ProxerApp::storeLoaded()
+void ProxerApp::storeLoaded(bool loading)
 {
-	emit mainControl->updateLoadStatus(true);
+	mainControl->updateLoadStatus(loading);
 }

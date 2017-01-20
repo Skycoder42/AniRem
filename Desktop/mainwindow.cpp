@@ -10,6 +10,7 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 	QMainWindow(parent),
 	control(static_cast<MainControl*>(mControl)),
 	ui(new Ui::MainWindow),
+	statusLabel(new QLabel(tr("Checking for new seasons…"), this)),
 	statusProgress(new QProgressBar(this)),
 	animeModel(new AnimeModel(control->animeModel(), this)),
 	proxyModel(new QSortFilterProxyModel(this))
@@ -21,7 +22,7 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 			this, &MainWindow::showStatus);
 	connect(control, &MainControl::setProgress,
 			this, &MainWindow::setProgress);
-	connect(control, &MainControl::updateLoadStatus,
+	connect(control, &MainControl::reloadingAnimesChanged,
 			this, &MainWindow::updateLoadStatus);
 
 	connect(ui->actionReload_Seasons, &QAction::triggered,
@@ -38,6 +39,8 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 									   ui->actionCopy_selected_Info
 								   });
 
+	statusLabel->setVisible(false);
+	statusBar()->addWidget(statusLabel);
 	statusProgress->setTextVisible(false);
 	statusProgress->setFixedSize(125, 16);
 	statusBar()->addPermanentWidget(statusProgress);
@@ -74,9 +77,9 @@ MainWindow::~MainWindow()
 	delete ui;
 }
 
-void MainWindow::showStatus(QString message, bool permanent)
+void MainWindow::showStatus(QString message)
 {
-	statusBar()->showMessage(message, permanent ? 0 : 5000);
+	statusBar()->showMessage(message, 5000);
 }
 
 void MainWindow::setProgress(int value, int max)
@@ -85,17 +88,16 @@ void MainWindow::setProgress(int value, int max)
 	statusProgress->setValue(value);
 }
 
-void MainWindow::updateLoadStatus(bool isFinished)
+void MainWindow::updateLoadStatus(bool isLoading)
 {
-	ui->actionReload_Seasons->setEnabled(isFinished);
-	ui->actionAdd_Anime->setEnabled(isFinished);
-	ui->actionRemove_Anime->setEnabled(isFinished);
-	ui->actionPaste_ID_URL->setEnabled(isFinished);
+	ui->actionReload_Seasons->setEnabled(!isLoading);
+	ui->actionAdd_Anime->setEnabled(!isLoading);
+	ui->actionRemove_Anime->setEnabled(!isLoading);
+	ui->actionPaste_ID_URL->setEnabled(!isLoading);
 
+	statusLabel->setVisible(isLoading);
 	statusProgress->setRange(0, 0);
-	statusProgress->setVisible(!isFinished);
-	if(isFinished)
-		statusBar()->clearMessage();
+	statusProgress->setVisible(isLoading);
 }
 
 void MainWindow::updatePreview(const QModelIndex &index)
@@ -163,7 +165,7 @@ void MainWindow::on_seasonTreeView_activated(const QModelIndex &index)
 {
 	auto rIndex = mapToCtrl(index);
 	if(rIndex.isValid())
-		control->uncheckAnime(rIndex);
+		control->uncheckAnime(rIndex.row());
 }
 
 void MainWindow::on_action_About_triggered()

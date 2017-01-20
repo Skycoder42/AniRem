@@ -14,6 +14,11 @@ void ObjectSignalHelper::addObject(QObject *object)
 	connect(object, signal, this, slot);
 }
 
+void ObjectSignalHelper::removeObject(QObject *object)
+{
+	object->disconnect(this);
+}
+
 void ObjectSignalHelper::propertyChanged()
 {
 	auto index = model->index(sender());

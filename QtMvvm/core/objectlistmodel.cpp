@@ -159,7 +159,7 @@ void ObjectListModel::removeObject(int index)
 	if(_objectOwner && obj->parent() == this)
 		obj->deleteLater();
 	else
-		obj->disconnect(this);
+		disconnectPropertyChanges(obj);
 	endRemoveRows();
 }
 
@@ -171,10 +171,13 @@ void ObjectListModel::resetModel(QObjectList objects)
 			if(obj->parent() == this)
 				obj->deleteLater();
 			else
-				obj->disconnect(this);
+				disconnectPropertyChanges(obj);
 		}
 	}
+
 	_objects = objects;
+	foreach(auto obj, objects)
+		connectPropertyChanges(obj);
 	endResetModel();
 }
 
@@ -208,5 +211,14 @@ void ObjectListModel::connectPropertyChanges(QObject *object)
 		auto helper = _propertyHelpers.value(i, nullptr);
 		if(helper)
 			helper->addObject(object);
+	}
+}
+
+void ObjectListModel::disconnectPropertyChanges(QObject *object)
+{
+	for(auto i = 1; i < _metaObject->propertyCount(); i++) {
+		auto helper = _propertyHelpers.value(i, nullptr);
+		if(helper)
+			helper->removeObject(object);
 	}
 }

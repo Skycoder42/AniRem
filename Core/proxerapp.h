@@ -21,7 +21,7 @@ protected slots:
 	void aboutToQuit() override;
 
 private slots:
-	void storeLoaded();
+	void storeLoaded(bool loading);
 
 private:
 	AnimeStore *store;

@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 	QGuiApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 
 	QuickPresenter::registerAsPresenter();
+	QtAndroidStuff::registerQmlSingleton();
 
 	QQmlApplicationEngine engine;
 	engine.setNetworkAccessManagerFactory(new CachingNamFactory());

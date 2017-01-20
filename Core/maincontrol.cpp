@@ -11,7 +11,8 @@
 MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	Control(parent),
 	store(store),
-	model(new GenericListModel<AnimeInfo>(false, this))
+	model(new GenericListModel<AnimeInfo>(false, this)),
+	_loading(false)
 {
 	connect(store, &AnimeStore::animeInfoListChanged,
 			this, &MainControl::storeListLoaded);
@@ -22,22 +23,35 @@ GenericListModel<AnimeInfo> *MainControl::animeModel() const
 	return model;
 }
 
+bool MainControl::isReloadingAnimes() const
+{
+	return _loading;
+}
+
+void MainControl::updateLoadStatus(bool loading)
+{
+	if(_loading == loading)
+		return;
+
+	_loading = loading;
+	emit reloadingAnimesChanged(loading);
+}
+
 void MainControl::reload()
 {
-	emit updateLoadStatus(false);
-	emit showStatus(tr("Checking for new seasons…"), true);
+	updateLoadStatus(true);
 
 	//TODO perform loading
 	Q_UNIMPLEMENTED();
 }
 
-void MainControl::uncheckAnime(const QModelIndex index)
+void MainControl::uncheckAnime(int index)
 {
 	auto info = model->object(index);
 	if(info) {
 		info->setHasNewSeasons(false);
 		store->saveAnime(info);
-		QDesktopServices::openUrl(info->relationsUrl());
+		//TODO add as settings: QDesktopServices::openUrl(info->relationsUrl());
 	}
 }
 
@@ -101,7 +115,7 @@ void MainControl::storeListLoaded(AnimeList list)
 
 void MainControl::onShow()
 {
-	emit updateLoadStatus(false);
+	updateLoadStatus(store->isLoading());
 }
 
 void MainControl::createAddControl(int id)

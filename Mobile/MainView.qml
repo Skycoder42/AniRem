@@ -1,12 +1,19 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
+import com.skycoder42.androidstuff 1.0
 import "../../qtmvvm/qml"
 import "../../qtandroidstuff/qml"
 import ".."
 
 Page {
+	id: mainView
 	property var control: null
+
+	Connections {
+		target: control
+		onShowStatus: QtAndroidStuff.showToast(message, true)
+	}
 
 	header: ToolBar {
 		id: toolbar
@@ -32,6 +39,7 @@ Page {
 				id: refreshButton
 				imageSource: "qrc:/icons/ic_refresh_white.svg"
 				text: qsTr("Refresh")
+				onClicked: control.reload()
 			}
 
 			AppBarButton {
@@ -76,6 +84,11 @@ Page {
 
 		delegate: AnimeInfoDelegate {
 			onAnimeDeleted: control.removeAnime(index)
+			onClicked: control.showDetails(id)
+			onPressAndHold: {
+				QtAndroidStuff.hapticFeedback();
+				control.uncheckAnime(index);
+			}
 		}
 	}
 
@@ -92,5 +105,29 @@ Page {
 		text: qsTr("Add Anime")
 
 		onClicked: control.addAnime()
+	}
+
+	AlertDialog {
+		id: reloadingDialog
+		y: (parent.height - toolbar.height - height) / 2
+		title: qsTr("Checking for new seasons…")
+		closePolicy: Popup.NoAutoClose
+		visible: control && control.reloadingAnimes
+
+		ProgressBar {
+			anchors.left: parent.left
+			anchors.right: parent.right
+			id: reloadingProgress
+			to: 0.0
+			indeterminate: to == 0.0
+
+			Connections {
+				target: control
+				onSetProgress: {
+					reloadingProgress.to = max;
+					reloadingProgress.value = value;
+				}
+			}
+		}
 	}
 }

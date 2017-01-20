@@ -13,12 +13,15 @@ class CORESHARED_EXPORT AnimeStore : public QObject
 	Q_OBJECT
 
 	Q_PROPERTY(AnimeList animeInfoList READ animeInfoList NOTIFY animeInfoListChanged)
+	Q_PROPERTY(bool loading READ isLoading NOTIFY loadingChanged)
 
 public:
 	explicit AnimeStore(QObject *parent = nullptr);
 	~AnimeStore();
 
 	AnimeList animeInfoList() const;
+	bool isLoading() const;
+
 	AnimeInfo *animeInfo(int id) const;
 	bool containsAnime(int id) const;
 
@@ -28,7 +31,7 @@ public slots:
 	void forgetAnime(int id);
 
 signals:
-	void loadingCompleted();
+	void loadingChanged(bool loading);
 
 	void animeInfoListChanged(AnimeList infoList);
 
@@ -45,6 +48,7 @@ private:
 
 	QThreadPool *tp;
 	CountLock lock;
+	bool loading;
 
 	//the store owns all anime info objects!
 	QHash<int, AnimeInfo*> infoMap;
