@@ -10,13 +10,19 @@ AppBase {
 	}
 
 	function presentPopup(popup) {
-		popup.parent = root;
+		popup.parent = root.contentItem;
+		popup.closed.connect(popup.destroy);
 		popup.open();
 		return true;
 	}
 
 	function withdrawItem(item) {
 		return mainStack.withdrawItem(item);
+	}
+
+	function withdrawPopup(popup) {
+		popup.close();
+		return true;
 	}
 
 	PresentingStackView {

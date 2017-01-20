@@ -29,7 +29,7 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 	auto client = new QtRestClient::RestClient(qApp);
 	client->setBaseUrl(QStringLiteral("https://proxer.me/api"));
 	client->setApiVersion({1});
-	client->addGlobalHeader("proxer-api-key", PROXER_API_KEY);//TODO "hide" key
+	client->addGlobalHeader("proxer-api-key", PROXER_API_KEY);
 	client->serializer()->setAllowDefaultNull(true);//DEBUG use this to provoke an error to test error handling
 	QtRestClient::RestClient::addGlobalApi(Core::ProxerRest, client);
 

@@ -25,12 +25,14 @@ SwipeDelegate {
 		}
 
 		Label {
-			id:titleLabel
+			id: titleLabel
 			elide: Label.ElideRight
 			horizontalAlignment: Qt.AlignLeft
 			verticalAlignment: Qt.AlignVCenter
 			Layout.fillWidth: true
 			Layout.fillHeight: true
+			font.bold: hasNewSeasons
+			color: hasNewSeasons ? Material.accent : Material.foreground
 			text: delegate.text
 		}
 	}

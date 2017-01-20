@@ -73,6 +73,11 @@ bool QuickPresenter::tryPresentView(QObject *qmlPresenter, QObject *viewObject)
 								  Q_RETURN_ARG(QVariant, presented),
 								  Q_ARG(QVariant, QVariant::fromValue(viewObject)));
 	}
+	if(viewObject->inherits("QQuickPopup")) {
+		QMetaObject::invokeMethod(qmlPresenter, "presentPopup",
+								  Q_RETURN_ARG(QVariant, presented),
+								  Q_ARG(QVariant, QVariant::fromValue(viewObject)));
+	}
 	return presented.toBool();
 }
 

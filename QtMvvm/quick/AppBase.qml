@@ -18,6 +18,14 @@ ApplicationWindow {
 		return false;
 	}
 
+	function withdrawItem(item) {
+		return false;
+	}
+
+	function withdrawPopup(popup) {
+		return false;
+	}
+
 	Component.onCompleted: QuickPresenter.qmlPresenter = root
 
 	PresenterProgress {
