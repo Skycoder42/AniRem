@@ -1,12 +1,24 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.1
 import "../../qtandroidstuff/qml"
 
 AlertDialog {
 	title: qsTr("Add Anime")
 	property var control: null
 	width: 350
+
+	Connections {
+		target: control
+
+		onLoadError: {
+			errorLabel.text = error;
+			retryButton.visible = true;
+			//TODO add retry in btnbox if possible via get buttons
+			//... and change ok text to "ok anyway"?
+		}
+	}
 
 	GridLayout {
 		columns: 3
@@ -29,6 +41,18 @@ AlertDialog {
 
 			text: control && control.id > 0 ? control.id : ""
 			onEditingFinished: control.id = text
+
+			AppBarButton {
+				id: retryButton
+				anchors.right: parent.right
+				anchors.rightMargin: (24 - size) / 2
+				anchors.verticalCenter: parent.verticalCenter
+				visible: false
+				imageSource: "qrc:/icons/ic_refresh_white.svg"
+				text: qsTr("Retry")
+
+				onClicked: control.retry()
+			}
 		}
 
 		Item {
@@ -61,10 +85,19 @@ AlertDialog {
 		}
 
 		TextField {
+			id: titleField
 			Layout.fillWidth: true
 			readOnly: true
 			selectByMouse: true
 			text: control ? control.title : ""
+		}
+
+		Label {
+			id: errorLabel
+			Layout.columnSpan: 3
+			Layout.fillWidth: true
+			visible: text != ""
+			color: Material.accent
 		}
 	}
 
@@ -75,5 +108,5 @@ AlertDialog {
 		Component.onCompleted: standardButton(DialogButtonBox.Ok).enabled = Qt.binding(function() { return control && control.loading })
 	}
 
-	onAccepted: control.accept(false);
+	onAccepted: control.accept(errorLabel.visible);
 }

@@ -37,7 +37,7 @@ Page {
 
 			AppBarButton {
 				id: refreshButton
-				imageSource: "qrc:/icons/ic_refresh_white.svg"
+				imageSource: "qrc:/icons/ic_autorenew_white.svg"
 				text: qsTr("Refresh")
 				onClicked: control.reload()
 			}
