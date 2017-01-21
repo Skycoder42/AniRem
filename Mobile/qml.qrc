@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
+        <file alias="+windows/qtquickcontrols2.conf">qtquickcontrols2_win.conf</file>
     </qresource>
     <qresource prefix="/qml">
         <file>App.qml</file>

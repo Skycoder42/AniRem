@@ -4,5 +4,16 @@
         <file>AppBase.qml</file>
         <file>PresentingStackView.qml</file>
         <file>PresenterProgress.qml</file>
+        <file>MessageBox.qml</file>
+    </qresource>
+    <qresource prefix="/qtmvvm/icons">
+        <file alias="ic_error_black.svg">icons/ic_error_black_24px.svg</file>
+        <file alias="ic_error_white.svg">icons/ic_error_white_24px.svg</file>
+        <file alias="ic_help_black.svg">icons/ic_help_black_24px.svg</file>
+        <file alias="ic_help_white.svg">icons/ic_help_white_24px.svg</file>
+        <file alias="ic_info_black.svg">icons/ic_info_black_24px.svg</file>
+        <file alias="ic_info_white.svg">icons/ic_info_white_24px.svg</file>
+        <file alias="ic_warning_black.svg">icons/ic_warning_black_24px.svg</file>
+        <file alias="ic_warning_white.svg">icons/ic_warning_white_24px.svg</file>
     </qresource>
 </RCC>

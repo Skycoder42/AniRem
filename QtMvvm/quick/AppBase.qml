@@ -18,6 +18,10 @@ ApplicationWindow {
 		return false;
 	}
 
+	function showMessage(result, type, title, text, positiveText, negativeText, neutralText, inputUrl) {
+		result.complete(MessageResult.NegativeResult, undefined);
+	}
+
 	function withdrawItem(item) {
 		return false;
 	}

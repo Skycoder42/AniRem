@@ -93,6 +93,19 @@ bool QuickPresenter::tryWithdrawView(QObject *qmlPresenter, QObject *viewObject)
 	return withdrawed.toBool();
 }
 
+QUrl QuickPresenter::resolveInputType(int inputType)
+{
+	return QUrl(); //TODO support basic
+}
+
+QObject *QuickPresenter::qmlPresenter() const
+{
+	if(_singleton)
+		return _singleton->qmlPresenter();
+	else
+		return nullptr;
+}
+
 void QuickPresenter::setQmlSingleton(QuickPresenterQmlSingleton *singleton)
 {
 	Q_ASSERT_X(!_singleton, Q_FUNC_INFO, "rigth now, only a single qml engine is supported!");
@@ -108,6 +121,8 @@ void QuickPresenter::doRegister(QuickPresenter *presenter)
 {
 	CoreApp::setMainPresenter(presenter);
 	qmlRegisterSingletonType<QuickPresenterQmlSingleton>("com.skycoder42.qtmvvm", 1, 0, "QuickPresenter", createQuickPresenterQmlSingleton);
+	qmlRegisterUncreatableType<MessageResult>("com.skycoder42.qtmvvm", 1, 0, "MessageResult", "This type can only be passed to QML from the presenter!");
+	qmlProtectModule("com.skycoder42.qtmvvm", 1);
 }
 
 
@@ -123,6 +138,11 @@ QuickPresenterQmlSingleton::QuickPresenterQmlSingleton(QQmlEngine *engine, QObje
 	_componentCache()
 {
 	_presenter->setQmlSingleton(this);
+}
+
+QObject *QuickPresenterQmlSingleton::qmlPresenter() const
+{
+	return _qmlPresenter;
 }
 
 void QuickPresenterQmlSingleton::present(Control *control)
@@ -168,7 +188,25 @@ void QuickPresenterQmlSingleton::withdraw(Control *control)
 
 void QuickPresenterQmlSingleton::showMessage(MessageResult *result, CoreApp::MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType)
 {
+	Q_ASSERT(_qmlPresenter);
+	QUrl inputUrl;
+	if(type == CoreApp::Input) {
+		inputUrl = _presenter->resolveInputType(inputType);
+		if(!inputUrl.isValid()) {
+			result->complete(MessageResult::NegativeResult, {});
+			return;
+		}
+	}
 
+	QMetaObject::invokeMethod(_qmlPresenter, "showMessage",
+							  Q_ARG(QVariant, QVariant::fromValue(result)),
+							  Q_ARG(QVariant, (MessageType)type),
+							  Q_ARG(QVariant, title),
+							  Q_ARG(QVariant, text),
+							  Q_ARG(QVariant, positiveAction),
+							  Q_ARG(QVariant, negativeAction),
+							  Q_ARG(QVariant, neutralAction),
+							  Q_ARG(QVariant, inputUrl));
 }
 
 bool QuickPresenterQmlSingleton::isViewLoading() const

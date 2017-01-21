@@ -1,6 +1,7 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 import com.skycoder42.qtmvvm 1.0
+import QtQuick.Controls.Material 2.1
 
 AppBase {
 	id: root
@@ -16,6 +17,10 @@ AppBase {
 		return true;
 	}
 
+	function showMessage(result, type, title, text, positiveText, negativeText, neutralText, inputUrl) {
+		messageBox.showMessageBox(result, type, title, text, positiveText, negativeText, neutralText, inputUrl);
+	}
+
 	function withdrawItem(item) {
 		return mainStack.withdrawItem(item);
 	}
@@ -27,6 +32,10 @@ AppBase {
 
 	PresentingStackView {
 		id: mainStack
+	}
+
+	MessageBox {
+		id:messageBox
 	}
 
 	onClosing: close.accepted = mainStack.closeAction();

@@ -36,6 +36,9 @@ protected:
 	virtual QUrl findViewUrl(const QMetaObject *controlMetaObject);
 	virtual bool tryPresentView(QObject *qmlPresenter, QObject *viewObject);
 	virtual bool tryWithdrawView(QObject *qmlPresenter, QObject *viewObject);
+	virtual QUrl resolveInputType(int inputType);
+
+	QObject *qmlPresenter() const;
 
 private:
 	QuickPresenterQmlSingleton *_singleton;
@@ -55,7 +58,18 @@ class QuickPresenterQmlSingleton : public QObject
 	Q_PROPERTY(qreal loadingProgress READ loadingProgress NOTIFY loadingProgressChanged)
 
 public:
+	enum MessageType {
+		Information = CoreApp::Information,
+		Question = CoreApp::Question,
+		Warning = CoreApp::Warning,
+		Critical = CoreApp::Critical,
+		Input = CoreApp::Input
+	};
+	Q_ENUM(MessageType)
+
 	QuickPresenterQmlSingleton(QQmlEngine *engine, QObject *parent = nullptr);
+
+	QObject *qmlPresenter() const;
 
 	void present(Control *control);
 	void withdraw(Control *control);
