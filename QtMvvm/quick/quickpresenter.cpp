@@ -66,36 +66,43 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *controlMetaObject)
 
 bool QuickPresenter::tryPresentView(QObject *qmlPresenter, QObject *viewObject)
 {
-	//TODO present method on parent item
+	auto meta = qmlPresenter->metaObject();
+	auto index = -1;
+	if(viewObject->inherits("QQuickItem"))
+		index = meta->indexOfMethod("presentItem(QVariant)");
+	if(viewObject->inherits("QQuickPopup"))
+		index = meta->indexOfMethod("presentPopup(QVariant)");
+
 	QVariant presented = false;
-	if(viewObject->inherits("QQuickItem")) {
-		QMetaObject::invokeMethod(qmlPresenter, "presentItem",
-								  Q_RETURN_ARG(QVariant, presented),
-								  Q_ARG(QVariant, QVariant::fromValue(viewObject)));
-	}
-	if(viewObject->inherits("QQuickPopup")) {
-		QMetaObject::invokeMethod(qmlPresenter, "presentPopup",
-								  Q_RETURN_ARG(QVariant, presented),
-								  Q_ARG(QVariant, QVariant::fromValue(viewObject)));
+	if(index != -1) {
+		meta->method(index).invoke(qmlPresenter,
+								   Q_RETURN_ARG(QVariant, presented),
+								   Q_ARG(QVariant, QVariant::fromValue(viewObject)));
 	}
 	return presented.toBool();
 }
 
 bool QuickPresenter::tryWithdrawView(QObject *qmlPresenter, QObject *viewObject)
 {
-	QVariant withdrawed = false;
-	if(viewObject->inherits("QQuickItem")) {
-		QMetaObject::invokeMethod(qmlPresenter, "withdrawItem",
-								  Q_RETURN_ARG(QVariant, withdrawed),
-								  Q_ARG(QVariant, QVariant::fromValue(viewObject)));
-	} else
-		return QMetaObject::invokeMethod(viewObject, "deleteLater");
-	return withdrawed.toBool();
+	auto meta = qmlPresenter->metaObject();
+	auto index = -1;
+	if(viewObject->inherits("QQuickItem"))
+		index = meta->indexOfMethod("withdrawItem(QVariant)");
+	if(viewObject->inherits("QQuickPopup"))
+		index = meta->indexOfMethod("withdrawPopup(QVariant)");
+
+	QVariant withdrawen = false;
+	if(index != -1) {
+		meta->method(index).invoke(qmlPresenter,
+								   Q_RETURN_ARG(QVariant, withdrawen),
+								   Q_ARG(QVariant, QVariant::fromValue(viewObject)));
+	}
+	return withdrawen.toBool();
 }
 
 QUrl QuickPresenter::resolveInputType(int inputType)
 {
-	return QUrl(); //TODO support basic
+	return QUrl(); //TODO support basic: string, int, double, bool
 }
 
 QObject *QuickPresenter::qmlPresenter() const
@@ -179,7 +186,14 @@ void QuickPresenterQmlSingleton::withdraw(Control *control)
 {
 	auto item = _activeControls.value(control);
 	if(item) {
-		if(!_presenter->tryWithdrawView(_qmlPresenter, item)) {
+		auto withdrawn = false;
+		auto parent = _activeControls.value(control->parentControl());
+		if(parent)
+			withdrawn = _presenter->tryWithdrawView(parent, item);
+		if(!withdrawn)
+			withdrawn = _presenter->tryWithdrawView(_qmlPresenter, item);
+
+		if(!withdrawn) {
 			qCritical() << "Failed to withdraw view for control"
 						<< control->objectName();
 		}
@@ -258,7 +272,14 @@ void QuickPresenterQmlSingleton::addObject(QQmlComponent *component, Control *co
 	}
 
 	item->setProperty("control", QVariant::fromValue(control));
-	auto presented = _presenter->tryPresentView(_qmlPresenter, item);
+
+	auto presented = false;
+	auto parent = _activeControls.value(control->parentControl());
+	if(parent)
+		presented = _presenter->tryPresentView(parent, item);
+	if(!presented)
+		presented = _presenter->tryPresentView(_qmlPresenter, item);
+
 	if(presented) {
 		_activeControls.insert(control, item);
 		connect(item, &QObject::destroyed, this, [=](){

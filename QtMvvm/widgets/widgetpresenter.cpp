@@ -235,7 +235,7 @@ bool WidgetPresenter::tryPresent(QWidget *widget, QWidget *parent)
 
 QDialog *WidgetPresenter::createInputDialog(const QString &title, const QString &text, int inputType, const QString &positiveText, const QString &negativeText, const QString &neutralText)
 {
-	Q_UNUSED(neutralText);
+	Q_UNUSED(neutralText); //TODO support basic: string, int, double, bool
 
 	QInputDialog::InputMode mode;
 	switch (inputType) {
