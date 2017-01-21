@@ -5,6 +5,9 @@
         <file>PresentingStackView.qml</file>
         <file>PresenterProgress.qml</file>
         <file>MessageBox.qml</file>
+        <file>MsgTextField.qml</file>
+        <file>MsgSpinBox.qml</file>
+        <file>MsgDblSpinBox.qml</file>
     </qresource>
     <qresource prefix="/qtmvvm/icons">
         <file alias="ic_error_black.svg">icons/ic_error_black_24px.svg</file>

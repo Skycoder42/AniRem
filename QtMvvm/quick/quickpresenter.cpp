@@ -102,7 +102,16 @@ bool QuickPresenter::tryWithdrawView(QObject *qmlPresenter, QObject *viewObject)
 
 QUrl QuickPresenter::resolveInputType(int inputType)
 {
-	return QUrl(); //TODO support basic: string, int, double, bool
+	switch (inputType) {
+	case QMetaType::QString:
+		return "qrc:/qtmvvm/qml/MsgTextField.qml";
+	case QMetaType::Int:
+		return ":/qtmvvm/qml/MsgSpinBox.qml";
+	case QMetaType::Double:
+		return "qrc:/qtmvvm/qml/MsgDblSpinBox.qml";
+	default:
+		return {};
+	}
 }
 
 QObject *QuickPresenter::qmlPresenter() const

@@ -235,25 +235,25 @@ bool WidgetPresenter::tryPresent(QWidget *widget, QWidget *parent)
 
 QDialog *WidgetPresenter::createInputDialog(const QString &title, const QString &text, int inputType, const QString &positiveText, const QString &negativeText, const QString &neutralText)
 {
-	Q_UNUSED(neutralText); //TODO support basic: string, int, double, bool
+	Q_UNUSED(neutralText);
 
-	QInputDialog::InputMode mode;
+	auto dialog = new QInputDialog();
 	switch (inputType) {
 	case QMetaType::QString:
-		mode = QInputDialog::TextInput;
+		dialog->setInputMode(QInputDialog::TextInput);
 		break;
 	case QMetaType::Int:
-		mode = QInputDialog::TextInput;
+		dialog->setInputMode(QInputDialog::IntInput);
+		dialog->setIntRange(INT_MIN, INT_MAX);
 		break;
 	case QMetaType::Double:
-		mode = QInputDialog::TextInput;
+		dialog->setInputMode(QInputDialog::DoubleInput);
+		dialog->setDoubleRange(DBL_MIN, DBL_MAX);
 		break;
 	default:
 		return nullptr;
 	}
 
-	auto dialog = new QInputDialog();
-	dialog->setInputMode(mode);
 	dialog->setWindowTitle(title);
 	dialog->setLabelText(text);
 	dialog->setOkButtonText(positiveText);
