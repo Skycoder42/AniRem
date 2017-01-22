@@ -30,14 +30,18 @@ include(../QtUtils/DialogMaster/dialogmaster.pri)
 HEADERS  += mainwindow.h \
 	animemodel.h \
 	addanimedialog.h \
-	imageloader.h
+	imageloader.h \
+    systemtraypresenter.h \
+    statusview.h
 
 SOURCES += \
 	mainwindow.cpp \
 	animemodel.cpp \
 	addanimedialog.cpp \
 	imageloader.cpp \
-	main.cpp
+	main.cpp \
+    systemtraypresenter.cpp \
+    statusview.cpp
 
 FORMS    += mainwindow.ui \
 	addanimedialog.ui

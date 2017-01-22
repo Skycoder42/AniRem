@@ -11,7 +11,9 @@ ProxerApp::ProxerApp(QObject *parent) :
 	CoreApp(parent),
 	store(nullptr),
 	loader(nullptr),
-	mainControl(nullptr)
+	mainControl(nullptr),
+	statusControl(nullptr),
+	passiveUpdate(false)
 {
 	qRegisterMetaType<AnimeList>();
 	QtRestClient::registerListConverters<ProxerEntryData*>();
@@ -19,13 +21,22 @@ ProxerApp::ProxerApp(QObject *parent) :
 
 void ProxerApp::checkForSeasonUpdates()
 {
+	mainControl->updateLoadStatus(true);
 	loader->checkForUpdates(store->animeInfoList());
+}
+
+void ProxerApp::showMainControl()
+{
+	showControl(mainControl);
 }
 
 void ProxerApp::setupParser(QCommandLineParser &parser, bool &allowInvalid)
 {
-	Q_UNIMPLEMENTED();
 	CoreApp::setupParser(parser, allowInvalid);
+	parser.addOption({
+						 {"u", "update"},
+						 "SeasonProxer will start with a GUI, checking for updates passively"
+					 });
 }
 
 bool ProxerApp::startApp(const QCommandLineParser &parser)
@@ -43,7 +54,7 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 
 	//anime data store
 	store = new AnimeStore(this);
-	connect(store, &AnimeStore::loadingChanged,
+	connect(store, &AnimeStore::storeLoaded,
 			this, &ProxerApp::storeLoaded,
 			Qt::QueuedConnection);
 
@@ -57,7 +68,9 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 	connect(loader, &SeasonStatusLoader::completed,
 			this, &ProxerApp::updateDone);
 
-	showControl(mainControl);
+	passiveUpdate = parser.isSet("update");
+	if(!passiveUpdate)
+		showControl(mainControl);
 	return true;
 }
 
@@ -66,14 +79,35 @@ void ProxerApp::aboutToQuit()
 
 }
 
-void ProxerApp::storeLoaded(bool loading)
+void ProxerApp::storeLoaded()
 {
-	mainControl->updateLoadStatus(loading);
+	if(passiveUpdate)
+		loader->checkForUpdates(store->animeInfoList());
+	else
+		mainControl->updateLoadStatus(false);
 }
 
-void ProxerApp::updateDone(QString errorString)
+void ProxerApp::updateDone(bool hasUpdates, QString errorString)
 {
 	mainControl->updateLoadStatus(false);
-	if(!errorString.isNull())
-		CoreMessage::critical(tr("Season check failed"), errorString);
+
+	if(passiveUpdate) {
+		passiveUpdate = false;
+		if(hasUpdates || !errorString.isNull()) {//TODO settings: show as long as marked as new
+			statusControl = new StatusControl(this);
+			if(errorString.isNull())
+				statusControl->loadUpdateStatus(store->animeInfoList());
+			else
+				statusControl->loadErrorStatus(errorString);
+			showControl(statusControl);
+		} else
+			qApp->quit();
+	} else {
+		if(!errorString.isNull())
+			CoreMessage::critical(tr("Season check failed"), errorString);
+		else if(hasUpdates)
+			CoreMessage::information(tr("Season check completed"), tr("New Seasons are available!"));
+		else
+			CoreMessage::information(tr("Season check completed"), tr("No seasons changed."));
+	}
 }

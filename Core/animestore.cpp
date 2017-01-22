@@ -25,7 +25,6 @@ AnimeStore::AnimeStore(QObject *parent) :
 	QObject(parent),
 	tp(new QThreadPool(this)),
 	lock(),
-	loading(true),
 	infoMap()
 {
 	tp->setMaxThreadCount(1);//1 thread to simply make it async
@@ -54,11 +53,6 @@ AnimeStore::~AnimeStore()
 AnimeList AnimeStore::animeInfoList() const
 {
 	return infoMap.values();
-}
-
-bool AnimeStore::isLoading() const
-{
-	return loading;
 }
 
 AnimeInfo *AnimeStore::animeInfo(int id) const
@@ -194,10 +188,8 @@ void AnimeStore::setInternal(AnimeList infoList, bool emitComplete)
 	foreach (auto ptr, oldPtrs)
 		ptr->deleteLater();
 	emit animeInfoListChanged(infoMap.values());
-	if(emitComplete) {
-		loading = false;
-		emit loadingChanged(false);
-	}
+	if(emitComplete)
+		emit storeLoaded();
 }
 
 void AnimeStore::saveQuitApp()

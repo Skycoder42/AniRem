@@ -4,6 +4,7 @@
 #include "animestore.h"
 #include "seasonstatusloader.h"
 #include "maincontrol.h"
+#include "statuscontrol.h"
 
 #include <coreapp.h>
 
@@ -16,6 +17,7 @@ public:
 
 public slots:
 	void checkForSeasonUpdates();
+	void showMainControl();
 
 protected:
 	void setupParser(QCommandLineParser &parser, bool &allowInvalid) override;
@@ -25,13 +27,16 @@ protected slots:
 	void aboutToQuit() override;
 
 private slots:
-	void storeLoaded(bool loading);
-	void updateDone(QString errorString);
+	void storeLoaded();
+	void updateDone(bool hasUpdates, QString errorString);
 
 private:
 	AnimeStore *store;
 	SeasonStatusLoader *loader;
 	MainControl *mainControl;
+	StatusControl *statusControl;
+
+	bool passiveUpdate;
 };
 
 #undef coreApp

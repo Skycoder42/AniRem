@@ -61,7 +61,7 @@ void CoreApp::setupParser(QCommandLineParser &parser, bool &allowInvalid)
 {
 	parser.addHelpOption();
 	parser.addVersionOption();
-	allowInvalid = true;
+	allowInvalid = false;
 }
 
 bool CoreApp::autoShowHelpOrVersion(const QCommandLineParser &parser)

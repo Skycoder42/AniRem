@@ -5,7 +5,9 @@ SeasonStatusLoader::SeasonStatusLoader(QObject *parent) :
 	QObject(parent),
 	infoClass(new InfoClass(this)),
 	updateQueue(),
-	lastMax(0)
+	lastMax(0),
+	progress(0),
+	anyUpdated(false)
 {
 	connect(infoClass, &InfoClass::apiError,
 			this, &SeasonStatusLoader::error);
@@ -23,9 +25,10 @@ void SeasonStatusLoader::checkForUpdates(const AnimeList &animeList)
 void SeasonStatusLoader::checkNext()
 {
 	emit updated(lastMax - updateQueue.size(), lastMax);
-	if(updateQueue.isEmpty())
-		emit completed();
-	else {
+	if(updateQueue.isEmpty()) {
+		emit completed(anyUpdated);
+		anyUpdated = false;
+	} else {
 		auto next = updateQueue.head();
 		infoClass->getRelations(next->id())
 				->onSucceeded([=](RestReply*, int, ProxerRelations *relation) {
@@ -34,6 +37,7 @@ void SeasonStatusLoader::checkNext()
 				next->setLastKnownSeasons(size);
 				next->setHasNewSeasons(true);
 				emit newSeasonsDetected(next);
+				anyUpdated = true;
 			}
 			relation->deleteLater();
 			updateQueue.dequeue();
@@ -45,5 +49,6 @@ void SeasonStatusLoader::checkNext()
 void SeasonStatusLoader::error(const QString &errorString)
 {
 	updateQueue.clear();
-	emit completed(errorString);
+	emit completed(anyUpdated, errorString);
+	anyUpdated = false;
 }

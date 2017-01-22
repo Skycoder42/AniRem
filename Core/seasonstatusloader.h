@@ -18,7 +18,7 @@ public slots:
 signals:
 	void updated(int value, int max);
 	void newSeasonsDetected(AnimeInfo *anime);
-	void completed(const QString &errorString = {});
+	void completed(bool hasUpdates, const QString &errorString = {});
 
 private slots:
 	void checkNext();
@@ -29,6 +29,7 @@ private:
 	QQueue<AnimeInfo*> updateQueue;
 	int lastMax;
 	int progress;
+	bool anyUpdated;
 };
 
 #endif // SEASONSTATUSLOADER_H

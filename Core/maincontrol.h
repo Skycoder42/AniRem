@@ -41,9 +41,6 @@ signals:
 private slots:
 	void storeListLoaded(AnimeList list);
 
-protected:
-	void onShow() override;
-
 private:
 	AnimeStore *store;
 	GenericListModel<AnimeInfo> *model;

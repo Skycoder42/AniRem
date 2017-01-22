@@ -13,7 +13,7 @@ MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	Control(parent),
 	store(store),
 	model(new GenericListModel<AnimeInfo>(false, this)),
-	_loading(false)
+	_loading(true)
 {
 	connect(store, &AnimeStore::animeInfoListChanged,
 			this, &MainControl::storeListLoaded);
@@ -40,8 +40,6 @@ void MainControl::updateLoadStatus(bool loading)
 
 void MainControl::reload()
 {
-	updateLoadStatus(true);
-
 	coreApp->checkForSeasonUpdates();
 }
 
@@ -111,11 +109,6 @@ void MainControl::removeAnime(int index)
 void MainControl::storeListLoaded(AnimeList list)
 {
 	model->resetModel(list);
-}
-
-void MainControl::onShow()
-{
-	updateLoadStatus(store->isLoading());
 }
 
 void MainControl::createAddControl(int id)

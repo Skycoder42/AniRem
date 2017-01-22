@@ -28,7 +28,8 @@ HEADERS += core.h\
 	proxerapp.h \
 	maincontrol.h \
     addanimecontrol.h \
-	seasonstatusloader.h
+	seasonstatusloader.h \
+    statuscontrol.h
 
 SOURCES += core.cpp \
 	animestore.cpp \
@@ -41,7 +42,8 @@ SOURCES += core.cpp \
 	proxerapp.cpp \
 	maincontrol.cpp \
     addanimecontrol.cpp \
-	seasonstatusloader.cpp
+	seasonstatusloader.cpp \
+    statuscontrol.cpp
 
 unix {
 	target.path = /usr/lib

@@ -3,7 +3,7 @@
 #include <QIcon>
 #include "addanimedialog.h"
 #include "mainwindow.h"
-#include "widgetpresenter.h"
+#include "systemtraypresenter.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
 	QApplication::setApplicationDisplayName(DISPLAY_NAME);
 	QApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 
+	WidgetPresenter::registerAsPresenter<SystemTrayPresenter>();
 	WidgetPresenter::registerWidget<MainWindow>();
 	WidgetPresenter::registerWidget<AddAnimeDialog>();
 
