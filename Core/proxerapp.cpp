@@ -28,6 +28,8 @@ void ProxerApp::checkForSeasonUpdates()
 void ProxerApp::showMainControl()
 {
 	showControl(mainControl);
+	if(statusControl)
+		closeControl(statusControl);
 }
 
 void ProxerApp::setupParser(QCommandLineParser &parser, bool &allowInvalid)

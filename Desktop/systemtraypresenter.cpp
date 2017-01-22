@@ -1,5 +1,4 @@
 #include "systemtraypresenter.h"
-#include "statusview.h"
 
 SystemTrayPresenter::SystemTrayPresenter() :
 	WidgetPresenter()
@@ -8,8 +7,17 @@ SystemTrayPresenter::SystemTrayPresenter() :
 void SystemTrayPresenter::present(Control *control)
 {
 	if(control->inherits("StatusControl")) {
-		new StatusView(control, qApp);
+		statusView.reset(new StatusView(control, qApp));
 		control->onShow();
+	} else
+		WidgetPresenter::present(control);
+}
+
+void SystemTrayPresenter::withdraw(Control *control)
+{
+	if(control->inherits("StatusControl") && statusView) {
+		statusView.reset();
+		control->onClose();
 	} else
 		WidgetPresenter::present(control);
 }

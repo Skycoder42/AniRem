@@ -25,7 +25,7 @@ private slots:
 private:
 	StatusControl *control;
 	QSystemTrayIcon *trayIcon;
-	QScopedPointer<QMenu, QScopedPointerObjectDeleteLater<QMenu>> trayMenu;
+	QScopedPointer<QMenu, QScopedPointerDeleteLater> trayMenu;
 
 	QTimer *blinkTimer;
 	QIcon normalIcon;

@@ -42,9 +42,7 @@ void WidgetPresenter::present(Control *control)
 {
 	auto active = activeControls.value(control);
 	if(active) {
-		active->show();
-		active->raise();
-		active->activateWindow();
+		extendedShow(active);
 		return;
 	}
 
@@ -229,7 +227,7 @@ bool WidgetPresenter::tryPresent(QWidget *widget, QWidget *parent)
 		}
 	}
 
-	widget->show();
+	extendedShow(widget);
 	return true;
 }
 
@@ -280,6 +278,15 @@ QVariant WidgetPresenter::extractInputResult(QDialog *inputDialog)
 	}
 
 	return QVariant();
+}
+
+void WidgetPresenter::extendedShow(QWidget *widget) const
+{
+	widget->setWindowState(widget->windowState() & ~ Qt::WindowMinimized);
+	widget->show();
+	widget->raise();
+	QApplication::alert(widget);
+	widget->activateWindow();
 }
 
 MessageResult::ResultType WidgetPresenter::getResult(int dialogResult)

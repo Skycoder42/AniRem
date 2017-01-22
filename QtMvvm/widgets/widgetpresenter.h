@@ -40,6 +40,8 @@ protected:
 	virtual QDialog *createInputDialog(const QString &title, const QString &text, int inputType, const QString &positiveText, const QString &negativeText, const QString &neutralText);
 	virtual QVariant extractInputResult(QDialog *inputDialog);
 
+	virtual void extendedShow(QWidget *widget) const;
+
 private:
 	QList<QMetaObject> implicitMappings;
 	QHash<QByteArray, QMetaObject> explicitMappings;
