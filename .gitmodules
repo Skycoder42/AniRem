@@ -7,3 +7,6 @@
 [submodule "QtAndroidStuff"]
 	path = QtAndroidStuff
 	url = git@github.com:Skycoder42/QtAndroidStuff.git
+[submodule "QSingleInstance"]
+	path = QSingleInstance
+	url = git@github.com:Skycoder42/QSingleInstance.git

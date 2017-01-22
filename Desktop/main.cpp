@@ -1,12 +1,14 @@
-#include <coreapp.h>
 #include <QApplication>
 #include <QIcon>
+#include <qsingleinstance.h>
 #include "addanimedialog.h"
 #include "mainwindow.h"
 #include "systemtraypresenter.h"
 
 int main(int argc, char *argv[])
 {
+	CoreApp::disableBoot();
+
 	QApplication a(argc, argv);
 	QApplication::setApplicationName(QStringLiteral(TARGET));
 	QApplication::setApplicationVersion(QStringLiteral(VERSION));
@@ -15,9 +17,18 @@ int main(int argc, char *argv[])
 	QApplication::setApplicationDisplayName(DISPLAY_NAME);
 	QApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 
-	WidgetPresenter::registerAsPresenter<SystemTrayPresenter>();
-	WidgetPresenter::registerWidget<MainWindow>();
-	WidgetPresenter::registerWidget<AddAnimeDialog>();
+	QSingleInstance instance;
+	instance.setStartupFunction([&](){
+		WidgetPresenter::registerAsPresenter<SystemTrayPresenter>();
+		WidgetPresenter::registerWidget<MainWindow>();
+		WidgetPresenter::registerWidget<AddAnimeDialog>();
+		CoreApp::instance()->bootApp();
 
-	return a.exec();
+		QObject::connect(&instance, SIGNAL(instanceMessage(QStringList)),
+						 coreApp, SLOT(showMainControl()));
+
+		return EXIT_SUCCESS;
+	});
+
+	return instance.singleExec();
 }

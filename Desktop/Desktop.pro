@@ -26,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 include(../QtMvvm/widgets/qtmvvmwidgets.pri)
 include(../QtUtils/DialogMaster/dialogmaster.pri)
+include(../QSingleInstance/QSingleInstance/qsingleinstance.pri)
 
 HEADERS  += mainwindow.h \
 	animemodel.h \

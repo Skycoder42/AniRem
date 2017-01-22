@@ -30,12 +30,14 @@ public:
 
 	static CoreApp *instance();
 	static void setMainPresenter(IPresenter *presenter);
+	static void disableBoot();
 
 	//internal use only!
 	IPresenter *presenter() const;
 
 public slots:
 	void registerApp();
+	void bootApp();
 
 	void showControl(Control *control);
 	void closeControl(Control *control);
@@ -57,10 +59,8 @@ protected:
 protected slots:
 	virtual void aboutToQuit();
 
-private slots:
-	void initiate();
-
 private:
+	static bool _bootEnabled;
 	static QPointer<CoreApp> _instance;
 
 	QScopedPointer<IPresenter> _presenter;

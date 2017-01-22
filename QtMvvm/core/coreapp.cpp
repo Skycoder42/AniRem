@@ -4,6 +4,7 @@
 #include "coremessage.h"
 #include "ipresenter.h"
 
+bool CoreApp::_bootEnabled = true;
 QPointer<CoreApp> CoreApp::_instance;
 
 CoreApp::CoreApp(QObject *parent) :
@@ -24,6 +25,11 @@ void CoreApp::setMainPresenter(IPresenter *presenter)
 	_instance->_presenter.reset(presenter);
 }
 
+void CoreApp::disableBoot()
+{
+	_bootEnabled = false;
+}
+
 IPresenter *CoreApp::presenter() const
 {
 	return _presenter.data();
@@ -39,7 +45,26 @@ void CoreApp::registerApp()
 
 	setParent(qApp);
 	_instance = this;
-	QMetaObject::invokeMethod(this, "initiate", Qt::QueuedConnection);
+	if(_bootEnabled)
+		QMetaObject::invokeMethod(this, "bootApp", Qt::QueuedConnection);
+}
+
+void CoreApp::bootApp()
+{
+	QCommandLineParser parser;
+	bool allowInvalid = false;
+	setupParser(parser, allowInvalid);
+
+	if(parser.parse(QCoreApplication::arguments()) || allowInvalid) {
+		if(startApp(parser)) {
+			connect(qApp, &QCoreApplication::aboutToQuit,
+					this, &CoreApp::aboutToQuit);
+		} else
+			qApp->exit(EXIT_FAILURE);
+	} else {
+		if(!CoreMessage::critical(tr("Invalid Arguments"), parser.errorText()))
+			std::cerr << parser.errorText().toStdString() << std::endl;
+	}
 }
 
 void CoreApp::showControl(Control *control)
@@ -82,21 +107,3 @@ bool CoreApp::autoShowHelpOrVersion(const QCommandLineParser &parser)
 }
 
 void CoreApp::aboutToQuit() {}
-
-void CoreApp::initiate()
-{
-	QCommandLineParser parser;
-	bool allowInvalid = false;
-	setupParser(parser, allowInvalid);
-
-	if(parser.parse(QCoreApplication::arguments()) || allowInvalid) {
-		if(startApp(parser)) {
-			connect(qApp, &QCoreApplication::aboutToQuit,
-					this, &CoreApp::aboutToQuit);
-		} else
-			qApp->exit(EXIT_FAILURE);
-	} else {
-		if(!CoreMessage::critical(tr("Invalid Arguments"), parser.errorText()))
-			std::cerr << parser.errorText().toStdString() << std::endl;
-	}
-}
