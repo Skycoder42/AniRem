@@ -2,11 +2,12 @@ import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.1
+import com.skycoder42.seasonproxer 1.0
 import "../../qtandroidstuff/qml"
 
 AlertDialog {
 	title: qsTr("Add Anime")
-	property var control: null
+	property AddAnimeControl control: null
 	width: 350
 
 	Connections {

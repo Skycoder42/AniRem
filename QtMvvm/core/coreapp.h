@@ -84,6 +84,8 @@ protected:
 	} \
 	Q_COREAPP_STARTUP_FUNCTION(_setup_ ## T ## _hook)
 
+#define coreApp CoreApp::instance()
+
 // ------------- Generic Implementation -------------
 
 template<typename T>

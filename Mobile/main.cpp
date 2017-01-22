@@ -5,6 +5,9 @@
 #include <qtandroidstuff.h>
 #include "cachingnamfactory.h"
 
+#include "maincontrol.h"
+#include "addanimecontrol.h"
+
 int main(int argc, char *argv[])
 {
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -18,6 +21,9 @@ int main(int argc, char *argv[])
 
 	QuickPresenter::registerAsPresenter();
 	QtAndroidStuff::registerQmlSingleton();
+
+	qmlRegisterUncreatableType<MainControl>("com.skycoder42.seasonproxer", 1, 0, "MainControl", "Controls cannot be created!");
+	qmlRegisterUncreatableType<AddAnimeControl>("com.skycoder42.seasonproxer", 1, 0, "AddAnimeControl", "Controls cannot be created!");
 
 	QQmlApplicationEngine engine;
 	engine.setNetworkAccessManagerFactory(new CachingNamFactory());
