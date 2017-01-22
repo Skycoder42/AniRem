@@ -2,8 +2,9 @@
 #define INFOCLASS_H
 
 #include "core_global.h"
-#include "proxerentry.h"
 #include "proxerstatus.h"
+#include "proxerentry.h"
+#include "proxerrelations.h"
 
 #include <QObject>
 #include <animeinfo.h>
@@ -17,6 +18,7 @@ public:
 	explicit InfoClass(QObject *parent = nullptr);
 
 	QtRestClient::GenericRestReply<ProxerEntry, ProxerStatus> *getEntry(int id);
+	QtRestClient::GenericRestReply<ProxerRelations, ProxerStatus> *getRelations(int id);
 
 	bool testValid(int code, ProxerStatus *status);
 

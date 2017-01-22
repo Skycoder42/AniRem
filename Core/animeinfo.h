@@ -18,6 +18,18 @@ class CORESHARED_EXPORT AnimeInfo : public QObject
 	Q_PROPERTY(QUrl relationsUrl READ relationsUrl CONSTANT)
 
 public:
+	enum SeasonType {//TODO use...
+		Anime,
+		Movie,
+		Ova,
+		Hentai,
+		Manga,
+		Oneshot,
+		Doujin,
+		Hmanga
+	};
+	Q_ENUM(SeasonType)
+
 	explicit AnimeInfo(int id, const QString &title, QObject *parent = nullptr);
 
 	int id() const;

@@ -1,6 +1,7 @@
 #include "proxerapp.h"
 #include <QtRestClient>
 #include "core.h"
+#include "coremessage.h"
 #include "animeinfo.h"
 #include "proxer-api-key.h"
 
@@ -9,9 +10,16 @@ REGISTER_CORE_APP(ProxerApp)
 ProxerApp::ProxerApp(QObject *parent) :
 	CoreApp(parent),
 	store(nullptr),
+	loader(nullptr),
 	mainControl(nullptr)
 {
 	qRegisterMetaType<AnimeList>();
+	QtRestClient::registerListConverters<ProxerEntryData*>();
+}
+
+void ProxerApp::checkForSeasonUpdates()
+{
+	loader->checkForUpdates(store->animeInfoList());
 }
 
 void ProxerApp::setupParser(QCommandLineParser &parser, bool &allowInvalid)
@@ -39,7 +47,15 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 			this, &ProxerApp::storeLoaded,
 			Qt::QueuedConnection);
 
+	loader = new SeasonStatusLoader(this);
+	connect(loader, &SeasonStatusLoader::newSeasonsDetected,
+			store, &AnimeStore::saveAnime);
+
 	mainControl = new MainControl(store, this);
+	connect(loader, &SeasonStatusLoader::updated,
+			mainControl, &MainControl::setProgress);
+	connect(loader, &SeasonStatusLoader::completed,
+			this, &ProxerApp::updateDone);
 
 	showControl(mainControl);
 	return true;
@@ -53,4 +69,11 @@ void ProxerApp::aboutToQuit()
 void ProxerApp::storeLoaded(bool loading)
 {
 	mainControl->updateLoadStatus(loading);
+}
+
+void ProxerApp::updateDone(QString errorString)
+{
+	mainControl->updateLoadStatus(false);
+	if(!errorString.isNull())
+		CoreMessage::critical(tr("Season check failed"), errorString);
 }

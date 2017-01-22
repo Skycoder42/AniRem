@@ -15,7 +15,16 @@ QtRestClient::GenericRestReply<ProxerEntry, ProxerStatus> *InfoClass::getEntry(i
 			->enableAutoDelete()
 			->onAllErrors([=](RestReply *, QString error, int, RestReply::ErrorType type){
 				raiseError(type, error);
-			}, &InfoClass::transformError);
+	}, &InfoClass::transformError);
+}
+
+QtRestClient::GenericRestReply<ProxerRelations, ProxerStatus> *InfoClass::getRelations(int id)
+{
+	return restClass->get<ProxerRelations, ProxerStatus>(QStringLiteral("relations"), CONCAT_PARAMS("id", id))
+			->enableAutoDelete()
+			->onAllErrors([=](RestReply *, QString error, int, RestReply::ErrorType type){
+				raiseError(type, error);
+	}, &InfoClass::transformError);
 }
 
 bool InfoClass::testValid(int code, ProxerStatus *status)

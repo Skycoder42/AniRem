@@ -1,5 +1,6 @@
 #include "addanimecontrol.h"
 #include "maincontrol.h"
+#include "proxerapp.h"
 #include <QGuiApplication>
 #include <QClipboard>
 #include <QDesktopServices>
@@ -41,8 +42,7 @@ void MainControl::reload()
 {
 	updateLoadStatus(true);
 
-	//TODO perform loading
-	Q_UNIMPLEMENTED();
+	coreApp->checkForSeasonUpdates();
 }
 
 void MainControl::uncheckAnime(int index)
