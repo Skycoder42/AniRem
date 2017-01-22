@@ -39,7 +39,7 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 									   ui->actionCopy_selected_Info
 								   });
 
-	statusLabel->setVisible(false);
+	statusLabel->hide();
 	statusBar()->addWidget(statusLabel);
 	statusProgress->setTextVisible(false);
 	statusProgress->setFixedSize(125, 16);
@@ -63,6 +63,8 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 			this, &MainWindow::updatePreview);
 	connect(ui->actionAbout_Qt, &QAction::triggered,
 			qApp, &QApplication::aboutQt);
+
+	updateLoadStatus(control->isReloadingAnimes());
 }
 
 MainWindow::~MainWindow()
