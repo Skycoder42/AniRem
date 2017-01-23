@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.1
@@ -10,15 +10,11 @@ AlertDialog {
 	property AddAnimeControl control: null
 	width: 350
 
+	property bool hasError: errorLabel.text !== ""
+
 	Connections {
 		target: control
-
-		onLoadError: {
-			errorLabel.text = error;
-			retryButton.visible = true;
-			//TODO add retry in btnbox if possible via get buttons
-			//... and change ok text to "ok anyway"?
-		}
+		onLoadError: errorLabel.text = error
 	}
 
 	GridLayout {
@@ -41,18 +37,24 @@ AlertDialog {
 			}
 
 			text: control && control.id > 0 ? control.id : ""
-			onEditingFinished: control.id = text
+			onEditingFinished: {
+				errorLabel.text = "";
+				control.id = text;
+			}
 
 			AppBarButton {
 				id: retryButton
 				anchors.right: parent.right
 				anchors.rightMargin: (24 - size) / 2
 				anchors.verticalCenter: parent.verticalCenter
-				visible: false
+				visible: hasError
 				imageSource: "qrc:/icons/ic_refresh_white.svg"
 				text: qsTr("Retry")
 
-				onClicked: control.retry()
+				onClicked: {
+					errorLabel.text = "";
+					control.retry();
+				}
 			}
 		}
 
@@ -99,6 +101,8 @@ AlertDialog {
 			Layout.fillWidth: true
 			visible: text != ""
 			color: Material.accent
+			wrapMode: Text.Wrap
+			onLinkActivated: Qt.openUrlExternally(link)
 		}
 	}
 
@@ -106,8 +110,12 @@ AlertDialog {
 		id: btnBox
 		standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
 
-		Component.onCompleted: standardButton(DialogButtonBox.Ok).enabled = Qt.binding(function() { return control && control.acceptable })
+		Component.onCompleted: {
+			var btn = standardButton(DialogButtonBox.Ok);
+			btn.enabled = Qt.binding(function() { return control && (hasError || control.acceptable); });
+			btn.text = Qt.binding(function() { return hasError ? qsTr("Save anyway") : qsTr("Ok"); });
+		}
 	}
 
-	onAccepted: control.accept(errorLabel.visible);
+	onAccepted: control.accept(hasError);
 }
