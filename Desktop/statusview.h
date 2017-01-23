@@ -6,8 +6,7 @@
 #include <QScopedPointer>
 #include <statuscontrol.h>
 #include <QMenu>
-
-#include <C:/Qt/5.8/msvc2015_64/include/QtCore/qtimer.h>
+#include <QTimer>
 
 class StatusView : public QObject
 {

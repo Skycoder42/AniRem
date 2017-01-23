@@ -11,6 +11,7 @@
 #include <QInputDialog>
 #include <QPushButton>
 #include <QApplication>
+#include <float.h>
 
 WidgetPresenter::WidgetPresenter() :
 	implicitMappings(),

@@ -104,11 +104,11 @@ QUrl QuickPresenter::resolveInputType(int inputType)
 {
 	switch (inputType) {
 	case QMetaType::QString:
-		return "qrc:/qtmvvm/qml/MsgTextField.qml";
+		return QStringLiteral("qrc:/qtmvvm/qml/MsgTextField.qml");
 	case QMetaType::Int:
-		return ":/qtmvvm/qml/MsgSpinBox.qml";
+		return QStringLiteral(":/qtmvvm/qml/MsgSpinBox.qml");
 	case QMetaType::Double:
-		return "qrc:/qtmvvm/qml/MsgDblSpinBox.qml";
+		return QStringLiteral("qrc:/qtmvvm/qml/MsgDblSpinBox.qml");
 	default:
 		return {};
 	}
