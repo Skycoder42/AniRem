@@ -106,7 +106,7 @@ AlertDialog {
 		id: btnBox
 		standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
 
-		Component.onCompleted: standardButton(DialogButtonBox.Ok).enabled = Qt.binding(function() { return control && control.loading })
+		Component.onCompleted: standardButton(DialogButtonBox.Ok).enabled = Qt.binding(function() { return control && control.acceptable })
 	}
 
 	onAccepted: control.accept(errorLabel.visible);

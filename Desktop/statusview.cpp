@@ -14,7 +14,7 @@ StatusView::StatusView(Control *mControl, QObject *parent) :
 	connect(control, &StatusControl::showUpdateNotification,
 			this, &StatusView::showUpdateNotification);
 
-	trayMenu->addAction(QIcon::fromTheme(QStringLiteral("gtk-quit")), tr("Show Main Window"), control, &StatusControl::showMainControl);//TODO correct icon...
+	trayMenu->addAction(QIcon::fromTheme(QStringLiteral("gtk-execute")), tr("Show Main Window"), control, &StatusControl::showMainControl);//TODO correct icon...
 	trayMenu->addAction(QIcon::fromTheme(QStringLiteral("gtk-quit")), tr("Quit"), qApp, &QApplication::quit);
 	trayIcon->setContextMenu(trayMenu.data());
 
