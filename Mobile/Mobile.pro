@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick network concurrent sql svg
+QT += qml quick network svg
 CONFIG += c++11
 
 TARGET = SeasonProxer
@@ -22,10 +22,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 include(../QtMvvm/quick/qtmvvmquick.pri)
 include(../QtAndroidStuff/qtandroidstuff.pri)
 
+HEADERS += \
+	cachingnamfactory.h
+
 SOURCES += main.cpp \
 	cachingnamfactory.cpp
 
 RESOURCES += qml.qrc
+
+DISTFILES += \
+	android/AndroidManifest.xml \
+	android/res/values/libs.xml \
+	android/build.gradle
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore
@@ -34,12 +44,6 @@ else:unix: LIBS += -L$$OUT_PWD/../Core/ -lSeasonProxerCore
 
 INCLUDEPATH += $$PWD/../Core
 DEPENDPATH += $$PWD/../Core
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Additional import path used to resolve QML modules just for Qt Quick Designer
-QML_DESIGNER_IMPORT_PATH =
 
 win32 {
 	msvc {
@@ -54,19 +58,11 @@ win32 {
 		CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/mingw/release/
 		else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/mingw/debug/
 	}
+} else:android:contains(QT_ARCH, arm) {
+	ANDROID_EXTRA_LIBS += \
+		$$[QT_INSTALL_LIBS]/libQt5Concurrent.so# \
+#		$$[QT_INSTALL_LIBS]/libQt5Sql.so
+	QT += sql #required like this because of the sqlite plugin
+	CONFIG(release, debug|release): ANDROID_EXTRA_LIBS += $$PWD/../QtRestClient/android_armv7/release/libQtRestClient.so
+	CONFIG(debug, debug|release): ANDROID_EXTRA_LIBS += $$PWD/../QtRestClient/android_armv7/debug/libQtRestClient.so
 }
-
-contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
-	CONFIG(release, debug|release): ANDROID_EXTRA_LIBS = $$PWD/../QtRestClient/android_armv7/release/libQtRestClient.so
-	CONFIG(debug, debug|release): ANDROID_EXTRA_LIBS = $$PWD/../QtRestClient/android_armv7/debug/libQtRestClient.so
-}
-
-HEADERS += \
-	cachingnamfactory.h
-
-DISTFILES += \
-    android/AndroidManifest.xml \
-    android/res/values/libs.xml \
-    android/build.gradle
-
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
