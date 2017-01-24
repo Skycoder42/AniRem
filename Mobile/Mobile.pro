@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick network
+QT += qml quick network concurrent sql svg
 CONFIG += c++11
 
 TARGET = SeasonProxer
@@ -23,7 +23,7 @@ include(../QtMvvm/quick/qtmvvmquick.pri)
 include(../QtAndroidStuff/qtandroidstuff.pri)
 
 SOURCES += main.cpp \
-    cachingnamfactory.cpp
+	cachingnamfactory.cpp
 
 RESOURCES += qml.qrc
 
@@ -56,5 +56,10 @@ win32 {
 	}
 }
 
+contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+	CONFIG(release, debug|release): ANDROID_EXTRA_LIBS = $$PWD/../QtRestClient/android_armv7/release/libQtRestClient.so
+	CONFIG(debug, debug|release): ANDROID_EXTRA_LIBS = $$PWD/../QtRestClient/android_armv7/debug/libQtRestClient.so
+}
+
 HEADERS += \
-    cachingnamfactory.h
+	cachingnamfactory.h

@@ -2,7 +2,6 @@ TEMPLATE = subdirs
 
 CONFIG += ordered
 
-SUBDIRS += \
-    Core \
-    Desktop \
-    Mobile
+SUBDIRS += Core
+!android: SUBDIRS += Desktop
+SUBDIRS += Mobile

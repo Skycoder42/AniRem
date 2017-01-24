@@ -8,7 +8,7 @@ HEADERS += \
 	$$PWD/messageresult.h \
 	$$PWD/coremessage.h \
 	$$PWD/objectlistmodel.h \
-    $$PWD/objectsignalhelper.h
+	$$PWD/objectsignalhelper.h
 
 SOURCES += \
 	$$PWD/coreapp.cpp \
@@ -16,8 +16,7 @@ SOURCES += \
 	$$PWD/messageresult.cpp \
 	$$PWD/coremessage.cpp \
 	$$PWD/objectlistmodel.cpp \
-    $$PWD/objectsignalhelper.cpp
+	$$PWD/objectsignalhelper.cpp
 
 INCLUDEPATH += $$PWD
 
-include(../../Testing/modeltest.pri)

@@ -1,10 +1,6 @@
 #include "objectlistmodel.h"
 #include <QMetaProperty>
-#ifndef QT_NO_DEBUG
-#include "modeltest.h"
 #include "objectsignalhelper.h"
-#endif
-
 ObjectListModel::ObjectListModel(const QMetaObject *objectType, bool objectOwner, QObject *parent) :
 	QAbstractListModel(parent),
 	_objectOwner(objectOwner),
@@ -23,10 +19,6 @@ ObjectListModel::ObjectListModel(const QMetaObject *objectType, bool objectOwner
 	}
 	_roleNames.insert(Qt::DisplayRole, _metaObject->property(0).name());
 	_propertyHelpers.insert(0, new ObjectSignalHelper(Qt::DisplayRole, _metaObject->property(0).notifySignal(), this));
-
-#ifndef QT_NO_DEBUG
-	new ModelTest(this, this);
-#endif
 }
 
 QObjectList ObjectListModel::objects() const
