@@ -63,3 +63,10 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
 
 HEADERS += \
 	cachingnamfactory.h
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/res/values/libs.xml \
+    android/build.gradle
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
