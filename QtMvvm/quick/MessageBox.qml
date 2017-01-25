@@ -3,8 +3,9 @@ import QtQuick.Controls 2.1
 import QtQuick.Controls.Material 2.1
 import QtQuick.Layouts 1.3
 import com.skycoder42.qtmvvm 1.0
+import "../../quickextras/qml"
 
-Dialog {
+AlertDialog {
 	id: messageBox
 	visible: false
 
@@ -34,13 +35,6 @@ Dialog {
 		messageBox.messageContentUrl = inputUrl;
 		messageBox.open();
 	}
-
-	x: (parent.width - width) / 2
-	y: (parent.height - height) / 2//TODO include input method heigth into calc
-	implicitWidth: parent ? Math.min(300, parent.width - 56) : 300
-	modal: true
-	focus: true
-	closePolicy: Popup.CloseOnEscape
 
 	onOpened: {
 		var base = "image://svg/qtmvvm/icons/ic_%2_%1".arg(Material.theme == Material.Dark ? "white" : "black");

@@ -109,7 +109,7 @@ Page {
 
 	AlertDialog {
 		id: reloadingDialog
-		y: (parent.height - toolbar.height - height) / 2
+		extraHeight: toolbar.height
 		title: qsTr("Checking for new seasons…")
 		closePolicy: Popup.NoAutoClose
 		visible: control && control.reloadingAnimes
