@@ -2,7 +2,7 @@
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <quickpresenter.h>
-#include <qtandroidstuff.h>
+#include <quickextras.h>
 #include "cachingnamfactory.h"
 
 #include "maincontrol.h"
@@ -20,13 +20,13 @@ int main(int argc, char *argv[])
 	QGuiApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 
 	QuickPresenter::registerAsPresenter();
-	QtAndroidStuff::registerQmlSingleton();
+	QuickExtras::registerQmlSingleton();
 
 	qmlRegisterUncreatableType<MainControl>("com.skycoder42.seasonproxer", 1, 0, "MainControl", "Controls cannot be created!");
 	qmlRegisterUncreatableType<AddAnimeControl>("com.skycoder42.seasonproxer", 1, 0, "AddAnimeControl", "Controls cannot be created!");
 
 	QQmlApplicationEngine engine;
-	QtAndroidStuff::setupEngine(&engine);
+	QuickExtras::setupEngine(&engine);
 	engine.setNetworkAccessManagerFactory(new CachingNamFactory());
 	engine.load(QUrl(QLatin1String("qrc:///qml/App.qml")));
 

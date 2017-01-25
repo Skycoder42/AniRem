@@ -1,10 +1,10 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
-import com.skycoder42.androidstuff 1.0
+import com.skycoder42.quickextras 1.0
 import com.skycoder42.seasonproxer 1.0
 import "../../qtmvvm/qml"
-import "../../qtandroidstuff/qml"
+import "../../quickextras/qml"
 import ".."
 
 Page {
@@ -13,7 +13,7 @@ Page {
 
 	Connections {
 		target: control
-		onShowStatus: QtAndroidStuff.showToast(message, true)
+		onShowStatus: QuickExtras.showToast(message, true)
 	}
 
 	header: ToolBar {

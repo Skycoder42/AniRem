@@ -1,18 +1,11 @@
 #include "objectproxymodel.h"
-#ifndef QT_NO_DEBUG
-#include "modeltest.h"
-#endif
 
 ObjectProxyModel::ObjectProxyModel(QStringList headers, QObject *parent) :
 	QIdentityProxyModel(parent),
 	_headers(headers),
 	_roleMapping(),
 	_extraRoles()
-{
-#ifndef QT_NO_DEBUG
-	new ModelTest(this, this);
-#endif
-}
+{}
 
 void ObjectProxyModel::appendColumn(const QString &text)
 {

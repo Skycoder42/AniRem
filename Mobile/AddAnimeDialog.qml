@@ -3,7 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.1
 import com.skycoder42.seasonproxer 1.0
-import "../../qtandroidstuff/qml"
+import "../../quickextras/qml"
 
 AlertDialog {
 	title: qsTr("Add Anime")

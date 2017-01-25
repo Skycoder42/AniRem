@@ -20,7 +20,7 @@ DEFINES += "DISPLAY_NAME=\"\\\"$$QMAKE_TARGET_PRODUCT\\\"\""
 DEFINES += QT_DEPRECATED_WARNINGS
 
 include(../QtMvvm/quick/qtmvvmquick.pri)
-include(../QtAndroidStuff/qtandroidstuff.pri)
+include(../QuickExtras/quickextras.pri)
 
 HEADERS += \
 	cachingnamfactory.h
