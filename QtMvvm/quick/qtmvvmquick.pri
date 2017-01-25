@@ -8,3 +8,5 @@ SOURCES += \
 
 RESOURCES += \
     $$PWD/qtmvvmquick.qrc
+
+include(../QuickExtras/quickextras.pri)
