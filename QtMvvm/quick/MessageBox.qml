@@ -43,7 +43,7 @@ Dialog {
 	closePolicy: Popup.CloseOnEscape
 
 	onOpened: {
-		var base = "qrc:/qtmvvm/icons/ic_%2_%1.svg".arg(Material.theme == Material.Dark ? "white" : "black");
+		var base = "image://svg/qtmvvm/icons/ic_%2_%1".arg(Material.theme == Material.Dark ? "white" : "black");
 		switch(iconType) {
 		case QuickPresenter.Information:
 		case QuickPresenter.Input:

@@ -38,14 +38,14 @@ Page {
 
 			AppBarButton {
 				id: refreshButton
-				imageSource: "qrc:/icons/ic_autorenew_white.svg"
+				imageSource: "image://svg/icons/ic_autorenew_white"
 				text: qsTr("Refresh")
 				onClicked: control.reload()
 			}
 
 			AppBarButton {
 				id: moreButton
-				imageSource: "qrc:/icons/ic_more_vert_white.svg"
+				imageSource: "image://svg/icons/ic_more_vert_white"
 				text: qsTr("More")
 				onClicked: moreMenu.open()
 
@@ -101,7 +101,7 @@ Page {
 		anchors.bottom: parent.bottom
 		anchors.bottomMargin: 10
 
-		imageSource: "qrc:/icons/ic_add_white.svg"
+		imageSource: "image://svg/icons/ic_add_white"
 		text: qsTr("Add Anime")
 
 		onClicked: control.addAnime()

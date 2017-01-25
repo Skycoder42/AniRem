@@ -74,6 +74,7 @@ AlertDialog {
 				horizontalAlignment: Image.AlignHCenter
 				verticalAlignment: Image.AlignVCenter
 				source: control && control.id > 0 ? "https://cdn.proxer.me/cover/%1.jpg".arg(control.id) : ""
+				mipmap: true
 				visible: !previewItem.showLoading
 			}
 
