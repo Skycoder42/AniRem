@@ -62,7 +62,7 @@ Dialog {
 
 		messageBox.title = "<img src=\"%1\" width=\"24\" height=\"24\" align=\"middle\">&nbsp;&nbsp;%2"
 								.arg(base)
-								.arg(title);
+								.arg(title);//TODO fix dpi scaling!
 	}
 	onClosed: messageResult = null
 

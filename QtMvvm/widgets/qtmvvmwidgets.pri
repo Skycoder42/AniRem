@@ -8,5 +8,3 @@ HEADERS += \
 SOURCES += \
 	$$PWD/widgetpresenter.cpp \
 	$$PWD/objectproxymodel.cpp
-
-include(../../Testing/modeltest.pri)

@@ -26,8 +26,8 @@ int main(int argc, char *argv[])
 	qmlRegisterUncreatableType<AddAnimeControl>("com.skycoder42.seasonproxer", 1, 0, "AddAnimeControl", "Controls cannot be created!");
 
 	QQmlApplicationEngine engine;
+	QtAndroidStuff::setupEngine(&engine);
 	engine.setNetworkAccessManagerFactory(new CachingNamFactory());
-	QtAndroidStuff::loadResolution(&engine);
 	engine.load(QUrl(QLatin1String("qrc:///qml/App.qml")));
 
 	return app.exec();

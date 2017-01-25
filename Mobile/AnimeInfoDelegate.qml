@@ -15,12 +15,14 @@ SwipeDelegate {
 	contentItem: RowLayout {
 		Image {
 			id: previewImage
-			sourceSize: Qt.size(42, 42)
 			asynchronous: true
 			fillMode: Image.PreserveAspectFit
 			horizontalAlignment: Image.AlignHCenter
 			verticalAlignment: Image.AlignVCenter
-			Layout.preferredWidth: 42
+			Layout.minimumWidth: 42
+			Layout.maximumWidth: 42
+			Layout.minimumHeight: 42
+			Layout.maximumHeight: 42
 			source: "https://cdn.proxer.me/cover/%1.jpg".arg(id)
 		}
 

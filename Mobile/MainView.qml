@@ -95,7 +95,6 @@ Page {
 
 	FloatingActionButton {
 		id: addButton
-		size: 56
 
 		anchors.right: parent.right
 		anchors.rightMargin: 10
