@@ -5,6 +5,7 @@
 #include <QCommandLineParser>
 #include <QObject>
 #include <QPointer>
+#include <QSharedPointer>
 #include <type_traits>
 
 #include "control.h"

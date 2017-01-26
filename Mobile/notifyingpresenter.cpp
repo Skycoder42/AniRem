@@ -16,7 +16,6 @@ void NotifyingPresenter::present(Control *control)
 	} else
 #endif
 		QuickPresenter::present(control);
-
 }
 
 void NotifyingPresenter::withdraw(Control *control)

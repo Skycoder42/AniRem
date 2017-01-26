@@ -11,12 +11,25 @@ import android.support.v4.app.NotificationCompat.BigTextStyle;
 
 import org.qtproject.qt5.android.bindings.QtActivity;
 
+import org.qtproject.qt5.android.bindings.QtService;
+import android.util.Log;
+import android.content.ComponentName;
+
 public class Notifier {	
 	private static final int STATUS_NOT_KEY = 42;
 	private static final int OPEN_INTENT_ID = 0;
 	public static final String GROUP_KEY = "com.skycoder42.seasonproxer.NotificationGroup";
 
 	private Context context;
+
+	static public void startService(Context context) {
+		Log.wtf("SeasonProxer.Notifier", "Starting service...");
+		ComponentName c = context.startService(new Intent(context, SeasonProxerService.class));
+		if(c != null)
+			Log.wtf("SeasonProxer.Notifier", "Created: " + c.flattenToString());
+		else
+			Log.wtf("SeasonProxer.Notifier", "IT IS NULL!!!");
+	}
 
 	public Notifier(Context context) {
 		this.context = context;

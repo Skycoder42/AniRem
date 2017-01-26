@@ -57,11 +57,11 @@
 				* minimal - useful for Quick Controls 2 apps, it is much faster than "full"
 				* none - useful for apps that don't use any of the above Qt modules
 				-->
-			<meta-data android:name="android.app.extract_android_style" android:value="full"/>
+			<meta-data android:name="android.app.extract_android_style" android:value="minimal"/>
 			<!-- extract android style -->
 		</activity>
 
-		<service android:process=":qt" android:name="org.qtproject.qt5.android.bindings.QtService">
+		<service android:process=":SPU_process" android:name="SeasonProxerService">
 			<!-- Application arguments -->
 			<meta-data android:name="android.app.arguments" android:value="--update"/>
 			<!-- Application arguments -->

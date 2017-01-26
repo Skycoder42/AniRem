@@ -6,6 +6,7 @@
 TEMPLATE = lib
 
 QT       += core gui network concurrent sql
+win32: CONFIG += skip_target_version_ext
 
 TARGET = SeasonProxerCore
 VERSION = 1.0.0

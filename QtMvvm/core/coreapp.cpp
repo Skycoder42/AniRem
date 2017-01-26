@@ -35,7 +35,10 @@ QSharedPointer<QCommandLineParser> CoreApp::getParser() const
 	auto parser = QSharedPointer<QCommandLineParser>::create();
 	bool allowInvalid = false;
 	setupParser(*parser.data(), allowInvalid);
-	return parser;
+	if(parser->parse(QCoreApplication::arguments()))
+		return parser;
+	else
+		return {};
 }
 
 IPresenter *CoreApp::presenter() const

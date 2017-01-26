@@ -41,7 +41,8 @@ DISTFILES += \
     android/res/drawable-xhdpi/ic_launcher.png \
     android/res/drawable-xxhdpi/ic_launcher.png \
     android/res/drawable-xxxhdpi/ic_launcher.png \
-    android/res/values/strings.xml
+    android/res/values/strings.xml \
+    android/src/de/skycoder42/seasonproxer/SeasonProxerService.java
 
 android {
 	HEADERS += statusview.h

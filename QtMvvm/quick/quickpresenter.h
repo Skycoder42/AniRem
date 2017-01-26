@@ -121,7 +121,7 @@ void QuickPresenter::registerAsPresenter()
 template<typename TPresenter>
 QQmlApplicationEngine *QuickPresenter::createWithEngine(const QUrl &initialFile)
 {
-	QuickPresenter::registerAsPresenter<NotifyingPresenter>();
+	QuickPresenter::registerAsPresenter<TPresenter>();
 	return createEngine(initialFile);
 }
 
