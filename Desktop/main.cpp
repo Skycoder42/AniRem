@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	QApplication::setApplicationName(QStringLiteral(TARGET));
 	QApplication::setApplicationVersion(QStringLiteral(VERSION));
 	QApplication::setOrganizationName(QStringLiteral(COMPANY));
-	QApplication::setOrganizationDomain(QStringLiteral("com.Skycoder42"));
+	QApplication::setOrganizationDomain(QStringLiteral("de.skycoder42"));
 	QApplication::setApplicationDisplayName(DISPLAY_NAME);
 	QApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 

@@ -5,6 +5,7 @@
 #include <quickextras.h>
 #include "cachingnamfactory.h"
 
+#include "notifyingpresenter.h"
 #include "maincontrol.h"
 #include "addanimecontrol.h"
 
@@ -15,11 +16,11 @@ int main(int argc, char *argv[])
 	QGuiApplication::setApplicationName(QStringLiteral(TARGET));
 	QGuiApplication::setApplicationVersion(QStringLiteral(VERSION));
 	QGuiApplication::setOrganizationName(QStringLiteral(COMPANY));
-	QGuiApplication::setOrganizationDomain(QStringLiteral("com.Skycoder42"));
+	QGuiApplication::setOrganizationDomain(QStringLiteral("de.skycoder42"));
 	QGuiApplication::setApplicationDisplayName(DISPLAY_NAME);
 	QGuiApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 
-	QuickPresenter::registerAsPresenter();
+	QuickPresenter::registerAsPresenter<NotifyingPresenter>();
 	QuickExtras::registerQmlSingleton();
 
 	qmlRegisterUncreatableType<MainControl>("com.skycoder42.seasonproxer", 1, 0, "MainControl", "Controls cannot be created!");

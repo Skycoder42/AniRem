@@ -8,6 +8,13 @@ TEMPLATE = lib
 QT       += core gui network concurrent sql
 
 TARGET = SeasonProxerCore
+VERSION = 1.0.0
+
+RC_ICONS += ./main.ico
+QMAKE_TARGET_COMPANY = "Skycoder42"
+QMAKE_TARGET_PRODUCT = "Proxer.me Season Reminder core library"
+QMAKE_TARGET_DESCRIPTION = $$QMAKE_TARGET_PRODUCT
+QMAKE_TARGET_COPYRIGHT = "Felix Barz"
 
 DEFINES += CORE_LIBRARY
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -43,12 +50,7 @@ SOURCES += core.cpp \
 	maincontrol.cpp \
     addanimecontrol.cpp \
 	seasonstatusloader.cpp \
-    statuscontrol.cpp
-
-unix {
-	target.path = /usr/lib
-	INSTALLS += target
-}
+	statuscontrol.cpp
 
 RESOURCES += \
 	seasonproxer_core.qrc

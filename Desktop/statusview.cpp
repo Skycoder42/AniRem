@@ -1,9 +1,9 @@
 #include "statusview.h"
 #include <QApplication>
 
-StatusView::StatusView(Control *mControl, QObject *parent) :
+StatusView::StatusView(StatusControl *control, QObject *parent) :
 	QObject(parent),
-	control(static_cast<StatusControl*>(mControl)),
+	control(static_cast<StatusControl*>(control)),
 	trayIcon(new QSystemTrayIcon(QApplication::windowIcon(), this)),
 	trayMenu(new QMenu()),
 	blinkTimer(new QTimer(this)),

@@ -95,8 +95,6 @@ void ProxerApp::updateDone(bool hasUpdates, QString errorString)
 
 	if(passiveUpdate) {
 		passiveUpdate = false;
-		//DEBUG: "always has updates"
-		hasUpdates = true;
 		if(hasUpdates || !errorString.isNull()) {
 			statusControl = new StatusControl(this);
 			if(errorString.isNull())

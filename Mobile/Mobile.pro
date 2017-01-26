@@ -22,17 +22,31 @@ DEFINES += QT_DEPRECATED_WARNINGS
 include(../QtMvvm/quick/qtmvvmquick.pri)
 
 HEADERS += \
-	cachingnamfactory.h
+	cachingnamfactory.h \
+    notifyingpresenter.h
 
 SOURCES += main.cpp \
-	cachingnamfactory.cpp
+	cachingnamfactory.cpp \
+    notifyingpresenter.cpp
 
 RESOURCES += qml.qrc
 
 DISTFILES += \
 	android/AndroidManifest.xml \
 	android/res/values/libs.xml \
-	android/build.gradle
+	android/build.gradle \
+	android/src/de/skycoder42/seasonproxer/Notifier.java \
+    android/res/drawable-hdpi/ic_launcher.png \
+    android/res/drawable-mdpi/ic_launcher.png \
+    android/res/drawable-xhdpi/ic_launcher.png \
+    android/res/drawable-xxhdpi/ic_launcher.png \
+    android/res/drawable-xxxhdpi/ic_launcher.png \
+    android/res/values/strings.xml
+
+android {
+	HEADERS += statusview.h
+	SOURCES += statusview.cpp
+}
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
