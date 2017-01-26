@@ -20,7 +20,7 @@ public slots:
 	void showMainControl();
 
 protected:
-	void setupParser(QCommandLineParser &parser, bool &allowInvalid) override;
+	void setupParser(QCommandLineParser &parser, bool &allowInvalid) const override;
 	bool startApp(const QCommandLineParser &parser) override;
 
 protected slots:

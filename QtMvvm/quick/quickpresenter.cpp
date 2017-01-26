@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QGuiApplication>
+#include <quickextras.h>
 
 static QObject *createQuickPresenterQmlSingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine);
 
@@ -140,6 +141,19 @@ void QuickPresenter::doRegister(QuickPresenter *presenter)
 	qmlRegisterSingletonType<QuickPresenterQmlSingleton>("com.skycoder42.qtmvvm", 1, 0, "QuickPresenter", createQuickPresenterQmlSingleton);
 	qmlRegisterUncreatableType<MessageResult>("com.skycoder42.qtmvvm", 1, 0, "MessageResult", "This type can only be passed to QML from the presenter!");
 	qmlProtectModule("com.skycoder42.qtmvvm", 1);
+}
+
+QQmlApplicationEngine *QuickPresenter::createEngine(const QUrl &file)
+{
+	QuickExtras::registerQmlSingleton();
+
+	auto engine = new QQmlApplicationEngine();
+	QObject::connect(qApp, &QGuiApplication::aboutToQuit,
+					 engine, &QQmlApplicationEngine::deleteLater);
+	QuickExtras::setupEngine(engine);
+	if(file.isValid())
+		engine->load(file);
+	return engine;
 }
 
 

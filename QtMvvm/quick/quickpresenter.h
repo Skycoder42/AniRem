@@ -1,7 +1,7 @@
 #ifndef QUICKPRESENTER_H
 #define QUICKPRESENTER_H
 
-#include <QQmlEngine>
+#include <QQmlApplicationEngine>
 #include <QQmlComponent>
 #include <QQuickItem>
 #include <ipresenter.h>
@@ -17,6 +17,8 @@ public:
 
 	template <typename TPresenter = QuickPresenter>
 	static void registerAsPresenter();
+	template <typename TPresenter = QuickPresenter>
+	static QQmlApplicationEngine *createWithEngine(const QUrl &initialFile = QStringLiteral("qrc:/qtmvvm/qml/App.qml"));
 	template <typename TControl>
 	static void registerViewExplicitly(const QUrl &viewUrl);
 	static void registerViewExplicitly(const char *controlName, const QUrl &viewUrl);
@@ -46,6 +48,7 @@ private:
 
 	void setQmlSingleton(QuickPresenterQmlSingleton *singleton);
 	static void doRegister(QuickPresenter *presenter);
+	static QQmlApplicationEngine *createEngine(const QUrl &file);
 };
 
 class QuickPresenterQmlSingleton : public QObject
@@ -113,6 +116,13 @@ template<typename TPresenter>
 void QuickPresenter::registerAsPresenter()
 {
 	doRegister(new TPresenter());
+}
+
+template<typename TPresenter>
+QQmlApplicationEngine *QuickPresenter::createWithEngine(const QUrl &initialFile)
+{
+	QuickPresenter::registerAsPresenter<NotifyingPresenter>();
+	return createEngine(initialFile);
 }
 
 template<typename TControl>

@@ -32,6 +32,8 @@ public:
 	static void setMainPresenter(IPresenter *presenter);
 	static void disableBoot();
 
+	QSharedPointer<QCommandLineParser> getParser() const;
+
 	//internal use only!
 	IPresenter *presenter() const;
 
@@ -51,7 +53,7 @@ public slots:
 					 int inputType = QMetaType::UnknownType);
 
 protected:
-	virtual void setupParser(QCommandLineParser &parser, bool &allowInvalid);
+	virtual void setupParser(QCommandLineParser &parser, bool &allowInvalid) const;
 	virtual bool startApp(const QCommandLineParser &parser) = 0;
 
 	bool autoShowHelpOrVersion(const QCommandLineParser &parser);

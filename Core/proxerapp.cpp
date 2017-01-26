@@ -32,7 +32,7 @@ void ProxerApp::showMainControl()
 		closeControl(statusControl);
 }
 
-void ProxerApp::setupParser(QCommandLineParser &parser, bool &allowInvalid)
+void ProxerApp::setupParser(QCommandLineParser &parser, bool &allowInvalid) const
 {
 	CoreApp::setupParser(parser, allowInvalid);
 	parser.addOption({

@@ -20,16 +20,12 @@ int main(int argc, char *argv[])
 	QGuiApplication::setApplicationDisplayName(DISPLAY_NAME);
 	QGuiApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 
-	QuickPresenter::registerAsPresenter<NotifyingPresenter>();
-	QuickExtras::registerQmlSingleton();
-
 	qmlRegisterUncreatableType<MainControl>("com.skycoder42.seasonproxer", 1, 0, "MainControl", "Controls cannot be created!");
 	qmlRegisterUncreatableType<AddAnimeControl>("com.skycoder42.seasonproxer", 1, 0, "AddAnimeControl", "Controls cannot be created!");
 
-	QQmlApplicationEngine engine;
-	QuickExtras::setupEngine(&engine);
-	engine.setNetworkAccessManagerFactory(new CachingNamFactory());
-	engine.load(QUrl(QLatin1String("qrc:///qml/App.qml")));
+	auto engine = QuickPresenter::createWithEngine<NotifyingPresenter>(QUrl());
+	engine->setNetworkAccessManagerFactory(new CachingNamFactory());
+	engine->load(QUrl(QLatin1String("qrc:///qml/App.qml")));
 
 	return app.exec();
 }

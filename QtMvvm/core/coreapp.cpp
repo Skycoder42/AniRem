@@ -30,6 +30,14 @@ void CoreApp::disableBoot()
 	_bootEnabled = false;
 }
 
+QSharedPointer<QCommandLineParser> CoreApp::getParser() const
+{
+	auto parser = QSharedPointer<QCommandLineParser>::create();
+	bool allowInvalid = false;
+	setupParser(*parser.data(), allowInvalid);
+	return parser;
+}
+
 IPresenter *CoreApp::presenter() const
 {
 	return _presenter.data();
@@ -82,7 +90,7 @@ void CoreApp::showMessage(MessageResult *result, MessageType type, const QString
 	_presenter->showMessage(result, type, title, text, positiveAction, negativeAction, neutralAction, inputType);
 }
 
-void CoreApp::setupParser(QCommandLineParser &parser, bool &allowInvalid)
+void CoreApp::setupParser(QCommandLineParser &parser, bool &allowInvalid) const
 {
 	parser.addHelpOption();
 	parser.addVersionOption();
