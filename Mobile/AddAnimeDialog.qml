@@ -8,7 +8,6 @@ import "../../quickextras/qml"
 AlertDialog {
 	title: qsTr("Add Anime")
 	property AddAnimeControl control: null
-	width: 350
 
 	property bool hasError: errorLabel.text !== ""
 

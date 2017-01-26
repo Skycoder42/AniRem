@@ -87,7 +87,7 @@ Page {
 			onAnimeDeleted: control.removeAnime(index)
 			onClicked: control.showDetails(id)
 			onPressAndHold: {
-				QtAndroidStuff.hapticFeedback();
+				QuickExtras.hapticFeedback();
 				control.uncheckAnime(index);
 			}
 		}

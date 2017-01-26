@@ -36,7 +36,7 @@ AlertDialog {
 		messageBox.open();
 	}
 
-	onOpened: {
+	function messageIcon() {
 		var base = "image://svg/qtmvvm/icons/ic_%2_%1".arg(Material.theme == Material.Dark ? "white" : "black");
 		switch(iconType) {
 		case QuickPresenter.Information:
@@ -53,20 +53,48 @@ AlertDialog {
 			base = base.arg("error");
 			break;
 		}
-
-		messageBox.title = "<img src=\"%1\" width=\"24\" height=\"24\" align=\"middle\">&nbsp;&nbsp;%2"
-								.arg(base)
-								.arg(title);//TODO fix dpi scaling!
+		return base;
 	}
+
 	onClosed: messageResult = null
+
+	header: RowLayout {
+		spacing: 14
+
+		Image {
+			id: icon
+			source: messageIcon()
+			visible: status == Image.Ready
+			fillMode: Image.PreserveAspectFit
+			horizontalAlignment: Image.AlignHCenter
+			verticalAlignment: Image.AlignVCenter
+			Layout.preferredWidth: 24
+			Layout.preferredHeight: 24
+			Layout.margins: 24
+			Layout.bottomMargin: 0
+			Layout.rightMargin: 0
+		}
+
+		Label {
+			text: messageBox.title
+			visible: messageBox.title
+			elide: Label.ElideRight
+			font.bold: true
+			font.pixelSize: 16
+			Layout.fillWidth: true
+			Layout.margins: 24
+			Layout.bottomMargin: 0
+			Layout.leftMargin: icon.visible ? 0 : 24
+		}
+	}
 
 	contentItem: ColumnLayout {
 		Label {
 			id: contentLabel
 			visible: text != ""
+			Layout.preferredWidth: contentLabel.implicitWidth
 
 			wrapMode: Text.Wrap
-			Layout.preferredWidth: messageBox.implicitWidth
 			Layout.fillWidth: true
 		}
 
@@ -74,7 +102,6 @@ AlertDialog {
 			id: content
 
 			Layout.preferredWidth: content.item ? content.item.implicitWidth : 0
-			Layout.maximumWidth: messageBox.width
 			Layout.fillWidth: true
 		}
 	}
