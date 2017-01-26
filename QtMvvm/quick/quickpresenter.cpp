@@ -61,6 +61,7 @@ QUrl QuickPresenter::findViewUrl(const QMetaObject *controlMetaObject)
 		}
 	}
 
+	qWarning() << "No QML-URL found for" << controlMetaObject->className();
 	return QUrl();
 }
 
@@ -211,7 +212,7 @@ void QuickPresenterQmlSingleton::withdraw(Control *control)
 
 void QuickPresenterQmlSingleton::showMessage(MessageResult *result, CoreApp::MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType)
 {
-	Q_ASSERT(_qmlPresenter);
+	Q_ASSERT(_qmlPresenter);//TODO ugly
 	QUrl inputUrl;
 	if(type == CoreApp::Input) {
 		inputUrl = _presenter->resolveInputType(inputType);
@@ -272,7 +273,7 @@ void QuickPresenterQmlSingleton::statusChanged(QQmlComponent::Status status)
 
 void QuickPresenterQmlSingleton::addObject(QQmlComponent *component, Control *control)
 {
-	Q_ASSERT(_qmlPresenter);
+	Q_ASSERT(_qmlPresenter);//TODO ugly
 	auto item = component->create();
 	if(!item) {
 		qCritical() << "Unable to create quick view from the loaded component"

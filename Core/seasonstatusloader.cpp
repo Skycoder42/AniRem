@@ -36,6 +36,8 @@ void SeasonStatusLoader::checkNext()
 			if(size != next->lastKnownSeasons()) {
 				next->setLastKnownSeasons(size);
 				next->setHasNewSeasons(true);
+			}
+			if(next->hasNewSeasons()) {
 				emit newSeasonsDetected(next);
 				anyUpdated = true;
 			}

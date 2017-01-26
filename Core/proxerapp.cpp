@@ -95,7 +95,9 @@ void ProxerApp::updateDone(bool hasUpdates, QString errorString)
 
 	if(passiveUpdate) {
 		passiveUpdate = false;
-		if(hasUpdates || !errorString.isNull()) {//TODO settings: show as long as marked as new
+		//DEBUG: "always has updates"
+		hasUpdates = true;
+		if(hasUpdates || !errorString.isNull()) {
 			statusControl = new StatusControl(this);
 			if(errorString.isNull())
 				statusControl->loadUpdateStatus(store->animeInfoList());

@@ -18,7 +18,7 @@ class CORESHARED_EXPORT AnimeInfo : public QObject
 	Q_PROPERTY(QUrl relationsUrl READ relationsUrl CONSTANT)
 
 public:
-	enum SeasonType {//TODO use...
+	enum SeasonType {
 		Anime,
 		Movie,
 		Ova,
