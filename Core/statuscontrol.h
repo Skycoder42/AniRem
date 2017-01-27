@@ -17,18 +17,12 @@ public:
 	void loadUpdateStatus(AnimeList animes);
 	void loadErrorStatus(const QString &error);
 
-	void onShow() override;
-
 public slots:
 	void showMainControl();
 
 signals:
+	void updateProgress(int current, int max);
 	void showUpdateNotification(bool success, const QString &title, const QString &message);
-
-private:
-	bool success;
-	QString title;
-	QString message;
 };
 
 #endif // STATUSCONTROL_H

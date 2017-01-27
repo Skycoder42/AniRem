@@ -10,15 +10,19 @@ import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.BigTextStyle;
-import android.widget.Toast;
 
 import org.qtproject.qt5.android.bindings.QtActivity;
 import org.qtproject.qt5.android.bindings.QtService;
 
+import android.util.Log;
+
 public class SeasonProxerService extends QtService {
+	private static final int PROGRESS_NOT_KEY = 13;
 	private static final int STATUS_NOT_KEY = 42;
 	private static final int OPEN_INTENT_ID = 0;
 	public static final String GROUP_KEY = "com.skycoder42.seasonproxer.NotificationGroup";
+
+	private NotificationCompat.Builder progressBuilder = null;
 
 	public static native void quitApp();
 
@@ -28,11 +32,6 @@ public class SeasonProxerService extends QtService {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-//		NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-//						.setContentTitle("ServiceTest")
-//						.setSmallIcon(R.drawable.ic_launcher);
-
-//		startForeground(123, builder.build());
 		super.onStartCommand(intent, flags, startId);
 		return Service.START_NOT_STICKY;
 	}
@@ -48,7 +47,32 @@ public class SeasonProxerService extends QtService {
 		return null;
 	}
 
+	public void showProgressNotification() {
+		progressBuilder = new NotificationCompat.Builder(this)
+			.setContentTitle(getResources().getString(R.string.update_progress_title))
+			.setContentText(getResources().getString(R.string.update_progress_text))
+			.setContentInfo(getResources().getString(R.string.app_name))
+			.setCategory(NotificationCompat.CATEGORY_PROGRESS)
+			.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
+			.setSmallIcon(R.drawable.ic_launcher)
+			.setOngoing(true)
+			.setProgress(0, 0, true)
+			.setGroup(GROUP_KEY);
+
+		startForeground(PROGRESS_NOT_KEY, progressBuilder.build());
+	}
+
+	public void updateProgress(int current, int max)
+	{
+		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		progressBuilder.setProgress(max, current, false)
+			.setContentText(current + " / " + max);
+		manager.notify(PROGRESS_NOT_KEY, progressBuilder.build());
+	}
+
 	public void showUpdateNotification(boolean success, String title, String message) {
+		stopForeground(true);
+
 		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
 		Intent openIntent = new Intent(this, QtActivity.class);
@@ -62,7 +86,7 @@ public class SeasonProxerService extends QtService {
 			.setContentText(getResources().getString(R.string.expand_notifcation))
 			.setStyle(new NotificationCompat.BigTextStyle()
 				.bigText(message))
-			.setContentInfo("Proxer.me Season Reminder")
+			.setContentInfo(getResources().getString(R.string.app_name))
 			.setContentIntent(pending)
 			.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
 			.setSmallIcon(R.drawable.ic_launcher)

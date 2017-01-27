@@ -9,7 +9,9 @@
 #include "maincontrol.h"
 #include "addanimecontrol.h"
 
+#ifdef Q_OS_ANDROID
 #include <QtAndroidExtras>
+#endif
 
 static bool isServer();
 
@@ -33,12 +35,6 @@ int main(int argc, char *argv[])
 		auto engine = QuickPresenter::createWithEngine<NotifyingPresenter>(QUrl());
 		engine->setNetworkAccessManagerFactory(new CachingNamFactory());
 		engine->load(QUrl(QLatin1String("qrc:///qml/App.qml")));
-
-		//DEBUG
-		QAndroidJniObject::callStaticMethod<void>("de/skycoder42/seasonproxer/SeasonProxerService",
-												  "startService",
-												  "(Landroid/content/Context;)V",
-												  QtAndroid::androidContext().object());
 	}
 
 	auto res = app.exec();

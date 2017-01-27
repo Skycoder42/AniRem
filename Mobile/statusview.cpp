@@ -7,8 +7,17 @@ StatusView::StatusView(Control *mControl, QObject *parent) :
 	service(QtAndroid::androidService())
 {
 	Q_ASSERT(service.isValid());
+	service.callMethod<void>("showProgressNotification");
+
+	connect(control, &StatusControl::updateProgress,
+			this, &StatusView::updateProgress);
 	connect(control, &StatusControl::showUpdateNotification,
 			this, &StatusView::showUpdateNotification);
+}
+
+void StatusView::updateProgress(int current, int max)
+{
+	service.callMethod<void>("updateProgress", "(II)V", (jint)current, (jint)max);
 }
 
 void StatusView::showUpdateNotification(bool success, const QString &title, const QString &message)

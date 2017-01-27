@@ -71,7 +71,12 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 			this, &ProxerApp::updateDone);
 
 	passiveUpdate = parser.isSet("update");
-	if(!passiveUpdate)
+	if(passiveUpdate) {
+		statusControl = new StatusControl(this);
+		connect(loader, &SeasonStatusLoader::updated,
+				statusControl, &StatusControl::updateProgress);
+		showControl(statusControl);
+	} else
 		showControl(mainControl);
 	return true;
 }
@@ -96,14 +101,12 @@ void ProxerApp::updateDone(bool hasUpdates, QString errorString)
 	if(passiveUpdate) {
 		passiveUpdate = false;
 		if(hasUpdates || !errorString.isNull()) {
-			statusControl = new StatusControl(this);
 			if(errorString.isNull())
 				statusControl->loadUpdateStatus(store->animeInfoList());
 			else
 				statusControl->loadErrorStatus(errorString);
-			showControl(statusControl);
 		} else
-			qApp->quit();
+			qApp->quit();//TODO will not work on android
 	} else {
 		if(!errorString.isNull())
 			CoreMessage::critical(tr("Season check failed"), errorString);

@@ -2,10 +2,7 @@
 #include "proxerapp.h"
 
 StatusControl::StatusControl(QObject *parent) :
-	Control(parent),
-	success(false),
-	title(),
-	message()
+	Control(parent)
 {}
 
 void StatusControl::loadUpdateStatus(AnimeList animes)
@@ -13,26 +10,19 @@ void StatusControl::loadUpdateStatus(AnimeList animes)
 	QStringList updatesList;
 	foreach (auto anime, animes) {
 		if(anime->hasNewSeasons()) {
-			updatesList.append(tr(" • %1: %n season(s)\n", "", anime->lastKnownSeasons())
+			updatesList.append(tr("• %1: %n season(s)", "", anime->lastKnownSeasons())
 							   .arg(anime->title()));
 		}
 	}
 
-	success = true;
-	title = tr("%n new season(s) detected!", "", updatesList.size());
-	message = updatesList.join(QLatin1Char('\n'));
+	emit showUpdateNotification(true,
+								tr("%n new season(s) detected!", "", updatesList.size()),
+								updatesList.join(QLatin1Char('\n')));
 }
 
 void StatusControl::loadErrorStatus(const QString &error)
 {
-	success = false;
-	title = tr("Season check failed!");
-	message = error;
-}
-
-void StatusControl::onShow()
-{
-	emit showUpdateNotification(success, title, message);
+	emit showUpdateNotification(false, tr("Season check failed!"), error);
 }
 
 void StatusControl::showMainControl()

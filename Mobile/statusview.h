@@ -13,6 +13,7 @@ public:
 	explicit StatusView(Control *mControl, QObject *parent = nullptr);
 
 private slots:
+	void updateProgress(int current, int max);
 	void showUpdateNotification(bool success, const QString &title, const QString &message);
 
 private:

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="app_name">Proxer.me Season Reminder</string>
+	<string name="update_progress_title">Checking for new seasons…</string>
+	<string name="update_progress_text">Loading Animes…</string>
 	<string name="expand_notifcation">Expand to see all details</string>
 </resources>
