@@ -20,6 +20,8 @@ public class SeasonProxerService extends QtService {
 	private static final int OPEN_INTENT_ID = 0;
 	public static final String GROUP_KEY = "com.skycoder42.seasonproxer.NotificationGroup";
 
+	public static native void quitApp();
+
 	static public void startService(Context context) {
 		context.startService(new Intent(context, SeasonProxerService.class));
 	}
@@ -33,6 +35,12 @@ public class SeasonProxerService extends QtService {
 //		startForeground(123, builder.build());
 		super.onStartCommand(intent, flags, startId);
 		return Service.START_NOT_STICKY;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		quitApp();
 	}
 
 	@Override

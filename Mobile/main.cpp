@@ -11,6 +11,8 @@
 
 #include <QtAndroidExtras>
 
+static bool isServer();
+
 int main(int argc, char *argv[])
 {
 	QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -25,8 +27,7 @@ int main(int argc, char *argv[])
 	qmlRegisterUncreatableType<MainControl>("com.skycoder42.seasonproxer", 1, 0, "MainControl", "Controls cannot be created!");
 	qmlRegisterUncreatableType<AddAnimeControl>("com.skycoder42.seasonproxer", 1, 0, "AddAnimeControl", "Controls cannot be created!");
 
-	auto parser = coreApp->getParser();
-	if(parser && parser->isSet("update")) {
+	if(isServer()) {
 		QuickPresenter::registerAsPresenter<NotifyingPresenter>();
 	} else {
 		auto engine = QuickPresenter::createWithEngine<NotifyingPresenter>(QUrl());
@@ -41,6 +42,15 @@ int main(int argc, char *argv[])
 	}
 
 	auto res = app.exec();
-	qDebug() << "qApp closed";
+#ifdef Q_OS_ANDROID
+	if(isServer())
+		QAndroidJniObject::callStaticMethod<void>("java/lang/System", "exit", "(I)V", res);
+#endif
 	return res;
+}
+
+static bool isServer()
+{
+	auto parser = coreApp->getParser();
+	return parser && parser->isSet("update");
 }
