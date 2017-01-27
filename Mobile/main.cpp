@@ -34,11 +34,13 @@ int main(int argc, char *argv[])
 		engine->load(QUrl(QLatin1String("qrc:///qml/App.qml")));
 
 		//DEBUG
-		QAndroidJniObject::callStaticMethod<void>("de/skycoder42/seasonproxer/Notifier",
+		QAndroidJniObject::callStaticMethod<void>("de/skycoder42/seasonproxer/SeasonProxerService",
 												  "startService",
 												  "(Landroid/content/Context;)V",
 												  QtAndroid::androidContext().object());
 	}
 
-	return app.exec();
+	auto res = app.exec();
+	qDebug() << "qApp closed";
+	return res;
 }

@@ -35,7 +35,6 @@ DISTFILES += \
 	android/AndroidManifest.xml \
 	android/res/values/libs.xml \
 	android/build.gradle \
-	android/src/de/skycoder42/seasonproxer/Notifier.java \
     android/res/drawable-hdpi/ic_launcher.png \
     android/res/drawable-mdpi/ic_launcher.png \
     android/res/drawable-xhdpi/ic_launcher.png \

@@ -17,7 +17,7 @@ private slots:
 
 private:
 	StatusControl *control;
-	QAndroidJniObject javaNotifier;
+	QAndroidJniObject service;
 };
 
 #endif // STATUSVIEW_H
