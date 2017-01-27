@@ -209,7 +209,7 @@ void SettingsDialog::createGroup(const SettingsGroup &group, QWidget *contentWid
 	}
 
 	foreach(auto entry, group.entries)
-		createEntry(entry, contentWidget, layout);
+		createEntry(entry, sectionWidget, sectionLayout);
 }
 
 void SettingsDialog::createEntry(const SettingsEntry &entry, QWidget *sectionWidget, QFormLayout *layout)

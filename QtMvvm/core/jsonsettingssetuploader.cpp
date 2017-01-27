@@ -9,8 +9,11 @@ SettingsSetup JsonSettingsSetupLoader::loadSetup(QIODevice *device, QIODevice *e
 {
 	QJsonParseError error;
 	auto doc = QJsonDocument::fromJson(device->readAll(), &error);
-	if(error.error != QJsonParseError::NoError)
-		throw error.errorString();
+	if(error.error != QJsonParseError::NoError) {
+		throw QStringLiteral("%1 (at %2)")
+				.arg(error.errorString())
+				.arg(error.offset);
+	}
 
 	QVariantHash extraProperties;
 	if(extraPropertyDevice)
@@ -37,7 +40,7 @@ SettingsSetup JsonSettingsSetupLoader::loadSetup(QIODevice *device, QIODevice *e
 		else if(root.contains(QStringLiteral("entries")))
 			dummyCategory[QStringLiteral("entries")] = root[QStringLiteral("entries")];
 		else
-			throw QStringLiteral("No valid entry key found");
+			throw QStringLiteral("setup: No valid entry key found");
 		QJsonArray dummyArray;
 		dummyArray.append(dummyCategory);
 		setup.categories = parseCategories(dummyArray, extraProperties);
@@ -50,9 +53,11 @@ QVariantHash JsonSettingsSetupLoader::loadExtraProperties(QIODevice *device)
 {
 	QJsonParseError error;
 	auto doc = QJsonDocument::fromJson(device->readAll(), &error);
-	if(error.error != QJsonParseError::NoError)
-		throw error.errorString();
-	else
+	if(error.error != QJsonParseError::NoError) {
+		throw QStringLiteral("%1 (at %2)")
+				.arg(error.errorString())
+				.arg(error.offset);
+	} else
 		return doc.object().toVariantHash();
 }
 
@@ -84,7 +89,7 @@ QList<SettingsCategory> JsonSettingsSetupLoader::parseCategories(QJsonArray data
 			else if(cJson.contains(QStringLiteral("entries")))
 				dummySection[QStringLiteral("entries")] = cJson[QStringLiteral("entries")];
 			else
-				throw QStringLiteral("No valid entry key found");
+				throw QStringLiteral("category: No valid entry key found");
 			QJsonArray dummyArray;
 			dummyArray.append(dummySection);
 			category.sections = parseSections(dummyArray, extraProperties);
@@ -120,7 +125,7 @@ QList<SettingsSection> JsonSettingsSetupLoader::parseSections(QJsonArray data, c
 			if(sJson.contains(QStringLiteral("entries")))
 				dummyGroup[QStringLiteral("entries")] = sJson[QStringLiteral("entries")];
 			else
-				throw QStringLiteral("No valid entry key found");
+				throw QStringLiteral("section: No valid entry key found");
 			QJsonArray dummyArray;
 			dummyArray.append(dummyGroup);
 			section.groups = parseGroups(dummyArray, extraProperties);
@@ -144,7 +149,7 @@ QList<SettingsGroup> JsonSettingsSetupLoader::parseGroups(QJsonArray data, const
 		if(gJson.contains(QStringLiteral("entries")))
 			group.entries = parseEntries(gJson[QStringLiteral("entries")].toObject(), extraProperties);
 		else
-			throw QStringLiteral("No valid entry key found");
+			throw QStringLiteral("group: No valid entry key found");
 
 		groups.append(group);
 	}
