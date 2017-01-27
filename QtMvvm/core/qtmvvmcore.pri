@@ -8,7 +8,10 @@ HEADERS += \
 	$$PWD/messageresult.h \
 	$$PWD/coremessage.h \
 	$$PWD/objectlistmodel.h \
-	$$PWD/objectsignalhelper.h
+	$$PWD/objectsignalhelper.h \
+    $$PWD/settingscontrol.h \
+    $$PWD/settingssetuploader.h \
+    $$PWD/jsonsettingssetuploader.h
 
 SOURCES += \
 	$$PWD/coreapp.cpp \
@@ -16,7 +19,9 @@ SOURCES += \
 	$$PWD/messageresult.cpp \
 	$$PWD/coremessage.cpp \
 	$$PWD/objectlistmodel.cpp \
-	$$PWD/objectsignalhelper.cpp
+	$$PWD/objectsignalhelper.cpp \
+    $$PWD/settingscontrol.cpp \
+    $$PWD/jsonsettingssetuploader.cpp
 
 INCLUDEPATH += $$PWD
 
