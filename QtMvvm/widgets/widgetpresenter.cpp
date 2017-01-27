@@ -1,4 +1,5 @@
 #include "ipresentingwidget.h"
+#include "settingsdialog.h"
 #include "widgetpresenter.h"
 
 #include <QDebug>
@@ -300,4 +301,9 @@ MessageResult::ResultType WidgetPresenter::getResult(int dialogResult)
 	default:
 		return MessageResult::NeutralResult;
 	}
+}
+
+void WidgetPresenter::registerDefaults()
+{
+	registerWidget<SettingsDialog>();
 }

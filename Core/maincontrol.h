@@ -5,6 +5,7 @@
 #include "animestore.h"
 #include "control.h"
 #include <objectlistmodel.h>
+#include <settingscontrol.h>
 
 class CORESHARED_EXPORT MainControl : public Control
 {
@@ -23,6 +24,7 @@ public:
 
 public slots:
 	void reload();
+	void showSettings();
 
 	void uncheckAnime(int index);
 
@@ -45,6 +47,8 @@ private:
 	AnimeStore *store;
 	GenericListModel<AnimeInfo> *model;
 	bool _loading;
+
+	SettingsControl *settings;
 
 	void createAddControl(int id = -1);
 	void internalAddInfo(AnimeInfo *info);

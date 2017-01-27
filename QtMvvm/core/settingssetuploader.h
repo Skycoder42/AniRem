@@ -45,14 +45,12 @@ struct SettingsSetup
 {
 	bool allowSearch;
 	bool allowRestore;
-	bool autoHideGroups;
 
 	QList<SettingsCategory> categories;
 
 	inline SettingsSetup() :
 		allowSearch(false),
 		allowRestore(false),
-		autoHideGroups(true),
 		categories()
 	{}
 };
@@ -62,7 +60,7 @@ class SettingsSetupLoader
 public:
 	virtual inline ~SettingsSetupLoader() {}
 
-	virtual SettingsSetup loadSetup(QIODevice *device) = 0;
+	virtual SettingsSetup loadSetup(QIODevice *device, QIODevice *extraPropertyDevice = nullptr) = 0;
 };
 
 #endif // SETTINGSSETUPLOADER_H

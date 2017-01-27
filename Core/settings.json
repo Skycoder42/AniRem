@@ -1,40 +1,15 @@
 {
-	"properties": "./properties.json",
 	"allowSearch": true,
 	"allowRestore": true,
-	"autoHideGroups": true,
-	"categories": [
-		{
-			"_default": true,
-			"title": "General Settings",
-			"icon": ":/icons/settings.ico",
-			"tooltip": "General Settings",
 
-			"sections": [
-				{
-					"display": {
-						"title": "General",
-						"icon": null,
-						"tooltip": "General",
-					},
-					"groups": [
-						{
-							"title": "Common",
-
-							"entries": {
-								"openEntries": {
-									"title": "Open Animes in browser",
-									"tooltip": "When you long press animes, for example to remove the new seasons mark, the browser will automatically open the animes site",
-									"type": "bool",
-									"default": false,
-									"searchKeys": ["open", "click", "browser", "new"],
-									"properties": null
-								}
-							}
-						}
-					]
-				}
-			]
+	"entries": {
+		"openEntries": {
+			"title": "&Open Animes in browser",
+			"tooltip": "When you long press animes, for example to remove the new seasons mark, the browser will automatically open the animes site",
+			"type": "bool",
+			"default": false,
+			"searchKeys": ["open", "click", "browser", "new"],
+			"properties": null
 		}
-	]
+	}
 }

@@ -27,6 +27,8 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 
 	connect(ui->actionReload_Seasons, &QAction::triggered,
 			control, &MainControl::reload);
+	connect(ui->action_Settings, &QAction::triggered,
+			control, &MainControl::showSettings);
 	connect(ui->actionAdd_Anime, &QAction::triggered,
 			control, &MainControl::addAnime);
 	connect(ui->actionPaste_ID_URL, &QAction::triggered,

@@ -1,6 +1,9 @@
 #include "jsonsettingssetuploader.h"
 #include "settingscontrol.h"
 
+#include <QFile>
+#include <QDebug>
+
 SettingsControl::SettingsControl(QObject *parent) :
 	SettingsControl({}, nullptr, parent)
 {}
@@ -27,9 +30,26 @@ void SettingsControl::setSetupLoader(SettingsSetupLoader *loader)
 	_setupLoader.reset(loader);
 }
 
-SettingsSetupLoader *SettingsControl::setupLoader() const
+SettingsSetup SettingsControl::loadSetup() const
 {
-	return _setupLoader.data();
+	try {
+		SettingsSetup setup;
+		QFile setupFile(":/etc/settings.json");
+		if(setupFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+			QFile extraFile(":/etc/properties.json");
+			if(extraFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+				setup = _setupLoader->loadSetup(&setupFile, &extraFile);
+				extraFile.close();
+			} else
+				setup = _setupLoader->loadSetup(&setupFile);
+			setupFile.close();
+		}
+		return setup;
+	} catch(QString s) {
+		qWarning() << "Failed to load settings setup with error"
+				   << s;
+		return {};
+	}
 }
 
 QString SettingsControl::setupFilePath() const

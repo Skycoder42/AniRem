@@ -49,6 +49,7 @@ private:
 	QHash<Control*, QWidget*> activeControls;
 
 	static MessageResult::ResultType getResult(int dialogResult);
+	static void registerDefaults();
 };
 
 // ------------- Generic Implementation -------------
@@ -58,6 +59,7 @@ void WidgetPresenter::registerAsPresenter()
 {
 	static_assert(std::is_base_of<WidgetPresenter, TPresenter>::value, "TPresenter must inherit WidgetPresenter!");
 	CoreApp::setMainPresenter(new TPresenter());
+	registerDefaults();
 }
 
 template<typename TWidget>

@@ -2,16 +2,19 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QFile>
 
 JsonSettingsSetupLoader::JsonSettingsSetupLoader(){}
 
-SettingsSetup JsonSettingsSetupLoader::loadSetup(QIODevice *device)
+SettingsSetup JsonSettingsSetupLoader::loadSetup(QIODevice *device, QIODevice *extraPropertyDevice)
 {
 	QJsonParseError error;
 	auto doc = QJsonDocument::fromJson(device->readAll(), &error);
 	if(error.error != QJsonParseError::NoError)
 		throw error.errorString();
+
+	QVariantHash extraProperties;
+	if(extraPropertyDevice)
+		extraProperties = loadExtraProperties(extraPropertyDevice);
 
 	SettingsSetup setup;
 
@@ -20,11 +23,9 @@ SettingsSetup JsonSettingsSetupLoader::loadSetup(QIODevice *device)
 		setup.allowSearch = root[QStringLiteral("allowSearch")].toBool();
 	if(root.contains(QStringLiteral("allowRestore")))
 		setup.allowRestore = root[QStringLiteral("allowRestore")].toBool();
-	if(root.contains(QStringLiteral("autoHideGroups")))
-		setup.autoHideGroups = root[QStringLiteral("autoHideGroups")].toBool();
 
 	if(root.contains(QStringLiteral("categories")))
-		setup.categories = parseCategories(root[QStringLiteral("categories")].toArray());
+		setup.categories = parseCategories(root[QStringLiteral("categories")].toArray(), extraProperties);
 	else {
 		//create default --> dummy
 		QJsonObject dummyCategory;
@@ -39,13 +40,23 @@ SettingsSetup JsonSettingsSetupLoader::loadSetup(QIODevice *device)
 			throw QStringLiteral("No valid entry key found");
 		QJsonArray dummyArray;
 		dummyArray.append(dummyCategory);
-		setup.categories = parseCategories(dummyArray);
+		setup.categories = parseCategories(dummyArray, extraProperties);
 	}
 
 	return setup;
 }
 
-QList<SettingsCategory> JsonSettingsSetupLoader::parseCategories(QJsonArray data)
+QVariantHash JsonSettingsSetupLoader::loadExtraProperties(QIODevice *device)
+{
+	QJsonParseError error;
+	auto doc = QJsonDocument::fromJson(device->readAll(), &error);
+	if(error.error != QJsonParseError::NoError)
+		throw error.errorString();
+	else
+		return doc.object().toVariantHash();
+}
+
+QList<SettingsCategory> JsonSettingsSetupLoader::parseCategories(QJsonArray data, const QVariantHash &extraProperties)
 {
 	QList<SettingsCategory> categories;
 	foreach(auto value, data) {
@@ -61,11 +72,9 @@ QList<SettingsCategory> JsonSettingsSetupLoader::parseCategories(QJsonArray data
 			category.icon = QIcon(cJson[QStringLiteral("icon")].toString());
 		if(cJson.contains(QStringLiteral("tooltip")))
 			category.tooltip = cJson[QStringLiteral("tooltip")].toString();
-		if(category.tooltip.isNull())
-			category.tooltip = category.title;
 
 		if(cJson.contains(QStringLiteral("sections")))
-			category.sections = parseSections(cJson[QStringLiteral("sections")].toArray());
+			category.sections = parseSections(cJson[QStringLiteral("sections")].toArray(), extraProperties);
 		else {
 			//create default --> dummy
 			QJsonObject dummySection;
@@ -78,7 +87,7 @@ QList<SettingsCategory> JsonSettingsSetupLoader::parseCategories(QJsonArray data
 				throw QStringLiteral("No valid entry key found");
 			QJsonArray dummyArray;
 			dummyArray.append(dummySection);
-			category.sections = parseSections(dummyArray);
+			category.sections = parseSections(dummyArray, extraProperties);
 		}
 
 		categories.append(category);
@@ -87,7 +96,7 @@ QList<SettingsCategory> JsonSettingsSetupLoader::parseCategories(QJsonArray data
 	return categories;
 }
 
-QList<SettingsSection> JsonSettingsSetupLoader::parseSections(QJsonArray data)
+QList<SettingsSection> JsonSettingsSetupLoader::parseSections(QJsonArray data, const QVariantHash &extraProperties)
 {
 	QList<SettingsSection> sections;
 	foreach(auto value, data) {
@@ -101,11 +110,9 @@ QList<SettingsSection> JsonSettingsSetupLoader::parseSections(QJsonArray data)
 			section.icon = QIcon(sJson[QStringLiteral("icon")].toString());
 		if(sJson.contains(QStringLiteral("tooltip")))
 			section.tooltip = sJson[QStringLiteral("tooltip")].toString();
-		if(section.tooltip.isNull())
-			section.tooltip = section.title;
 
 		if(sJson.contains(QStringLiteral("groups")))
-			section.groups = parseGroups(sJson[QStringLiteral("groups")].toArray());
+			section.groups = parseGroups(sJson[QStringLiteral("groups")].toArray(), extraProperties);
 		else {
 			//create default --> dummy
 			QJsonObject dummyGroup;
@@ -116,7 +123,7 @@ QList<SettingsSection> JsonSettingsSetupLoader::parseSections(QJsonArray data)
 				throw QStringLiteral("No valid entry key found");
 			QJsonArray dummyArray;
 			dummyArray.append(dummyGroup);
-			section.groups = parseGroups(dummyArray);
+			section.groups = parseGroups(dummyArray, extraProperties);
 		}
 
 		sections.append(section);
@@ -125,7 +132,7 @@ QList<SettingsSection> JsonSettingsSetupLoader::parseSections(QJsonArray data)
 	return sections;
 }
 
-QList<SettingsGroup> JsonSettingsSetupLoader::parseGroups(QJsonArray data)
+QList<SettingsGroup> JsonSettingsSetupLoader::parseGroups(QJsonArray data, const QVariantHash &extraProperties)
 {
 	QList<SettingsGroup> groups;
 	foreach(auto value, data) {
@@ -135,7 +142,7 @@ QList<SettingsGroup> JsonSettingsSetupLoader::parseGroups(QJsonArray data)
 			group.title = gJson[QStringLiteral("title")].toString();
 
 		if(gJson.contains(QStringLiteral("entries")))
-			group.entries = parseEntries(gJson[QStringLiteral("entries")].toObject());
+			group.entries = parseEntries(gJson[QStringLiteral("entries")].toObject(), extraProperties);
 		else
 			throw QStringLiteral("No valid entry key found");
 
@@ -145,7 +152,7 @@ QList<SettingsGroup> JsonSettingsSetupLoader::parseGroups(QJsonArray data)
 	return groups;
 }
 
-QList<SettingsEntry> JsonSettingsSetupLoader::parseEntries(QJsonObject data)
+QList<SettingsEntry> JsonSettingsSetupLoader::parseEntries(QJsonObject data, const QVariantHash &extraProperties)
 {
 	QList<SettingsEntry> entries;
 	for(auto it = data.constBegin(); it != data.constEnd(); it++) {
@@ -159,6 +166,9 @@ QList<SettingsEntry> JsonSettingsSetupLoader::parseEntries(QJsonObject data)
 		foreach(auto key, eJson["searchKeys"].toArray())
 			entry.searchKeys.append(key.toString());
 		entry.properties = eJson[QStringLiteral("properties")].toVariant().toMap();
+		auto extras = extraProperties.value(entry.key).toMap();
+		for(auto jt = extras.constBegin(); jt != extras.constEnd(); jt++)
+			entry.properties.insert(jt.key(), jt.value());
 		entries.append(entry);
 	}
 	return entries;
