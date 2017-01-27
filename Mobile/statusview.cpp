@@ -20,4 +20,5 @@ void StatusView::showUpdateNotification(bool success, const QString &title, cons
 							 QAndroidJniObject::fromString(message).object<jstring>());
 
 	service.callMethod<void>("stopSelf");
+	//TODO QMetaObject::invokeMethod(qApp, "quit", Qt::QueuedConnection);
 }
