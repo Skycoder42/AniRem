@@ -15,7 +15,8 @@ SettingsDialog::SettingsDialog(Control *mControl, QWidget *parent) :
 	ui(new Ui::SettingsDialog),
 	delegate(nullptr),
 	maxWidthBase(0),
-	entryMap()
+	entryMap(),
+	changedEntries()
 {
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setAutoDefault(false);
@@ -90,21 +91,48 @@ void SettingsDialog::updateWidth(int width)
 	}
 }
 
+void SettingsDialog::propertyChanged()
+{
+	auto widget = qobject_cast<QWidget*>(sender());
+	if(widget)
+		changedEntries.insert(widget);
+}
+
+void SettingsDialog::saveValues()
+{
+	for(auto it = changedEntries.begin(); it != changedEntries.end();) {
+		auto widget = *it;
+		auto info = entryMap.value(widget);
+		control->saveValue(info.first.key, info.second.read(widget));
+		if(info.second.hasNotifySignal())
+			it = changedEntries.erase(it);
+		else
+			it++;
+	}
+}
+
+void SettingsDialog::restoreValues()
+{
+	foreach(auto info, entryMap)
+		control->resetValue(info.first.key);
+}
+
 void SettingsDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
 	switch(ui->buttonBox->standardButton(button)) {
 	case QDialogButtonBox::Ok:
-		//TODO
+		saveValues();
 		accept();
 		break;
 	case QDialogButtonBox::Cancel:
 		reject();
 		break;
 	case QDialogButtonBox::Apply:
-		//TODO
+		saveValues();
 		break;
 	case QDialogButtonBox::RestoreDefaults:
-		//TODO
+		if(control->canRestoreDefaults())
+			restoreValues();
 		accept();
 		break;
 	default:
@@ -143,7 +171,7 @@ int SettingsDialog::calcSpacing(Qt::Orientation orientation)
 void SettingsDialog::createUi(const SettingsSetup &setup)
 {
 	ui->filterLineEdit->setVisible(setup.allowSearch);
-	ui->buttonBox->button(QDialogButtonBox::RestoreDefaults)->setVisible(setup.allowRestore);
+	ui->buttonBox->button(QDialogButtonBox::RestoreDefaults)->setVisible(setup.allowRestore && control->canRestoreDefaults());
 
 	foreach(auto category, setup.categories)
 		createCategory(category);
@@ -215,10 +243,23 @@ void SettingsDialog::createGroup(const SettingsGroup &group, QWidget *contentWid
 void SettingsDialog::createEntry(const SettingsEntry &entry, QWidget *sectionWidget, QFormLayout *layout)
 {
 	QWidget *content = widgetFactory->createWidget(entry.type, sectionWidget);
-	if(!content){
+	if(!content) {
 		qWarning() << "Failed to create settings widget for type" << entry.type;
 		return;
 	}
+	auto property = widgetFactory->userProperty(content);
+	if(!property.isValid()) {
+		qWarning() << "Failed to get user property for type" << entry.type;
+		return;
+	}
+
+	property.write(content, control->loadValue(entry.key, entry.defaultValue));
+	if(property.hasNotifySignal()) {
+		auto changedSlot = metaObject()->method(metaObject()->indexOfSlot("propertyChanged()"));
+		connect(content, property.notifySignal(),
+				this, changedSlot);
+	} else
+		changedEntries.insert(content);
 
 	auto label = new QLabel(entry.title + tr(":"), sectionWidget);
 	label->setBuddy(content);
@@ -229,7 +270,7 @@ void SettingsDialog::createEntry(const SettingsEntry &entry, QWidget *sectionWid
 		control->setProperty(it.key().toLatin1().constData(), it.value());
 
 	layout->addRow(label, content);
-	entryMap.insert(content, entry);
+	entryMap.insert(content, {entry, property});
 }
 
 void SettingsDialog::searchInDialog(const QRegularExpression &regex)
@@ -322,7 +363,7 @@ bool SettingsDialog::searchInEntry(const QRegularExpression &regex, QLabel *labe
 		label->setStyleSheet(QString());
 		return false;
 	}
-	auto keys = entryMap.value(content).searchKeys;
+	auto keys = entryMap.value(content).first.searchKeys;
 	keys.append(label->text());
 	foreach(auto key, keys) {
 		if(regex.match(key).hasMatch()) {

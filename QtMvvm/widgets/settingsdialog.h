@@ -11,6 +11,8 @@
 #include <settingscontrol.h>
 #include <QGroupBox>
 #include <QLabel>
+#include <QSignalMapper>
+#include <QSet>
 
 namespace Ui {
 class SettingsDialog;
@@ -45,6 +47,10 @@ private slots:
 	void resetListSize();
 	void updateWidth(int width);
 
+	void propertyChanged();
+	void saveValues();
+	void restoreValues();
+
 	void on_buttonBox_clicked(QAbstractButton *button);
 	void on_filterLineEdit_textChanged(const QString &searchText);
 
@@ -56,7 +62,9 @@ private:
 	CategoryItemDelegate *delegate;
 	int maxWidthBase;
 
-	QHash<QWidget*, SettingsEntry> entryMap;
+	typedef QPair<SettingsEntry, QMetaProperty> EntryInfo;
+	QHash<QWidget*, EntryInfo> entryMap;
+	QSet<QWidget*> changedEntries;
 
 	int calcSpacing(Qt::Orientation orientation);
 

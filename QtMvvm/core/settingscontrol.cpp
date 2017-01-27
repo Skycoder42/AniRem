@@ -67,15 +67,9 @@ void SettingsControl::setMapping(const QString &uiId, const QString &settingsKey
 	_keyMapping.insert(uiId, settingsKey);
 }
 
-void SettingsControl::restoreDefaults(const QStringList &keyList)
+QVariant SettingsControl::loadValue(const QString &uiId, const QVariant &defaultValue)
 {
-	foreach(auto key, keyList)
-		resetValue(key);
-}
-
-QVariant SettingsControl::loadValue(const QString &uiId)
-{
-	return _settings->value(_keyMapping.value(uiId, uiId));
+	return _settings->value(_keyMapping.value(uiId, uiId), defaultValue);
 }
 
 void SettingsControl::saveValue(const QString &uiId, const QVariant &value)

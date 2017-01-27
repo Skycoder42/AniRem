@@ -26,11 +26,7 @@ public:
 
 	void setMapping(const QString &uiId, const QString &settingsKey);
 
-public slots:
-	virtual void restoreDefaults(const QStringList &keyList);
-
-protected:
-	virtual QVariant loadValue(const QString &uiId);
+	virtual QVariant loadValue(const QString &uiId, const QVariant &defaultValue);
 	virtual void saveValue(const QString &uiId, const QVariant &value);
 	virtual void resetValue(const QString &uiId);
 
