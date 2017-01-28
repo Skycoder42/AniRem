@@ -37,7 +37,7 @@ AlertDialog {
 	}
 
 	function messageIcon() {
-		var base = "image://svg/qtmvvm/icons/ic_%2_%1".arg(Material.theme == Material.Dark ? "white" : "black");
+		var base = "image://svg/qtmvvm/icons/ic_%1";
 		switch(iconType) {
 		case QuickPresenter.Information:
 		case QuickPresenter.Input:
@@ -61,13 +61,9 @@ AlertDialog {
 	header: RowLayout {
 		spacing: 14
 
-		Image {
+		TintIcon {
 			id: icon
 			source: messageIcon()
-			visible: status == Image.Ready
-			fillMode: Image.PreserveAspectFit
-			horizontalAlignment: Image.AlignHCenter
-			verticalAlignment: Image.AlignVCenter
 			Layout.preferredWidth: 24
 			Layout.preferredHeight: 24
 			Layout.margins: 24

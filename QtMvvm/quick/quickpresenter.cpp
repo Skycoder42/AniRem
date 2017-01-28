@@ -1,10 +1,12 @@
 #include "quickpresenter.h"
+#include "settingsuibuilder.h"
 
 #include <QDebug>
 #include <QDir>
 #include <QDirIterator>
 #include <QGuiApplication>
 #include <quickextras.h>
+#include <settingscontrol.h>
 
 static QObject *createQuickPresenterQmlSingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine);
 
@@ -140,6 +142,8 @@ void QuickPresenter::doRegister(QuickPresenter *presenter)
 	CoreApp::setMainPresenter(presenter);
 	qmlRegisterSingletonType<QuickPresenterQmlSingleton>("com.skycoder42.qtmvvm", 1, 0, "QuickPresenter", createQuickPresenterQmlSingleton);
 	qmlRegisterUncreatableType<MessageResult>("com.skycoder42.qtmvvm", 1, 0, "MessageResult", "This type can only be passed to QML from the presenter!");
+	qmlRegisterUncreatableType<SettingsControl>("com.skycoder42.qtmvvm", 1, 0, "SettingsControl", "Controls cannot be created!");
+	qmlRegisterType<SettingsUiBuilder>("com.skycoder42.qtmvvm", 1, 0, "SettingsUiBuilder");
 	qmlProtectModule("com.skycoder42.qtmvvm", 1);
 }
 

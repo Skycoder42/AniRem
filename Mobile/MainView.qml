@@ -16,59 +16,42 @@ Page {
 		onShowStatus: QuickExtras.showToast(message, true)
 	}
 
-	header: ToolBar {
+	header: ActionBar {
 		id: toolbar
+		title: qsTr("Anime List")
+		showMenuButton: false
 
-		RowLayout {
-			anchors.fill: parent
-			spacing: 0
+		AppBarButton {
+			id: refreshButton
+			imageSource: "image://svg/icons/ic_autorenew"
+			text: qsTr("Refresh")
+			onClicked: control.reload()
+		}
 
-			Label {
-				id: titleLabel
-				font.pointSize: 16
-				font.bold: true
-				elide: Label.ElideRight
-				horizontalAlignment: Qt.AlignLeft
-				verticalAlignment: Qt.AlignVCenter
-				Layout.fillWidth: true
-				Layout.leftMargin: 10
+		moreMenu: Menu {
+			id: moreMenu
 
-				text: qsTr("Anime List")
+			MenuItem {
+				id: pasteId
+				text: qsTr("Paste ID/URL")
+				onClicked: control.addAnimeFromClipboard()
 			}
 
-			AppBarButton {
-				id: refreshButton
-				imageSource: "image://svg/icons/ic_autorenew_white"
-				text: qsTr("Refresh")
-				onClicked: control.reload()
+			MenuItem {
+				id: settings
+				text: qsTr("Settings")
+				onClicked: control.showSettings()
 			}
 
-			AppBarButton {
-				id: moreButton
-				imageSource: "image://svg/icons/ic_more_vert_white"
-				text: qsTr("More")
-				onClicked: moreMenu.open()
+			MenuItem {
+				id: about
+				text: qsTr("About")
+			}
 
-				Menu {
-					id: moreMenu
-
-					MenuItem {
-						id: pasteId
-						text: qsTr("Paste ID/URL")
-						onClicked: control.addAnimeFromClipboard()
-					}
-
-					MenuItem {
-						id: about
-						text: qsTr("About")
-					}
-
-					MenuItem {
-						id: aboutQt
-						text: qsTr("About Qt")
-						onClicked: Qt.openUrlExternally("https://www.qt.io/")
-					}
-				}
+			MenuItem {
+				id: aboutQt
+				text: qsTr("About Qt")
+				onClicked: Qt.openUrlExternally("https://www.qt.io/")
 			}
 		}
 	}
@@ -101,7 +84,7 @@ Page {
 		anchors.bottom: parent.bottom
 		anchors.bottomMargin: 10
 
-		imageSource: "image://svg/icons/ic_add_white"
+		imageSource: "image://svg/icons/ic_add"
 		text: qsTr("Add Anime")
 
 		onClicked: control.addAnime()

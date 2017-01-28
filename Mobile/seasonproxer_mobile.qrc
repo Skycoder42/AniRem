@@ -12,10 +12,9 @@
         <file>AddAnimeDialog.qml</file>
     </qresource>
     <qresource prefix="/icons">
-        <file alias="ic_more_vert_white.svg">icons/svgs/ic_more_vert_white_24px.svg</file>
-        <file alias="ic_refresh_white.svg">icons/svgs/ic_refresh_white_24px.svg</file>
-        <file alias="ic_add_white.svg">icons/svgs/ic_add_white_24px.svg</file>
-        <file alias="ic_delete_forever_white.svg">icons/svgs/ic_delete_forever_white_24px.svg</file>
-        <file alias="ic_autorenew_white.svg">icons/svgs/ic_autorenew_white_24px.svg</file>
+        <file alias="ic_refresh.svg">icons/svgs/ic_refresh_white_24px.svg</file>
+        <file alias="ic_add.svg">icons/svgs/ic_add_white_24px.svg</file>
+        <file alias="ic_delete_forever.svg">icons/svgs/ic_delete_forever_white_24px.svg</file>
+        <file alias="ic_autorenew.svg">icons/svgs/ic_autorenew_white_24px.svg</file>
     </qresource>
 </RCC>

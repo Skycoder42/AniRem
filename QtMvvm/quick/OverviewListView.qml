@@ -1,0 +1,90 @@
+import QtQuick 2.8
+import QtQuick.Controls 2.1
+import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.1
+import "../../../quickextras/qml"
+
+ListView {
+	id: listView
+
+	property bool showSections: true
+
+	section.property: showSections ? "category" : ""
+	section.labelPositioning: ViewSection.InlineLabels | ViewSection.CurrentLabelAtStart
+	section.delegate: Label {
+		width: parent.width
+		font.bold: true
+		font.capitalization: Font.SmallCaps
+		padding: 14
+		bottomPadding: 4
+		text: section + qsTr(":")
+
+		background: Rectangle {
+			anchors.fill: parent
+			color: Material.background
+
+			Rectangle {
+				anchors.left: parent.left
+				anchors.bottom: parent.bottom
+				anchors.right: parent.right
+				height: 2
+				color: Material.accent
+			}
+		}
+	}
+
+	delegate: ItemDelegate {
+		id: delegate
+		width: parent.width
+
+		Timer {
+			id: enforcer
+			interval: 200
+			repeat: false
+			running: true
+
+			onTriggered: {
+				delegate.implicitHeight = Qt.binding(function(){return grid.implicitHeight + 32});
+			}
+		}
+
+		contentItem: GridLayout {
+			id: grid
+			rows: 2
+			columns: 2
+
+			TintIcon {
+				id: tintIcon
+				source: icon
+				visible: icon != ""
+				Layout.row: 0
+				Layout.column: 0
+				Layout.rowSpan: 2
+				Layout.fillHeight: true
+				Layout.preferredWidth: iconSize.width
+				Layout.preferredHeight: iconSize.height
+				Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+			}
+
+			Label {
+				id: titleLabel
+				text: title
+				Layout.row: 0
+				Layout.column: 1
+				font.bold: true
+				elide: Label.ElideRight
+				Layout.fillWidth: true
+			}
+
+			Label {
+				id: textLabel
+				visible: tooltip
+				Layout.row: 1
+				Layout.column: 1
+				text: tooltip
+				wrapMode: Text.WordWrap
+				Layout.fillWidth: true
+			}
+		}
+	}
+}

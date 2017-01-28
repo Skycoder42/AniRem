@@ -10,13 +10,19 @@
         <file>MsgDblSpinBox.qml</file>
     </qresource>
     <qresource prefix="/qtmvvm/icons">
-        <file alias="ic_error_black.svg">icons/ic_error_black_24px.svg</file>
-        <file alias="ic_error_white.svg">icons/ic_error_white_24px.svg</file>
-        <file alias="ic_help_black.svg">icons/ic_help_black_24px.svg</file>
-        <file alias="ic_help_white.svg">icons/ic_help_white_24px.svg</file>
-        <file alias="ic_info_black.svg">icons/ic_info_black_24px.svg</file>
-        <file alias="ic_info_white.svg">icons/ic_info_white_24px.svg</file>
-        <file alias="ic_warning_black.svg">icons/ic_warning_black_24px.svg</file>
-        <file alias="ic_warning_white.svg">icons/ic_warning_white_24px.svg</file>
+        <file alias="ic_error.svg">icons/ic_error_white_24px.svg</file>
+        <file alias="ic_help.svg">icons/ic_help_white_24px.svg</file>
+        <file alias="ic_info.svg">icons/ic_info_white_24px.svg</file>
+        <file alias="ic_warning.svg">icons/ic_warning_white_24px.svg</file>
+        <file alias="ic_search.svg">icons/ic_search_white_24px.svg</file>
+        <file alias="ic_settings_backup_restore.svg">icons/ic_settings_backup_restore_white_24px.svg</file>
+        <file alias="ic_close.svg">icons/ic_close_white_24px.svg</file>
+        <file alias="settings.svg">icons/ic_settings_white_24px.svg</file>
+    </qresource>
+    <qresource prefix="/qml/views">
+        <file>SettingsView.qml</file>
+    </qresource>
+    <qresource prefix="/qtmvvm/qml/settings">
+        <file>OverviewListView.qml</file>
     </qresource>
 </RCC>

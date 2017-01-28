@@ -16,7 +16,7 @@ StackView {
 	function withdrawItem(item) {
 		if(currentItem === item)
 			pop();
-		item.destroy();
+		delay(animDuration + 500, item.destroy);
 		return true;
 	}
 
@@ -26,14 +26,26 @@ StackView {
 			return true;
 		} else {
 			var item = mainStack.pop();
-			item.destroy();
+			delay(animDuration + 500, item.destroy);
 			return false;
 		}
+	}
+
+	function delay(delayMSec, fn) {
+		var timer = Qt.createQmlObject("import QtQuick 2.8; Timer {}", mainStack);
+		timer.interval = delayMSec;
+		timer.repeat = false;
+		timer.triggered.connect(function(){
+			fn();
+			timer.destroy();
+		});
+		timer.start();
 	}
 
 	pushEnter: Transition {
 		PropertyAnimation {
 			property: "y"
+			easing.type: Easing.InOutQuad
 			from: height * 0.3
 			to: 0
 			duration: mainStack.animDuration
@@ -58,6 +70,7 @@ StackView {
 	popExit: Transition {
 		PropertyAnimation {
 			property: "y"
+			easing.type: Easing.InOutQuad
 			from: 0
 			to: height * 0.3
 			duration: mainStack.animDuration

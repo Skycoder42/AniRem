@@ -48,7 +48,7 @@ SwipeDelegate {
 
 		AppBarButton {
 			size: parent.height
-			imageSource: "qrc:/icons/ic_delete_forever_white.svg"
+			imageSource: "image://svg/icons/ic_delete_forever"
 			text: qsTr("Delete Anime")
 
 			onClicked: animeDeleted()

@@ -47,7 +47,7 @@ AlertDialog {
 				anchors.rightMargin: (24 - size) / 2
 				anchors.verticalCenter: parent.verticalCenter
 				visible: hasError
-				imageSource: "qrc:/icons/ic_refresh_white.svg"
+				imageSource: "image://svg/icons/ic_refresh"
 				text: qsTr("Retry")
 
 				onClicked: {

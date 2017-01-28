@@ -26,5 +26,5 @@ void NotifyingPresenter::withdraw(Control *control)
 		control->onClose();
 	} else
 #endif
-		QuickPresenter::present(control);
+		QuickPresenter::withdraw(control);
 }
