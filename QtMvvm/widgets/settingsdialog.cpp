@@ -184,7 +184,12 @@ void SettingsDialog::createCategory(const SettingsCategory &category)
 {
 	auto item = new QListWidgetItem();
 	item->setText(category.title);
-	item->setIcon(category.icon);
+	if(category.icon.scheme() == QStringLiteral("qrc")) {
+		auto path = QLatin1Char(':') + category.icon.path();
+		qDebug() << path;
+		item->setIcon(QIcon(path));
+	} else
+		item->setIcon(QIcon(category.icon.toLocalFile()));
 	item->setToolTip(category.tooltip.isNull() ? category.title : category.tooltip);
 	auto tab = new QTabWidget();
 	tab->setTabBarAutoHide(true);
@@ -214,7 +219,7 @@ void SettingsDialog::createSection(const SettingsSection &section, QTabWidget *t
 	scrollContent->setLayout(layout);
 	scrollArea->setWidget(scrollContent);
 
-	auto index = tabWidget->addTab(scrollArea, section.icon, section.title);
+	auto index = tabWidget->addTab(scrollArea, QIcon(section.icon.toLocalFile()), section.title);
 	tabWidget->tabBar()->setTabToolTip(index, section.tooltip.isNull() ? section.title : section.tooltip);
 
 	foreach(auto group, section.groups)

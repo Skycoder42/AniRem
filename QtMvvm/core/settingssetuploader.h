@@ -1,9 +1,10 @@
 #ifndef SETTINGSSETUPLOADER_H
 #define SETTINGSSETUPLOADER_H
 
-#include <QIcon>
 #include <QSharedPointer>
+#include <QUrl>
 #include <QVariant>
+#include <QIODevice>
 
 struct SettingsEntry
 {
@@ -26,7 +27,7 @@ struct SettingsGroup
 struct SettingsSection
 {
 	QString title;
-	QIcon icon;
+	QUrl icon;
 	QString tooltip;
 
 	QList<SettingsGroup> groups;
@@ -35,7 +36,7 @@ struct SettingsSection
 struct SettingsCategory
 {
 	QString title;
-	QIcon icon;
+	QUrl icon;
 	QString tooltip;
 
 	QList<SettingsSection> sections;

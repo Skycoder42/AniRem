@@ -15,3 +15,6 @@ SOURCES += \
 
 FORMS += \
     $$PWD/settingsdialog.ui
+
+RESOURCES += \
+    $$PWD/qtmvvmwidgets.qrc

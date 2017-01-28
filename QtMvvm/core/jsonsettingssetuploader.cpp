@@ -69,12 +69,12 @@ QList<SettingsCategory> JsonSettingsSetupLoader::parseCategories(QJsonArray data
 		SettingsCategory category;
 		if(cJson[QStringLiteral("_default")].toBool()) {
 			category.title = tr("General Settings");
-			category.icon = QIcon(QStringLiteral(":/icons/settings.ico"));//TODO more generic pls
+			category.icon = QStringLiteral("qrc:/qtmvvm/icons/settings.svg");
 		}
 		if(cJson.contains(QStringLiteral("title")))
 			category.title = cJson[QStringLiteral("title")].toString();
 		if(cJson.contains(QStringLiteral("icon")))
-			category.icon = QIcon(cJson[QStringLiteral("icon")].toString());
+			category.icon = cJson[QStringLiteral("icon")].toString();
 		if(cJson.contains(QStringLiteral("tooltip")))
 			category.tooltip = cJson[QStringLiteral("tooltip")].toString();
 
@@ -112,7 +112,7 @@ QList<SettingsSection> JsonSettingsSetupLoader::parseSections(QJsonArray data, c
 		if(sJson.contains(QStringLiteral("title")))
 			section.title = sJson[QStringLiteral("title")].toString();
 		if(sJson.contains(QStringLiteral("icon")))
-			section.icon = QIcon(sJson[QStringLiteral("icon")].toString());
+			section.icon = sJson[QStringLiteral("icon")].toString();
 		if(sJson.contains(QStringLiteral("tooltip")))
 			section.tooltip = sJson[QStringLiteral("tooltip")].toString();
 

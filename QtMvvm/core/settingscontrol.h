@@ -6,34 +6,11 @@
 #include "settingssetuploader.h"
 #include <QSettings>
 
-#define SETTINGS_PROPERTY(type, name) \
-public: \
-	inline type name() const { \
-		return loadValue(#name).value<type>(); \
-	} \
-public slots: \
-	inline void set ## name(const type &name) { \
-		saveValue(#name, name); \
-	} \
-signals: \
-	void name ## Changed(const type &name); /*TODO not working...*/\
-private: \
-	Q_INVOKABLE inline void connectDelegateSignals ## name() { \
-		connect(this, &SettingsControl::valueChanged, \
-				this, [=](const QString &key, const QVariant &value){ \
-			if(key == #name) \
-				emit name ## Changed(value.value<type>()); \
-		}); \
-	} \
-	Q_PROPERTY(type name READ name WRITE set ## name NOTIFY name ## Changed)
-
 class QTMVVM_CORE_SHARED_EXPORT SettingsControl : public Control
 {
 	Q_OBJECT
 
 	Q_PROPERTY(bool canRestoreDefaults READ canRestoreDefaults CONSTANT)
-
-	SETTINGS_PROPERTY(bool, test)
 
 public:
 	explicit SettingsControl(QObject *parent = nullptr);
@@ -63,5 +40,31 @@ private:
 	QScopedPointer<SettingsSetupLoader> _setupLoader;
 	QHash<QString, QString> _keyMapping;
 };
+
+#define _SETTINGS_PROPERTY_METHODS_IMPL(type, name) \
+public: \
+	inline type name() const { \
+		return loadValue(#name).value<type>(); \
+	} \
+public slots: \
+	inline void set ## name(const type &name) { \
+		saveValue(#name, name); \
+	} \
+private:
+
+#define SETTINGS_PROPERTY(type, name) \
+	Q_PROPERTY(type name READ name WRITE set ## name) \
+	_SETTINGS_PROPERTY_METHODS_IMPL(type, name)
+
+#define SETTINGS_PROPERTY_NOT(type, name) \
+	Q_PROPERTY(type name READ name WRITE set ## name NOTIFY name ## Changed) \
+	_SETTINGS_PROPERTY_METHODS_IMPL(type, name) \
+	Q_INVOKABLE inline void connectDelegateSignals ## name() { \
+		connect(this, &SettingsControl::valueChanged, \
+				this, [=](const QString &key, const QVariant &value){ \
+			if(key == #name) \
+				emit name ## Changed(value.value<type>()); \
+		}); \
+	}
 
 #endif // SETTINGSCONTROL_H

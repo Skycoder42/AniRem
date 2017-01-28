@@ -29,7 +29,8 @@ SOURCES += main.cpp \
 	cachingnamfactory.cpp \
     notifyingpresenter.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += \
+    seasonproxer_mobile.qrc
 
 DISTFILES += \
 	android/AndroidManifest.xml \
