@@ -79,6 +79,8 @@ private:
 	bool searchInSection(const QRegularExpression &regex, QWidget *contentWidget);
 	bool searchInGroup(const QRegularExpression &regex, QGroupBox *groupWidget);
 	bool searchInEntry(const QRegularExpression &regex, QLabel *label, QWidget *content);
+
+	QIcon loadIcon(const QUrl &icon);
 };
 
 #endif // SETTINGSDIALOG_H

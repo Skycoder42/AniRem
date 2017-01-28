@@ -184,12 +184,7 @@ void SettingsDialog::createCategory(const SettingsCategory &category)
 {
 	auto item = new QListWidgetItem();
 	item->setText(category.title);
-	if(category.icon.scheme() == QStringLiteral("qrc")) {
-		auto path = QLatin1Char(':') + category.icon.path();
-		qDebug() << path;
-		item->setIcon(QIcon(path));
-	} else
-		item->setIcon(QIcon(category.icon.toLocalFile()));
+	item->setIcon(loadIcon(category.icon));
 	item->setToolTip(category.tooltip.isNull() ? category.title : category.tooltip);
 	auto tab = new QTabWidget();
 	tab->setTabBarAutoHide(true);
@@ -219,7 +214,7 @@ void SettingsDialog::createSection(const SettingsSection &section, QTabWidget *t
 	scrollContent->setLayout(layout);
 	scrollArea->setWidget(scrollContent);
 
-	auto index = tabWidget->addTab(scrollArea, QIcon(section.icon.toLocalFile()), section.title);
+	auto index = tabWidget->addTab(scrollArea, loadIcon(section.icon), section.title);
 	tabWidget->tabBar()->setTabToolTip(index, section.tooltip.isNull() ? section.title : section.tooltip);
 
 	foreach(auto group, section.groups)
@@ -382,6 +377,14 @@ bool SettingsDialog::searchInEntry(const QRegularExpression &regex, QLabel *labe
 	}
 	label->setStyleSheet(QString());
 	return false;
+}
+
+QIcon SettingsDialog::loadIcon(const QUrl &icon)
+{
+	if(icon.scheme() == QStringLiteral("qrc"))
+		return QIcon(QLatin1Char(':') + icon.path());
+	else
+		return QIcon(icon.toLocalFile());
 }
 
 
