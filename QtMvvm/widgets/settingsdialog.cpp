@@ -267,7 +267,7 @@ void SettingsDialog::createEntry(const SettingsEntry &entry, QWidget *sectionWid
 	if(content->toolTip().isNull())
 		content->setToolTip(label->toolTip());
 	for(auto it = entry.properties.constBegin(); it != entry.properties.constEnd(); it++)
-		control->setProperty(it.key().toLatin1().constData(), it.value());
+		content->setProperty(it.key().toLatin1().constData(), it.value());
 
 	layout->addRow(label, content);
 	entryMap.insert(content, {entry, property});
