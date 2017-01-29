@@ -1,16 +1,34 @@
 #include "settingsoverelement.h"
 
-SettingsOverElement::SettingsOverElement(QObject *parent) : QObject(parent)
-{
+SettingsOverElement::SettingsOverElement(QObject *parent) :
+	QObject(parent)
+{}
 
+SettingsSection SettingsOverElement::settingsSection() const
+{
+	return section;
 }
 
-SettingsSection SettingsOverElement::getSettingsSection() const
+void SettingsOverElement::setSettingsSection(const SettingsSection &section)
 {
-    return settingsSection;
+	this->section = section;
+
+	searchKeys.clear();
+	searchKeys.append(section.title);
+	searchKeys.append(section.tooltip);
+	foreach(auto group, section.groups) {
+		searchKeys.append(group.title);
+		foreach(auto entry, group.entries) {
+			searchKeys.append(entry.title);
+			searchKeys.append(entry.tooltip);
+			searchKeys.append(entry.searchKeys);
+		}
+	}
+
+	emit settingsSectionChanged();
 }
 
-void SettingsOverElement::setSettingsSection(const SettingsSection &value)
+QStringList SettingsOverElement::sectionSearchKeys() const
 {
-    settingsSection = value;
+	return searchKeys;
 }

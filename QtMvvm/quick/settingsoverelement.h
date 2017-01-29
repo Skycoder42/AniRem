@@ -15,7 +15,8 @@ class SettingsOverElement : public QObject
 	Q_PROPERTY(QUrl icon MEMBER icon NOTIFY iconChanged)
 	Q_PROPERTY(QString tooltip MEMBER tooltip NOTIFY tooltipChanged)
 
-	Q_PROPERTY(SettingsSection settingsSection READ getSettingsSection WRITE setSettingsSection NOTIFY settingsSectionChanged)
+	Q_PROPERTY(SettingsSection settingsSection READ settingsSection WRITE setSettingsSection NOTIFY settingsSectionChanged)
+	Q_PROPERTY(QStringList sectionSearchKeys READ sectionSearchKeys NOTIFY settingsSectionChanged)
 
 public:
 	explicit SettingsOverElement(QObject *parent = nullptr);
@@ -24,10 +25,11 @@ public:
 	QString title;
 	QUrl icon;
 	QString tooltip;
-	SettingsSection settingsSection;
 
-	SettingsSection getSettingsSection() const;
-	void setSettingsSection(const SettingsSection &value);
+	SettingsSection settingsSection() const;
+	void setSettingsSection(const SettingsSection &section);
+
+	QStringList sectionSearchKeys() const;
 
 signals:
 	void categoryChanged();
@@ -35,6 +37,10 @@ signals:
 	void iconChanged();
 	void tooltipChanged();
 	void settingsSectionChanged();
+
+private:
+	SettingsSection section;
+	QStringList searchKeys;
 };
 
 Q_DECLARE_METATYPE(SettingsSection)

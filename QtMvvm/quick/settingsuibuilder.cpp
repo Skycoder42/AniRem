@@ -73,7 +73,7 @@ void SettingsUiBuilder::restoreDefaults()
 	connect(result, &MessageResult::positiveAction, this, [=](){
 		if(_rootModel) {
 			foreach(auto overElement, _rootModel->objects()) {
-				foreach(auto group, overElement->settingsSection.groups) {
+				foreach(auto group, overElement->settingsSection().groups) {
 					foreach(auto entry, group.entries)
 						_control->resetValue(entry.key);
 				}
@@ -120,7 +120,7 @@ void SettingsUiBuilder::startBuildUi()
 			element->title = cat.title;
 			element->icon = svgEscape(cat.icon);
 			element->tooltip = cat.tooltip;
-			element->settingsSection = cat.sections.first();
+			element->setSettingsSection(cat.sections.first());
 			_rootModel->addObject(element);
 		} else {
 			hasMultiSections = true;
@@ -130,14 +130,14 @@ void SettingsUiBuilder::startBuildUi()
 				element->title = section.title;
 				element->icon = svgEscape(section.icon);
 				element->tooltip = section.tooltip;
-				element->settingsSection = section;
+				element->setSettingsSection(section);
 				_rootModel->insertObject(rIndex++, element);
 			}
 		}
 	}
 
 	if(_rootModel->rowCount() == 1) {
-		auto section = _rootModel->object(0)->settingsSection;
+		auto section = _rootModel->object(0)->settingsSection();
 		loadSection(section);
 		_rootModel->deleteLater();
 		_rootModel = nullptr;
@@ -147,6 +147,7 @@ void SettingsUiBuilder::startBuildUi()
 		_rootFilter->addFilterRole("category");
 		_rootFilter->addFilterRole("title");
 		_rootFilter->addFilterRole("tooltip");
+		_rootFilter->addFilterRole("sectionSearchKeys");
 		emit createView(true, _rootFilter, setup.categories.size() > 1 && hasMultiSections);
 	}
 }
