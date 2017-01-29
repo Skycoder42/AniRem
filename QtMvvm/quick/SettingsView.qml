@@ -1,9 +1,9 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 import com.skycoder42.qtmvvm 1.0
+import com.skycoder42.quickextras 1.0
 import "../../qtmvvm/qml"
 import "../../qtmvvm/qml/settings"
-import "../../quickextras/qml"
 
 Page {
 	id: settingsView

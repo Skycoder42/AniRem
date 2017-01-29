@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.3
 import com.skycoder42.quickextras 1.0
 import com.skycoder42.seasonproxer 1.0
 import "../../qtmvvm/qml"
-import "../../quickextras/qml"
 import ".."
 
 Page {
