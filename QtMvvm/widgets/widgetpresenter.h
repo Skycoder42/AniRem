@@ -36,7 +36,7 @@ protected:
 	virtual QMetaObject findWidgetMetaObject(const QMetaObject *controlMetaObject, bool &ok);
 	virtual bool tryPresent(QWidget *widget, QWidget *parent);
 
-	virtual QDialog *createInputDialog(const QString &title, const QString &text, int inputType, const QString &positiveText, const QString &negativeText, const QString &neutralText);
+	virtual QDialog *createInputDialog(const CoreApp::MessageConfig &config);
 	virtual QVariant extractInputResult(QDialog *inputDialog);
 
 	virtual void extendedShow(QWidget *widget) const;

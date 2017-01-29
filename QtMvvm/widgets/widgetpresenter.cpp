@@ -13,6 +13,9 @@
 #include <QPushButton>
 #include <QApplication>
 #include <float.h>
+#include <QDialogButtonBox>
+
+#define INPUT_WIDGET_OBJECT_NAME "__qtmvvm_InputDialog_InputWidget"
 
 WidgetPresenter::WidgetPresenter() :
 	inputFactory(new InputWidgetFactory()),
@@ -117,7 +120,7 @@ void WidgetPresenter::showMessage(MessageResult *result, const CoreApp::MessageC
 {
 	QDialog *dialog = nullptr;
 	if(config.type == CoreApp::Input)
-		dialog = createInputDialog(config.title, config.text, 42, config.positiveAction, config.negativeAction, config.neutralAction);//TODO 42
+		dialog = createInputDialog(config);
 	else {
 		auto msgBox = new QMessageBox();
 		if(config.title.isEmpty())
@@ -179,6 +182,7 @@ void WidgetPresenter::showMessage(MessageResult *result, const CoreApp::MessageC
 	}
 
 	if(dialog) {
+		dialog->setParent(QApplication::activeWindow());
 		dialog->setAttribute(Qt::WA_DeleteOnClose);
 
 		//"dialog master" stuff
@@ -253,53 +257,57 @@ bool WidgetPresenter::tryPresent(QWidget *widget, QWidget *parent)
 	return true;
 }
 
-QDialog *WidgetPresenter::createInputDialog(const QString &title, const QString &text, int inputType, const QString &positiveText, const QString &negativeText, const QString &neutralText)
+QDialog *WidgetPresenter::createInputDialog(const CoreApp::MessageConfig &config)
 {
-	Q_UNUSED(neutralText);
-
-	auto dialog = new QInputDialog();
-	switch (inputType) {
-	case QMetaType::QString:
-		dialog->setInputMode(QInputDialog::TextInput);
-		break;
-	case QMetaType::Int:
-		dialog->setInputMode(QInputDialog::IntInput);
-		dialog->setIntRange(INT_MIN, INT_MAX);
-		break;
-	case QMetaType::Double:
-		dialog->setInputMode(QInputDialog::DoubleInput);
-		dialog->setDoubleRange(DBL_MIN, DBL_MAX);
-		break;
-	default:
+	auto input = inputFactory->createWidget(config.inputType, nullptr, config.editProperties);
+	if(!input) {
+		qWarning() << "Failed to create input widget for type" << config.type;
 		return nullptr;
 	}
 
-	dialog->setWindowTitle(title);
-	dialog->setLabelText(text);
-	dialog->setOkButtonText(positiveText);
-	dialog->setCancelButtonText(negativeText);
+	auto dialog = new QDialog();
+	dialog->setModal(true);
+	auto layout = new QVBoxLayout(dialog);
+	dialog->setLayout(layout);
+	dialog->setWindowTitle(config.title);
+	if(!config.text.isNull()) {
+		auto label = new QLabel(config.text, dialog);
+		layout->addWidget(label);
+	}
 
+	input->setParent(dialog);
+	input->setObjectName(INPUT_WIDGET_OBJECT_NAME);
+	auto property = inputFactory->userProperty(input);
+	property.write(input, config.defaultValue);
+	layout->addWidget(input);
+
+	auto btnBox = new QDialogButtonBox(dialog);
+	QObject::connect(btnBox, &QDialogButtonBox::accepted,
+					 dialog, &QDialog::accept);
+	QObject::connect(btnBox, &QDialogButtonBox::rejected,
+					 dialog, &QDialog::reject);
+	if(!config.positiveAction.isNull())
+		btnBox->addButton(config.positiveAction, QDialogButtonBox::AcceptRole);
+	else
+		btnBox->addButton(QDialogButtonBox::Ok);
+	if(!config.negativeAction.isNull())
+		btnBox->addButton(config.negativeAction, QDialogButtonBox::RejectRole);
+	else
+		btnBox->addButton(QDialogButtonBox::Cancel);
+	layout->addWidget(btnBox);
+
+	dialog->adjustSize();
 	return dialog;
 }
 
 QVariant WidgetPresenter::extractInputResult(QDialog *inputDialog)
 {
-	auto dialog = qobject_cast<QInputDialog*>(inputDialog);
-	if(dialog) {
-		switch (dialog->inputMode()) {
-		case QInputDialog::TextInput:
-			return dialog->textValue();
-		case QInputDialog::IntInput:
-			return dialog->intValue();
-		case QInputDialog::DoubleInput:
-			return dialog->doubleValue();
-		default:
-			Q_UNREACHABLE();
-			break;
-		}
-	}
-
-	return QVariant();
+	auto inputWidget = inputDialog->findChild<QWidget*>(INPUT_WIDGET_OBJECT_NAME);
+	if(inputWidget) {
+		auto property = inputFactory->userProperty(inputWidget);
+		return property.read(inputWidget);
+	} else
+		return {};
 }
 
 void WidgetPresenter::extendedShow(QWidget *widget) const
