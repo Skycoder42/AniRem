@@ -4,6 +4,8 @@
 #include <QRegularExpression>
 #include <objectlistmodel.h>
 
+QScopedPointer<SettingsDelegateFactory> SettingsUiBuilder::_delegateFactory(new SettingsDelegateFactory());
+
 SettingsUiBuilder::SettingsUiBuilder(QObject *parent) :
 	QObject(parent),
 	_buildView(nullptr),
@@ -15,15 +17,25 @@ SettingsUiBuilder::SettingsUiBuilder(QObject *parent) :
 			this, &SettingsUiBuilder::startBuildUi);
 }
 
+void SettingsUiBuilder::registerSettingsDelegateFactory(SettingsDelegateFactory *factory)
+{
+	_delegateFactory.reset(factory);
+}
+
 void SettingsUiBuilder::loadSection(const SettingsSection &section)
 {
 	auto model = new GenericListModel<SettingsEntryElement>(true, this);
 	auto rIndex = 0;
 	foreach(auto group, section.groups) {
 		foreach(auto entry, group.entries) {
-			auto element = new SettingsEntryElement();
+			auto element = new SettingsEntryElement(_control);
 			element->title = entry.title.remove(QRegularExpression(QStringLiteral("&(?!&)")));
 			element->tooltip = entry.tooltip;
+			element->delegateUrl = _delegateFactory->delegateUrl(entry.type);
+			element->conversionType = _delegateFactory->metaTypeId(entry.type);
+			element->delegateProperties = entry.properties;
+			element->key = entry.key;
+			element->defaultValue = entry.defaultValue;
 			if(group.entries.size() == 1)
 				model->insertObject(rIndex++, element);
 			else {

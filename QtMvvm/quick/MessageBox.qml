@@ -24,10 +24,11 @@ AlertDialog {
 		if(visible)
 			reject();
 		messageBox.messageResult = result;
+		if(result)
+			result.setCloseTarget(messageBox, messageBox.close);
 		messageBox.iconType = type;
 		messageBox.title = title;
 		messageBox.titleText = title;
-		result.setCloseTarget(messageBox, messageBox.close);
 		messageBox.message = text;
 		messageBox.positiveText = positiveText;
 		messageBox.negativeText = negativeText;

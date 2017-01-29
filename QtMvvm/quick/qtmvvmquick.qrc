@@ -26,5 +26,7 @@
         <file>OverviewListView.qml</file>
         <file>SectionListView.qml</file>
         <file>ListSection.qml</file>
+        <file>BoolDelegate.qml</file>
+        <file>MsgDelegate.qml</file>
     </qresource>
 </RCC>

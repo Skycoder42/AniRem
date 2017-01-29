@@ -13,9 +13,11 @@ ListView {
 		title: section
 	}
 
-	delegate: ItemDelegate {
-		id: delegate
+	delegate: Loader {
+		id: loaderDelegate
 		width: parent.width
-		text: title
+		height: item ? item.implicitHeight : 0
+
+		Component.onCompleted: loaderDelegate.setSource(delegateUrl, delegateProperties);
 	}
 }
