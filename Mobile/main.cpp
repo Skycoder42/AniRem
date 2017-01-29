@@ -26,8 +26,8 @@ int main(int argc, char *argv[])
 	QGuiApplication::setApplicationDisplayName(DISPLAY_NAME);
 	QGuiApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 
-	qmlRegisterUncreatableType<MainControl>("com.skycoder42.seasonproxer", 1, 0, "MainControl", "Controls cannot be created!");
-	qmlRegisterUncreatableType<AddAnimeControl>("com.skycoder42.seasonproxer", 1, 0, "AddAnimeControl", "Controls cannot be created!");
+	qmlRegisterUncreatableType<MainControl>("de.skycoder42.seasonproxer", 1, 0, "MainControl", "Controls cannot be created!");
+	qmlRegisterUncreatableType<AddAnimeControl>("de.skycoder42.seasonproxer", 1, 0, "AddAnimeControl", "Controls cannot be created!");
 
 	if(isServer()) {
 		QuickPresenter::registerAsPresenter<NotifyingPresenter>();

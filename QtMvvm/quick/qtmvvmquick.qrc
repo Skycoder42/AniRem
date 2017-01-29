@@ -5,9 +5,6 @@
         <file>PresentingStackView.qml</file>
         <file>PresenterProgress.qml</file>
         <file>MessageBox.qml</file>
-        <file>MsgTextField.qml</file>
-        <file>MsgSpinBox.qml</file>
-        <file>MsgDblSpinBox.qml</file>
     </qresource>
     <qresource prefix="/qtmvvm/icons">
         <file alias="ic_error.svg">icons/ic_error_white_24px.svg</file>
@@ -28,5 +25,10 @@
         <file>ListSection.qml</file>
         <file>BoolDelegate.qml</file>
         <file>MsgDelegate.qml</file>
+    </qresource>
+    <qresource prefix="/qtmvvm/qml/inputs">
+        <file>TextField.qml</file>
+        <file>SpinBox.qml</file>
+        <file>DoubleSpinBox.qml</file>
     </qresource>
 </RCC>

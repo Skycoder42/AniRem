@@ -20,7 +20,7 @@ public class SeasonProxerService extends QtService {
 	private static final int PROGRESS_NOT_KEY = 13;
 	private static final int STATUS_NOT_KEY = 42;
 	private static final int OPEN_INTENT_ID = 0;
-	public static final String GROUP_KEY = "com.skycoder42.seasonproxer.NotificationGroup";
+	public static final String GROUP_KEY = "de.skycoder42.seasonproxer.NotificationGroup";
 
 	private NotificationCompat.Builder progressBuilder = null;
 

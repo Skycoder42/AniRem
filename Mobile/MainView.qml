@@ -1,9 +1,9 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
-import com.skycoder42.quickextras 1.0
-import com.skycoder42.seasonproxer 1.0
-import "../../qtmvvm/qml"
+import de.skycoder42.quickextras 1.0
+import de.skycoder42.seasonproxer 1.0
+import de.skycoder42.qtmvvm 1.0
 import ".."
 
 Page {

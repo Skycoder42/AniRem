@@ -108,11 +108,11 @@ QUrl QuickPresenter::resolveInputType(int inputType)
 {
 	switch (inputType) {
 	case QMetaType::QString:
-		return QStringLiteral("qrc:/qtmvvm/qml/MsgTextField.qml");
+		return QStringLiteral("qrc:/qtmvvm/qml/inputs/TextField.qml");
 	case QMetaType::Int:
-		return QStringLiteral("qrc:/qtmvvm/qml/MsgSpinBox.qml");
+		return QStringLiteral("qrc:/qtmvvm/qml/inputs/SpinBox.qml");
 	case QMetaType::Double:
-		return QStringLiteral("qrc:/qtmvvm/qml/MsgDblSpinBox.qml");
+		return QStringLiteral("qrc:/qtmvvm/qml/inputs/DoubleSpinBox.qml");
 	default:
 		return {};
 	}
@@ -140,11 +140,16 @@ void QuickPresenter::setQmlSingleton(QuickPresenterQmlSingleton *singleton)
 void QuickPresenter::doRegister(QuickPresenter *presenter)
 {
 	CoreApp::setMainPresenter(presenter);
-	qmlRegisterSingletonType<QuickPresenterQmlSingleton>("com.skycoder42.qtmvvm", 1, 0, "QuickPresenter", createQuickPresenterQmlSingleton);
-	qmlRegisterUncreatableType<MessageResult>("com.skycoder42.qtmvvm", 1, 0, "MessageResult", "This type can only be passed to QML from the presenter!");
-	qmlRegisterUncreatableType<SettingsControl>("com.skycoder42.qtmvvm", 1, 0, "SettingsControl", "Controls cannot be created!");
-	qmlRegisterType<SettingsUiBuilder>("com.skycoder42.qtmvvm", 1, 0, "SettingsUiBuilder");
-	qmlProtectModule("com.skycoder42.qtmvvm", 1);
+	qmlRegisterSingletonType<QuickPresenterQmlSingleton>("de.skycoder42.qtmvvm", 1, 0, "QuickPresenter", createQuickPresenterQmlSingleton);
+	qmlRegisterUncreatableType<MessageResult>("de.skycoder42.qtmvvm", 1, 0, "MessageResult", "This type can only be passed to QML from the presenter!");
+	qmlRegisterUncreatableType<SettingsControl>("de.skycoder42.qtmvvm", 1, 0, "SettingsControl", "Controls cannot be created!");
+	qmlRegisterType<SettingsUiBuilder>("de.skycoder42.qtmvvm", 1, 0, "SettingsUiBuilder");
+	qmlRegisterType(QStringLiteral("qrc:/qtmvvm/qml/PresentingStackView.qml"), "de.skycoder42.qtmvvm", 1, 0, "PresentingStackView");
+	qmlRegisterType(QStringLiteral("qrc:/qtmvvm/qml/PresenterProgress.qml"), "de.skycoder42.qtmvvm", 1, 0, "PresenterProgress");
+	qmlRegisterType(QStringLiteral("qrc:/qtmvvm/qml/AppBase.qml"), "de.skycoder42.qtmvvm", 1, 0, "AppBase");
+	qmlRegisterType(QStringLiteral("qrc:/qtmvvm/qml/MessageBox.qml"), "de.skycoder42.qtmvvm", 1, 0, "MessageBox");
+	qmlRegisterType(QStringLiteral("qrc:/qtmvvm/qml/App.qml"), "de.skycoder42.qtmvvm", 1, 0, "App");
+	qmlProtectModule("de.skycoder42.qtmvvm", 1);
 }
 
 QQmlApplicationEngine *QuickPresenter::createEngine(const QUrl &file)
