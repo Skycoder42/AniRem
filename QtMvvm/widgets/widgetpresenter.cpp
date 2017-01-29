@@ -15,6 +15,7 @@
 #include <float.h>
 
 WidgetPresenter::WidgetPresenter() :
+	inputFactory(new InputWidgetFactory()),
 	implicitMappings(),
 	explicitMappings(),
 	activeControls()
@@ -38,6 +39,25 @@ void WidgetPresenter::registerWidgetExplicitly(const char *controlName, const QM
 		CoreApp::setMainPresenter(presenter);
 	}
 	presenter->explicitMappings.insert(controlName, widgetType);
+}
+
+void WidgetPresenter::registerInputWidgetFactory(InputWidgetFactory *factory)
+{
+	auto presenter = static_cast<WidgetPresenter*>(CoreApp::instance()->presenter());
+	if(!presenter) {
+		presenter = new WidgetPresenter();
+		CoreApp::setMainPresenter(presenter);
+	}
+	presenter->inputFactory.reset(factory);
+}
+
+InputWidgetFactory *WidgetPresenter::inputWidgetFactory()
+{
+	auto presenter = static_cast<WidgetPresenter*>(CoreApp::instance()->presenter());
+	if(presenter)
+		return presenter->inputFactory.data();
+	else
+		return nullptr;
 }
 
 void WidgetPresenter::present(Control *control)

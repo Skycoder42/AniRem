@@ -1,13 +1,12 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
+#include "widgetpresenter.h"
 #include <QGroupBox>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QDebug>
 
 #define TAB_CONTENT_NAME "tabContent_371342666"
-
-QScopedPointer<SettingsWidgetFactory> SettingsDialog::widgetFactory(new SettingsWidgetFactory());
 
 SettingsDialog::SettingsDialog(Control *mControl, QWidget *parent) :
 	QDialog(parent),
@@ -60,11 +59,6 @@ SettingsDialog::SettingsDialog(Control *mControl, QWidget *parent) :
 SettingsDialog::~SettingsDialog()
 {
 	delete ui;
-}
-
-void SettingsDialog::registerSettingsWidgetFactory(SettingsWidgetFactory *factory)
-{
-	widgetFactory.reset(factory);
 }
 
 void SettingsDialog::resetListSize()
@@ -242,7 +236,8 @@ void SettingsDialog::createGroup(const SettingsGroup &group, QWidget *contentWid
 
 void SettingsDialog::createEntry(const SettingsEntry &entry, QWidget *sectionWidget, QFormLayout *layout)
 {
-	QWidget *content = widgetFactory->createWidget(entry.type, sectionWidget);
+	auto widgetFactory = WidgetPresenter::inputWidgetFactory();
+	QWidget *content = widgetFactory->createWidget(entry.type, sectionWidget, entry.properties);
 	if(!content) {
 		qWarning() << "Failed to create settings widget for type" << entry.type;
 		return;
@@ -266,8 +261,6 @@ void SettingsDialog::createEntry(const SettingsEntry &entry, QWidget *sectionWid
 	label->setToolTip(entry.tooltip.isNull() ? entry.title : entry.tooltip);
 	if(content->toolTip().isNull())
 		content->setToolTip(label->toolTip());
-	for(auto it = entry.properties.constBegin(); it != entry.properties.constEnd(); it++)
-		content->setProperty(it.key().toLatin1().constData(), it.value());
 
 	layout->addRow(label, content);
 	entryMap.insert(content, {entry, property});

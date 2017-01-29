@@ -166,7 +166,7 @@ QList<SettingsEntry> JsonSettingsSetupLoader::parseEntries(QJsonObject data, con
 		entry.key = it.key();
 		entry.title = eJson[QStringLiteral("title")].toString();
 		entry.tooltip = eJson[QStringLiteral("tooltip")].toString();
-		entry.type = eJson[QStringLiteral("type")].toString();
+		entry.type = eJson[QStringLiteral("type")].toString().toLatin1();
 		entry.defaultValue = eJson[QStringLiteral("default")].toVariant();
 		foreach(auto key, eJson["searchKeys"].toArray())
 			entry.searchKeys.append(key.toString());

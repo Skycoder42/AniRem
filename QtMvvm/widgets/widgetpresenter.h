@@ -1,6 +1,7 @@
 #ifndef WIDGETPRESENTER_H
 #define WIDGETPRESENTER_H
 
+#include "inputwidgetfactory.h"
 #include "ipresenter.h"
 #include "messageresult.h"
 #include <QWidget>
@@ -15,12 +16,17 @@ public:
 
 	template <typename TPresenter = WidgetPresenter>
 	static void registerAsPresenter();
+
 	template <typename TWidget>
 	static void registerWidget();
 	static void registerWidget(const QMetaObject &widgetType);
+
 	template <typename TControl, typename TWidget>
 	static void registerWidgetExplicitly();
 	static void registerWidgetExplicitly(const char *controlName, const QMetaObject &widgetType);
+
+	static void registerInputWidgetFactory(InputWidgetFactory *factory);
+	static InputWidgetFactory *inputWidgetFactory();
 
 	void present(Control *control) override;
 	void withdraw(Control *control) override;
@@ -36,6 +42,7 @@ protected:
 	virtual void extendedShow(QWidget *widget) const;
 
 private:
+	QScopedPointer<InputWidgetFactory> inputFactory;
 	QList<QMetaObject> implicitMappings;
 	QHash<QByteArray, QMetaObject> explicitMappings;
 

@@ -11,7 +11,7 @@ struct SettingsEntry
 	QString key;
 	QString title;
 	QString tooltip;
-	QString type;
+	QByteArray type;
 	QVariant defaultValue;
 	QStringList searchKeys;
 	QVariantMap properties;

@@ -1,7 +1,7 @@
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
-#include "settingswidgetfactory.h"
+#include "inputwidgetfactory.h"
 
 #include <QDialog>
 #include <QStyledItemDelegate>
@@ -41,8 +41,6 @@ public:
 	Q_INVOKABLE SettingsDialog(Control *mControl, QWidget *parent = nullptr);
 	~SettingsDialog();
 
-	static void registerSettingsWidgetFactory(SettingsWidgetFactory *factory);
-
 private slots:
 	void resetListSize();
 	void updateWidth(int width);
@@ -55,8 +53,6 @@ private slots:
 	void on_filterLineEdit_textChanged(const QString &searchText);
 
 private:
-	static QScopedPointer<SettingsWidgetFactory> widgetFactory;
-
 	SettingsControl *control;
 	Ui::SettingsDialog *ui;
 	CategoryItemDelegate *delegate;

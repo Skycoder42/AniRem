@@ -5,13 +5,13 @@ HEADERS += \
 	$$PWD/ipresentingwidget.h \
 	$$PWD/objectproxymodel.h \
     $$PWD/settingsdialog.h \
-    $$PWD/settingswidgetfactory.h
+    $$PWD/inputwidgetfactory.h
 
 SOURCES += \
 	$$PWD/widgetpresenter.cpp \
 	$$PWD/objectproxymodel.cpp \
     $$PWD/settingsdialog.cpp \
-    $$PWD/settingswidgetfactory.cpp
+    $$PWD/inputwidgetfactory.cpp
 
 FORMS += \
     $$PWD/settingsdialog.ui
