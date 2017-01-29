@@ -1,7 +1,6 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.1
 import "../../../quickextras/qml"
 
 ListView {
@@ -10,32 +9,16 @@ ListView {
 	property bool showSections: true
 
 	section.property: showSections ? "category" : ""
-	section.labelPositioning: ViewSection.InlineLabels | ViewSection.CurrentLabelAtStart
-	section.delegate: Label {
-		width: parent.width
-		font.bold: true
-		font.capitalization: Font.SmallCaps
-		padding: 14
-		bottomPadding: 4
-		text: section + qsTr(":")
-
-		background: Rectangle {
-			anchors.fill: parent
-			color: Material.background
-
-			Rectangle {
-				anchors.left: parent.left
-				anchors.bottom: parent.bottom
-				anchors.right: parent.right
-				height: 2
-				color: Material.accent
-			}
-		}
+	section.labelPositioning: ViewSection.InlineLabels
+	section.delegate: ListSection {
+		title: section
 	}
 
 	delegate: ItemDelegate {
 		id: delegate
 		width: parent.width
+
+		onClicked: builder.loadSection(settingsSection)
 
 		Timer {
 			id: enforcer

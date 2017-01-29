@@ -17,6 +17,7 @@ public:
 	explicit SettingsUiBuilder(QObject *parent = nullptr);
 
 public slots:
+	void loadSection(const SettingsSection &section);
 
 signals:
 	void initActions(bool allowSearch, bool allowRestore);

@@ -9,6 +9,8 @@ Page {
 	id: settingsView
 	property SettingsControl control: null
 
+	//TODO react on "closing" events
+
 	header: ActionBar {
 		title: qsTr("Settings")
 		showMenuAsBack: true
@@ -51,6 +53,20 @@ Page {
 		z: 10
 	}
 
+	StackView {
+		id: settingsStack
+		anchors.fill: parent
+
+		function closeAction() {
+			if(settingsStack.depth <= 1)
+				return true;
+			else {
+				var item = settingsStack.pop();
+				return false;
+			}
+		}
+	}
+
 	SettingsUiBuilder {
 		id: builder
 		buildView: settingsView
@@ -62,25 +78,16 @@ Page {
 		}
 
 		onCreateView: {
-			viewLoader.model = model;
-			viewLoader.showSections = showSections;
-			if(isOverview)
-				viewLoader.source = "qrc:/qtmvvm/qml/settings/OverviewListView.qml";
-			else
-				console.log("TODO");
-		}
-	}
-
-	Loader {
-		id: viewLoader
-		property var model: null
-		property bool showSections: false
-
-		onLoaded: {
-			item.parent = settingsView.contentItem;
-			item.model = viewLoader.model;
-			item.showSections = viewLoader.showSections;
-			item.anchors.fill = item.parent;
+			if(isOverview) {
+				settingsStack.push("qrc:/qtmvvm/qml/settings/OverviewListView.qml", {
+									   "model": model,
+									   "showSections": showSections
+								   });
+			} else {
+				settingsStack.push("qrc:/qtmvvm/qml/settings/SectionListView.qml", {
+									   "model": model
+								   });
+			}
 		}
 	}
 }

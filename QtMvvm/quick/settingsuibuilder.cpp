@@ -1,5 +1,7 @@
+#include "settingsentryelement.h"
 #include "settingsoverelement.h"
 #include "settingsuibuilder.h"
+#include <QRegularExpression>
 #include <objectlistmodel.h>
 
 SettingsUiBuilder::SettingsUiBuilder(QObject *parent) :
@@ -13,6 +15,26 @@ SettingsUiBuilder::SettingsUiBuilder(QObject *parent) :
 			this, &SettingsUiBuilder::startBuildUi);
 }
 
+void SettingsUiBuilder::loadSection(const SettingsSection &section)
+{
+	auto model = new GenericListModel<SettingsEntryElement>(true, this);
+	auto rIndex = 0;
+	foreach(auto group, section.groups) {
+		foreach(auto entry, group.entries) {
+			auto element = new SettingsEntryElement();
+			element->title = entry.title.remove(QRegularExpression(QStringLiteral("&(?!&)")));
+			element->tooltip = entry.tooltip;
+			if(group.entries.size() == 1)
+				model->insertObject(rIndex++, element);
+			else {
+				element->group = group.title;
+				model->addObject(element);
+			}
+		}
+	}
+	emit createView(false, model, true);
+}
+
 void SettingsUiBuilder::startBuildUi()
 {
 	if(!_buildView || !_control)
@@ -22,17 +44,35 @@ void SettingsUiBuilder::startBuildUi()
 	emit initActions(setup.allowSearch, setup.allowRestore);
 
 	auto model = new GenericListModel<SettingsOverElement>(true, this);
+	auto rIndex = 0;
 	foreach(auto cat, setup.categories) {
-		foreach(auto section, cat.sections) {
+		if(cat.sections.size() == 1) {
 			auto element = new SettingsOverElement();
-			element->category = cat.title;
-			element->title = section.title;
-			element->icon = svgEscape(section.icon);
-			element->tooltip = section.tooltip;
+			element->category = tr("Others");
+			element->title = cat.title;
+			element->icon = svgEscape(cat.icon);
+			element->tooltip = cat.tooltip;
+			element->settingsSection = cat.sections.first();
 			model->addObject(element);
+		} else {
+			foreach(auto section, cat.sections) {
+				auto element = new SettingsOverElement();
+				element->category = cat.title;
+				element->title = section.title;
+				element->icon = svgEscape(section.icon);
+				element->tooltip = section.tooltip;
+				element->settingsSection = section;
+				model->insertObject(rIndex++, element);
+			}
 		}
 	}
-	emit createView(true, model, setup.categories.size() > 1);
+
+	if(model->rowCount() == 1) {
+		auto section = model->object(0)->settingsSection;
+		loadSection(section);
+		model->deleteLater();
+	} else
+		emit createView(true, model, setup.categories.size() > 1);
 }
 
 QUrl SettingsUiBuilder::svgEscape(QUrl url)

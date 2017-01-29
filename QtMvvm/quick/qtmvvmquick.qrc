@@ -24,5 +24,7 @@
     </qresource>
     <qresource prefix="/qtmvvm/qml/settings">
         <file>OverviewListView.qml</file>
+        <file>SectionListView.qml</file>
+        <file>ListSection.qml</file>
     </qresource>
 </RCC>
