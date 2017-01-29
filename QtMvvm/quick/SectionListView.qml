@@ -17,6 +17,6 @@ ListView {
 		width: parent.width
 		height: item ? item.implicitHeight : 0
 
-		Component.onCompleted: loaderDelegate.setSource(delegateUrl, delegateProperties);
+		Component.onCompleted: loaderDelegate.setSource(delegateUrl, editProperties);
 	}
 }

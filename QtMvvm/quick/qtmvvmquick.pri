@@ -5,14 +5,14 @@ HEADERS += \
     $$PWD/settingsuibuilder.h \
     $$PWD/settingsoverelement.h \
     $$PWD/settingsentryelement.h \
-    $$PWD/settingsdelegatefactory.h
+    $$PWD/inputviewfactory.h
 
 SOURCES += \
     $$PWD/quickpresenter.cpp \
     $$PWD/settingsuibuilder.cpp \
     $$PWD/settingsoverelement.cpp \
     $$PWD/settingsentryelement.cpp \
-    $$PWD/settingsdelegatefactory.cpp
+    $$PWD/inputviewfactory.cpp
 
 RESOURCES += \
     $$PWD/qtmvvmquick.qrc

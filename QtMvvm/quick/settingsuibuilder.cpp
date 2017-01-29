@@ -1,10 +1,9 @@
+#include "quickpresenter.h"
 #include "settingsentryelement.h"
 #include "settingsoverelement.h"
 #include "settingsuibuilder.h"
 #include <QRegularExpression>
 #include <objectlistmodel.h>
-
-QScopedPointer<SettingsDelegateFactory> SettingsUiBuilder::_delegateFactory(new SettingsDelegateFactory());
 
 SettingsUiBuilder::SettingsUiBuilder(QObject *parent) :
 	QObject(parent),
@@ -17,13 +16,9 @@ SettingsUiBuilder::SettingsUiBuilder(QObject *parent) :
 			this, &SettingsUiBuilder::startBuildUi);
 }
 
-void SettingsUiBuilder::registerSettingsDelegateFactory(SettingsDelegateFactory *factory)
-{
-	_delegateFactory.reset(factory);
-}
-
 void SettingsUiBuilder::loadSection(const SettingsSection &section)
 {
+	auto inputFactory = QuickPresenter::inputViewFactory();
 	auto model = new GenericListModel<SettingsEntryElement>(true, this);
 	auto rIndex = 0;
 	foreach(auto group, section.groups) {
@@ -31,9 +26,9 @@ void SettingsUiBuilder::loadSection(const SettingsSection &section)
 			auto element = new SettingsEntryElement(_control);
 			element->title = entry.title.remove(QRegularExpression(QStringLiteral("&(?!&)")));
 			element->tooltip = entry.tooltip;
-			element->delegateUrl = _delegateFactory->delegateUrl(entry.type);
-			element->conversionType = _delegateFactory->metaTypeId(entry.type);
-			element->delegateProperties = entry.properties;
+			element->delegateUrl = inputFactory->getDelegate(entry.type);
+			element->conversionType = inputFactory->metaTypeId(entry.type);
+			element->editProperties = entry.properties;
 			element->key = entry.key;
 			element->defaultValue = entry.defaultValue;
 			if(group.entries.size() == 1)

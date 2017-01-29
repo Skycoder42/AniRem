@@ -15,7 +15,7 @@ class SettingsEntryElement : public QObject
 	Q_PROPERTY(QVariant settingsValue READ settingsValue WRITE setSettingsValue NOTIFY settingsValueChanged)
 
 	Q_PROPERTY(QUrl delegateUrl READ getDelegateUrl CONSTANT)
-	Q_PROPERTY(QVariantMap delegateProperties READ getDelegateProperties CONSTANT)
+	Q_PROPERTY(QVariantMap editProperties READ getEditProperties CONSTANT)
 
 	Q_PROPERTY(bool showInputDialog READ returnFalse WRITE showInputDialog)
 
@@ -27,7 +27,7 @@ public:
 	QString tooltip;
 
 	QUrl delegateUrl;
-	QVariantMap delegateProperties;
+	QVariantMap editProperties;
 
 	QString key;
 	int conversionType;
@@ -36,7 +36,7 @@ public:
 	QVariant settingsValue() const;
 
 	QUrl getDelegateUrl() const;
-	QVariantMap getDelegateProperties() const;
+	QVariantMap getEditProperties() const;
 
 	bool returnFalse() const;
 

@@ -1,7 +1,7 @@
 #ifndef SETTINGSUIBUILDER_H
 #define SETTINGSUIBUILDER_H
 
-#include "settingsdelegatefactory.h"
+#include "inputviewfactory.h"
 
 #include <QObject>
 #include <QQuickItem>
@@ -18,8 +18,6 @@ class SettingsUiBuilder : public QObject
 public:
 	explicit SettingsUiBuilder(QObject *parent = nullptr);
 
-	static void registerSettingsDelegateFactory(SettingsDelegateFactory *factory);
-
 public slots:
 	void loadSection(const SettingsSection &section);
 
@@ -34,8 +32,6 @@ private slots:
 	void startBuildUi();
 
 private:
-	static QScopedPointer<SettingsDelegateFactory> _delegateFactory;
-
 	QQuickItem* _buildView;
 	SettingsControl *_control;
 

@@ -18,7 +18,7 @@ ApplicationWindow {
 		return false;
 	}
 
-	function showMessage(result, type, title, text, positiveText, negativeText, neutralText, inputUrl) {
+	function showMessage(result, type, title, text, positiveText, negativeText, neutralText, inputUrl, editProperties) {
 		result.complete(MessageResult.NegativeResult, undefined);
 	}
 

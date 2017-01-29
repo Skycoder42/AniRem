@@ -9,52 +9,23 @@ AlertDialog {
 	id: messageBox
 	visible: false
 
-	property string titleText
-	property int iconType
-	property alias message: contentLabel.text
-	property string positiveText: ""
-	property string negativeText: ""
-	property string neutralText: ""
-	property alias messageContentUrl: content.source
-	property alias messageContentItem: content.item
-
 	property MessageResult messageResult: null
 
-	function showMessageBox(result, type, title, text, positiveText, negativeText, neutralText, inputUrl) {
+	function showMessageBox(result, type, title, text, positiveText, negativeText, neutralText, inputUrl, editProperties) {
 		if(visible)
 			reject();
 		messageBox.messageResult = result;
 		if(result)
 			result.setCloseTarget(messageBox, messageBox.close);
-		messageBox.iconType = type;
+		icon.iconType = type;
 		messageBox.title = title;
-		messageBox.titleText = title;
-		messageBox.message = text;
-		messageBox.positiveText = positiveText;
-		messageBox.negativeText = negativeText;
-		messageBox.neutralText = neutralText;
-		messageBox.messageContentUrl = inputUrl;
+		contentLabel.text = text;
+		btnBox.positiveText = positiveText;
+		btnBox.negativeText = negativeText;
+		btnBox.neutralText = neutralText;
+		if(inputUrl != "")
+			contentLoader.setSource(inputUrl, editProperties);
 		messageBox.open();
-	}
-
-	function messageIcon() {
-		var base = "image://svg/qtmvvm/icons/ic_%1";
-		switch(iconType) {
-		case QuickPresenter.Information:
-		case QuickPresenter.Input:
-			base = base.arg("info");
-			break;
-		case QuickPresenter.Question:
-			base = base.arg("help");
-			break;
-		case QuickPresenter.Warning:
-			base = base.arg("warning");
-			break;
-		case QuickPresenter.Critical:
-			base = base.arg("error");
-			break;
-		}
-		return base;
 	}
 
 	onClosed: messageResult = null
@@ -64,12 +35,36 @@ AlertDialog {
 
 		TintIcon {
 			id: icon
+			property int iconType
+
+			visible: iconType != QuickPresenter.Input
 			source: messageIcon()
 			Layout.preferredWidth: 24
 			Layout.preferredHeight: 24
 			Layout.margins: 24
 			Layout.bottomMargin: 0
-			Layout.rightMargin: 0
+			Layout.rightMargin: 0			
+
+			function messageIcon() {
+				var base = "image://svg/qtmvvm/icons/ic_%1";
+				switch(iconType) {
+				case QuickPresenter.Input:
+					return "";
+				case QuickPresenter.Information:
+					base = base.arg("info");
+					break;
+				case QuickPresenter.Question:
+					base = base.arg("help");
+					break;
+				case QuickPresenter.Warning:
+					base = base.arg("warning");
+					break;
+				case QuickPresenter.Critical:
+					base = base.arg("error");
+					break;
+				}
+				return base;
+			}
 		}
 
 		Label {
@@ -96,16 +91,17 @@ AlertDialog {
 		}
 
 		Loader {
-			id: content
+			id: contentLoader
+			visible: item
 
-			Layout.preferredWidth: content.item ? content.item.implicitWidth : 0
+			Layout.preferredWidth: contentLoader.item ? contentLoader.item.implicitWidth : 0
 			Layout.fillWidth: true
 		}
 	}
 
 	onAccepted: {
 		if(messageResult)
-			messageResult.complete(MessageResult.PositiveResult, messageContentItem ? messageContentItem.value : undefined)
+			messageResult.complete(MessageResult.PositiveResult, contentLoader.item ? contentLoader.item.inputValue : undefined)
 	}
 
 	onRejected:  {
@@ -114,6 +110,11 @@ AlertDialog {
 	}
 
 	footer: DialogButtonBox {
+		id: btnBox
+		property string positiveText: ""
+		property string negativeText: ""
+		property string neutralText: ""
+
 		standardButtons: {
 			var btns = 0;
 			if(positiveText != "")

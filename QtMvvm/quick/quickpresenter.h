@@ -1,6 +1,8 @@
 #ifndef QUICKPRESENTER_H
 #define QUICKPRESENTER_H
 
+#include "inputviewfactory.h"
+
 #include <QQmlApplicationEngine>
 #include <QQmlComponent>
 #include <QQuickItem>
@@ -18,10 +20,14 @@ public:
 	template <typename TPresenter = QuickPresenter>
 	static void registerAsPresenter();
 	template <typename TPresenter = QuickPresenter>
-	static QQmlApplicationEngine *createWithEngine(const QUrl &initialFile = QStringLiteral("qrc:/qtmvvm/qml/App.qml"));
+	static QQmlApplicationEngine *createWithEngine(const QUrl &initialFile = QStringLiteral("qrc:/qtmvvm/qml/App.qml"));//TODO make multiple callable
+
 	template <typename TControl>
 	static void registerViewExplicitly(const QUrl &viewUrl);
 	static void registerViewExplicitly(const char *controlName, const QUrl &viewUrl);
+
+	static void registerInputViewFactory(InputViewFactory *factory);
+	static InputViewFactory *inputViewFactory();
 
 	void present(Control *control) override;
 	void withdraw(Control *control) override;
@@ -31,12 +37,12 @@ protected:
 	virtual QUrl findViewUrl(const QMetaObject *controlMetaObject);
 	virtual bool tryPresentView(QObject *qmlPresenter, QObject *viewObject);
 	virtual bool tryWithdrawView(QObject *qmlPresenter, QObject *viewObject);
-	virtual QUrl resolveInputType(int inputType);
 
 	QObject *qmlPresenter() const;
 
 private:
 	QuickPresenterQmlSingleton *_singleton;
+	QScopedPointer<InputViewFactory> _inputFactory;
 	QHash<QByteArray, QUrl> _explicitMappings;
 
 	void setQmlSingleton(QuickPresenterQmlSingleton *singleton);

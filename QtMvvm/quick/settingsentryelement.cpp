@@ -13,9 +13,9 @@ QVariant SettingsEntryElement::settingsValue() const
 	return res;
 }
 
-QVariantMap SettingsEntryElement::getDelegateProperties() const
+QVariantMap SettingsEntryElement::getEditProperties() const
 {
-	return delegateProperties;
+	return editProperties;
 }
 
 bool SettingsEntryElement::returnFalse() const
@@ -26,13 +26,10 @@ bool SettingsEntryElement::returnFalse() const
 void SettingsEntryElement::showInputDialog(bool show)
 {
 	if(show) {
-		CoreMessage::getInput(title + tr(":"),
-							  QString(),
-							  conversionType,
-							  [=](QVariant value) {
+		CoreMessage::getInput(title + tr(":"), QString(), conversionType, [=](QVariant value) {
 			if(value.isValid())
 				setSettingsValue(value);
-		});
+		}, defaultValue, editProperties);
 	}
 }
 

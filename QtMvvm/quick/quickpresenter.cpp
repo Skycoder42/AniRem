@@ -11,7 +11,9 @@
 static QObject *createQuickPresenterQmlSingleton(QQmlEngine *qmlEngine, QJSEngine *jsEngine);
 
 QuickPresenter::QuickPresenter() :
-	_singleton(nullptr)
+	_singleton(nullptr),
+	_inputFactory(new InputViewFactory()),
+	_explicitMappings()
 {}
 
 void QuickPresenter::registerViewExplicitly(const char *controlName, const QUrl &viewUrl)
@@ -22,6 +24,25 @@ void QuickPresenter::registerViewExplicitly(const char *controlName, const QUrl 
 		doRegister(presenter);
 	}
 	presenter->_explicitMappings.insert(controlName, viewUrl);
+}
+
+void QuickPresenter::registerInputViewFactory(InputViewFactory *factory)
+{
+	auto presenter = static_cast<QuickPresenter*>(CoreApp::instance()->presenter());
+	if(!presenter) {
+		presenter = new QuickPresenter();
+		doRegister(presenter);
+	}
+	presenter->_inputFactory.reset(factory);
+}
+
+InputViewFactory *QuickPresenter::inputViewFactory()
+{
+	auto presenter = static_cast<QuickPresenter*>(CoreApp::instance()->presenter());
+	if(presenter)
+		return presenter->_inputFactory.data();
+	else
+		return nullptr;
 }
 
 void QuickPresenter::present(Control *control)
@@ -102,20 +123,6 @@ bool QuickPresenter::tryWithdrawView(QObject *qmlPresenter, QObject *viewObject)
 								   Q_ARG(QVariant, QVariant::fromValue(viewObject)));
 	}
 	return withdrawen.toBool();
-}
-
-QUrl QuickPresenter::resolveInputType(int inputType)
-{
-	switch (inputType) {
-	case QMetaType::QString:
-		return QStringLiteral("qrc:/qtmvvm/qml/inputs/TextField.qml");
-	case QMetaType::Int:
-		return QStringLiteral("qrc:/qtmvvm/qml/inputs/SpinBox.qml");
-	case QMetaType::Double:
-		return QStringLiteral("qrc:/qtmvvm/qml/inputs/DoubleSpinBox.qml");
-	default:
-		return {};
-	}
 }
 
 QObject *QuickPresenter::qmlPresenter() const
@@ -238,13 +245,15 @@ void QuickPresenterQmlSingleton::showMessage(MessageResult *result, const CoreAp
 	Q_ASSERT(_qmlPresenter);//TODO ugly
 	QUrl inputUrl;
 	if(config.type == CoreApp::Input) {
-		inputUrl = _presenter->resolveInputType(42);//TODO 42
+		inputUrl = _presenter->_inputFactory->getInput(config.inputType);
 		if(!inputUrl.isValid()) {
 			result->complete(MessageResult::NegativeResult, {});
 			return;
 		}
 	}
 
+	auto properties = config.editProperties;
+	properties.insert(QStringLiteral("inputValue"), config.defaultValue);
 	QMetaObject::invokeMethod(_qmlPresenter, "showMessage",
 							  Q_ARG(QVariant, QVariant::fromValue(result)),
 							  Q_ARG(QVariant, (MessageType)config.type),
@@ -253,7 +262,8 @@ void QuickPresenterQmlSingleton::showMessage(MessageResult *result, const CoreAp
 							  Q_ARG(QVariant, config.positiveAction),
 							  Q_ARG(QVariant, config.negativeAction),
 							  Q_ARG(QVariant, config.neutralAction),
-							  Q_ARG(QVariant, inputUrl));
+							  Q_ARG(QVariant, inputUrl),
+							  Q_ARG(QVariant, properties));
 }
 
 bool QuickPresenterQmlSingleton::isViewLoading() const

@@ -17,8 +17,8 @@ AppBase {
 		return true;
 	}
 
-	function showMessage(result, type, title, text, positiveText, negativeText, neutralText, inputUrl) {
-		messageBox.showMessageBox(result, type, title, text, positiveText, negativeText, neutralText, inputUrl);
+	function showMessage(result, type, title, text, positiveText, negativeText, neutralText, inputUrl, editProperties) {
+		messageBox.showMessageBox(result, type, title, text, positiveText, negativeText, neutralText, inputUrl, editProperties);
 	}
 
 	function withdrawItem(item) {
