@@ -127,13 +127,7 @@ void SettingsDialog::on_buttonBox_clicked(QAbstractButton *button)
 		break;
 	case QDialogButtonBox::RestoreDefaults:
 		if(control->canRestoreDefaults()) {
-			CoreApp::MessageConfig config;
-			config.type = CoreApp::Warning;
-			config.title = tr("%1?").arg(button->text());
-			config.text = tr("All custom changes will be deleted and the defaults restored. <i>This cannot be undone!</i>");
-			config.positiveAction = tr("Yes");
-			config.negativeAction = tr("No");
-			auto result = CoreMessage::message(config);
+			auto result = CoreMessage::message(control->restoreConfig());
 			connect(result, &MessageResult::positiveAction, this, [=](){
 				restoreValues();
 				accept();

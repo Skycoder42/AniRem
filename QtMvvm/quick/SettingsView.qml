@@ -45,6 +45,7 @@ Page {
 			visible: false
 			imageSource: "image://svg/qtmvvm/icons/ic_settings_backup_restore"
 			text: qsTr("Restore settings")
+			onClicked: builder.restoreDefaults()
 
 			Component.onDestruction: visible = true
 		}
@@ -72,6 +73,7 @@ Page {
 		id: builder
 		buildView: settingsView
 		control: settingsView.control
+		filterText: searchField.text
 
 		onInitActions: {
 			searchButton.visible = allowSearch;

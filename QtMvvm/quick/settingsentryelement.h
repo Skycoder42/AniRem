@@ -14,6 +14,7 @@ class SettingsEntryElement : public QObject
 	Q_PROPERTY(QString tooltip MEMBER tooltip NOTIFY tooltipChanged)
 	Q_PROPERTY(QVariant settingsValue READ settingsValue WRITE setSettingsValue NOTIFY settingsValueChanged)
 
+	Q_PROPERTY(QStringList searchKeys MEMBER searchKeys CONSTANT)
 	Q_PROPERTY(QUrl delegateUrl READ getDelegateUrl CONSTANT)
 	Q_PROPERTY(QVariantMap editProperties READ getEditProperties CONSTANT)
 
@@ -26,6 +27,7 @@ public:
 	QString title;
 	QString tooltip;
 
+	QStringList searchKeys;
 	QUrl delegateUrl;
 	QVariantMap editProperties;
 

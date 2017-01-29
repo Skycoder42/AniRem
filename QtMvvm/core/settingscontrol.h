@@ -4,6 +4,7 @@
 #include "qtmvvm_core_global.h"
 #include "control.h"
 #include "settingssetuploader.h"
+#include "coreapp.h"
 #include <QSettings>
 
 class QTMVVM_CORE_SHARED_EXPORT SettingsControl : public Control
@@ -27,6 +28,8 @@ public:
 	Q_INVOKABLE virtual QVariant loadValue(const QString &uiId, const QVariant &defaultValue = {}) const;
 	Q_INVOKABLE virtual void saveValue(const QString &uiId, const QVariant &value);
 	Q_INVOKABLE virtual void resetValue(const QString &uiId);
+
+	Q_INVOKABLE CoreApp::MessageConfig restoreConfig() const;
 
 signals:
 	void valueChanged(const QString &key, const QVariant &value);

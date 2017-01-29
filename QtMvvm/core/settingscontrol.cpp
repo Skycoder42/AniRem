@@ -85,6 +85,17 @@ void SettingsControl::resetValue(const QString &uiId)
 	emit valueChanged(key, QVariant());
 }
 
+CoreApp::MessageConfig SettingsControl::restoreConfig() const
+{
+	CoreApp::MessageConfig config;
+	config.type = CoreApp::Warning;
+	config.title = tr("Restore Defaults?");
+	config.text = tr("All custom changes will be deleted and the defaults restored. <i>This cannot be undone!</i>");
+	config.positiveAction = tr("Yes");
+	config.negativeAction = tr("No");
+	return config;
+}
+
 void SettingsControl::doAutoConnections()
 {
 	auto meta = metaObject();

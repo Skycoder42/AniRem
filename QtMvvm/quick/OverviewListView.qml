@@ -22,7 +22,7 @@ ListView {
 
 		Timer {
 			id: enforcer
-			interval: 200
+			interval: 50
 			repeat: false
 			running: true
 
