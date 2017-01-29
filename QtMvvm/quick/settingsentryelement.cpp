@@ -26,7 +26,7 @@ bool SettingsEntryElement::returnFalse() const
 void SettingsEntryElement::showInputDialog(bool show)
 {
 	if(show) {
-		CoreMessage::getInput(title,
+		CoreMessage::getInput(title + tr(":"),
 							  QString(),
 							  conversionType,
 							  [=](QVariant value) {
