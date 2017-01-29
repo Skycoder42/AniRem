@@ -57,6 +57,7 @@ void SettingsUiBuilder::startBuildUi()
 
 	auto model = new GenericListModel<SettingsOverElement>(true, this);
 	auto rIndex = 0;
+	auto hasMultiSections = false;
 	foreach(auto cat, setup.categories) {
 		if(cat.sections.size() == 1) {
 			auto element = new SettingsOverElement();
@@ -67,6 +68,7 @@ void SettingsUiBuilder::startBuildUi()
 			element->settingsSection = cat.sections.first();
 			model->addObject(element);
 		} else {
+			hasMultiSections = true;
 			foreach(auto section, cat.sections) {
 				auto element = new SettingsOverElement();
 				element->category = cat.title;
@@ -84,7 +86,7 @@ void SettingsUiBuilder::startBuildUi()
 		loadSection(section);
 		model->deleteLater();
 	} else
-		emit createView(true, model, setup.categories.size() > 1);
+		emit createView(true, model, setup.categories.size() > 1 && hasMultiSections);
 }
 
 QUrl SettingsUiBuilder::svgEscape(QUrl url)

@@ -30,7 +30,8 @@ void SettingsEntryElement::showInputDialog(bool show)
 							  QString(),
 							  conversionType,
 							  [=](QVariant value) {
-			setSettingsValue(value);
+			if(value.isValid())
+				setSettingsValue(value);
 		});
 	}
 }
