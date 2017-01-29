@@ -8,19 +8,14 @@
 class IPresenter
 {
 public:
+
+
 	inline virtual ~IPresenter() {}
 
 	virtual void present(Control *control) = 0;
 	virtual void withdraw(Control *control) = 0;
 
-	virtual void showMessage(MessageResult *result,
-							 CoreApp::MessageType type,
-							 const QString &title,
-							 const QString &text,
-							 const QString &positiveAction,
-							 const QString &negativeAction,
-							 const QString &neutralAction,
-							 int inputType) = 0;
+	virtual void showMessage(MessageResult *result, const CoreApp::MessageConfig &config) = 0;
 
 };
 

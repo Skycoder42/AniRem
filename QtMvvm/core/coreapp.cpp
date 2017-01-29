@@ -52,6 +52,7 @@ void CoreApp::registerApp()
 	qRegisterMetaType<QMetaMethod>("QMetaMethod");
 	qRegisterMetaType<MessageResult*>();
 	qRegisterMetaType<CoreApp::MessageType>();
+	qRegisterMetaType<CoreApp::MessageConfig>();
 	qRegisterMetaType<MessageResult::ResultType>();
 
 	setParent(qApp);
@@ -88,9 +89,9 @@ void CoreApp::closeControl(Control *control)
 	_presenter->withdraw(control);
 }
 
-void CoreApp::showMessage(MessageResult *result, MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType)
+void CoreApp::showMessage(MessageResult *result, const MessageConfig &config)
 {
-	_presenter->showMessage(result, type, title, text, positiveAction, negativeAction, neutralAction, inputType);
+	_presenter->showMessage(result, config);
 }
 
 void CoreApp::setupParser(QCommandLineParser &parser, bool &allowInvalid) const

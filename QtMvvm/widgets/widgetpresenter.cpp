@@ -93,29 +93,29 @@ void WidgetPresenter::withdraw(Control *control)
 		widget->close();
 }
 
-void WidgetPresenter::showMessage(MessageResult *result, CoreApp::MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType)
+void WidgetPresenter::showMessage(MessageResult *result, const CoreApp::MessageConfig &config)
 {
 	QDialog *dialog = nullptr;
-	if(type == CoreApp::Input)
-		dialog = createInputDialog(title, text, inputType, positiveAction, negativeAction, neutralAction);
+	if(config.type == CoreApp::Input)
+		dialog = createInputDialog(config.title, config.text, 42, config.positiveAction, config.negativeAction, config.neutralAction);//TODO 42
 	else {
 		auto msgBox = new QMessageBox();
-		if(title.isEmpty())
-			msgBox->setText(text);
+		if(config.title.isEmpty())
+			msgBox->setText(config.text);
 		else {
-			msgBox->setText(QStringLiteral("<b>%1</b>").arg(title));
-			msgBox->setInformativeText(text);
+			msgBox->setText(QStringLiteral("<b>%1</b>").arg(config.title));
+			msgBox->setInformativeText(config.text);
 		}
 
 		QPushButton *aBtn = nullptr;
 		QPushButton *rBtn = nullptr;
 		QPushButton *nBtn = nullptr;
-		if(!positiveAction.isNull())
-			aBtn = msgBox->addButton(positiveAction, QMessageBox::AcceptRole);
-		if(!negativeAction.isNull())
-			rBtn = msgBox->addButton(negativeAction, QMessageBox::RejectRole);
-		if(!neutralAction.isNull())
-			nBtn = msgBox->addButton(neutralAction, QMessageBox::DestructiveRole);
+		if(!config.positiveAction.isNull())
+			aBtn = msgBox->addButton(config.positiveAction, QMessageBox::AcceptRole);
+		if(!config.negativeAction.isNull())
+			rBtn = msgBox->addButton(config.negativeAction, QMessageBox::RejectRole);
+		if(!config.neutralAction.isNull())
+			nBtn = msgBox->addButton(config.neutralAction, QMessageBox::DestructiveRole);
 
 		//default button
 		if(aBtn)
@@ -133,7 +133,7 @@ void WidgetPresenter::showMessage(MessageResult *result, CoreApp::MessageType ty
 		else if(nBtn)
 			msgBox->setEscapeButton(nBtn);
 
-		switch (type) {
+		switch (config.type) {
 		case CoreApp::Information:
 			msgBox->setIcon(QMessageBox::Information);
 			msgBox->setWindowTitle("Information");
@@ -177,7 +177,7 @@ void WidgetPresenter::showMessage(MessageResult *result, CoreApp::MessageType ty
 		QObject::connect(dialog, &QDialog::finished, dialog, [=](int diagRes){
 			auto res = getResult(diagRes);
 			QVariant value;
-			if(type == CoreApp::Input && res == MessageResult::PositiveResult)
+			if(config.type == CoreApp::Input && res == MessageResult::PositiveResult)
 				value = extractInputResult(dialog);
 			result->complete(res, value);
 		});

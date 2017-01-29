@@ -9,13 +9,7 @@
 namespace CoreMessage
 {
 
-QTMVVM_CORE_SHARED_EXPORT MessageResult *message(CoreApp::MessageType type,
-												 const QString &title,
-												 const QString &text,
-												 const QString &positiveAction = {},
-												 const QString &negativeAction = {},
-												 const QString &neutralAction = {},
-												 int inputType = QMetaType::UnknownType);
+QTMVVM_CORE_SHARED_EXPORT MessageResult *message(const CoreApp::MessageConfig &config);
 
 QTMVVM_CORE_SHARED_EXPORT MessageResult *information(const QString &title,
 													 const QString &text,
@@ -49,13 +43,32 @@ QTMVVM_CORE_SHARED_EXPORT bool critical(const QString &title,
 										const QString &okText = {});
 QTMVVM_CORE_SHARED_EXPORT MessageResult *getInput(const QString &title,
 												  const QString &text,
+												  const char *inputType,
+												  const QVariant &defaultValue = {},
+												  const QVariantMap &editProperties = {},
+												  const QString &okText = {},
+												  const QString &cancelText = {});
+QTMVVM_CORE_SHARED_EXPORT MessageResult *getInput(const QString &title,
+												  const QString &text,
 												  int inputType,
+												  const QVariant &defaultValue = {},
+												  const QVariantMap &editProperties = {},
 												  const QString &okText = {},
 												  const QString &cancelText = {});
 QTMVVM_CORE_SHARED_EXPORT bool getInput(const QString &title,
 										const QString &text,
+										const char *inputType,
+										std::function<void(QVariant)> onResult,
+										const QVariant &defaultValue = {},
+										const QVariantMap &editProperties = {},
+										const QString &okText = {},
+										const QString &cancelText = {});
+QTMVVM_CORE_SHARED_EXPORT bool getInput(const QString &title,
+										const QString &text,
 										int inputType,
 										std::function<void(QVariant)> onResult,
+										const QVariant &defaultValue = {},
+										const QVariantMap &editProperties = {},
 										const QString &okText = {},
 										const QString &cancelText = {});
 

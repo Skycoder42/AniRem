@@ -26,6 +26,18 @@ public:
 	};
 	Q_ENUM(MessageType)
 
+	struct QTMVVM_CORE_SHARED_EXPORT MessageConfig {
+		CoreApp::MessageType type;
+		QString title;
+		QString text;
+		QString positiveAction;
+		QString negativeAction;
+		QString neutralAction;
+		QByteArray inputType;
+		QVariant defaultValue;
+		QVariantMap editProperties;
+	};
+
 	explicit CoreApp(QObject *parent = nullptr);
 	~CoreApp();
 
@@ -44,14 +56,7 @@ public slots:
 
 	void showControl(Control *control);
 	void closeControl(Control *control);
-	void showMessage(MessageResult *result,
-					 CoreApp::MessageType type,
-					 const QString &title,
-					 const QString &text,
-					 const QString &positiveAction = {},
-					 const QString &negativeAction = {},
-					 const QString &neutralAction = {},
-					 int inputType = QMetaType::UnknownType);
+	void showMessage(MessageResult *result, const CoreApp::MessageConfig &config);
 
 protected:
 	virtual void setupParser(QCommandLineParser &parser, bool &allowInvalid) const;
@@ -79,6 +84,8 @@ public:
 protected:
 	bool startApp(const QCommandLineParser &parser) override;
 };
+
+Q_DECLARE_METATYPE(CoreApp::MessageConfig)
 
 #define REGISTER_CORE_APP(T) \
 	static void _setup_ ## T ## _hook() { \

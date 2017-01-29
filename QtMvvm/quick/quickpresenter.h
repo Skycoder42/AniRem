@@ -25,14 +25,7 @@ public:
 
 	void present(Control *control) override;
 	void withdraw(Control *control) override;
-	void showMessage(MessageResult *result,
-					 CoreApp::MessageType type,
-					 const QString &title,
-					 const QString &text,
-					 const QString &positiveAction,
-					 const QString &negativeAction,
-					 const QString &neutralAction,
-					 int inputType) override;
+	void showMessage(MessageResult *result, const CoreApp::MessageConfig &config) override;
 
 protected:
 	virtual QUrl findViewUrl(const QMetaObject *controlMetaObject);
@@ -76,14 +69,7 @@ public:
 
 	void present(Control *control);
 	void withdraw(Control *control);
-	void showMessage(MessageResult *result,
-					 CoreApp::MessageType type,
-					 const QString &title,
-					 const QString &text,
-					 const QString &positiveAction,
-					 const QString &negativeAction,
-					 const QString &neutralAction,
-					 int inputType);
+	void showMessage(MessageResult *result, const CoreApp::MessageConfig &config);
 
 	bool isViewLoading() const;
 	qreal loadingProgress() const;

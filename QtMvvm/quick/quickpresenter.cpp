@@ -36,10 +36,10 @@ void QuickPresenter::withdraw(Control *control)
 		_singleton->withdraw(control);
 }
 
-void QuickPresenter::showMessage(MessageResult *result, CoreApp::MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType)
+void QuickPresenter::showMessage(MessageResult *result, const CoreApp::MessageConfig &config)
 {
 	if(_singleton)
-		_singleton->showMessage(result, type, title, text, positiveAction, negativeAction, neutralAction, inputType);
+		_singleton->showMessage(result, config);
 }
 
 QUrl QuickPresenter::findViewUrl(const QMetaObject *controlMetaObject)
@@ -228,12 +228,12 @@ void QuickPresenterQmlSingleton::withdraw(Control *control)
 	}
 }
 
-void QuickPresenterQmlSingleton::showMessage(MessageResult *result, CoreApp::MessageType type, const QString &title, const QString &text, const QString &positiveAction, const QString &negativeAction, const QString &neutralAction, int inputType)
+void QuickPresenterQmlSingleton::showMessage(MessageResult *result, const CoreApp::MessageConfig &config)
 {
 	Q_ASSERT(_qmlPresenter);//TODO ugly
 	QUrl inputUrl;
-	if(type == CoreApp::Input) {
-		inputUrl = _presenter->resolveInputType(inputType);
+	if(config.type == CoreApp::Input) {
+		inputUrl = _presenter->resolveInputType(42);//TODO 42
 		if(!inputUrl.isValid()) {
 			result->complete(MessageResult::NegativeResult, {});
 			return;
@@ -242,12 +242,12 @@ void QuickPresenterQmlSingleton::showMessage(MessageResult *result, CoreApp::Mes
 
 	QMetaObject::invokeMethod(_qmlPresenter, "showMessage",
 							  Q_ARG(QVariant, QVariant::fromValue(result)),
-							  Q_ARG(QVariant, (MessageType)type),
-							  Q_ARG(QVariant, title),
-							  Q_ARG(QVariant, text),
-							  Q_ARG(QVariant, positiveAction),
-							  Q_ARG(QVariant, negativeAction),
-							  Q_ARG(QVariant, neutralAction),
+							  Q_ARG(QVariant, (MessageType)config.type),
+							  Q_ARG(QVariant, config.title),
+							  Q_ARG(QVariant, config.text),
+							  Q_ARG(QVariant, config.positiveAction),
+							  Q_ARG(QVariant, config.negativeAction),
+							  Q_ARG(QVariant, config.neutralAction),
 							  Q_ARG(QVariant, inputUrl));
 }
 
