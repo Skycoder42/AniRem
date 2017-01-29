@@ -21,6 +21,11 @@ StackView {
 	}
 
 	function closeAction() {
+		if(typeof mainStack.currentItem.closeAction != "undefined") {
+			if(!mainStack.currentItem.closeAction())
+				return false;
+		}
+
 		if(mainStack.depth <= 1) {
 			mainStack.currentItem.destroy();
 			return true;

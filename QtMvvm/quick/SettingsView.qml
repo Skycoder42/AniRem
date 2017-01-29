@@ -9,7 +9,9 @@ Page {
 	id: settingsView
 	property SettingsControl control: null
 
-	//TODO react on "closing" events
+	function closeAction() {
+		return settingsStack.closeAction();
+	}
 
 	header: ActionBar {
 		title: qsTr("Settings")
