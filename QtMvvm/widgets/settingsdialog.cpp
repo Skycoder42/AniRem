@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QDebug>
+#include <coremessage.h>
 
 #define TAB_CONTENT_NAME "tabContent_371342666"
 
@@ -125,9 +126,19 @@ void SettingsDialog::on_buttonBox_clicked(QAbstractButton *button)
 		saveValues();
 		break;
 	case QDialogButtonBox::RestoreDefaults:
-		if(control->canRestoreDefaults())
-			restoreValues();
-		accept();
+		if(control->canRestoreDefaults()) {
+			CoreApp::MessageConfig config;
+			config.type = CoreApp::Warning;
+			config.title = tr("%1?").arg(button->text());
+			config.text = tr("All custom changes will be deleted and the defaults restored. <i>This cannot be undone!</i>");
+			config.positiveAction = tr("Yes");
+			config.negativeAction = tr("No");
+			auto result = CoreMessage::message(config);
+			connect(result, &MessageResult::positiveAction, this, [=](){
+				restoreValues();
+				accept();
+			});
+		}
 		break;
 	default:
 		Q_UNREACHABLE();

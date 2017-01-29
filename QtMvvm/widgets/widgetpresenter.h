@@ -48,7 +48,7 @@ private:
 
 	QHash<Control*, QWidget*> activeControls;
 
-	static MessageResult::ResultType getResult(int dialogResult);
+	static MessageResult::ResultType getResult(QDialog *dialog);
 	static void registerDefaults();
 };
 

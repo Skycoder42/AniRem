@@ -198,8 +198,8 @@ void WidgetPresenter::showMessage(MessageResult *result, const CoreApp::MessageC
 		}
 		dialog->setWindowFlags(flags);
 
-		QObject::connect(dialog, &QDialog::finished, dialog, [=](int diagRes){
-			auto res = getResult(diagRes);
+		QObject::connect(dialog, &QDialog::finished, dialog, [=](){
+			auto res = getResult(dialog);
 			QVariant value;
 			if(config.type == CoreApp::Input && res == MessageResult::PositiveResult)
 				value = extractInputResult(dialog);
@@ -319,15 +319,27 @@ void WidgetPresenter::extendedShow(QWidget *widget) const
 	widget->activateWindow();
 }
 
-MessageResult::ResultType WidgetPresenter::getResult(int dialogResult)
+MessageResult::ResultType WidgetPresenter::getResult(QDialog *dialog)
 {
-	switch (dialogResult) {
-	case QDialog::Accepted:
-		return MessageResult::PositiveResult;
-	case QDialog::Rejected:
-		return MessageResult::NegativeResult;
-	default:
-		return MessageResult::NeutralResult;
+	auto msgBox = qobject_cast<QMessageBox*>(dialog);
+	if(msgBox) {
+		switch(msgBox->buttonRole(msgBox->clickedButton())) {
+		case QMessageBox::AcceptRole:
+			return MessageResult::PositiveResult;
+		case QMessageBox::RejectRole:
+			return MessageResult::NegativeResult;
+		default:
+			return MessageResult::NeutralResult;
+		}
+	} else {
+		switch (dialog->result()) {
+		case QDialog::Accepted:
+			return MessageResult::PositiveResult;
+		case QDialog::Rejected:
+			return MessageResult::NegativeResult;
+		default:
+			return MessageResult::NeutralResult;
+		}
 	}
 }
 
