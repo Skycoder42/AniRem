@@ -36,11 +36,6 @@ bool AddAnimeControl::isAcceptable() const
 	return _acceptable;
 }
 
-void AddAnimeControl::onClose()
-{
-	this->deleteLater();
-}
-
 void AddAnimeControl::accept(bool allowInvalid)
 {
 	if((allowInvalid || _acceptable) && _id != -1) {

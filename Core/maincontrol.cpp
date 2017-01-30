@@ -55,7 +55,8 @@ void MainControl::uncheckAnime(int index)
 	if(info) {
 		info->setHasNewSeasons(false);
 		store->saveAnime(info);
-		//TODO add as settings: QDesktopServices::openUrl(info->relationsUrl());
+		if(settings->settings()->value("openEntries", false).toBool())
+			QDesktopServices::openUrl(info->relationsUrl());
 	}
 }
 
@@ -120,6 +121,7 @@ void MainControl::storeListLoaded(AnimeList list)
 void MainControl::createAddControl(int id)
 {
 	auto control = new AddAnimeControl(this);
+	control->setDeleteOnClose(true);
 	connect(control, &AddAnimeControl::completed,
 			this, &MainControl::internalAddInfo);
 	control->setId(id);

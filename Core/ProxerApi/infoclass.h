@@ -29,7 +29,7 @@ private:
 	QtRestClient::RestClass *restClass;
 
 	static QString transformError(ProxerStatus *status, int);
-	void raiseError(QtRestClient::RestReply::ErrorType type, const QString &error);
+	void raiseError(QtRestClient::RestReply::ErrorType type, int errorCode, const QString &error);
 };
 
 #endif // INFOCLASS_H

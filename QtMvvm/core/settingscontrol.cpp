@@ -15,12 +15,14 @@ SettingsControl::SettingsControl(QSettings *settings, QObject *parent) :
 	SettingsControl({}, settings, parent)
 {}
 
-SettingsControl::SettingsControl(const QString &setupFilePath, QSettings *settings, QObject *parent) :
+SettingsControl::SettingsControl(const QString &setupFolder, QSettings *settings, QObject *parent) :
 	Control(parent),
-	_setupFile(setupFilePath.isNull() ? QStringLiteral(":/etc/settings.xml") : setupFilePath),
+	_setupFolder(setupFolder.isNull() ? QStringLiteral(":/etc") : setupFolder),
 	_settings(settings),
 	_setupLoader(new XmlSettingsSetupLoader()),
-	_keyMapping()
+	_keyMapping(),
+	_allowCaching(true),
+	_loadedSetups()
 {
 	if(_settings)
 		_settings->setParent(this);
@@ -29,36 +31,69 @@ SettingsControl::SettingsControl(const QString &setupFilePath, QSettings *settin
 	QMetaObject::invokeMethod(this, "doAutoConnections", Qt::QueuedConnection);
 }
 
+void SettingsControl::showSettingsControl(QObject *parent)
+{
+	auto control = new SettingsControl(parent);
+	control->setDeleteOnClose(true);
+	control->showControl(control);
+}
+
 void SettingsControl::setSetupLoader(SettingsSetupLoader *loader)
 {
 	_setupLoader.reset(loader);
+	_loadedSetups.clear();
+}
+
+void SettingsControl::setSetupFolder(const QString &folder)
+{
+	_setupFolder = folder;
+	_loadedSetups.clear();
 }
 
 SettingsSetup SettingsControl::loadSetup(const QByteArray &platform) const
 {
-	try {
-		SettingsSetup setup;
-		QFile setupFile(_setupFile);
-		if(setupFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-			QFile extraFile(QFileInfo(_setupFile).dir().absoluteFilePath(QStringLiteral("properties.xml")));
-			if(extraFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-				setup = _setupLoader->loadSetup(platform, &setupFile, &extraFile);
-				extraFile.close();
+	if(!_loadedSetups.contains(platform)) {
+		try {
+			SettingsSetup setup;
+			QFile setupFile(_setupFolder.absoluteFilePath(QStringLiteral("settings.xml")));
+			if(setupFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+				QFile extraFile(_setupFolder.absoluteFilePath(QStringLiteral("properties.xml")));
+				if(extraFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+					setup = _setupLoader->loadSetup(platform, &setupFile, &extraFile);
+					extraFile.close();
+				} else
+					setup = _setupLoader->loadSetup(platform, &setupFile);
+				setupFile.close();
 			} else
-				setup = _setupLoader->loadSetup(platform, &setupFile);
-			setupFile.close();
+				throw setupFile.errorString();
+
+			if(_allowCaching)
+				_loadedSetups.insert(platform, setup);
+			else
+				return setup;
+		} catch(QString s) {
+			qWarning() << "Failed to load settings setup with error"
+					   << s;
+			return {};
 		}
-		return setup;
-	} catch(QString s) {
-		qWarning() << "Failed to load settings setup with error"
-				   << s;
-		return {};
 	}
+
+	return _loadedSetups.value(platform);
+}
+
+QSettings *SettingsControl::settings() const
+{
+	return _settings;
 }
 
 bool SettingsControl::canRestoreDefaults() const
 {
 	return true;
+}
+
+bool SettingsControl::allowCaching() const
+{
+	return _allowCaching;
 }
 
 void SettingsControl::setMapping(const QString &uiId, const QString &settingsKey)
@@ -94,6 +129,16 @@ CoreApp::MessageConfig SettingsControl::restoreConfig() const
 	config.positiveAction = tr("Yes");
 	config.negativeAction = tr("No");
 	return config;
+}
+
+void SettingsControl::setAllowCaching(bool allowCaching)
+{
+	if (_allowCaching == allowCaching)
+		return;
+
+	_allowCaching = allowCaching;
+	_loadedSetups.clear();
+	emit allowCachingChanged(allowCaching);
 }
 
 void SettingsControl::doAutoConnections()

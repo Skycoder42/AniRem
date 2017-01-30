@@ -13,8 +13,8 @@ QtRestClient::GenericRestReply<ProxerEntry, ProxerStatus> *InfoClass::getEntry(i
 {
 	return restClass->get<ProxerEntry, ProxerStatus>(QStringLiteral("entry"), CONCAT_PARAMS("id", id))
 			->enableAutoDelete()
-			->onAllErrors([=](RestReply *, QString error, int, RestReply::ErrorType type){
-				raiseError(type, error);
+			->onAllErrors([=](RestReply *, QString error, int code, RestReply::ErrorType type){
+				raiseError(type, code, error);
 	}, &InfoClass::transformError);
 }
 
@@ -22,8 +22,8 @@ QtRestClient::GenericRestReply<ProxerRelations, ProxerStatus> *InfoClass::getRel
 {
 	return restClass->get<ProxerRelations, ProxerStatus>(QStringLiteral("relations"), CONCAT_PARAMS("id", id))
 			->enableAutoDelete()
-			->onAllErrors([=](RestReply *, QString error, int, RestReply::ErrorType type){
-				raiseError(type, error);
+			->onAllErrors([=](RestReply *, QString error, int code, RestReply::ErrorType type){
+				raiseError(type, code, error);
 	}, &InfoClass::transformError);
 }
 
@@ -32,7 +32,7 @@ bool InfoClass::testValid(int code, ProxerStatus *status)
 	if(status->error == 0 && (code / 100) == 2)
 		return true;
 	else {
-		raiseError(RestReply::FailureError, status->message);
+		raiseError(RestReply::FailureError, code, status->message);
 		return false;
 	}
 }
@@ -42,8 +42,15 @@ QString InfoClass::transformError(ProxerStatus *status, int)
 	return status->message;
 }
 
-void InfoClass::raiseError(RestReply::ErrorType type, const QString &error)
+void InfoClass::raiseError(RestReply::ErrorType type, int errorCode, const QString &error)
 {
+	qWarning() << "API-Error type"
+			   << type
+			   << "code"
+			   << errorCode
+			   << "with error string"
+			   << error;
+
 	switch (type) {
 	case RestReply::NetworkError:
 		emit apiError(tr("Network Error: ") + error);

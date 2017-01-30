@@ -8,6 +8,8 @@ class QTMVVM_CORE_SHARED_EXPORT Control : public QObject
 {
 	Q_OBJECT
 
+	Q_PROPERTY(bool deleteOnClose READ deleteOnClose WRITE setDeleteOnClose NOTIFY deleteOnCloseChanged)
+
 public:
 	explicit Control(QObject *parent = nullptr);
 
@@ -16,11 +18,20 @@ public:
 
 	virtual Control *parentControl() const;
 
+	bool deleteOnClose() const;
+
 public slots:
-	void close();
+	void close();	
+	void setDeleteOnClose(bool deleteOnClose);
+
+signals:
+	void deleteOnCloseChanged(bool deleteOnClose);
 
 protected slots:
 	void showControl(Control *control) const;
+
+private:
+	bool _deleteOnClose;
 };
 
 Q_DECLARE_METATYPE(Control*)

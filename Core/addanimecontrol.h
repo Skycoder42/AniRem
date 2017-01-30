@@ -25,8 +25,6 @@ public:
 	bool isLoading() const;
 	bool isAcceptable() const;
 
-	void onClose() override;
-
 public slots:
 	void accept(bool allowInvalid);
 	void retry();

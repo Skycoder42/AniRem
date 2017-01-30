@@ -5,6 +5,7 @@
 #include "control.h"
 #include "settingssetuploader.h"
 #include "coreapp.h"
+#include <QDir>
 #include <QSettings>
 
 class QTMVVM_CORE_SHARED_EXPORT SettingsControl : public Control
@@ -12,16 +13,24 @@ class QTMVVM_CORE_SHARED_EXPORT SettingsControl : public Control
 	Q_OBJECT
 
 	Q_PROPERTY(bool canRestoreDefaults READ canRestoreDefaults CONSTANT)
+	Q_PROPERTY(bool allowCaching READ allowCaching WRITE setAllowCaching NOTIFY allowCachingChanged)
 
 public:
 	explicit SettingsControl(QObject *parent = nullptr);
 	explicit SettingsControl(QSettings *settings, QObject *parent = nullptr);
-	explicit SettingsControl(const QString &setupFilePath, QSettings *settings = nullptr, QObject *parent = nullptr);
+	explicit SettingsControl(const QString &setupFolder, QSettings *settings = nullptr, QObject *parent = nullptr);
+
+	static void showSettingsControl(QObject *parent = nullptr);
 
 	void setSetupLoader(SettingsSetupLoader *loader);
+	void setSetupFolder(const QString &folder);
+
 	SettingsSetup loadSetup(const QByteArray &platform) const;
 
-	virtual bool canRestoreDefaults() const;
+	QSettings *settings() const;
+
+	virtual bool canRestoreDefaults() const;	
+	bool allowCaching() const;
 
 	void setMapping(const QString &uiId, const QString &settingsKey);
 
@@ -31,17 +40,24 @@ public:
 
 	Q_INVOKABLE CoreApp::MessageConfig restoreConfig() const;
 
+public slots:
+	void setAllowCaching(bool allowCaching);
+
 signals:
-	void valueChanged(const QString &key, const QVariant &value);
+	void valueChanged(const QString &key, const QVariant &value);	
+	void allowCachingChanged(bool allowCaching);
 
 private slots:
 	void doAutoConnections();
 
 private:
-	const QString _setupFile;
+	QDir _setupFolder;
 	QSettings *_settings;
 	QScopedPointer<SettingsSetupLoader> _setupLoader;
 	QHash<QString, QString> _keyMapping;
+
+	bool _allowCaching;
+	mutable QHash<QByteArray, SettingsSetup> _loadedSetups;
 };
 
 #define _SETTINGS_PROPERTY_METHODS_IMPL(type, name) \
