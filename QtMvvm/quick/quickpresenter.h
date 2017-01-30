@@ -19,8 +19,7 @@ public:
 
 	template <typename TPresenter = QuickPresenter>
 	static void registerAsPresenter();
-	template <typename TPresenter = QuickPresenter>
-	static QQmlApplicationEngine *createWithEngine(const QUrl &initialFile = QStringLiteral("qrc:/qtmvvm/qml/App.qml"));//TODO make multiple callable
+	static QQmlApplicationEngine *createAppEngine(const QUrl &initialFile = QStringLiteral("qrc:/qtmvvm/qml/App.qml"));
 
 	template <typename TControl>
 	static void registerViewExplicitly(const QUrl &viewUrl);
@@ -108,13 +107,6 @@ template<typename TPresenter>
 void QuickPresenter::registerAsPresenter()
 {
 	doRegister(new TPresenter());
-}
-
-template<typename TPresenter>
-QQmlApplicationEngine *QuickPresenter::createWithEngine(const QUrl &initialFile)
-{
-	QuickPresenter::registerAsPresenter<TPresenter>();
-	return createEngine(initialFile);
 }
 
 template<typename TControl>

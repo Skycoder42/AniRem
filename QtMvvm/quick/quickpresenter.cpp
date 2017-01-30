@@ -16,6 +16,16 @@ QuickPresenter::QuickPresenter() :
 	_explicitMappings()
 {}
 
+QQmlApplicationEngine *QuickPresenter::createAppEngine(const QUrl &initialFile)
+{
+	auto presenter = static_cast<QuickPresenter*>(CoreApp::instance()->presenter());
+	if(!presenter) {
+		presenter = new QuickPresenter();
+		doRegister(presenter);
+	}
+	return createEngine(initialFile);
+}
+
 void QuickPresenter::registerViewExplicitly(const char *controlName, const QUrl &viewUrl)
 {
 	auto presenter = static_cast<QuickPresenter*>(CoreApp::instance()->presenter());
@@ -161,8 +171,6 @@ void QuickPresenter::doRegister(QuickPresenter *presenter)
 
 QQmlApplicationEngine *QuickPresenter::createEngine(const QUrl &file)
 {
-	QuickExtras::registerQmlSingleton();
-
 	auto engine = new QQmlApplicationEngine();
 	QObject::connect(qApp, &QGuiApplication::aboutToQuit,
 					 engine, &QQmlApplicationEngine::deleteLater);
