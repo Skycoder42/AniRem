@@ -13,7 +13,7 @@ int InputViewFactory::metaTypeId(const QByteArray &type, const QVariantMap &prop
 		return QMetaType::type(type);
 }
 
-QUrl InputViewFactory::getInput(const QByteArray &type, const QVariantMap &properties)
+QUrl InputViewFactory::getInput(const QByteArray &type, const QVariantMap &)
 {
 	if(type == "string" || type == "QString")
 		return QStringLiteral("qrc:/qtmvvm/qml/inputs/TextField.qml");
@@ -27,7 +27,7 @@ QUrl InputViewFactory::getInput(const QByteArray &type, const QVariantMap &prope
 		return QUrl();
 }
 
-QUrl InputViewFactory::getDelegate(const QByteArray &type, const QVariantMap &properties)
+QUrl InputViewFactory::getDelegate(const QByteArray &type, const QVariantMap &)
 {
 	if(type == "bool")
 		return QStringLiteral("qrc:/qtmvvm/qml/settings/BoolDelegate.qml");

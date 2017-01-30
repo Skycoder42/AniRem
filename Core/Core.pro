@@ -6,6 +6,7 @@
 TEMPLATE = lib
 
 QT       += core gui network concurrent sql
+android: QT += androidextras
 win32: CONFIG += skip_target_version_ext
 
 TARGET = SeasonProxerCore

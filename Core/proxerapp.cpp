@@ -4,6 +4,9 @@
 #include "coremessage.h"
 #include "animeinfo.h"
 #include "proxer-api-key.h"
+#ifdef Q_OS_ANDROID
+#include <QtAndroidExtras>
+#endif
 
 REGISTER_CORE_APP(ProxerApp)
 
@@ -105,8 +108,15 @@ void ProxerApp::updateDone(bool hasUpdates, QString errorString)
 				statusControl->loadUpdateStatus(store->animeInfoList());
 			else
 				statusControl->loadErrorStatus(errorString);
-		} else
-			qApp->quit();//TODO will not work on android
+		} else {
+#ifdef Q_OS_ANDROID
+			auto service = QtAndroid::androidService();
+			if(service.isValid())
+				service.callMethod<void>("stopSelf");
+			else
+#endif
+			qApp->quit();
+		}
 	} else {
 		if(!errorString.isNull())
 			CoreMessage::critical(tr("Season check failed"), errorString);
