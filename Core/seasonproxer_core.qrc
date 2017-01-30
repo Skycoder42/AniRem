@@ -7,6 +7,5 @@
     </qresource>
     <qresource prefix="/etc">
         <file>settings.xml</file>
-        <file>properties.xml</file>
     </qresource>
 </RCC>

@@ -197,7 +197,6 @@ SettingsEntry XmlSettingsSetupLoader::readEntry(QXmlStreamReader &reader, const 
 	auto extras = extraProperties.value(entry.key).toMap();
 	for(auto it = extras.constBegin(); it != extras.constEnd(); it++)
 		entry.properties.insert(it.key(), it.value());
-	qDebug() << entry.key << entry.properties;
 
 	return entry;
 }
