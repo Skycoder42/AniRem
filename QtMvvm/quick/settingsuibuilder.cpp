@@ -47,7 +47,7 @@ void SettingsUiBuilder::loadSection(const SettingsSection &section)
 			element->editProperties = entry.properties;
 			element->key = entry.key;
 			element->defaultValue = entry.defaultValue;
-			if(group.entries.size() == 1)
+			if(group.title.isEmpty())
 				_currentEntryModel->insertObject(rIndex++, element);
 			else {
 				element->group = group.title;

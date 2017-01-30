@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+<SettingsConfig allowSearch="true" allowRestore="true">
+	<Category default="true">
+		<Section default="true" 
+				 icon="qrc:/qtmvvm/icons/settings.svg" 
+				 tooltip="General settings, of all kind">
+			<Entry key="openEntries"
+				   type="bool"
+				   title="&amp;Open Animes in browser"
+				   tooltip="When you long press animes, for example to remove the new seasons mark, the browser will automatically open the animes site"
+				   default="false">
+				<SearchKey>open</SearchKey>
+				<SearchKey>click</SearchKey>
+				<SearchKey>browser</SearchKey>
+				<SearchKey>new</SearchKey>
+			</Entry>
+		</Section>
+		<Section title="Groupings"
+				 icon="qrc:/qtmvvm/icons/settings.svg"
+				 tooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam">
+			<Group>
+				<Entry key="default1"
+					   type="string"
+					   title="Baum"
+					   tooltip="Define Baum please"
+					   default="42" />
+			</Group>
+			<Group title="I am Groot">
+				<Entry key="groot1"
+					   type="int"
+					   title="Groot1"
+					   tooltip="Am I Groot?"
+					   default="42"
+					   platform="widgets" />
+				<Entry key="groot2"
+					   type="double"
+					   title="Groot2"
+					   tooltip="I am Groot!"
+					   default="4.2"
+					   platform="quick" />
+			</Group>
+			<Group>
+				<Entry key="default2"
+					   type="bool"
+					   title="Baum 42"
+					   tooltip="This is the one and only truth, the meaning of life"
+					   default="true" />
+			</Group>
+		</Section>
+	</Category>
+	<Category title="Input Types"
+			  icon="qrc:/qtmvvm/icons/settings.svg"
+			  tooltip="This are input types, a demonstration">
+		<Entry key="string"
+			   type="string"
+			   title="string"
+			   default="test" />
+		<Entry key="bool"
+			   type="bool"
+			   title="bool"
+			   default="true" />
+		<Entry key="int"
+			   type="int"
+			   title="int"
+			   default="42" />
+		<Entry key="double"
+			   type="double"
+			   title="double"
+			   default="4.2" />
+		<Entry key="stringList"
+			   type="list"
+			   title="stringList"
+			   default="Test3">
+			<Property key="_list_data" type="string">string</Property>
+			<Property key="_list_elements" type="list">
+				<Element type="string">Test1</Element>
+				<Element type="string">Test2</Element>
+				<Element type="string">Test3</Element>
+			</Property>
+		</Entry>
+		<Entry key="intList"
+			   type="list"
+			   title="intList"
+			   default="2">
+			<Property key="_list_data" type="string">int</Property>
+			<Property key="_list_elements" type="list">
+				<Element type="object">
+					<Property key="name" type="string">Test1</Property>
+					<Property key="value" type="number">1</Property>
+				</Element>
+				<Element type="object">
+					<Property key="name" type="string">Test2</Property>
+					<Property key="value" type="number">2</Property>
+				</Element>
+				<Element type="object">
+					<Property key="name" type="string">Test3</Property>
+					<Property key="value" type="number">3</Property>
+				</Element>
+			</Property>
+		</Entry>
+	</Category>
+</SettingsConfig>

@@ -9,9 +9,9 @@
 struct SettingsEntry
 {
 	QString key;
+	QByteArray type;
 	QString title;
 	QString tooltip;
-	QByteArray type;
 	QVariant defaultValue;
 	QStringList searchKeys;
 	QVariantMap properties;

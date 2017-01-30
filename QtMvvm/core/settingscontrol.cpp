@@ -1,5 +1,5 @@
-#include "jsonsettingssetuploader.h"
 #include "settingscontrol.h"
+#include "xmlsettingssetuploader.h"
 
 #include <QFile>
 #include <QDebug>
@@ -17,9 +17,9 @@ SettingsControl::SettingsControl(QSettings *settings, QObject *parent) :
 
 SettingsControl::SettingsControl(const QString &setupFilePath, QSettings *settings, QObject *parent) :
 	Control(parent),
-	_setupFile(setupFilePath.isNull() ? QStringLiteral(":/etc/settings.json") : setupFilePath),
+	_setupFile(setupFilePath.isNull() ? QStringLiteral(":/etc/settings.xml") : setupFilePath),
 	_settings(settings),
-	_setupLoader(new JsonSettingsSetupLoader()),
+	_setupLoader(new XmlSettingsSetupLoader()),
 	_keyMapping()
 {
 	if(_settings)
@@ -40,7 +40,7 @@ SettingsSetup SettingsControl::loadSetup(const QByteArray &platform) const
 		SettingsSetup setup;
 		QFile setupFile(_setupFile);
 		if(setupFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-			QFile extraFile(QFileInfo(_setupFile).dir().absoluteFilePath(QStringLiteral("properties.json")));
+			QFile extraFile(QFileInfo(_setupFile).dir().absoluteFilePath(QStringLiteral("properties.xml")));
 			if(extraFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
 				setup = _setupLoader->loadSetup(platform, &setupFile, &extraFile);
 				extraFile.close();

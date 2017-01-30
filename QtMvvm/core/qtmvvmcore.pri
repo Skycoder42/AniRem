@@ -11,7 +11,7 @@ HEADERS += \
 	$$PWD/objectsignalhelper.h \
     $$PWD/settingscontrol.h \
     $$PWD/settingssetuploader.h \
-    $$PWD/jsonsettingssetuploader.h
+    $$PWD/xmlsettingssetuploader.h
 
 SOURCES += \
 	$$PWD/coreapp.cpp \
@@ -21,7 +21,7 @@ SOURCES += \
 	$$PWD/objectlistmodel.cpp \
 	$$PWD/objectsignalhelper.cpp \
     $$PWD/settingscontrol.cpp \
-    $$PWD/jsonsettingssetuploader.cpp
+    $$PWD/xmlsettingssetuploader.cpp
 
 INCLUDEPATH += $$PWD
 

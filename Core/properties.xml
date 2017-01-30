@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<SettingsProperties>
+	<Entry key="string">
+		<Property key="placeholderText" type="string">This is a password</Property>
+		<Property key="echoMode" type="number">2</Property>
+	</Entry>
+	<Entry key="int">
+		<Property key="minimum" type="number">-42</Property>
+		<Property key="maximum" type="number">42</Property>
+		<Property key="from" type="number">-42</Property>
+		<Property key="to" type="number">42</Property>
+	</Entry>
+	<Entry key="double">
+		<Property key="singleStep" type="number">0.1</Property>
+		<Property key="dStepSize" type="number">0.1</Property>
+	</Entry>
+	<Entry key="bool">
+		<Property key="text" type="string">This is a bool</Property>
+	</Entry>
+</SettingsProperties>

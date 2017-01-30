@@ -6,6 +6,7 @@
         <file>main.ico</file>
     </qresource>
     <qresource prefix="/etc">
-        <file>settings.json</file>
+        <file>settings.xml</file>
+        <file>properties.xml</file>
     </qresource>
 </RCC>
