@@ -41,8 +41,9 @@ void SettingsUiBuilder::loadSection(const SettingsSection &section)
 			element->title = entry.title.remove(QRegularExpression(QStringLiteral("&(?!&)")));
 			element->tooltip = entry.tooltip;
 			element->searchKeys = entry.searchKeys;
-			element->delegateUrl = inputFactory->getDelegate(entry.type);
-			element->conversionType = inputFactory->metaTypeId(entry.type);
+			element->delegateUrl = inputFactory->getDelegate(entry.type, entry.properties);
+			element->inputType = entry.type;
+			element->conversionType = inputFactory->metaTypeId(entry.type, entry.properties);
 			element->editProperties = entry.properties;
 			element->key = entry.key;
 			element->defaultValue = entry.defaultValue;

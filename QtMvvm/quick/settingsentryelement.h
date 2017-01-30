@@ -32,6 +32,7 @@ public:
 	QVariantMap editProperties;
 
 	QString key;
+	QByteArray inputType;
 	int conversionType;
 	QVariant defaultValue;
 

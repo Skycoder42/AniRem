@@ -30,5 +30,6 @@
         <file>TextField.qml</file>
         <file>SpinBox.qml</file>
         <file>DoubleSpinBox.qml</file>
+        <file>ListEdit.qml</file>
     </qresource>
 </RCC>

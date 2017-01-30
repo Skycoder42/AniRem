@@ -1,4 +1,5 @@
 #include "settingsentryelement.h"
+#include <QDebug>
 #include <coremessage.h>
 
 SettingsEntryElement::SettingsEntryElement(SettingsControl *control, QObject *parent) :
@@ -26,10 +27,10 @@ bool SettingsEntryElement::returnFalse() const
 void SettingsEntryElement::showInputDialog(bool show)
 {
 	if(show) {
-		CoreMessage::getInput(title + tr(":"), QString(), conversionType, [=](QVariant value) {
+		CoreMessage::getInput(title + tr(":"), QString(), inputType.constData(), [=](QVariant value) {
 			if(value.isValid())
 				setSettingsValue(value);
-		}, defaultValue, editProperties);
+		}, settingsValue(), editProperties);
 	}
 }
 

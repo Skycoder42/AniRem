@@ -21,7 +21,7 @@ QWidget *InputWidgetFactory::createWidget(const QByteArray &type, QWidget *paren
 		widget = new QDoubleSpinBox(parent);
 	else if(type == "list")
 		widget = createListWidget(parent, editProperties);
-	else//TODO add list selector and more
+	else
 		return nullptr;
 
 	for(auto it = editProperties.constBegin(); it != editProperties.constEnd(); it++)

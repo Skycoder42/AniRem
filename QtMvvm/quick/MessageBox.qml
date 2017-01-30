@@ -25,6 +25,8 @@ AlertDialog {
 		btnBox.neutralText = neutralText;
 		if(inputUrl != "")
 			contentLoader.setSource(inputUrl, editProperties);
+		else
+			contentLoader.source = "";
 		messageBox.open();
 	}
 

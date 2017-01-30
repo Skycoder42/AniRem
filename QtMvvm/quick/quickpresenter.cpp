@@ -245,7 +245,7 @@ void QuickPresenterQmlSingleton::showMessage(MessageResult *result, const CoreAp
 	Q_ASSERT(_qmlPresenter);//TODO ugly
 	QUrl inputUrl;
 	if(config.type == CoreApp::Input) {
-		inputUrl = _presenter->_inputFactory->getInput(config.inputType);
+		inputUrl = _presenter->_inputFactory->getInput(config.inputType, config.editProperties);
 		if(!inputUrl.isValid()) {
 			result->complete(MessageResult::NegativeResult, {});
 			return;
@@ -253,7 +253,9 @@ void QuickPresenterQmlSingleton::showMessage(MessageResult *result, const CoreAp
 	}
 
 	auto properties = config.editProperties;
-	properties.insert(QStringLiteral("inputValue"), config.defaultValue);
+	auto inputValue = config.defaultValue;
+	inputValue.convert(_presenter->_inputFactory->metaTypeId(config.inputType, config.editProperties));
+	properties.insert(QStringLiteral("inputValue"), inputValue);
 	QMetaObject::invokeMethod(_qmlPresenter, "showMessage",
 							  Q_ARG(QVariant, QVariant::fromValue(result)),
 							  Q_ARG(QVariant, (MessageType)config.type),

@@ -3,15 +3,17 @@
 
 InputViewFactory::~InputViewFactory() {}
 
-int InputViewFactory::metaTypeId(const QByteArray &type)
+int InputViewFactory::metaTypeId(const QByteArray &type, const QVariantMap &properties)
 {
 	if(type == "string")
 		return QMetaType::QString;
+	else if(type == "list")
+		return metaTypeId(properties.value("_list_data", "string").toByteArray(), properties);
 	else
 		return QMetaType::type(type);
 }
 
-QUrl InputViewFactory::getInput(const QByteArray &type)
+QUrl InputViewFactory::getInput(const QByteArray &type, const QVariantMap &properties)
 {
 	if(type == "string" || type == "QString")
 		return QStringLiteral("qrc:/qtmvvm/qml/inputs/TextField.qml");
@@ -19,11 +21,13 @@ QUrl InputViewFactory::getInput(const QByteArray &type)
 		return QStringLiteral("qrc:/qtmvvm/qml/inputs/SpinBox.qml");
 	else if(type == "double")
 		return QStringLiteral("qrc:/qtmvvm/qml/inputs/DoubleSpinBox.qml");
-	else//TODO add list selector and more
+	else if(type == "list")
+		return QStringLiteral("qrc:/qtmvvm/qml/inputs/ListEdit.qml");
+	else
 		return QUrl();
 }
 
-QUrl InputViewFactory::getDelegate(const QByteArray &type)
+QUrl InputViewFactory::getDelegate(const QByteArray &type, const QVariantMap &properties)
 {
 	if(type == "bool")
 		return QStringLiteral("qrc:/qtmvvm/qml/settings/BoolDelegate.qml");
