@@ -1,6 +1,8 @@
 #include "inputwidgetfactory.h"
+#include "listcombobox.h"
 
 #include <QCheckBox>
+#include <QComboBox>
 #include <QLineEdit>
 #include <QSpinBox>
 
@@ -17,6 +19,8 @@ QWidget *InputWidgetFactory::createWidget(const QByteArray &type, QWidget *paren
 		widget = new QSpinBox(parent);
 	else if(type == "double")
 		widget = new QDoubleSpinBox(parent);
+	else if(type == "list")
+		widget = createListWidget(parent, editProperties);
 	else//TODO add list selector and more
 		return nullptr;
 
@@ -28,4 +32,18 @@ QWidget *InputWidgetFactory::createWidget(const QByteArray &type, QWidget *paren
 QMetaProperty InputWidgetFactory::userProperty(QWidget *widget)
 {
 	return widget->metaObject()->userProperty();
+}
+
+QWidget *InputWidgetFactory::createListWidget(QWidget *parent, const QVariantMap &editProperties)
+{
+	auto box = new ListComboBox(parent);
+	foreach(auto item, editProperties.value("_list_elements").toList()) {
+		if(item.type() == QMetaType::QString)
+			box->addItem(item.toString(), item);
+		else {
+			auto iData = item.toMap();
+			box->addItem(iData.value("name").toString(), iData.value("value"));
+		}
+	}
+	return box;
 }
