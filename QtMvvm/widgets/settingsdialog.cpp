@@ -27,10 +27,10 @@ SettingsDialog::SettingsDialog(Control *mControl, QWidget *parent) :
 
 	if(parentWidget()) {
 		setWindowModality(Qt::WindowModal);
-		setWindowFlags(Qt::Sheet | Qt::WindowCloseButtonHint);
+		setWindowFlags(Qt::Sheet | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint);
 	} else {
 		setWindowModality(Qt::ApplicationModal);
-		setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
+		setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint | Qt::WindowContextHelpButtonHint);
 	}
 
 #ifdef Q_OS_OSX
@@ -185,6 +185,7 @@ void SettingsDialog::createCategory(const SettingsCategory &category)
 	item->setText(category.title);
 	item->setIcon(loadIcon(category.icon));
 	item->setToolTip(category.tooltip.isNull() ? category.title : category.tooltip);
+	item->setWhatsThis(item->toolTip());
 	auto tab = new QTabWidget();
 	tab->setTabBarAutoHide(true);
 
@@ -214,7 +215,9 @@ void SettingsDialog::createSection(const SettingsSection &section, QTabWidget *t
 	scrollArea->setWidget(scrollContent);
 
 	auto index = tabWidget->addTab(scrollArea, loadIcon(section.icon), section.title);
-	tabWidget->tabBar()->setTabToolTip(index, section.tooltip.isNull() ? section.title : section.tooltip);
+	auto tooltip = section.tooltip.isNull() ? section.title : section.tooltip;
+	tabWidget->tabBar()->setTabToolTip(index, tooltip);
+	tabWidget->tabBar()->setTabWhatsThis(index, tooltip);
 
 	foreach(auto group, section.groups)
 		createGroup(group, scrollContent, layout);
@@ -264,8 +267,11 @@ void SettingsDialog::createEntry(const SettingsEntry &entry, QWidget *sectionWid
 	auto label = new QLabel(entry.title + tr(":"), sectionWidget);
 	label->setBuddy(content);
 	label->setToolTip(entry.tooltip.isNull() ? entry.title : entry.tooltip);
+	label->setWhatsThis(label->toolTip());
 	if(content->toolTip().isNull())
 		content->setToolTip(label->toolTip());
+	if(content->whatsThis().isNull())
+		content->setWhatsThis(label->toolTip());
 
 	layout->addRow(label, content);
 	entryMap.insert(content, {entry, property});
