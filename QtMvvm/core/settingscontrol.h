@@ -19,7 +19,7 @@ public:
 	explicit SettingsControl(const QString &setupFilePath, QSettings *settings = nullptr, QObject *parent = nullptr);
 
 	void setSetupLoader(SettingsSetupLoader *loader);
-	SettingsSetup loadSetup() const;
+	SettingsSetup loadSetup(const QByteArray &platform) const;
 
 	virtual bool canRestoreDefaults() const;
 

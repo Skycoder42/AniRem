@@ -34,7 +34,7 @@ void SettingsControl::setSetupLoader(SettingsSetupLoader *loader)
 	_setupLoader.reset(loader);
 }
 
-SettingsSetup SettingsControl::loadSetup() const
+SettingsSetup SettingsControl::loadSetup(const QByteArray &platform) const
 {
 	try {
 		SettingsSetup setup;
@@ -42,10 +42,10 @@ SettingsSetup SettingsControl::loadSetup() const
 		if(setupFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
 			QFile extraFile(QFileInfo(_setupFile).dir().absoluteFilePath(QStringLiteral("properties.json")));
 			if(extraFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-				setup = _setupLoader->loadSetup(&setupFile, &extraFile);
+				setup = _setupLoader->loadSetup(platform, &setupFile, &extraFile);
 				extraFile.close();
 			} else
-				setup = _setupLoader->loadSetup(&setupFile);
+				setup = _setupLoader->loadSetup(platform, &setupFile);
 			setupFile.close();
 		}
 		return setup;

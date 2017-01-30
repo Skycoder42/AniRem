@@ -13,14 +13,14 @@ class JsonSettingsSetupLoader : public SettingsSetupLoader
 public:
 	JsonSettingsSetupLoader();
 
-	SettingsSetup loadSetup(QIODevice *device, QIODevice *extraPropertyDevice) override;
+	SettingsSetup loadSetup(const QByteArray &platform, QIODevice *device, QIODevice *extraPropertyDevice) override;
 
 private:
 	QVariantHash loadExtraProperties(QIODevice *device);
-	QList<SettingsCategory> parseCategories(QJsonArray data, const QVariantHash &extraProperties);
-	QList<SettingsSection> parseSections(QJsonArray data, const QVariantHash &extraProperties);
-	QList<SettingsGroup> parseGroups(QJsonArray data, const QVariantHash &extraProperties);
-	QList<SettingsEntry> parseEntries(QJsonObject data, const QVariantHash &extraProperties);
+	QList<SettingsCategory> parseCategories(QJsonArray data, const QByteArray &platform, const QVariantHash &extraProperties);
+	QList<SettingsSection> parseSections(QJsonArray data, const QByteArray &platform, const QVariantHash &extraProperties);
+	QList<SettingsGroup> parseGroups(QJsonArray data, const QByteArray &platform, const QVariantHash &extraProperties);
+	QList<SettingsEntry> parseEntries(QJsonObject data, const QByteArray &platform, const QVariantHash &extraProperties);
 };
 
 #endif // JSONSETTINGSSETUPLOADER_H

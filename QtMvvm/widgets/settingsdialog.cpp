@@ -54,7 +54,7 @@ SettingsDialog::SettingsDialog(Control *mControl, QWidget *parent) :
 									   QSizePolicy::Fixed,
 									   QSizePolicy::Fixed);
 
-	createUi(control->loadSetup());
+	createUi(control->loadSetup("widgets"));
 }
 
 SettingsDialog::~SettingsDialog()

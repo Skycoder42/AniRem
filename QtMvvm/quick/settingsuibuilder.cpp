@@ -107,7 +107,7 @@ void SettingsUiBuilder::startBuildUi()
 	if(!_buildView || !_control)
 		return;
 
-	auto setup = _control->loadSetup();
+	auto setup = _control->loadSetup("quick");
 	emit initActions(setup.allowSearch, setup.allowRestore);
 
 	_rootModel = new GenericListModel<SettingsOverElement>(true, this);

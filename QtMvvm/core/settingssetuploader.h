@@ -61,7 +61,7 @@ class SettingsSetupLoader
 public:
 	virtual inline ~SettingsSetupLoader() {}
 
-	virtual SettingsSetup loadSetup(QIODevice *device, QIODevice *extraPropertyDevice = nullptr) = 0;
+	virtual SettingsSetup loadSetup(const QByteArray &platform, QIODevice *device, QIODevice *extraPropertyDevice = nullptr) = 0;
 };
 
 #endif // SETTINGSSETUPLOADER_H
