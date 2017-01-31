@@ -113,6 +113,11 @@ void MainControl::removeAnime(int index)
 	}
 }
 
+void MainControl::onShow()
+{
+	settings->ensureAutoStart();
+}
+
 void MainControl::storeListLoaded(AnimeList list)
 {
 	model->resetModel(list);

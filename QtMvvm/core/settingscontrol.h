@@ -60,11 +60,11 @@ private:
 	mutable QHash<QByteArray, SettingsSetup> _loadedSetups;
 };
 
-#define SETTINGS_PROPERTY_WKEY(type, name, key) \
+#define SETTINGS_PROPERTY_WKEY(type, name, key, defaultValue) \
 	Q_PROPERTY(type name READ name WRITE set ## name NOTIFY name ## Changed) \
 public: \
 	inline type name() const { \
-		return loadValue(key).value<type>(); \
+		return loadValue(key, defaultValue).value<type>(); \
 	} \
 public slots: \
 	inline void set ## name(const type &name) { \
@@ -79,6 +79,6 @@ private: \
 		}); \
 	}
 
-#define SETTINGS_PROPERTY(type, name) SETTINGS_PROPERTY_WKEY(type, name, #name)
+#define SETTINGS_PROPERTY(type, name, defaultValue) SETTINGS_PROPERTY_WKEY(type, name, #name, defaultValue)
 
 #endif // SETTINGSCONTROL_H

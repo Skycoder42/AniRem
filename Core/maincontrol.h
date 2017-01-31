@@ -41,6 +41,9 @@ signals:
 
 	void reloadingAnimesChanged(bool reloadingAnimes);
 
+protected:
+	void onShow() override;
+
 private slots:
 	void storeListLoaded(AnimeList list);
 
