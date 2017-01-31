@@ -1,5 +1,8 @@
 #include "proxersettingscontrol.h"
 #include <coremessage.h>
+#ifdef Q_OS_ANDROID
+#include <QtAndroidExtras>
+#endif
 
 ProxerSettingsControl::ProxerSettingsControl(QObject *parent) :
 	SettingsControl(parent)
@@ -49,8 +52,20 @@ bool ProxerSettingsControl::setAutoStart(bool autoStart)
 		} else
 			return true;
 	}
-#elif define(Q_OS_ANDROID)
-#elif define(Q_OS_LINUX)
+#elif defined(Q_OS_ANDROID)
+	auto activity = QtAndroid::androidActivity();
+	if(activity.isValid()) {
+		QtAndroid::runOnAndroidThread([=](){
+			QAndroidJniObject::callStaticMethod<void>("de/skycoder42/seasonproxer/AlarmReceiver",
+													  "scheduleAutoCheck",
+													  "(Landroid/content/Context;Z)V",
+													  activity.object(),
+													  (jboolean)autoStart);
+		});
+		return true;
+	}
+#elif defined(Q_OS_LINUX)
+	//TODO support kde?
 #endif
 
 	auto didNotify = settings()->value(QStringLiteral("updates/didNotify"), false);

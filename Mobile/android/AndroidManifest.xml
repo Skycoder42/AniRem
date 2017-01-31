@@ -107,4 +107,5 @@
 		 Remove the comment if you do not require these default features. -->
 	<!-- %%INSERT_FEATURES -->
 
+<uses-permission android:name="android.permission.WAKE_LOCK"/>
 </manifest>
