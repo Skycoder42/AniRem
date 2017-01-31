@@ -4,6 +4,7 @@
 #include "core_global.h"
 #include "animestore.h"
 #include "control.h"
+#include "proxersettingscontrol.h"
 #include <objectlistmodel.h>
 #include <settingscontrol.h>
 
@@ -48,7 +49,7 @@ private:
 	GenericListModel<AnimeInfo> *model;
 	bool _loading;
 
-	SettingsControl *settings;
+	ProxerSettingsControl *settings;
 
 	void createAddControl(int id = -1);
 	void internalAddInfo(AnimeInfo *info);

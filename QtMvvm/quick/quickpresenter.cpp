@@ -75,27 +75,31 @@ void QuickPresenter::showMessage(MessageResult *result, const CoreApp::MessageCo
 
 QUrl QuickPresenter::findViewUrl(const QMetaObject *controlMetaObject)
 {
-	QByteArray cName = controlMetaObject->className();
-	if(_explicitMappings.contains(cName))
-		return _explicitMappings.value(cName);
-	else {
-		auto lIndex = cName.lastIndexOf("Control");
-		if(lIndex > 0)
-			cName.truncate(lIndex);
+	auto currentMeta = controlMetaObject;
+	while(currentMeta && currentMeta->inherits(&Control::staticMetaObject)) {
+		QByteArray cName = currentMeta->className();
+		if(_explicitMappings.contains(cName))
+			return _explicitMappings.value(cName);
+		else {
+			auto lIndex = cName.lastIndexOf("Control");
+			if(lIndex > 0)
+				cName.truncate(lIndex);
 
-		QDir searchDir(QStringLiteral(":/qml/views"),
-					   QStringLiteral("%1*.qml").arg(QString::fromLatin1(cName)),
-					   QDir::NoSort,
-					   QDir::Files | QDir::NoDotAndDotDot | QDir::Readable);
-		QDirIterator iterator(searchDir, QDirIterator::Subdirectories);
-		if(iterator.hasNext()) {
-			iterator.next();
-			return QUrl(QStringLiteral("qrc:///qml/views/") +
-						searchDir.relativeFilePath(iterator.filePath()));
+			QDir searchDir(QStringLiteral(":/qml/views"),
+						   QStringLiteral("%1*.qml").arg(QString::fromLatin1(cName)),
+						   QDir::NoSort,
+						   QDir::Files | QDir::NoDotAndDotDot | QDir::Readable);
+			QDirIterator iterator(searchDir, QDirIterator::Subdirectories);
+			if(iterator.hasNext()) {
+				iterator.next();
+				return QUrl(QStringLiteral("qrc:///qml/views/") +
+							searchDir.relativeFilePath(iterator.filePath()));
+			}
 		}
+
+		currentMeta = currentMeta->superClass();
 	}
 
-	qWarning() << "No QML-URL found for" << controlMetaObject->className();
 	return QUrl();
 }
 
@@ -203,8 +207,10 @@ QObject *QuickPresenterQmlSingleton::qmlPresenter() const
 void QuickPresenterQmlSingleton::present(Control *control)
 {
 	auto url = _presenter->findViewUrl(control->metaObject());
-	if(!url.isValid())
+	if(!url.isValid()) {
+		qWarning() << "No QML-URL found for" << control->metaObject()->className();
 		return;
+	}
 
 	auto component = _componentCache.object(url);
 	if(component)

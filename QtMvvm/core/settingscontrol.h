@@ -60,30 +60,25 @@ private:
 	mutable QHash<QByteArray, SettingsSetup> _loadedSetups;
 };
 
-#define _SETTINGS_PROPERTY_METHODS_IMPL(type, name) \
+#define SETTINGS_PROPERTY_WKEY(type, name, key) \
+	Q_PROPERTY(type name READ name WRITE set ## name NOTIFY name ## Changed) \
 public: \
 	inline type name() const { \
-		return loadValue(#name).value<type>(); \
+		return loadValue(key).value<type>(); \
 	} \
 public slots: \
 	inline void set ## name(const type &name) { \
-		saveValue(#name, name); \
+		saveValue(key, name); \
 	} \
-private:
-
-#define SETTINGS_PROPERTY(type, name) \
-	Q_PROPERTY(type name READ name WRITE set ## name) \
-	_SETTINGS_PROPERTY_METHODS_IMPL(type, name)
-
-#define SETTINGS_PROPERTY_NOT(type, name) \
-	Q_PROPERTY(type name READ name WRITE set ## name NOTIFY name ## Changed) \
-	_SETTINGS_PROPERTY_METHODS_IMPL(type, name) \
+private: \
 	Q_INVOKABLE inline void connectDelegateSignals ## name() { \
 		connect(this, &SettingsControl::valueChanged, \
-				this, [=](const QString &key, const QVariant &value){ \
-			if(key == #name) \
+				this, [=](const QString &sigKey, const QVariant &value){ \
+			if(sigKey == key) \
 				emit name ## Changed(value.value<type>()); \
 		}); \
 	}
+
+#define SETTINGS_PROPERTY(type, name) SETTINGS_PROPERTY_WKEY(type, name, #name)
 
 #endif // SETTINGSCONTROL_H

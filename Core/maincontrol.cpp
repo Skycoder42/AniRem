@@ -14,7 +14,7 @@ MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	store(store),
 	model(new GenericListModel<AnimeInfo>(false, this)),
 	_loading(true),
-	settings(new SettingsControl(this))
+	settings(new ProxerSettingsControl(this))
 {
 	connect(store, &AnimeStore::animeInfoListChanged,
 			this, &MainControl::storeListLoaded);
@@ -55,7 +55,7 @@ void MainControl::uncheckAnime(int index)
 	if(info) {
 		info->setHasNewSeasons(false);
 		store->saveAnime(info);
-		if(settings->settings()->value("openEntries", false).toBool())
+		if(settings->openEntries())
 			QDesktopServices::openUrl(info->relationsUrl());
 	}
 }

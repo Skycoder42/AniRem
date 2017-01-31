@@ -215,18 +215,23 @@ void WidgetPresenter::showMessage(MessageResult *result, const CoreApp::MessageC
 QMetaObject WidgetPresenter::findWidgetMetaObject(const QMetaObject *controlMetaObject, bool &ok)
 {
 	ok = true;
-	QByteArray cName = controlMetaObject->className();
-	if(explicitMappings.contains(cName))
-		return explicitMappings.value(cName);
-	else {
-		auto lIndex = cName.lastIndexOf("Control");
-		if(lIndex > 0)
-			cName.truncate(lIndex);
-		foreach(auto metaObject, implicitMappings) {
-			QByteArray wName = metaObject.className();
-			if(wName.startsWith(cName))
-				return metaObject;
+	auto currentMeta = controlMetaObject;
+	while(currentMeta && currentMeta->inherits(&Control::staticMetaObject)) {
+		QByteArray cName = currentMeta->className();
+		if(explicitMappings.contains(cName))
+			return explicitMappings.value(cName);
+		else {
+			auto lIndex = cName.lastIndexOf("Control");
+			if(lIndex > 0)
+				cName.truncate(lIndex);
+			foreach(auto metaObject, implicitMappings) {
+				QByteArray wName = metaObject.className();
+				if(wName.startsWith(cName))
+					return metaObject;
+			}
 		}
+
+		currentMeta = currentMeta->superClass();
 	}
 
 	ok = false;
