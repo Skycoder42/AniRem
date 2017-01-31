@@ -145,14 +145,27 @@ void ProxerApp::automaticUpdateCheck()
 	settings.beginGroup("updates");
 
 	auto updateList = store->animeInfoList();
+
+	//check if there are still animes with updates
+	bool hasUpdates = false;
+	foreach (auto info, updateList) {
+		if(info->hasNewSeasons()) {
+			hasUpdates = true;
+			break;
+		}
+	}
+
+	//sort by last update check time
 	std::sort(updateList.begin(), updateList.end(), [](AnimeInfo *left, AnimeInfo *right){
 		return left->lastUpdateCheck() < right->lastUpdateCheck();
 	});
 
+	//reduce to allowed list size
 	auto maxSize = settings.value("checkLimit", 10).toInt();
 	if(maxSize > 0)
 		updateList = updateList.mid(0, maxSize);
 
+	//reduce to allowed interval
 	auto interval = settings.value("autoCheck", 7).toInt();
 	for(auto i = 0; i < updateList.size(); i++) {
 		if(updateList[i]->lastUpdateCheck().daysTo(QDate::currentDate()) < interval) {
@@ -161,13 +174,18 @@ void ProxerApp::automaticUpdateCheck()
 		}
 	}
 
+	//quit if none have to be updated or show already updated
 	if(updateList.isEmpty() || interval == 0) {
-		quitApp();
+		if(hasUpdates)
+			updateDone(true, {});
+		else
+			quitApp();
 		return;
 	}
 
-	qDebug() << "checking updates for" << updateList.size() << "animes";
-	loader->checkForUpdates(updateList);
+	//begin the update
+	qInfo() << "checking for updates of" << updateList.size() << "animes";
+	loader->checkForUpdates(updateList, hasUpdates);
 
 	settings.endGroup();
 }

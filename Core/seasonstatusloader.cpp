@@ -13,8 +13,10 @@ SeasonStatusLoader::SeasonStatusLoader(QObject *parent) :
 			this, &SeasonStatusLoader::error);
 }
 
-void SeasonStatusLoader::checkForUpdates(const AnimeList &animeList)
+void SeasonStatusLoader::checkForUpdates(const AnimeList &animeList, bool forceHasUpdates)
 {
+	if(forceHasUpdates)
+		anyUpdated = true;
 	auto empty = updateQueue.isEmpty();
 	updateQueue.append(animeList);
 	lastMax += animeList.size();
