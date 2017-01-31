@@ -15,8 +15,6 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import org.qtproject.qt5.android.bindings.QtActivity;
 import org.qtproject.qt5.android.bindings.QtService;
 
-import android.util.Log;
-
 public class SeasonProxerService extends QtService {
 	private static final int PROGRESS_NOT_KEY = 13;
 	private static final int STATUS_NOT_KEY = 42;
@@ -30,7 +28,6 @@ public class SeasonProxerService extends QtService {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.wtf("SeasonProxer", "onStartCommand");
 		super.onStartCommand(intent, flags, startId);
 		startIntent = intent;
 		return Service.START_NOT_STICKY;
@@ -38,7 +35,6 @@ public class SeasonProxerService extends QtService {
 
 	@Override
 	public void onDestroy() {
-		Log.wtf("SeasonProxer", "onDestroy");
 		if(startIntent != null) {
 			WakefulBroadcastReceiver.completeWakefulIntent(startIntent);
 			startIntent = null;
@@ -53,7 +49,6 @@ public class SeasonProxerService extends QtService {
 	}
 
 	public void showProgressNotification() {
-		Log.wtf("SeasonProxer", "showProgressNotification");
 		progressBuilder = new NotificationCompat.Builder(this)
 			.setContentTitle(getResources().getString(R.string.update_progress_title))
 			.setContentText(getResources().getString(R.string.update_progress_text))
@@ -70,7 +65,6 @@ public class SeasonProxerService extends QtService {
 
 	public void updateProgress(int current, int max)
 	{
-		Log.wtf("SeasonProxer", "updateProgress");
 		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		progressBuilder.setProgress(max, current, false)
 			.setContentText(current + " / " + max);
@@ -78,7 +72,6 @@ public class SeasonProxerService extends QtService {
 	}
 
 	public void showUpdateNotification(boolean success, String title, String message) {
-		Log.wtf("SeasonProxer", "showUpdateNotification");
 		stopForeground(true);
 
 		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
