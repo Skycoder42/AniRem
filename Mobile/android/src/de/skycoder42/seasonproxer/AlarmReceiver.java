@@ -32,8 +32,5 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 			alarm.cancel(pending);
 			pending.cancel();
 		}
-
-		Intent serviceIntent = new Intent(context, SeasonProxerService.class);
-		WakefulBroadcastReceiver.startWakefulService(context, serviceIntent);
 	}
 }
