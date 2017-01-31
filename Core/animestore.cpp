@@ -86,43 +86,15 @@ void AnimeStore::saveAnime(AnimeInfo *info)
 
 		QSqlQuery infoQuery(db);
 		if(update)
-			infoQuery.prepare("UPDATE Animes SET Title = :title, Seasons = :seasons, Changed = :changed WHERE Id = :id");
+			infoQuery.prepare("UPDATE Animes SET Title = :title, Seasons = :seasons, Changed = :changed, LastUpdate = :lastUpdate WHERE Id = :id");
 		else
-			infoQuery.prepare("INSERT INTO Animes (Id, Title, Seasons, Changed) VALUES(:id, :title, :seasons, :changed)");
+			infoQuery.prepare("INSERT INTO Animes (Id, Title, Seasons, Changed, LastUpdate) VALUES(:id, :title, :seasons, :changed, :lastUpdate)");
 		infoQuery.bindValue(":id", info->id());
 		infoQuery.bindValue(":title", info->title());
 		infoQuery.bindValue(":seasons", info->lastKnownSeasons());
 		infoQuery.bindValue(":changed", info->hasNewSeasons());
+		infoQuery.bindValue(":lastUpdate", info->lastUpdateCheck());
 		EXEC_QUERY(infoQuery);
-	});
-}
-
-void AnimeStore::saveAll(AnimeList infoList)
-{
-	setInternal(infoList, false);
-
-	lock.addLock();
-	QtConcurrent::run(tp, [this, infoList]() {
-		CountLocker locker(lock, true);
-
-		auto db = QSqlDatabase::database(dbName);
-		CHECK_DB_OPEN(db);
-
-		QSqlQuery truncQuery(db);
-		truncQuery.prepare("DELETE FROM Animes");
-		EXEC_QUERY(truncQuery);
-
-		foreach(auto info, infoList) {
-			QSqlQuery infoQuery(db);
-			infoQuery.prepare("INSERT INTO Animes (Id, Title, Seasons, Changed) VALUES(:id, :title, :seasons, :changed)");
-			infoQuery.bindValue("id", info->id());
-			infoQuery.bindValue("title", info->title());
-			infoQuery.bindValue("seasons", info->lastKnownSeasons());
-			infoQuery.bindValue("changed", info->hasNewSeasons());
-			EXEC_QUERY(infoQuery);
-		}
-
-		db.close();
 	});
 }
 
@@ -158,7 +130,7 @@ void AnimeStore::loadAnimes()
 		CHECK_DB_OPEN(db);
 
 		QSqlQuery loadQuery(db);
-		loadQuery.prepare("SELECT Id, Title, Seasons, Changed FROM Animes");
+		loadQuery.prepare("SELECT Id, Title, Seasons, Changed, LastUpdate FROM Animes");
 		EXEC_QUERY(loadQuery);
 
 		while (loadQuery.next()) {
@@ -166,6 +138,7 @@ void AnimeStore::loadAnimes()
 									  loadQuery.value(1).toString());// parenting done in "set internal"
 			info->setLastKnownSeasons(loadQuery.value(2).toInt());
 			info->setHasNewSeasons(loadQuery.value(3).toBool());
+			info->setLastUpdateCheck(loadQuery.value(4).toDate());
 			info->moveToThread(thread());
 			infoList.append(info);
 		}

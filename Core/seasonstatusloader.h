@@ -17,7 +17,7 @@ public slots:
 
 signals:
 	void updated(int value, int max);
-	void newSeasonsDetected(AnimeInfo *anime);
+	void animeInfoUpdated(AnimeInfo *anime);
 	void completed(bool hasUpdates, const QString &errorString = {});
 
 private slots:

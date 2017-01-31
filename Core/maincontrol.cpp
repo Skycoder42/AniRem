@@ -136,5 +136,6 @@ void MainControl::internalAddInfo(AnimeInfo *info)
 		model->addObject(info);
 		store->saveAnime(info);
 		showStatus(tr("Added Anime: %1").arg(info->title()));
+		coreApp->checkForSeasonUpdate(info);
 	}
 }

@@ -30,6 +30,11 @@ bool AnimeInfo::hasNewSeasons() const
 	return _hasNewSeasons;
 }
 
+QDate AnimeInfo::lastUpdateCheck() const
+{
+	return _lastUpdateCheck;
+}
+
 QUrl AnimeInfo::relationsUrl() const
 {
 	return QStringLiteral("https://proxer.me/info/%1/relation").arg(_id);
@@ -49,4 +54,13 @@ void AnimeInfo::setHasNewSeasons(bool hasNewSeasons)
 		_hasNewSeasons = hasNewSeasons;
 		emit hasNewSeasonsChanged(hasNewSeasons);
 	}
+}
+
+void AnimeInfo::setLastUpdateCheck(QDate lastUpdateCheck)
+{
+	if (_lastUpdateCheck == lastUpdateCheck)
+		return;
+
+	_lastUpdateCheck = lastUpdateCheck;
+	emit lastUpdateCheckChanged(lastUpdateCheck);
 }

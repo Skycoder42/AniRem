@@ -34,13 +34,15 @@ void SeasonStatusLoader::checkNext()
 				->onSucceeded([=](RestReply*, int, ProxerRelations *relation) {
 			auto size = relation->data.size();
 			if(size != next->lastKnownSeasons()) {
+				next->setHasNewSeasons(next->lastKnownSeasons() != -1);//DEBUG set to true to test easily
 				next->setLastKnownSeasons(size);
-				next->setHasNewSeasons(true);
 			}
-			if(next->hasNewSeasons()) {
-				emit newSeasonsDetected(next);
+			next->setLastUpdateCheck(QDate::currentDate());
+			emit animeInfoUpdated(next);
+
+			if(next->hasNewSeasons())
 				anyUpdated = true;
-			}
+
 			relation->deleteLater();
 			updateQueue.dequeue();
 			checkNext();

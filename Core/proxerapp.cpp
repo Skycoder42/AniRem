@@ -1,5 +1,6 @@
 #include "proxerapp.h"
 #include <QtRestClient>
+#include <QDate>
 #include "core.h"
 #include "coremessage.h"
 #include "animeinfo.h"
@@ -16,15 +17,23 @@ ProxerApp::ProxerApp(QObject *parent) :
 	loader(nullptr),
 	mainControl(nullptr),
 	statusControl(nullptr),
-	passiveUpdate(false)
+	passiveUpdate(false),
+	showNoUpdatesInfo(false)
 {
 	qRegisterMetaType<AnimeList>();
 	QtRestClient::registerListConverters<ProxerEntryData*>();
 }
 
+void ProxerApp::checkForSeasonUpdate(AnimeInfo *animeInfo)
+{
+	mainControl->updateLoadStatus(true);
+	loader->checkForUpdates({animeInfo});
+}
+
 void ProxerApp::checkForSeasonUpdates()
 {
 	mainControl->updateLoadStatus(true);
+	showNoUpdatesInfo = true;
 	loader->checkForUpdates(store->animeInfoList());
 }
 
@@ -33,6 +42,17 @@ void ProxerApp::showMainControl()
 	showControl(mainControl);
 	if(statusControl)
 		closeControl(statusControl);
+}
+
+void ProxerApp::quitApp()
+{
+#ifdef Q_OS_ANDROID
+	auto service = QtAndroid::androidService();
+	if(service.isValid())
+		service.callMethod<void>("stopSelf");
+	else
+#endif
+	qApp->quit();
 }
 
 void ProxerApp::setupParser(QCommandLineParser &parser, bool &allowInvalid) const
@@ -64,7 +84,7 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 			Qt::QueuedConnection);
 
 	loader = new SeasonStatusLoader(this);
-	connect(loader, &SeasonStatusLoader::newSeasonsDetected,
+	connect(loader, &SeasonStatusLoader::animeInfoUpdated,
 			store, &AnimeStore::saveAnime);
 
 	mainControl = new MainControl(store, this);
@@ -84,15 +104,12 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 	return true;
 }
 
-void ProxerApp::aboutToQuit()
-{
-
-}
+void ProxerApp::aboutToQuit() {}
 
 void ProxerApp::storeLoaded()
 {
 	if(passiveUpdate)
-		loader->checkForUpdates(store->animeInfoList());
+		automaticUpdateCheck();
 	else
 		mainControl->updateLoadStatus(false);
 }
@@ -108,21 +125,49 @@ void ProxerApp::updateDone(bool hasUpdates, QString errorString)
 				statusControl->loadUpdateStatus(store->animeInfoList());
 			else
 				statusControl->loadErrorStatus(errorString);
-		} else {
-#ifdef Q_OS_ANDROID
-			auto service = QtAndroid::androidService();
-			if(service.isValid())
-				service.callMethod<void>("stopSelf");
-			else
-#endif
-			qApp->quit();
-		}
+		} else
+			quitApp();
 	} else {
 		if(!errorString.isNull())
 			CoreMessage::critical(tr("Season check failed"), errorString);
 		else if(hasUpdates)
 			CoreMessage::information(tr("Season check completed"), tr("New Seasons are available!"));
-		else
+		else if(showNoUpdatesInfo) {
+			showNoUpdatesInfo = false;
 			CoreMessage::information(tr("Season check completed"), tr("No seasons changed."));
+		}
 	}
+}
+
+void ProxerApp::automaticUpdateCheck()
+{
+	QSettings settings;
+	settings.beginGroup("updates");
+
+	auto updateList = store->animeInfoList();
+	std::sort(updateList.begin(), updateList.end(), [](AnimeInfo *left, AnimeInfo *right){
+		return left->lastUpdateCheck() < right->lastUpdateCheck();
+	});
+
+	auto maxSize = settings.value("checkLimit", 10).toInt();
+	if(maxSize > 0)
+		updateList = updateList.mid(0, maxSize);
+
+	auto interval = settings.value("autoCheck", 7).toInt();
+	for(auto i = 0; i < updateList.size(); i++) {
+		if(updateList[i]->lastUpdateCheck().daysTo(QDate::currentDate()) < interval) {
+			updateList = updateList.mid(0, i);
+			break;
+		}
+	}
+
+	if(updateList.isEmpty() || interval == 0) {
+		quitApp();
+		return;
+	}
+
+	qDebug() << "checking updates for" << updateList.size() << "animes";
+	loader->checkForUpdates(updateList);
+
+	settings.endGroup();
 }

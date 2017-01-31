@@ -24,7 +24,6 @@ public:
 
 public slots:
 	void saveAnime(AnimeInfo *info);
-	void saveAll(AnimeList infoList);
 	void forgetAnime(int id);
 
 signals:

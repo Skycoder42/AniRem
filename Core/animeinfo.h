@@ -2,6 +2,7 @@
 #define ANIMEINFO_H
 
 #include "core_global.h"
+#include <QDate>
 #include <QObject>
 #include <QPixmap>
 #include <QSharedPointer>
@@ -15,6 +16,7 @@ class CORESHARED_EXPORT AnimeInfo : public QObject
 	Q_PROPERTY(QString title READ title CONSTANT)
 	Q_PROPERTY(int lastKnownSeasons READ lastKnownSeasons WRITE setLastKnownSeasons NOTIFY lastKnownSeasonsChanged)
 	Q_PROPERTY(bool hasNewSeasons READ hasNewSeasons WRITE setHasNewSeasons NOTIFY hasNewSeasonsChanged)
+	Q_PROPERTY(QDate lastUpdateCheck READ lastUpdateCheck WRITE setLastUpdateCheck NOTIFY lastUpdateCheckChanged)
 	Q_PROPERTY(QUrl relationsUrl READ relationsUrl CONSTANT)
 
 public:
@@ -36,16 +38,19 @@ public:
 	QString title() const;
 	int lastKnownSeasons() const;
 	bool hasNewSeasons() const;
+	QDate lastUpdateCheck() const;
 
 	QUrl relationsUrl() const;
 
 public slots:
 	void setLastKnownSeasons(int lastKnownSeasons);
 	void setHasNewSeasons(bool hasNewSeasons);
+	void setLastUpdateCheck(QDate lastUpdateCheck);
 
 signals:
 	void lastKnownSeasonsChanged(int lastKnownSeasons);
 	void hasNewSeasonsChanged(bool hasNewSeasons);
+	void lastUpdateCheckChanged(QDate lastUpdateCheck);
 
 private:
 	int _id;
@@ -53,6 +58,7 @@ private:
 
 	int _lastKnownSeasons;
 	bool _hasNewSeasons;
+	QDate _lastUpdateCheck;
 };
 
 typedef QList<AnimeInfo*> AnimeList;

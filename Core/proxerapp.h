@@ -16,8 +16,11 @@ public:
 	explicit ProxerApp(QObject *parent = nullptr);
 
 public slots:
+	void checkForSeasonUpdate(AnimeInfo *animeInfo);
 	void checkForSeasonUpdates();
 	void showMainControl();
+
+	void quitApp();
 
 protected:
 	void setupParser(QCommandLineParser &parser, bool &allowInvalid) const override;
@@ -37,6 +40,9 @@ private:
 	StatusControl *statusControl;
 
 	bool passiveUpdate;
+	bool showNoUpdatesInfo;
+
+	void automaticUpdateCheck();
 };
 
 #undef coreApp

@@ -17,7 +17,7 @@ public:
 
 signals:
 	void openEntriesChanged(bool openEntries);
-	void autoCheckChanged(int autoCheck);
+	void autoCheckChanged(int autoCheck);//TODO schedule update checks
 	void checkLimitChanged(int checkLimit);
 };
 
