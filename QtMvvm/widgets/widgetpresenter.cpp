@@ -101,8 +101,10 @@ void WidgetPresenter::present(Control *control)
 				control->onClose();
 			});
 			control->onShow();
-		} else
+		} else {
+			qCritical() << "Failed to present created widget";
 			widget->deleteLater();
+		}
 	} else {
 		qCritical() << "Unable to find widget for control of type"
 					<< control->metaObject()->className();
@@ -114,6 +116,11 @@ void WidgetPresenter::withdraw(Control *control)
 	auto widget = activeControls.value(control);
 	if(widget)
 		widget->close();
+	else {
+		qWarning() << "control of type"
+				   << control->metaObject()->className()
+				   << "is currently not shown, and thus will not be withdrawn";
+	}
 }
 
 void WidgetPresenter::showMessage(MessageResult *result, const CoreApp::MessageConfig &config)
@@ -208,8 +215,13 @@ void WidgetPresenter::showMessage(MessageResult *result, const CoreApp::MessageC
 		result->setCloseTarget(dialog, QDialog::staticMetaObject.method(QDialog::staticMetaObject.indexOfSlot("close()")));
 
 		dialog->open();
-	} else
+	} else {
+		qCritical() << "Failed to create message dialog for message type"
+					<< config.type
+					<< "and input type"
+					<< config.inputType;
 		result->complete(MessageResult::NegativeResult, {});
+	}
 }
 
 QMetaObject WidgetPresenter::findWidgetMetaObject(const QMetaObject *controlMetaObject, bool &ok)
@@ -265,10 +277,8 @@ bool WidgetPresenter::tryPresent(QWidget *widget, QWidget *parent)
 QDialog *WidgetPresenter::createInputDialog(const CoreApp::MessageConfig &config)
 {
 	auto input = inputFactory->createWidget(config.inputType, nullptr, config.editProperties);
-	if(!input) {
-		qWarning() << "Failed to create input widget for type" << config.type;
+	if(!input)
 		return nullptr;
-	}
 
 	auto dialog = new QDialog();
 	dialog->setModal(true);

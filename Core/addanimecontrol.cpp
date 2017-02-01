@@ -66,7 +66,7 @@ void AddAnimeControl::setId(int id)
 	infoClass->getEntry(_id)->onSucceeded([this](RestReply*, int code, ProxerEntry *entry){
 		if(infoClass->testValid(code, entry)) {
 			if(entry->data->id == _id) {
-				setTitle(entry->data->name);//TODO choose name from combolist
+				setTitle(entry->data->name);//FEATURE choose name from combolist
 				setLoading(false);
 				setAcceptable(true);
 			}

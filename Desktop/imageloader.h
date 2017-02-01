@@ -7,7 +7,7 @@
 
 #include <functional>
 
-class ImageLoader : public QObject//TODO async
+class ImageLoader : public QObject
 {
 	Q_OBJECT
 

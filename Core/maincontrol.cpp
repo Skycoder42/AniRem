@@ -100,7 +100,7 @@ void MainControl::addAnimeFromClipboard()
 void MainControl::showDetails(int id)
 {
 	Q_UNIMPLEMENTED();
-	//TODO "invent"
+	//TODO implement details
 }
 
 void MainControl::removeAnime(int index)
