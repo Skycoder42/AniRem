@@ -56,7 +56,14 @@ Page {
 
 	ListView {
 		anchors.fill: parent
-		model: control ? control.animeModel : null
+
+		SortFilterProxyModel {
+			id: sortModel
+			sourceModel: control ? control.animeModel : null
+			sortRoleName: "id"
+		}
+
+		model: sortModel
 
 		ScrollBar.vertical: ScrollBar {}
 
