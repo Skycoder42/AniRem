@@ -1,5 +1,6 @@
 #include "coremessage.h"
 
+#include <QGuiApplication>
 #include <QThread>
 
 MessageResult *CoreMessage::information(const QString &title, const QString &text, const QString &okText)
@@ -139,4 +140,27 @@ MessageResult *CoreMessage::message(const CoreApp::MessageConfig &config)
 							  Q_ARG(MessageResult*, result),
 							  Q_ARG(CoreApp::MessageConfig, config));
 	return result;
+}
+
+bool CoreMessage::about(const QString &content, bool includeCompany, const QUrl &companyUrl, bool includeQtVersion)
+{
+	auto title = CoreApp::tr("%1<br/>Version %2")
+				 .arg(QGuiApplication::applicationDisplayName())
+				 .arg(QGuiApplication::applicationVersion());
+	auto text = content;
+	if(includeCompany) {
+		text.append(CoreApp::tr("<br/><br/>Developed by: <a href=\"%1\">%2</a>")
+					.arg(companyUrl.toString())
+					.arg(QGuiApplication::organizationName()));
+	}
+	if(includeQtVersion) {
+		text.append(CoreApp::tr("<br/><br/>Built with <a href=\"https://www.qt.io\">Qt %2</a>")
+					.arg(QT_VERSION_STR));
+	}
+
+	auto result = information(title, text);
+	if(!result)
+		return false;
+	result->setAutoDelete(true);
+	return true;
 }

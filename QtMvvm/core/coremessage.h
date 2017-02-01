@@ -4,6 +4,7 @@
 #include "qtmvvm_core_global.h"
 #include "messageresult.h"
 #include "coreapp.h"
+#include <QUrl>
 #include <functional>
 
 namespace CoreMessage
@@ -18,6 +19,7 @@ QTMVVM_CORE_SHARED_EXPORT bool information(const QString &title,
 										   const QString &text,
 										   std::function<void()> onResult,
 										   const QString &okText = {});
+
 QTMVVM_CORE_SHARED_EXPORT MessageResult *question(const QString &title,
 												  const QString &text,
 												  const QString &yesText = {},
@@ -27,6 +29,7 @@ QTMVVM_CORE_SHARED_EXPORT bool question(const QString &title,
 										std::function<void(bool)> onResult,
 										const QString &yesText = {},
 										const QString &noText = {});
+
 QTMVVM_CORE_SHARED_EXPORT MessageResult *warning(const QString &title,
 												 const QString &text,
 												 const QString &okText = {});
@@ -34,6 +37,7 @@ QTMVVM_CORE_SHARED_EXPORT bool warning(const QString &title,
 									   const QString &text,
 									   std::function<void()> onResult,
 									   const QString &okText = {});
+
 QTMVVM_CORE_SHARED_EXPORT MessageResult *critical(const QString &title,
 												  const QString &text,
 												  const QString &okText = {});
@@ -41,6 +45,9 @@ QTMVVM_CORE_SHARED_EXPORT bool critical(const QString &title,
 										const QString &text,
 										std::function<void()> onResult,
 										const QString &okText = {});
+
+QTMVVM_CORE_SHARED_EXPORT bool about(const QString &content, bool includeCompany = true, const QUrl &companyUrl = QUrl(), bool includeQtVersion = true);
+
 QTMVVM_CORE_SHARED_EXPORT MessageResult *getInput(const QString &title,
 												  const QString &text,
 												  const char *inputType,

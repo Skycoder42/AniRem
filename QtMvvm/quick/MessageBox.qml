@@ -90,6 +90,8 @@ AlertDialog {
 
 			wrapMode: Text.Wrap
 			Layout.fillWidth: true
+
+			onLinkActivated: Qt.openUrlExternally(link)
 		}
 
 		Loader {

@@ -26,6 +26,7 @@ public:
 public slots:
 	void reload();
 	void showSettings();
+	void showAbout();
 
 	void uncheckAnime(int index);
 
