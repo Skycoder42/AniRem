@@ -40,7 +40,7 @@ protected:
 	QObject *qmlPresenter() const;
 
 private:
-	QuickPresenterQmlSingleton *_singleton;
+	QPointer<QuickPresenterQmlSingleton> _singleton;
 	QScopedPointer<InputViewFactory> _inputFactory;
 	QHash<QByteArray, QUrl> _explicitMappings;
 

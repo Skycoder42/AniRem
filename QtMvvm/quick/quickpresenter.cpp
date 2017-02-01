@@ -59,18 +59,32 @@ void QuickPresenter::present(Control *control)
 {
 	if(_singleton)
 		_singleton->present(control);
+	else {
+		qCritical() << "QML-singleton has not been created yet. Unable to present control of type"
+					<< control->metaObject()->className();
+	}
 }
 
 void QuickPresenter::withdraw(Control *control)
 {
 	if(_singleton)
 		_singleton->withdraw(control);
+	else {
+		qCritical() << "QML-singleton has not been created yet. Unable to withdraw control of type"
+					<< control->metaObject()->className();
+	}
 }
 
 void QuickPresenter::showMessage(MessageResult *result, const CoreApp::MessageConfig &config)
 {
 	if(_singleton)
 		_singleton->showMessage(result, config);
+	else {
+		qCritical() << "QML-singleton has not been created yet. Unable to show message of type"
+					<< config.type
+					<< "and input type"
+					<< config.inputType;
+	}
 }
 
 QUrl QuickPresenter::findViewUrl(const QMetaObject *controlMetaObject)
@@ -151,11 +165,6 @@ void QuickPresenter::setQmlSingleton(QuickPresenterQmlSingleton *singleton)
 {
 	Q_ASSERT_X(!_singleton, Q_FUNC_INFO, "rigth now, only a single qml engine is supported!");
 	_singleton = singleton;
-
-	QObject::connect(singleton, &QuickPresenterQmlSingleton::destroyed,
-					 CoreApp::instance(), [=](){
-		_singleton = nullptr;
-	});
 }
 
 void QuickPresenter::doRegister(QuickPresenter *presenter)
@@ -208,7 +217,7 @@ void QuickPresenterQmlSingleton::present(Control *control)
 {
 	auto url = _presenter->findViewUrl(control->metaObject());
 	if(!url.isValid()) {
-		qWarning() << "No QML-URL found for" << control->metaObject()->className();
+		qCritical() << "No QML-URL found for" << control->metaObject()->className();
 		return;
 	}
 
@@ -249,19 +258,34 @@ void QuickPresenterQmlSingleton::withdraw(Control *control)
 
 		if(!withdrawn) {
 			qCritical() << "Failed to withdraw view for control"
-						<< control->objectName();
+						<< control->metaObject()->className();
 		}
+	} else {
+		qCritical() << "No existing view for control of type"
+					<< control->metaObject()->className()
+					<< "thus nothing will be withdrawn";
 	}
 }
 
 void QuickPresenterQmlSingleton::showMessage(MessageResult *result, const CoreApp::MessageConfig &config)
 {
-	Q_ASSERT(_qmlPresenter);//TODO ugly
+	if(!_qmlPresenter) {
+		qCritical() << "No QML-Presenter registered! Unable to show message of type"
+					<< config.type
+					<< "and input type"
+					<< config.inputType;
+		return;
+	}
+
 	QUrl inputUrl;
 	if(config.type == CoreApp::Input) {
 		inputUrl = _presenter->_inputFactory->getInput(config.inputType, config.editProperties);
 		if(!inputUrl.isValid()) {
 			result->complete(MessageResult::NegativeResult, {});
+			qCritical() << "No Input-View URL found for message of type"
+						<< config.type
+						<< "and input type"
+						<< config.inputType;
 			return;
 		}
 	}
@@ -306,7 +330,7 @@ void QuickPresenterQmlSingleton::statusChanged(QQmlComponent::Status status)
 	case QQmlComponent::Error:
 		qCritical() << "Failed to create component"
 					<< component->url()
-					<< "with error:"
+					<< "with error:\n"
 					<< component->errorString();
 		break;
 	default:
@@ -322,7 +346,11 @@ void QuickPresenterQmlSingleton::statusChanged(QQmlComponent::Status status)
 
 void QuickPresenterQmlSingleton::addObject(QQmlComponent *component, Control *control)
 {
-	Q_ASSERT(_qmlPresenter);//TODO ugly
+	if(!_qmlPresenter) {
+		qCritical() << "No QML-Presenter registered! Unable to present control of type"
+					<< control->metaObject()->className();
+		return;
+	}
 	auto item = component->create();
 	if(!item) {
 		qCritical() << "Unable to create quick view from the loaded component"
@@ -348,7 +376,8 @@ void QuickPresenterQmlSingleton::addObject(QQmlComponent *component, Control *co
 		control->onShow();
 		QQmlEngine::setObjectOwnership(item, QQmlEngine::JavaScriptOwnership);
 	} else {
-		qCritical() << "Failed to present item!";
+		qCritical() << "Failed to present item for control of type"
+					<< control->metaObject()->className();
 		item->deleteLater();
 	}
 }
