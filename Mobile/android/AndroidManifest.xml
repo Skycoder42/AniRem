@@ -61,7 +61,9 @@
 			<!-- extract android style -->
 		</activity>
 
-		<service android:process=":SPU_process" android:name="SeasonProxerService">
+		<receiver android:name=".AlarmReceiver" />
+
+		<service android:process=":SPU_process" android:name=".SeasonProxerService">
 			<!-- Application arguments -->
 			<meta-data android:name="android.app.arguments" android:value="--update"/>
 			<!-- Application arguments -->

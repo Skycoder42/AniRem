@@ -10,7 +10,7 @@ ListView {
 
 	ScrollBar.vertical: ScrollBar {}
 
-	delegate: CheckDelegate {
+	delegate: RadioDelegate {
 		width: parent.width
 		text: typeof modelData == "string" ? modelData : edit.model[index].name
 
