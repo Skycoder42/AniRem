@@ -55,7 +55,7 @@ public class SeasonProxerService extends QtService {
 			.setContentInfo(getResources().getString(R.string.app_name))
 			.setCategory(NotificationCompat.CATEGORY_PROGRESS)
 			.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
-			.setSmallIcon(R.drawable.ic_launcher)
+			.setSmallIcon(R.drawable.ic_notification)
 			.setOngoing(true)
 			.setProgress(0, 0, true)
 			.setGroup(GROUP_KEY);
@@ -90,7 +90,7 @@ public class SeasonProxerService extends QtService {
 			.setContentInfo(getResources().getString(R.string.app_name))
 			.setContentIntent(pending)
 			.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
-			.setSmallIcon(R.drawable.ic_launcher)
+			.setSmallIcon(R.drawable.ic_notification)
 			.setAutoCancel(true)
 			.setCategory(success ? NotificationCompat.CATEGORY_EVENT : NotificationCompat.CATEGORY_ERROR)
 			.setDefaults(Notification.DEFAULT_ALL)
