@@ -7,6 +7,3 @@
 [submodule "QSingleInstance"]
 	path = QSingleInstance
 	url = git@github.com:Skycoder42/QSingleInstance.git
-[submodule "QtMvvm/QuickExtras"]
-	path = QtMvvm/QuickExtras
-	url = git@github.com:Skycoder42/QuickExtras.git
