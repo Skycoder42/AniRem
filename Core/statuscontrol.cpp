@@ -10,7 +10,7 @@ void StatusControl::loadUpdateStatus(AnimeList animes)
 	QStringList updatesList;
 	foreach (auto anime, animes) {
 		if(anime->hasNewSeasons()) {
-			updatesList.append(tr("• %1: %n season(s)", "", anime->lastKnownSeasons())
+			updatesList.append(tr("• %1: %n season(s)", "", anime->totalSeasonCount())
 							   .arg(anime->title()));
 		}
 	}

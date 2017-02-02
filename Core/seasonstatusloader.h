@@ -30,6 +30,8 @@ private:
 	int lastMax;
 	int progress;
 	bool anyUpdated;
+
+	static AnimeInfo::SeasonType toType(const QString &medium);
 };
 
 #endif // SEASONSTATUSLOADER_H

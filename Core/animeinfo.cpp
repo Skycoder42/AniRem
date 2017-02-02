@@ -4,8 +4,9 @@ AnimeInfo::AnimeInfo(int id, const QString &title, QObject *parent) :
 	QObject(parent),
 	_id(id),
 	_title(title),
-	_lastKnownSeasons(-1),
-	_hasNewSeasons(false)
+	_seasonState(),
+	_hasNewSeasons(false),
+	_seasonCount(-1)
 {
 	setObjectName(QStringLiteral("AnimeInfo<%1>").arg(id));
 }
@@ -20,9 +21,25 @@ QString AnimeInfo::title() const
 	return _title;
 }
 
-int AnimeInfo::lastKnownSeasons() const
+QHash<AnimeInfo::SeasonType, int> AnimeInfo::seasonState() const
 {
-	return _lastKnownSeasons;
+	return _seasonState;
+}
+
+int AnimeInfo::seasonCount(AnimeInfo::SeasonType type) const
+{
+	return _seasonState.value(type, 0);
+}
+
+int AnimeInfo::totalSeasonCount() const
+{
+	if(_seasonCount < 0) {
+		_seasonCount = 0;
+		foreach (auto count, _seasonState)
+			_seasonCount += count;
+	}
+
+	return _seasonCount;
 }
 
 bool AnimeInfo::hasNewSeasons() const
@@ -40,12 +57,23 @@ QUrl AnimeInfo::relationsUrl() const
 	return QStringLiteral("https://proxer.me/info/%1/relation").arg(_id);
 }
 
-void AnimeInfo::setLastKnownSeasons(int lastKnownSeasons)
+void AnimeInfo::setSeasonState(QHash<AnimeInfo::SeasonType, int> seasonState)
 {
-	if(_lastKnownSeasons != lastKnownSeasons) {
-		_lastKnownSeasons = lastKnownSeasons;
-		emit lastKnownSeasonsChanged(lastKnownSeasons);
-	}
+	if (_seasonState == seasonState)
+		return;
+
+	_seasonState = seasonState;
+	_seasonCount = -1;
+	emit seasonStateChanged(seasonState);
+	emit totalSeasonCountChanged();
+}
+
+void AnimeInfo::setSeasonCount(AnimeInfo::SeasonType type, int count)
+{
+	_seasonState.insert(type, count);
+	_seasonCount = -1;
+	emit seasonStateChanged(_seasonState);
+	emit totalSeasonCountChanged();
 }
 
 void AnimeInfo::setHasNewSeasons(bool hasNewSeasons)

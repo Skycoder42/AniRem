@@ -28,13 +28,13 @@ public slots:
 	void showSettings();
 	void showAbout();
 
-	void uncheckAnime(int index);
+	void uncheckAnime(int id);
 
 	void addAnime();
 	void addAnimeFromClipboard();
 	void showDetails(int id);
 
-	void removeAnime(int index);
+	void removeAnime(int id);
 
 signals:
 	void showStatus(QString message);
@@ -55,6 +55,7 @@ private:
 
 	ProxerSettingsControl *settings;
 
+	AnimeInfo *infoFromId(int id) const;
 	void createAddControl(int id = -1);
 	void internalAddInfo(AnimeInfo *info);
 };

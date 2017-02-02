@@ -58,12 +58,14 @@ void MainControl::showAbout()
 					   QStringLiteral("https://skycoder42.de"));
 }
 
-void MainControl::uncheckAnime(int index)
+void MainControl::uncheckAnime(int id)
 {
-	auto info = model->object(index);
+	auto info = infoFromId(id);
 	if(info) {
-		info->setHasNewSeasons(false);
-		store->saveAnime(info);
+		if(info->hasNewSeasons()) {
+			info->setHasNewSeasons(false);
+			store->saveAnime(info);
+		}
 		if(settings->openEntries())
 			QDesktopServices::openUrl(info->relationsUrl());
 	}
@@ -112,11 +114,11 @@ void MainControl::showDetails(int id)
 	//TODO implement details
 }
 
-void MainControl::removeAnime(int index)
+void MainControl::removeAnime(int id)
 {
-	auto info = model->object(index);
+	auto info = infoFromId(id);
 	if(info) {
-		model->removeObject(index);
+		model->removeObject(model->index(info));
 		showStatus(tr("Removed Anime: %1").arg(info->title()));
 		store->forgetAnime(info->id());
 	}
@@ -130,6 +132,18 @@ void MainControl::onShow()
 void MainControl::storeListLoaded(AnimeList list)
 {
 	model->resetModel(list);
+}
+
+AnimeInfo *MainControl::infoFromId(int id) const
+{
+	auto list = model->objects();
+	auto res = std::find_if(list.constBegin(), list.constEnd(), [=](AnimeInfo *info){
+		return info->id() == id;
+	});
+	if(res != list.constEnd())
+		return *res;
+	else
+		return nullptr;
 }
 
 void MainControl::createAddControl(int id)

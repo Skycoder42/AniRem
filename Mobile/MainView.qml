@@ -68,11 +68,11 @@ Page {
 		ScrollBar.vertical: ScrollBar {}
 
 		delegate: AnimeInfoDelegate {
-			onAnimeDeleted: control.removeAnime(index)
+			onAnimeDeleted: control.removeAnime(id)
 			onClicked: control.showDetails(id)
 			onPressAndHold: {
 				QuickExtras.hapticFeedback();
-				control.uncheckAnime(index);
+				control.uncheckAnime(id);
 			}
 		}
 	}

@@ -9,7 +9,7 @@ AnimeModel::AnimeModel(GenericListModel<AnimeInfo> *srcModel, QObject *parent) :
 	setSourceModel(srcModel);
 	addMapping(0, Qt::DisplayRole, "id");
 	addMapping(1, Qt::DisplayRole, "title");
-	addMapping(2, Qt::DisplayRole, "lastKnownSeasons");
+	addMapping(2, Qt::DisplayRole, "totalSeasonCount");
 	addMapping(3, Qt::DisplayRole, "relationsUrl");
 }
 
@@ -24,9 +24,9 @@ QVariant AnimeModel::data(const QModelIndex &index, int role) const
 	case Qt::DisplayRole:
 		switch(index.column()) {
 		case 2:
-			return info->lastKnownSeasons() < 0 ?
+			return info->seasonState().isEmpty() ?
 					tr("Not loaded") :
-					QLocale().toString(info->lastKnownSeasons());
+					QLocale().toString(info->totalSeasonCount());
 		default:
 			break;
 		}
@@ -37,7 +37,7 @@ QVariant AnimeModel::data(const QModelIndex &index, int role) const
 			font.setBold(true);
 			return font;
 		} else if(index.column() == 2 &&
-				  info->lastKnownSeasons() < 0) {
+				  info->seasonState().isEmpty()) {
 			QFont font;
 			font.setItalic(true);
 			return font;

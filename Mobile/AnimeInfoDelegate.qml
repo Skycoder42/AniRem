@@ -38,6 +38,15 @@ SwipeDelegate {
 			color: hasNewSeasons ? Material.accent : Material.foreground
 			text: delegate.text
 		}
+
+		Label {
+			id: countLabel
+			Layout.fillHeight: true
+			horizontalAlignment: Qt.AlignRight
+			verticalAlignment: Qt.AlignVCenter
+			color: hasNewSeasons ? Material.accent : Material.foreground
+			text: totalSeasonCount
+		}
 	}
 
 	swipe.right: Rectangle {

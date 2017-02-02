@@ -35,10 +35,16 @@ void SeasonStatusLoader::checkNext()
 		infoClass->getRelations(next->id())
 				->onSucceeded([=](RestReply*, int, ProxerRelations *relation) {
 			auto size = relation->data.size();
-			if(size != next->lastKnownSeasons()) {
-				next->setHasNewSeasons(next->lastKnownSeasons() != -1);//DEBUG set to true to test easily
-				next->setLastKnownSeasons(size);
+			if(size != next->totalSeasonCount()) {
+				next->setHasNewSeasons(!next->seasonState().isEmpty());//DEBUG set to true to test easily
+				QHash<AnimeInfo::SeasonType, int> state;
+				foreach(auto season, relation->data) {
+					auto type = toType(season->medium);
+					state[type]++;
+				}
+				next->setSeasonState(state);
 			}
+
 			next->setLastUpdateCheck(QDate::currentDate());
 			emit animeInfoUpdated(next);
 
@@ -57,4 +63,26 @@ void SeasonStatusLoader::error(const QString &errorString)
 	updateQueue.clear();
 	emit completed(anyUpdated, errorString);
 	anyUpdated = false;
+}
+
+AnimeInfo::SeasonType SeasonStatusLoader::toType(const QString &medium)
+{
+	if(medium == "animeseries")
+		return AnimeInfo::Anime;
+	else if(medium == "movie")
+		return AnimeInfo::Movie;
+	else if(medium == "ova")
+		return AnimeInfo::Ova;
+	else if(medium == "hentai")
+		return AnimeInfo::Hentai;
+	else if(medium == "mangaseries")
+		return AnimeInfo::Manga;
+	else if(medium == "oneshot")
+		return AnimeInfo::Oneshot;
+	else if(medium == "doujin")
+		return AnimeInfo::Doujin;
+	else if(medium == "hmanga")
+		return AnimeInfo::Hmanga;
+	else
+		return AnimeInfo::Unknown;
 }

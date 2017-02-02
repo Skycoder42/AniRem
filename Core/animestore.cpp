@@ -7,13 +7,14 @@
 
 #define EXEC_QUERY(query) do {\
 	if(!query.exec()) {\
+		db.rollback(); \
 		QMetaObject::invokeMethod(this, "showError", Qt::QueuedConnection, Q_ARG(QString, query.lastError().text())); \
 		return;\
 	}\
 } while(false)
 
 #define CHECK_DB_OPEN(db) do {\
-	if(!db.isOpen()) { \
+	if(!db.isOpen() || !db.transaction()) { \
 		QMetaObject::invokeMethod(this, "showError", Qt::QueuedConnection, Q_ARG(QString, db.lastError().text())); \
 		return; \
 	} \
@@ -86,15 +87,25 @@ void AnimeStore::saveAnime(AnimeInfo *info)
 
 		QSqlQuery infoQuery(db);
 		if(update)
-			infoQuery.prepare("UPDATE Animes SET Title = :title, Seasons = :seasons, Changed = :changed, LastUpdate = :lastUpdate WHERE Id = :id");
+			infoQuery.prepare("UPDATE Animes SET Title = :title, Changed = :changed, LastUpdate = :lastUpdate WHERE Id = :id");
 		else
-			infoQuery.prepare("INSERT INTO Animes (Id, Title, Seasons, Changed, LastUpdate) VALUES(:id, :title, :seasons, :changed, :lastUpdate)");
+			infoQuery.prepare("INSERT INTO Animes (Id, Title, Changed, LastUpdate) VALUES(:id, :title, :changed, :lastUpdate)");
 		infoQuery.bindValue(":id", info->id());
 		infoQuery.bindValue(":title", info->title());
-		infoQuery.bindValue(":seasons", info->lastKnownSeasons());
 		infoQuery.bindValue(":changed", info->hasNewSeasons());
 		infoQuery.bindValue(":lastUpdate", info->lastUpdateCheck());
 		EXEC_QUERY(infoQuery);
+
+		for(auto it = info->seasonState().constBegin(); it != info->seasonState().constEnd(); it++) {
+			QSqlQuery countQuery(db);
+			countQuery.prepare("INSERT OR REPLACE INTO Seasons(Anime, Type, Count) VALUES(?, ?, ?)");
+			countQuery.addBindValue(info->id());
+			countQuery.addBindValue((int)it.key());
+			countQuery.addBindValue(it.value());
+			EXEC_QUERY(countQuery);
+		}
+
+		db.commit();
 	});
 }
 
@@ -114,7 +125,12 @@ void AnimeStore::forgetAnime(int id)
 		deleteQuery.addBindValue(id);
 		EXEC_QUERY(deleteQuery);
 
-		db.close();
+		QSqlQuery deleteCountQuery(db);
+		deleteCountQuery.prepare("DELETE FROM Seasons WHERE Anime = ?");
+		deleteCountQuery.addBindValue(id);
+		EXEC_QUERY(deleteCountQuery);
+
+		db.commit();
 	});
 }
 
@@ -130,19 +146,30 @@ void AnimeStore::loadAnimes()
 		CHECK_DB_OPEN(db);
 
 		QSqlQuery loadQuery(db);
-		loadQuery.prepare("SELECT Id, Title, Seasons, Changed, LastUpdate FROM Animes");
+		loadQuery.prepare("SELECT Id, Title, Changed, LastUpdate FROM Animes");
 		EXEC_QUERY(loadQuery);
 
 		while (loadQuery.next()) {
-			auto info = new AnimeInfo(loadQuery.value(0).toInt(),
-									  loadQuery.value(1).toString());// parenting done in "set internal"
-			info->setLastKnownSeasons(loadQuery.value(2).toInt());
-			info->setHasNewSeasons(loadQuery.value(3).toBool());
-			info->setLastUpdateCheck(loadQuery.value(4).toDate());
+			auto id = loadQuery.value(0).toInt();
+
+			QSqlQuery countQuery(db);
+			countQuery.prepare("SELECT Type, Count FROM Seasons WHERE Anime = ?");
+			countQuery.addBindValue(id);
+			EXEC_QUERY(countQuery);
+
+			auto info = new AnimeInfo(id, loadQuery.value(1).toString());// parenting done in "set internal"
+			info->setHasNewSeasons(loadQuery.value(2).toBool());
+			info->setLastUpdateCheck(loadQuery.value(3).toDate());
+			while(countQuery.next()) {
+				info->setSeasonCount((AnimeInfo::SeasonType)countQuery.value(0).toInt(),
+									 countQuery.value(1).toInt());
+			}
+
 			info->moveToThread(thread());
 			infoList.append(info);
 		}
 
+		db.commit();
 		QMetaObject::invokeMethod(this, "setInternal", Qt::QueuedConnection,
 								  Q_ARG(AnimeList, infoList),
 								  Q_ARG(bool, true));

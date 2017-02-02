@@ -112,6 +112,7 @@ void MainWindow::updatePreview(const QModelIndex &index)
 	if(mIndex.isValid()) {
 		auto info = control->animeModel()->object(mIndex);
 		ui->dockWidgetContents->setText("<i>Loading preview image&#8230;</i>");
+		control->showDetails(info->id());
 		ImageLoader::instance()->loadImage(info->id(), [this](int id, QPixmap pm){
 			auto index = mapToCtrl(ui->seasonTreeView->currentIndex());
 			if(index.isValid()) {
@@ -128,7 +129,7 @@ void MainWindow::on_actionRemove_Anime_triggered()
 {
 	auto index = mapToCtrl(ui->seasonTreeView->currentIndex());
 	if(index.isValid())
-		control->removeAnime(index.row());
+		control->removeAnime(control->animeModel()->object(index)->id());
 }
 
 void MainWindow::on_actionCopy_selected_Info_triggered()
@@ -153,8 +154,8 @@ void MainWindow::on_actionCopy_selected_Info_triggered()
 				showStatus(tr("Copied Anime Title: %1").arg(info->title()));
 				break;
 			case 2:
-				clipBoard->setText(QLocale().toString(info->lastKnownSeasons()));
-				showStatus(tr("Copied Season Count: %1").arg(info->lastKnownSeasons()));
+				clipBoard->setText(QLocale().toString(info->totalSeasonCount()));
+				showStatus(tr("Copied Season Count: %1").arg(info->totalSeasonCount()));
 				break;
 			case 3:
 				clipBoard->setText(info->relationsUrl().toString());
@@ -171,7 +172,7 @@ void MainWindow::on_seasonTreeView_activated(const QModelIndex &index)
 {
 	auto rIndex = mapToCtrl(index);
 	if(rIndex.isValid())
-		control->uncheckAnime(rIndex.row());
+		control->uncheckAnime(control->animeModel()->object(rIndex)->id());
 }
 
 void MainWindow::on_action_About_triggered()
