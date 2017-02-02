@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>template.db</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file>main.ico</file>
+    </qresource>
+    <qresource prefix="/etc">
+        <file>settings.xml</file>
+    </qresource>
+</RCC>

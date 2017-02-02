@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SettingsConfig allowSearch="true" allowRestore="true">
+	<Entry key="openEntries"
+		   type="bool"
+		   title="&amp;Open Animes in browser"
+		   tooltip="When you long press animes, for example to remove the new seasons mark, the browser will automatically open the animes site"
+		   default="false" />
+	<Entry key="updates/autoCheck"
+		   type="list"
+		   title="&amp;Automatic Season Check"
+		   tooltip="Automatically check for new seaons every given interval"
+		   default="7">
+			<Property key="_list_data" type="string">int</Property>
+			<Property key="_list_elements" type="list">
+				<Element type="object">
+					<Property key="name" type="string">Never</Property>
+					<Property key="value" type="number">0</Property>
+				</Element>
+				<Element type="object">
+					<Property key="name" type="string">Dayly</Property>
+					<Property key="value" type="number">1</Property>
+				</Element>
+				<Element type="object">
+					<Property key="name" type="string">Weekly</Property>
+					<Property key="value" type="number">7</Property>
+				</Element>
+				<Element type="object">
+					<Property key="name" type="string">Monthly</Property>
+					<Property key="value" type="number">30</Property>
+				</Element>
+			</Property>
+	</Entry>
+	<Entry key="updates/checkLimit"
+		   type="int"
+		   title="Season check &amp;limit"
+		   tooltip="If checking for too many seasons at once, proxer.me may block your ip. To prevent this, limit the amount of checked animes per day (0 equals no limit)"
+		   default="10">
+		<Property key="specialValueText" type="string">No limit</Property>
+	</Entry>
+</SettingsConfig>

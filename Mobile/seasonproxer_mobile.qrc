@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
+        <file alias="+windows/qtquickcontrols2.conf">qtquickcontrols2_win.conf</file>
+    </qresource>
+    <qresource prefix="/qml">
+        <file>App.qml</file>
+        <file>AnimeInfoDelegate.qml</file>
+    </qresource>
+    <qresource prefix="/qml/views">
+        <file>MainView.qml</file>
+        <file>AddAnimeDialog.qml</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file alias="ic_refresh.svg">icons/svgs/ic_refresh_white_24px.svg</file>
+        <file alias="ic_add.svg">icons/svgs/ic_add_white_24px.svg</file>
+        <file alias="ic_delete_forever.svg">icons/svgs/ic_delete_forever_white_24px.svg</file>
+        <file alias="ic_autorenew.svg">icons/svgs/ic_autorenew_white_24px.svg</file>
+    </qresource>
+</RCC>
