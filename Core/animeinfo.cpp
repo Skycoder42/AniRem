@@ -5,8 +5,8 @@ AnimeInfo::AnimeInfo(int id, const QString &title, QObject *parent) :
 	_id(id),
 	_title(title),
 	_seasonState(),
-	_hasNewSeasons(false),
-	_seasonCount(-1)
+	_seasonCount(-1),
+	_hasNewSeasons(-1)
 {
 	setObjectName(QStringLiteral("AnimeInfo<%1>").arg(id));
 }
@@ -21,22 +21,22 @@ QString AnimeInfo::title() const
 	return _title;
 }
 
-QHash<AnimeInfo::SeasonType, int> AnimeInfo::seasonState() const
+QHash<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo> AnimeInfo::seasonState() const
 {
 	return _seasonState;
 }
 
-int AnimeInfo::seasonCount(AnimeInfo::SeasonType type) const
+AnimeInfo::SeasonInfo AnimeInfo::seasonInfo(AnimeInfo::SeasonType type) const
 {
-	return _seasonState.value(type, 0);
+	return _seasonState.value(type, {0, false});
 }
 
 int AnimeInfo::totalSeasonCount() const
 {
 	if(_seasonCount < 0) {
 		_seasonCount = 0;
-		foreach (auto count, _seasonState)
-			_seasonCount += count;
+		foreach (auto info, _seasonState)
+			_seasonCount += info.first;
 	}
 
 	return _seasonCount;
@@ -44,6 +44,16 @@ int AnimeInfo::totalSeasonCount() const
 
 bool AnimeInfo::hasNewSeasons() const
 {
+	if(_hasNewSeasons < 0) {
+		_hasNewSeasons = false;
+		foreach (auto info, _seasonState) {
+			if(info.second) {
+				_hasNewSeasons = true;
+				break;
+			}
+		}
+	}
+
 	return _hasNewSeasons;
 }
 
@@ -57,30 +67,41 @@ QUrl AnimeInfo::relationsUrl() const
 	return QStringLiteral("https://proxer.me/info/%1/relation").arg(_id);
 }
 
-void AnimeInfo::setSeasonState(QHash<AnimeInfo::SeasonType, int> seasonState)
+void AnimeInfo::setSeasonState(QHash<SeasonType, SeasonInfo> seasonState)
 {
 	if (_seasonState == seasonState)
 		return;
 
 	_seasonState = seasonState;
 	_seasonCount = -1;
-	emit seasonStateChanged(seasonState);
-	emit totalSeasonCountChanged();
+	_hasNewSeasons = -1;
+	emit seasonStateChanged();
 }
 
-void AnimeInfo::setSeasonCount(AnimeInfo::SeasonType type, int count)
+void AnimeInfo::setSeasonInfo(AnimeInfo::SeasonType type, AnimeInfo::SeasonInfo info)
 {
-	_seasonState.insert(type, count);
+	if (_seasonState[type] == info)
+		return;
+
+	_seasonState[type] = info;
 	_seasonCount = -1;
-	emit seasonStateChanged(_seasonState);
-	emit totalSeasonCountChanged();
+	_hasNewSeasons = -1;
+	emit seasonStateChanged();
 }
 
-void AnimeInfo::setHasNewSeasons(bool hasNewSeasons)
+void AnimeInfo::setAllUnchanged()
 {
-	if(_hasNewSeasons != hasNewSeasons) {
-		_hasNewSeasons = hasNewSeasons;
-		emit hasNewSeasonsChanged(hasNewSeasons);
+	auto changed = false;
+	for(auto it = _seasonState.begin(); it != _seasonState.end(); it++) {
+		if(it.value().second) {
+			it.value().second = false;
+			changed = true;
+		}
+	}
+
+	if(changed) {
+		_hasNewSeasons = -1;
+		emit seasonStateChanged();
 	}
 }
 

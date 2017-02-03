@@ -87,21 +87,21 @@ void AnimeStore::saveAnime(AnimeInfo *info)
 
 		QSqlQuery infoQuery(db);
 		if(update)
-			infoQuery.prepare("UPDATE Animes SET Title = :title, Changed = :changed, LastUpdate = :lastUpdate WHERE Id = :id");
+			infoQuery.prepare("UPDATE Animes SET Title = :title, LastUpdate = :lastUpdate WHERE Id = :id");
 		else
-			infoQuery.prepare("INSERT INTO Animes (Id, Title, Changed, LastUpdate) VALUES(:id, :title, :changed, :lastUpdate)");
+			infoQuery.prepare("INSERT INTO Animes (Id, Title, LastUpdate) VALUES(:id, :title, :lastUpdate)");
 		infoQuery.bindValue(":id", info->id());
 		infoQuery.bindValue(":title", info->title());
-		infoQuery.bindValue(":changed", info->hasNewSeasons());
 		infoQuery.bindValue(":lastUpdate", info->lastUpdateCheck());
 		EXEC_QUERY(infoQuery);
 
 		for(auto it = info->seasonState().constBegin(); it != info->seasonState().constEnd(); it++) {
 			QSqlQuery countQuery(db);
-			countQuery.prepare("INSERT OR REPLACE INTO Seasons(Anime, Type, Count) VALUES(?, ?, ?)");
+			countQuery.prepare("INSERT OR REPLACE INTO Seasons(Anime, Type, Count, Changed) VALUES(?, ?, ?, ?)");
 			countQuery.addBindValue(info->id());
 			countQuery.addBindValue((int)it.key());
-			countQuery.addBindValue(it.value());
+			countQuery.addBindValue(it.value().first);
+			countQuery.addBindValue(it.value().second);
 			EXEC_QUERY(countQuery);
 		}
 
@@ -146,23 +146,22 @@ void AnimeStore::loadAnimes()
 		CHECK_DB_OPEN(db);
 
 		QSqlQuery loadQuery(db);
-		loadQuery.prepare("SELECT Id, Title, Changed, LastUpdate FROM Animes");
+		loadQuery.prepare("SELECT Id, Title, LastUpdate FROM Animes");
 		EXEC_QUERY(loadQuery);
 
 		while (loadQuery.next()) {
 			auto id = loadQuery.value(0).toInt();
 
 			QSqlQuery countQuery(db);
-			countQuery.prepare("SELECT Type, Count FROM Seasons WHERE Anime = ?");
+			countQuery.prepare("SELECT Type, Count, Changed FROM Seasons WHERE Anime = ?");
 			countQuery.addBindValue(id);
 			EXEC_QUERY(countQuery);
 
 			auto info = new AnimeInfo(id, loadQuery.value(1).toString());// parenting done in "set internal"
-			info->setHasNewSeasons(loadQuery.value(2).toBool());
-			info->setLastUpdateCheck(loadQuery.value(3).toDate());
+			info->setLastUpdateCheck(loadQuery.value(2).toDate());
 			while(countQuery.next()) {
-				info->setSeasonCount((AnimeInfo::SeasonType)countQuery.value(0).toInt(),
-									 countQuery.value(1).toInt());
+				info->setSeasonInfo((AnimeInfo::SeasonType)countQuery.value(0).toInt(),
+									{countQuery.value(1).toInt(), countQuery.value(2).toBool()});
 			}
 
 			info->moveToThread(thread());

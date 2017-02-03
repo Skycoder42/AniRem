@@ -34,16 +34,21 @@ void SeasonStatusLoader::checkNext()
 		auto next = updateQueue.head();
 		infoClass->getRelations(next->id())
 				->onSucceeded([=](RestReply*, int, ProxerRelations *relation) {
-			auto size = relation->data.size();
-			if(size != next->totalSeasonCount()) {
-				next->setHasNewSeasons(!next->seasonState().isEmpty());//DEBUG set to true to test easily
-				QHash<AnimeInfo::SeasonType, int> state;
-				foreach(auto season, relation->data) {
-					auto type = toType(season->medium);
-					state[type]++;
-				}
-				next->setSeasonState(state);
+			QHash<AnimeInfo::SeasonType, int> state;
+			foreach(auto season, relation->data) {
+				auto type = toType(season->medium);
+				state[type]++;
 			}
+
+			auto infoState = next->seasonState();
+			auto wasEmpty = infoState.isEmpty();
+			for(auto it = state.constBegin(); it != state.constEnd(); it++) {
+				if(infoState[it.key()].first != it.value()) {
+					infoState[it.key()].first = it.value();
+					infoState[it.key()].second = !wasEmpty;
+				}
+			}
+			next->setSeasonState(infoState);
 
 			next->setLastUpdateCheck(QDate::currentDate());
 			emit animeInfoUpdated(next);

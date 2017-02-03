@@ -63,7 +63,7 @@ void MainControl::uncheckAnime(int id)
 	auto info = infoFromId(id);
 	if(info) {
 		if(info->hasNewSeasons()) {
-			info->setHasNewSeasons(false);
+			info->setAllUnchanged();
 			store->saveAnime(info);
 		}
 		if(settings->openEntries())
