@@ -10,6 +10,7 @@
     <qresource prefix="/qml/views">
         <file>MainView.qml</file>
         <file>AddAnimeDialog.qml</file>
+        <file>DetailsView.qml</file>
     </qresource>
     <qresource prefix="/icons">
         <file alias="ic_refresh.svg">icons/svgs/ic_refresh_white_24px.svg</file>

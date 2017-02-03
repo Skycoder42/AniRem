@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
 
 	qmlRegisterUncreatableType<MainControl>("de.skycoder42.seasonproxer", 1, 0, "MainControl", "Controls cannot be created!");
 	qmlRegisterUncreatableType<AddAnimeControl>("de.skycoder42.seasonproxer", 1, 0, "AddAnimeControl", "Controls cannot be created!");
+	qmlRegisterUncreatableType<DetailsControl>("de.skycoder42.seasonproxer", 1, 0, "DetailsControl", "Controls cannot be created!");
 
 	QuickPresenter::registerAsPresenter<NotifyingPresenter>();
 	if(!isServer()) {
