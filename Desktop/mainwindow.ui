@@ -74,11 +74,6 @@
     <addaction name="separator"/>
     <addaction name="actionCopy_selected_Info"/>
    </widget>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>&amp;View</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
      <string>&amp;Help</string>
@@ -88,7 +83,6 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuView"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -107,37 +101,6 @@
    <addaction name="actionAdd_Anime"/>
    <addaction name="actionRemove_Anime"/>
    <addaction name="actionPaste_ID_URL"/>
-  </widget>
-  <widget class="QDockWidget" name="previewDock">
-   <property name="features">
-    <set>QDockWidget::DockWidgetClosable</set>
-   </property>
-   <property name="windowTitle">
-    <string>Preview Image</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>2</number>
-   </attribute>
-   <widget class="QLabel" name="dockWidgetContents">
-    <property name="minimumSize">
-     <size>
-      <width>200</width>
-      <height>277</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>200</width>
-      <height>277</height>
-     </size>
-    </property>
-    <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
   </widget>
   <action name="actionAdd_Anime">
    <property name="icon">

@@ -45,7 +45,7 @@ QVariant AnimeModel::data(const QModelIndex &index, int role) const
 			break;
 	case Qt::ForegroundRole:
 		if(info->hasNewSeasons())
-			return QColor(Qt::red);
+			return QColor(0x8A, 0x0E, 0x0E);
 		else
 			break;
 	default:

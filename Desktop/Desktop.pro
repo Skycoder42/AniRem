@@ -33,7 +33,8 @@ HEADERS  += mainwindow.h \
 	addanimedialog.h \
 	imageloader.h \
     systemtraypresenter.h \
-    statusview.h
+    statusview.h \
+    detailsdockwidget.h
 
 SOURCES += \
 	mainwindow.cpp \
@@ -42,10 +43,12 @@ SOURCES += \
 	imageloader.cpp \
 	main.cpp \
     systemtraypresenter.cpp \
-    statusview.cpp
+    statusview.cpp \
+    detailsdockwidget.cpp
 
 FORMS    += mainwindow.ui \
-	addanimedialog.ui
+	addanimedialog.ui \
+    detailsdockwidget.ui
 
 RESOURCES += \
     seasonproxer_desktop.qrc

@@ -16,7 +16,6 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 	proxyModel(new QSortFilterProxyModel(this))
 {
 	ui->setupUi(this);
-	ui->menuView->addAction(ui->previewDock->toggleViewAction());
 
 	connect(control, &MainControl::showStatus,
 			this, &MainWindow::showStatus);
@@ -54,7 +53,6 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 	settings.beginGroup(objectName());
 	restoreGeometry(settings.value(QStringLiteral("geom")).toByteArray());
 	restoreState(settings.value(QStringLiteral("state")).toByteArray());
-	restoreDockWidget(ui->previewDock);
 	ui->seasonTreeView->header()->restoreState(settings.value(QStringLiteral("header")).toByteArray());
 	settings.endGroup();
 
@@ -111,18 +109,9 @@ void MainWindow::updatePreview(const QModelIndex &index)
 	auto mIndex = mapToCtrl(index);
 	if(mIndex.isValid()) {
 		auto info = control->animeModel()->object(mIndex);
-		ui->dockWidgetContents->setText("<i>Loading preview image&#8230;</i>");
 		control->showDetails(info->id());
-		ImageLoader::instance()->loadImage(info->id(), [this](int id, QPixmap pm){
-			auto index = mapToCtrl(ui->seasonTreeView->currentIndex());
-			if(index.isValid()) {
-				auto info = control->animeModel()->object(index);
-				if(info->id() == id)
-					ui->dockWidgetContents->setPixmap(pm);
-			}
-		});
 	} else
-		ui->dockWidgetContents->clear();
+		control->showDetails(-1);
 }
 
 void MainWindow::on_actionRemove_Anime_triggered()
@@ -138,32 +127,27 @@ void MainWindow::on_actionCopy_selected_Info_triggered()
 	if(index.isValid()) {
 		auto clipBoard = QApplication::clipboard();
 
-		if(ui->dockWidgetContents->hasFocus()) {
-			clipBoard->setImage(ui->dockWidgetContents->pixmap()->toImage());
-			showStatus(tr("Copied Preview image"));
-		} else {
-			auto rIndex = mapToCtrl(index);
-			auto info = control->animeModel()->object(rIndex);
-			switch (index.column()) {//columns are unchanged
-			case 0:
-				clipBoard->setText(QString::number(info->id()));
-				showStatus(tr("Copied Anime Id: %1").arg(info->id()));
-				break;
-			case 1:
-				clipBoard->setText(info->title());
-				showStatus(tr("Copied Anime Title: %1").arg(info->title()));
-				break;
-			case 2:
-				clipBoard->setText(QLocale().toString(info->totalSeasonCount()));
-				showStatus(tr("Copied Season Count: %1").arg(info->totalSeasonCount()));
-				break;
-			case 3:
-				clipBoard->setText(info->relationsUrl().toString());
-				showStatus(tr("Copied Relations URL: %1").arg(info->relationsUrl().toString()));
-				break;
-			default:
-				break;
-			}
+		auto rIndex = mapToCtrl(index);
+		auto info = control->animeModel()->object(rIndex);
+		switch (index.column()) {//columns are unchanged
+		case 0:
+			clipBoard->setText(QString::number(info->id()));
+			showStatus(tr("Copied Anime Id: %1").arg(info->id()));
+			break;
+		case 1:
+			clipBoard->setText(info->title());
+			showStatus(tr("Copied Anime Title: %1").arg(info->title()));
+			break;
+		case 2:
+			clipBoard->setText(QLocale().toString(info->totalSeasonCount()));
+			showStatus(tr("Copied Season Count: %1").arg(info->totalSeasonCount()));
+			break;
+		case 3:
+			clipBoard->setText(info->relationsUrl().toString());
+			showStatus(tr("Copied Relations URL: %1").arg(info->relationsUrl().toString()));
+			break;
+		default:
+			break;
 		}
 	}
 }
@@ -173,11 +157,6 @@ void MainWindow::on_seasonTreeView_activated(const QModelIndex &index)
 	auto rIndex = mapToCtrl(index);
 	if(rIndex.isValid())
 		control->uncheckAnime(control->animeModel()->object(rIndex)->id());
-}
-
-void MainWindow::on_action_About_triggered()
-{
-
 }
 
 QModelIndex MainWindow::mapToCtrl(const QModelIndex &uiIndex) const

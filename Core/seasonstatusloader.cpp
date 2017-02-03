@@ -33,7 +33,12 @@ void SeasonStatusLoader::checkNext()
 	} else {
 		auto next = updateQueue.head();
 		infoClass->getRelations(next->id())
-				->onSucceeded([=](RestReply*, int, ProxerRelations *relation) {
+				->onSucceeded([=](RestReply*, int code, ProxerRelations *relation) {
+			if(!infoClass->testValid(code, relation)) {
+				relation->deleteLater();
+				return;
+			}
+
 			QHash<AnimeInfo::SeasonType, int> state;
 			foreach(auto season, relation->data) {
 				auto type = toType(season->medium);

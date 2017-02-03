@@ -21,7 +21,7 @@ QString AnimeInfo::title() const
 	return _title;
 }
 
-QHash<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo> AnimeInfo::seasonState() const
+QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo> AnimeInfo::seasonState() const
 {
 	return _seasonState;
 }
@@ -67,7 +67,34 @@ QUrl AnimeInfo::relationsUrl() const
 	return QStringLiteral("https://proxer.me/info/%1/relation").arg(_id);
 }
 
-void AnimeInfo::setSeasonState(QHash<SeasonType, SeasonInfo> seasonState)
+QString AnimeInfo::typeToString(AnimeInfo::SeasonType type)
+{
+	switch (type) {
+	case AnimeInfo::Anime:
+		return tr("Animes");
+	case AnimeInfo::Movie:
+		return tr("Movies");
+	case AnimeInfo::Ova:
+		return tr("OVAs");
+	case AnimeInfo::Hentai:
+		return tr("Hentais");
+	case AnimeInfo::Manga:
+		return tr("Mangas");
+	case AnimeInfo::Oneshot:
+		return tr("Oneshots");
+	case AnimeInfo::Doujin:
+		return tr("Doujinshi");
+	case AnimeInfo::Hmanga:
+		return tr("H-Mangas");
+	case AnimeInfo::Unknown:
+		return tr("<i>Unknown</i>");
+	default:
+		Q_UNREACHABLE();
+		return {};
+	}
+}
+
+void AnimeInfo::setSeasonState(QMap<SeasonType, SeasonInfo> seasonState)
 {
 	if (_seasonState == seasonState)
 		return;

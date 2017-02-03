@@ -1,12 +1,13 @@
 #ifndef DETAILSCONTROL_H
 #define DETAILSCONTROL_H
 
+#include "core_global.h"
 #include "animeinfo.h"
 
 #include <QObject>
 #include <control.h>
 
-class DetailsControl : public Control
+class CORESHARED_EXPORT DetailsControl : public Control
 {
 	Q_OBJECT
 
@@ -18,11 +19,9 @@ public:
 	AnimeInfo* animeInfo() const;
 
 public slots:
-
 	void setAnimeInfo(AnimeInfo* animeInfo);
 
 signals:
-
 	void animeInfoChanged(AnimeInfo* animeInfo);
 
 private:

@@ -47,7 +47,7 @@ void MainControl::reload()
 
 void MainControl::showSettings()
 {
-	showControl(settingsControl);
+	settingsControl->show();
 }
 
 void MainControl::showAbout()
@@ -114,7 +114,7 @@ void MainControl::showDetails(int id)
 	auto info = infoFromId(id);
 	if(info) {
 		detailsControl->setAnimeInfo(info);
-		showControl(detailsControl);
+		detailsControl->show();
 	} else {
 		detailsControl->close();
 		detailsControl->setAnimeInfo(nullptr);
@@ -160,7 +160,7 @@ void MainControl::createAddControl(int id)
 	connect(control, &AddAnimeControl::completed,
 			this, &MainControl::internalAddInfo);
 	control->setId(id);
-	showControl(control);
+	control->show();
 }
 
 void MainControl::internalAddInfo(AnimeInfo *info)

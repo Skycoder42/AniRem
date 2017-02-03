@@ -3,6 +3,7 @@
 
 #include "core_global.h"
 #include <QDate>
+#include <QMap>
 #include <QObject>
 #include <QPixmap>
 #include <QSharedPointer>
@@ -14,7 +15,7 @@ class CORESHARED_EXPORT AnimeInfo : public QObject
 
 	Q_PROPERTY(int id READ id CONSTANT)
 	Q_PROPERTY(QString title READ title CONSTANT)
-	Q_PROPERTY(QHash<SeasonType, SeasonInfo> seasonState READ seasonState WRITE setSeasonState NOTIFY seasonStateChanged)
+	Q_PROPERTY(QMap<SeasonType, SeasonInfo> seasonState READ seasonState WRITE setSeasonState NOTIFY seasonStateChanged)
 	Q_PROPERTY(int totalSeasonCount READ totalSeasonCount NOTIFY seasonStateChanged STORED false)
 	Q_PROPERTY(bool hasNewSeasons READ hasNewSeasons NOTIFY seasonStateChanged STORED false)
 	Q_PROPERTY(QDate lastUpdateCheck READ lastUpdateCheck WRITE setLastUpdateCheck NOTIFY lastUpdateCheckChanged)
@@ -25,8 +26,8 @@ public:
 
 	enum SeasonType {
 		Anime,
-		Movie,
 		Ova,
+		Movie,
 		Hentai,
 		Manga,
 		Oneshot,
@@ -40,7 +41,7 @@ public:
 
 	int id() const;
 	QString title() const;
-	QHash<SeasonType, SeasonInfo> seasonState() const;
+	QMap<SeasonType, SeasonInfo> seasonState() const;
 	SeasonInfo seasonInfo(SeasonType type) const;
 	int totalSeasonCount() const;
 	bool hasNewSeasons() const;
@@ -48,8 +49,10 @@ public:
 
 	QUrl relationsUrl() const;
 
+	Q_INVOKABLE QString typeToString(SeasonType type);
+
 public slots:
-	void setSeasonState(QHash<SeasonType, SeasonInfo> seasonState);
+	void setSeasonState(QMap<SeasonType, SeasonInfo> seasonState);
 	void setSeasonInfo(SeasonType type, SeasonInfo info);
 	void setAllUnchanged();
 	void setLastUpdateCheck(QDate lastUpdateCheck);
@@ -62,7 +65,7 @@ private:
 	int _id;
 	QString _title;
 
-	QHash<SeasonType, SeasonInfo> _seasonState;
+	QMap<SeasonType, SeasonInfo> _seasonState;
 	QDate _lastUpdateCheck;
 
 	mutable int _seasonCount;

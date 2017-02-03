@@ -34,7 +34,6 @@ private slots:
 	void on_actionRemove_Anime_triggered();
 	void on_actionCopy_selected_Info_triggered();
 	void on_seasonTreeView_activated(const QModelIndex &index);
-	void on_action_About_triggered();
 
 private:
 	MainControl *control;

@@ -2,6 +2,7 @@
 #include <QIcon>
 #include <qsingleinstance.h>
 #include "addanimedialog.h"
+#include "detailsdockwidget.h"
 #include "mainwindow.h"
 #include "systemtraypresenter.h"
 
@@ -22,6 +23,7 @@ int main(int argc, char *argv[])
 		WidgetPresenter::registerAsPresenter<SystemTrayPresenter>();
 		WidgetPresenter::registerWidget<MainWindow>();
 		WidgetPresenter::registerWidget<AddAnimeDialog>();
+		WidgetPresenter::registerWidget<DetailsDockWidget>();
 		CoreApp::instance()->bootApp();
 
 		QObject::connect(&instance, SIGNAL(instanceMessage(QStringList)),
