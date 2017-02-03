@@ -14,7 +14,8 @@ MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	store(store),
 	model(new GenericListModel<AnimeInfo>(false, this)),
 	_loading(true),
-	settings(new ProxerSettingsControl(this))
+	detailsControl(new DetailsControl(this)),
+	settingsControl(new ProxerSettingsControl(this))
 {
 	connect(store, &AnimeStore::animeInfoListChanged,
 			this, &MainControl::storeListLoaded);
@@ -46,7 +47,7 @@ void MainControl::reload()
 
 void MainControl::showSettings()
 {
-	showControl(settings);
+	showControl(settingsControl);
 }
 
 void MainControl::showAbout()
@@ -66,7 +67,7 @@ void MainControl::uncheckAnime(int id)
 			info->setAllUnchanged();
 			store->saveAnime(info);
 		}
-		if(settings->openEntries())
+		if(settingsControl->openEntries())
 			QDesktopServices::openUrl(info->relationsUrl());
 	}
 }
@@ -110,8 +111,14 @@ void MainControl::addAnimeFromClipboard()
 
 void MainControl::showDetails(int id)
 {
-	Q_UNIMPLEMENTED();
-	//TODO implement details
+	auto info = infoFromId(id);
+	if(info) {
+		detailsControl->setAnimeInfo(info);
+		showControl(detailsControl);
+	} else {
+		detailsControl->close();
+		detailsControl->setAnimeInfo(nullptr);
+	}
 }
 
 void MainControl::removeAnime(int id)
@@ -126,7 +133,7 @@ void MainControl::removeAnime(int id)
 
 void MainControl::onShow()
 {
-	settings->ensureAutoStart();
+	settingsControl->ensureAutoStart();
 }
 
 void MainControl::storeListLoaded(AnimeList list)

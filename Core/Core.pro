@@ -39,7 +39,8 @@ HEADERS += core.h\
     addanimecontrol.h \
 	seasonstatusloader.h \
     statuscontrol.h \
-    proxersettingscontrol.h
+    proxersettingscontrol.h \
+    detailscontrol.h
 
 SOURCES += core.cpp \
 	animestore.cpp \
@@ -54,7 +55,8 @@ SOURCES += core.cpp \
     addanimecontrol.cpp \
 	seasonstatusloader.cpp \
 	statuscontrol.cpp \
-    proxersettingscontrol.cpp
+    proxersettingscontrol.cpp \
+    detailscontrol.cpp
 
 RESOURCES += \
 	seasonproxer_core.qrc
