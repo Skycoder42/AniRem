@@ -24,7 +24,7 @@ public slots:
 	void setAnimeInfo(AnimeInfo* animeInfo);
 
 signals:
-	void animeInfoChanged(AnimeInfo* animeInfo);
+	void animeInfoChanged();
 
 private:
 	AnimeInfo* _animeInfo;

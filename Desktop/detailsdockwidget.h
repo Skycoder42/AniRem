@@ -17,7 +17,7 @@ public:
 	~DetailsDockWidget();
 
 private slots:
-	void updateInfo(AnimeInfo *info);
+	void updateInfo();
 
 private:
 	DetailsControl *control;

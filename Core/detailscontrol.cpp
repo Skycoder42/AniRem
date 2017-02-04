@@ -29,6 +29,10 @@ void DetailsControl::setAnimeInfo(AnimeInfo *animeInfo)
 	if (_animeInfo == animeInfo)
 		return;
 
+	disconnect(_animeInfo, &AnimeInfo::seasonStateChanged,
+			   this, &DetailsControl::animeInfoChanged);
 	_animeInfo = animeInfo;
-	emit animeInfoChanged(animeInfo);
+	connect(_animeInfo, &AnimeInfo::seasonStateChanged,
+			this, &DetailsControl::animeInfoChanged);
+	emit animeInfoChanged();
 }

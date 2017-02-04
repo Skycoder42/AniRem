@@ -62,13 +62,22 @@ void MainControl::showAbout()
 void MainControl::uncheckAnime(int id)
 {
 	auto info = infoFromId(id);
+	if(info && info->hasNewSeasons()) {
+		info->setAllUnchanged();
+		store->saveAnime(info);
+	}
+}
+
+void MainControl::itemAction(int id)
+{
+	auto info = infoFromId(id);
 	if(info) {
-		if(info->hasNewSeasons()) {
+		if(settingsControl->uncheckEntries() && info->hasNewSeasons()) {
 			info->setAllUnchanged();
 			store->saveAnime(info);
 		}
 		if(settingsControl->openEntries())
-			QDesktopServices::openUrl(info->relationsUrl());
+			info->openUrl();
 	}
 }
 

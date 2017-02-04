@@ -9,6 +9,7 @@ class ProxerSettingsControl : public SettingsControl
 	Q_OBJECT
 
 	SETTINGS_PROPERTY(bool, openEntries, false)
+	SETTINGS_PROPERTY(bool, uncheckEntries, true)
 	SETTINGS_PROPERTY_WKEY(int, autoCheck, "updates/autoCheck", 7)
 	SETTINGS_PROPERTY_WKEY(int, checkLimit, "updates/checkLimit", 10)
 
@@ -19,6 +20,7 @@ public:
 
 signals:
 	void openEntriesChanged(bool openEntries);
+	void uncheckEntriesChanged(bool openEntries);
 	void autoCheckChanged(int autoCheck);
 	void checkLimitChanged(int checkLimit);
 

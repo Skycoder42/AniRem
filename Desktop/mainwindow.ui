@@ -68,11 +68,9 @@
      <string>&amp;Edit</string>
     </property>
     <addaction name="actionAdd_Anime"/>
-    <addaction name="actionRemove_Anime"/>
-    <addaction name="separator"/>
     <addaction name="actionPaste_ID_URL"/>
     <addaction name="separator"/>
-    <addaction name="actionCopy_selected_Info"/>
+    <addaction name="actionRemove_Anime"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
@@ -81,8 +79,18 @@
     <addaction name="action_About"/>
     <addaction name="actionAbout_Qt"/>
    </widget>
+   <widget class="QMenu" name="menu_Actions">
+    <property name="title">
+     <string>&amp;Actions</string>
+    </property>
+    <addaction name="actionCopy_selected_Info"/>
+    <addaction name="separator"/>
+    <addaction name="action_Open_Anime_in_browser"/>
+    <addaction name="action_Unmark_new_seasons"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menu_Actions"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -99,8 +107,10 @@
    <addaction name="actionReload_Seasons"/>
    <addaction name="separator"/>
    <addaction name="actionAdd_Anime"/>
-   <addaction name="actionRemove_Anime"/>
    <addaction name="actionPaste_ID_URL"/>
+   <addaction name="actionRemove_Anime"/>
+   <addaction name="separator"/>
+   <addaction name="action_Unmark_new_seasons"/>
   </widget>
   <action name="actionAdd_Anime">
    <property name="icon">
@@ -188,11 +198,42 @@
    </property>
   </action>
   <action name="action_Settings">
+   <property name="icon">
+    <iconset resource="seasonproxer_desktop.qrc">
+     <normaloff>:/icons/settings.ico</normaloff>:/icons/settings.ico</iconset>
+   </property>
    <property name="text">
     <string>&amp;Settings</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+S</string>
+   </property>
+  </action>
+  <action name="action_Open_Anime_in_browser">
+   <property name="icon">
+    <iconset resource="seasonproxer_desktop.qrc">
+     <normaloff>:/icons/openLink.ico</normaloff>:/icons/openLink.ico</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Open Anime in browser</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="action_Unmark_new_seasons">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="seasonproxer_desktop.qrc">
+     <normaloff>:/icons/unmarkNew.ico</normaloff>:/icons/unmarkNew.ico</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Unmark new seasons</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+K</string>
    </property>
   </action>
  </widget>

@@ -1,5 +1,7 @@
 #include "animeinfo.h"
 
+#include <QDesktopServices>
+
 AnimeInfo::AnimeInfo(int id, const QString &title, QObject *parent) :
 	QObject(parent),
 	_id(id),
@@ -116,6 +118,15 @@ void AnimeInfo::setSeasonInfo(AnimeInfo::SeasonType type, AnimeInfo::SeasonInfo 
 	emit seasonStateChanged();
 }
 
+void AnimeInfo::setLastUpdateCheck(QDate lastUpdateCheck)
+{
+	if (_lastUpdateCheck == lastUpdateCheck)
+		return;
+
+	_lastUpdateCheck = lastUpdateCheck;
+	emit lastUpdateCheckChanged(lastUpdateCheck);
+}
+
 void AnimeInfo::setAllUnchanged()
 {
 	auto changed = false;
@@ -132,11 +143,7 @@ void AnimeInfo::setAllUnchanged()
 	}
 }
 
-void AnimeInfo::setLastUpdateCheck(QDate lastUpdateCheck)
+void AnimeInfo::openUrl()
 {
-	if (_lastUpdateCheck == lastUpdateCheck)
-		return;
-
-	_lastUpdateCheck = lastUpdateCheck;
-	emit lastUpdateCheckChanged(lastUpdateCheck);
+	QDesktopServices::openUrl(relationsUrl());
 }

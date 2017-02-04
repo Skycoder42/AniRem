@@ -37,9 +37,17 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 	connect(ui->actionQuit, &QAction::triggered,
 			this, &MainWindow::close);
 
+	auto sep1 = new QAction(ui->seasonTreeView);
+	sep1->setSeparator(true);
+	auto sep2 = new QAction(ui->seasonTreeView);
+	sep2->setSeparator(true);
 	ui->seasonTreeView->addActions({
-									   ui->actionRemove_Anime,
-									   ui->actionCopy_selected_Info
+									   ui->actionCopy_selected_Info,
+									   sep1,
+									   ui->action_Open_Anime_in_browser,
+									   ui->action_Unmark_new_seasons,
+									   sep2,
+									   ui->actionRemove_Anime
 								   });
 
 	statusLabel->hide();
@@ -110,6 +118,7 @@ void MainWindow::updatePreview(const QModelIndex &index)
 	if(mIndex.isValid()) {
 		auto info = control->animeModel()->object(mIndex);
 		control->showDetails(info->id());
+		ui->action_Unmark_new_seasons->setEnabled(info->hasNewSeasons());
 	} else
 		control->showDetails(-1);
 }
@@ -152,11 +161,25 @@ void MainWindow::on_actionCopy_selected_Info_triggered()
 	}
 }
 
+void MainWindow::on_action_Open_Anime_in_browser_triggered()
+{
+	auto index = mapToCtrl(ui->seasonTreeView->currentIndex());
+	if(index.isValid())
+		control->animeModel()->object(index)->openUrl();
+}
+
+void MainWindow::on_action_Unmark_new_seasons_triggered()
+{
+	auto rIndex = mapToCtrl(ui->seasonTreeView->currentIndex());
+	if(rIndex.isValid())
+		control->uncheckAnime(control->animeModel()->object(rIndex)->id());
+}
+
 void MainWindow::on_seasonTreeView_activated(const QModelIndex &index)
 {
 	auto rIndex = mapToCtrl(index);
 	if(rIndex.isValid())
-		control->uncheckAnime(control->animeModel()->object(rIndex)->id());
+		control->itemAction(control->animeModel()->object(rIndex)->id());
 }
 
 QModelIndex MainWindow::mapToCtrl(const QModelIndex &uiIndex) const

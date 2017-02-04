@@ -16,7 +16,7 @@ DetailsDockWidget::DetailsDockWidget(Control *mControl, QWidget *parent) :
 
 	connect(control, &DetailsControl::animeInfoChanged,
 			this, &DetailsDockWidget::updateInfo);
-	updateInfo(control->animeInfo());
+	updateInfo();
 }
 
 DetailsDockWidget::~DetailsDockWidget()
@@ -24,8 +24,9 @@ DetailsDockWidget::~DetailsDockWidget()
 	delete ui;
 }
 
-void DetailsDockWidget::updateInfo(AnimeInfo *info)
+void DetailsDockWidget::updateInfo()
 {
+	auto info = control->animeInfo();
 	if(info) {
 		setWindowTitle(tr("%1 Details").arg(info->title()));
 

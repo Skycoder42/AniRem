@@ -30,6 +30,7 @@ public slots:
 	void showAbout();
 
 	void uncheckAnime(int id);
+	void itemAction(int id);
 
 	void addAnime();
 	void addAnimeFromClipboard();

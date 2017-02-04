@@ -33,6 +33,8 @@ private slots:
 
 	void on_actionRemove_Anime_triggered();
 	void on_actionCopy_selected_Info_triggered();
+	void on_action_Open_Anime_in_browser_triggered();
+	void on_action_Unmark_new_seasons_triggered();
 	void on_seasonTreeView_activated(const QModelIndex &index);
 
 private:
