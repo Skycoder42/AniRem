@@ -84,10 +84,9 @@ public class SeasonProxerService extends QtService {
 
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
 			.setContentTitle(title)
-			.setContentText(getResources().getString(R.string.expand_notifcation))
+			.setContentText(message)
 			.setStyle(new NotificationCompat.BigTextStyle()
 				.bigText(message))
-			.setContentInfo(getResources().getString(R.string.app_name))
 			.setContentIntent(pending)
 			.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
 			.setSmallIcon(R.drawable.ic_notification)
