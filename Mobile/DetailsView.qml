@@ -46,6 +46,17 @@ Page {
 				source: "https://cdn.proxer.me/cover/%1.jpg".arg(control && control.animeInfo ? control.animeInfo.id : -1)
 				mipmap: true
 			}
+
+			Label {
+				id: detailsLabel
+				Layout.preferredWidth: implicitWidth + 14
+				Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+				wrapMode: Text.Wrap
+				textFormat: Text.RichText
+				text: control ? control.detailsText : ""
+				horizontalAlignment: Text.AlignHCenter
+				verticalAlignment: Text.AlignVCenter
+			}
 		}
 	}
 }

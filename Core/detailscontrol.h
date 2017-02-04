@@ -12,11 +12,13 @@ class CORESHARED_EXPORT DetailsControl : public Control
 	Q_OBJECT
 
 	Q_PROPERTY(AnimeInfo* animeInfo READ animeInfo WRITE setAnimeInfo NOTIFY animeInfoChanged)
+	Q_PROPERTY(QString detailsText READ detailsText NOTIFY animeInfoChanged)
 
 public:
 	explicit DetailsControl(QObject *parent = nullptr);
 
 	AnimeInfo* animeInfo() const;
+	QString detailsText() const;
 
 public slots:
 	void setAnimeInfo(AnimeInfo* animeInfo);

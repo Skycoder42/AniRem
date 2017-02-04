@@ -26,8 +26,6 @@ DetailsDockWidget::~DetailsDockWidget()
 
 void DetailsDockWidget::updateInfo(AnimeInfo *info)
 {
-	qDeleteAll(ui->seasonStateWidget->findChildren<QLabel*>(QString(), Qt::FindDirectChildrenOnly));
-
 	if(info) {
 		setWindowTitle(tr("%1 Details").arg(info->title()));
 
@@ -37,20 +35,10 @@ void DetailsDockWidget::updateInfo(AnimeInfo *info)
 				ui->previewLabel->setPixmap(pm);
 		});
 
-		for(auto it = info->seasonState().constBegin(); it != info->seasonState().constEnd(); it++) {
-			auto content = new QLabel(ui->seasonStateWidget);
-			content->setTextInteractionFlags(Qt::TextBrowserInteraction);
-			if(it->second) {
-				auto pal = content->palette();
-				pal.setColor(QPalette::WindowText, QColor(0x8A, 0x0E, 0x0E));
-				content->setPalette(pal);
-				content->setText(tr("<b>%L1 (new)</b>").arg(it->first));
-			} else
-				content->setText(QLocale().toString(it->first));
-			ui->formLayout->addRow(info->typeToString(it.key()) + tr(":"), content);
-		}
+		ui->detailsLabel->setText(control->detailsText());
 	} else {
 		setWindowTitle(tr("Anime Details"));
 		ui->previewLabel->clear();
+		ui->detailsLabel->clear();
 	}
 }

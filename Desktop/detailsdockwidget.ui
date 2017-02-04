@@ -60,6 +60,9 @@
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <property name="leftMargin">
          <number>0</number>
         </property>
@@ -95,12 +98,22 @@
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="seasonStateWidget" native="true">
-          <layout class="QFormLayout" name="formLayout">
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-          </layout>
+         <widget class="QLabel" name="detailsLabel">
+          <property name="textFormat">
+           <enum>Qt::RichText</enum>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignHCenter|Qt::AlignTop</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+          <property name="margin">
+           <number>6</number>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::TextBrowserInteraction</set>
+          </property>
          </widget>
         </item>
        </layout>
