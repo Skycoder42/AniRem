@@ -95,14 +95,17 @@ AlertDialog {
 			text: control ? control.title : ""
 		}
 
-		Label {
+		TextField {
 			id: errorLabel
 			Layout.columnSpan: 3
 			Layout.fillWidth: true
 			visible: text != ""
 			color: Material.accent
 			wrapMode: Text.Wrap
-			onLinkActivated: Qt.openUrlExternally(link)
+			readOnly: true
+			selectByMouse: true
+
+			background: Item {}
 		}
 	}
 
