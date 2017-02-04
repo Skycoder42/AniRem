@@ -14,7 +14,7 @@ MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	store(store),
 	model(new GenericListModel<AnimeInfo>(false, this)),
 	_loading(true),
-	detailsControl(new DetailsControl(this)),
+	detailsControl(new DetailsControl(store, this)),
 	settingsControl(new ProxerSettingsControl(this))
 {
 	connect(store, &AnimeStore::animeInfoListChanged,

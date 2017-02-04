@@ -72,7 +72,7 @@ Page {
 			onClicked: control.showDetails(id)
 			onPressAndHold: {
 				QuickExtras.hapticFeedback();
-				control.uncheckAnime(id);
+				control.itemAction(id);
 			}
 		}
 	}

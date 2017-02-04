@@ -49,14 +49,14 @@ public:
 
 	QUrl relationsUrl() const;
 
-	Q_INVOKABLE QString typeToString(SeasonType type);
+	void setAllUnchanged();
+	static QString typeToString(SeasonType type);
 
 public slots:
 	void setSeasonState(QMap<SeasonType, SeasonInfo> seasonState);
 	void setSeasonInfo(SeasonType type, SeasonInfo info);
 	void setLastUpdateCheck(QDate lastUpdateCheck);
 
-	void setAllUnchanged();
 	void openUrl();
 
 signals:

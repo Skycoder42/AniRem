@@ -17,5 +17,7 @@
         <file alias="ic_add.svg">icons/svgs/ic_add_white_24px.svg</file>
         <file alias="ic_delete_forever.svg">icons/svgs/ic_delete_forever_white_24px.svg</file>
         <file alias="ic_autorenew.svg">icons/svgs/ic_autorenew_white_24px.svg</file>
+        <file alias="ic_check.svg">icons/svgs/ic_check_white_24px.svg</file>
+        <file alias="ic_open_in_browser.svg">icons/svgs/ic_open_in_browser_white_24px.svg</file>
     </qresource>
 </RCC>

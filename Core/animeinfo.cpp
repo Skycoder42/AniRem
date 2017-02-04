@@ -69,6 +69,22 @@ QUrl AnimeInfo::relationsUrl() const
 	return QStringLiteral("https://proxer.me/info/%1/relation").arg(_id);
 }
 
+void AnimeInfo::setAllUnchanged()
+{
+	auto changed = false;
+	for(auto it = _seasonState.begin(); it != _seasonState.end(); it++) {
+		if(it.value().second) {
+			it.value().second = false;
+			changed = true;
+		}
+	}
+
+	if(changed) {
+		_hasNewSeasons = -1;
+		emit seasonStateChanged();
+	}
+}
+
 QString AnimeInfo::typeToString(AnimeInfo::SeasonType type)
 {
 	switch (type) {
@@ -125,22 +141,6 @@ void AnimeInfo::setLastUpdateCheck(QDate lastUpdateCheck)
 
 	_lastUpdateCheck = lastUpdateCheck;
 	emit lastUpdateCheckChanged(lastUpdateCheck);
-}
-
-void AnimeInfo::setAllUnchanged()
-{
-	auto changed = false;
-	for(auto it = _seasonState.begin(); it != _seasonState.end(); it++) {
-		if(it.value().second) {
-			it.value().second = false;
-			changed = true;
-		}
-	}
-
-	if(changed) {
-		_hasNewSeasons = -1;
-		emit seasonStateChanged();
-	}
 }
 
 void AnimeInfo::openUrl()

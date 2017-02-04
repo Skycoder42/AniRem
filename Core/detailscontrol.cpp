@@ -1,7 +1,8 @@
 #include "detailscontrol.h"
 
-DetailsControl::DetailsControl(QObject *parent) :
+DetailsControl::DetailsControl(AnimeStore *store, QObject *parent) :
 	Control(parent),
+	_store(store),
 	_animeInfo(nullptr)
 {}
 
@@ -19,7 +20,7 @@ QString DetailsControl::detailsText() const
 			row = row.arg(tr("<b><font color=\"#8A0E0E\">%L1 (new)</font></b>"));
 		}
 		string += row.arg(it->first)
-				  .arg(_animeInfo->typeToString(it.key()));
+				  .arg(AnimeInfo::typeToString(it.key()));
 	}
 	return string + QStringLiteral("</table>");
 }
@@ -29,10 +30,22 @@ void DetailsControl::setAnimeInfo(AnimeInfo *animeInfo)
 	if (_animeInfo == animeInfo)
 		return;
 
-	disconnect(_animeInfo, &AnimeInfo::seasonStateChanged,
-			   this, &DetailsControl::animeInfoChanged);
+	if(_animeInfo) {
+		disconnect(_animeInfo, &AnimeInfo::seasonStateChanged,
+				   this, &DetailsControl::animeInfoChanged);
+	}
 	_animeInfo = animeInfo;
-	connect(_animeInfo, &AnimeInfo::seasonStateChanged,
-			this, &DetailsControl::animeInfoChanged);
+	if(_animeInfo) {
+		connect(_animeInfo, &AnimeInfo::seasonStateChanged,
+				this, &DetailsControl::animeInfoChanged);
+	}
 	emit animeInfoChanged();
+}
+
+void DetailsControl::uncheckAnime()
+{
+	if(_animeInfo && _animeInfo->hasNewSeasons()) {
+		_animeInfo->setAllUnchanged();
+		_store->saveAnime(_animeInfo);
+	}
 }

@@ -14,6 +14,23 @@ Page {
 		title: qsTr("%1 Details").arg(control && control.animeInfo ? control.animeInfo.title : qsTr("Anime"))
 		showMenuAsBack: true
 		onMenuButtonClicked: control.close()
+
+		AppBarButton {
+			id: unmarkAction
+			imageSource: "image://svg/icons/ic_check"
+			text: qsTr("Unmark new seasons")
+			onClicked: control.uncheckAnime()
+			visible: control && control.animeInfo ? control.animeInfo.hasNewSeasons : false
+
+			Component.onDestruction: visible = true
+		}
+
+		AppBarButton {
+			id: openInBrowser
+			imageSource: "image://svg/icons/ic_open_in_browser"
+			text: qsTr("Open relations in your browser")
+			onClicked: control.animeInfo.openUrl()
+		}
 	}
 
 	PresenterProgress {
