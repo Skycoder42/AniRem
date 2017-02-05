@@ -1,4 +1,5 @@
 #include "proxersettingscontrol.h"
+#include <QStandardPaths>
 #include <coremessage.h>
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras>
@@ -65,7 +66,18 @@ bool ProxerSettingsControl::setAutoStart(bool autoStart)
 		return true;
 	}
 #elif defined(Q_OS_LINUX)
-	//TODO support kde?
+	auto desktopFilePath = QStringLiteral("/usr/share/applications/%1.desktop")
+						   .arg(QCoreApplication::applicationName());
+	auto linkPath = QStringLiteral("%1/autostart/%2.desktop")
+					.arg(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation))
+					.arg(QCoreApplication::applicationName());
+	if(autoStart) {
+		if(QFile::link(desktopFilePath, linkPath))
+			return true;
+	} else {
+		if(QFile::remove(linkPath))
+			return true;
+	}
 #endif
 
 	auto didNotify = settings()->value(QStringLiteral("updates/didNotify"), false);
