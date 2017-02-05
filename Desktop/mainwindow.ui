@@ -51,7 +51,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -188,18 +188,24 @@
    </property>
   </action>
   <action name="action_About">
+   <property name="icon">
+    <iconset theme="help-about"/>
+   </property>
    <property name="text">
     <string>&amp;About</string>
    </property>
   </action>
   <action name="actionAbout_Qt">
+   <property name="icon">
+    <iconset theme="qt"/>
+   </property>
    <property name="text">
     <string>About &amp;Qt</string>
    </property>
   </action>
   <action name="action_Settings">
    <property name="icon">
-    <iconset resource="seasonproxer_desktop.qrc">
+    <iconset theme="configure" resource="seasonproxer_desktop.qrc">
      <normaloff>:/icons/settings.ico</normaloff>:/icons/settings.ico</iconset>
    </property>
    <property name="text">
@@ -211,7 +217,7 @@
   </action>
   <action name="action_Open_Anime_in_browser">
    <property name="icon">
-    <iconset resource="seasonproxer_desktop.qrc">
+    <iconset theme="browser" resource="seasonproxer_desktop.qrc">
      <normaloff>:/icons/openLink.ico</normaloff>:/icons/openLink.ico</iconset>
    </property>
    <property name="text">
@@ -226,7 +232,7 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="seasonproxer_desktop.qrc">
+    <iconset theme="dialog-ok-apply" resource="seasonproxer_desktop.qrc">
      <normaloff>:/icons/unmarkNew.ico</normaloff>:/icons/unmarkNew.ico</iconset>
    </property>
    <property name="text">
