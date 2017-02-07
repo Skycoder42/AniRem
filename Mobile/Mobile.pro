@@ -65,28 +65,12 @@ else:unix: LIBS += -L$$OUT_PWD/../Core/ -lSeasonProxerCore
 INCLUDEPATH += $$PWD/../Core
 DEPENDPATH += $$PWD/../Core
 
-win32 {
-	msvc {
-		contains(QT_ARCH, x86_64) {
-			CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/msvc64/release/
-			else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/msvc64/debug/
-		} else {
-			CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/msvc/release/
-			else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/msvc/debug/
-		}
-	} else:win32-g++ {
-		CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/mingw/release/
-		else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/mingw/debug/
-	}
-} else:android:contains(QT_ARCH, arm) {
+android:contains(QT_ARCH, arm) {
 	# extra dependencies from core
 	ANDROID_EXTRA_LIBS += \
-		$$[QT_INSTALL_LIBS]/libQt5Concurrent.so# \
+		$$[QT_INSTALL_LIBS]/libQt5Concurrent.so \
+		$$[QT_INSTALL_LIBS]/libQt5JsonSerializer.so \
+		$$[QT_INSTALL_LIBS]/libQt5RestClient.so# \
 #		$$[QT_INSTALL_LIBS]/libQt5Sql.so
 	QT += sql #required like this because of the sqlite plugin
-	CONFIG(release, debug|release): ANDROID_EXTRA_LIBS += $$PWD/../QtRestClient/android_armv7/release/libQtRestClient.so
-	CONFIG(debug, debug|release): ANDROID_EXTRA_LIBS += $$PWD/../QtRestClient/android_armv7/debug/libQtRestClient.so
-} else:unix {
-	CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/QJsonSerializer/gcc64/release/ -lQJsonSerializer
-	else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/QJsonSerializer/gcc64/debug/ -lQJsonSerializer
 }

@@ -5,7 +5,7 @@
 #-------------------------------------------------
 TEMPLATE = lib
 
-QT       += core gui network concurrent sql
+QT       += core gui network concurrent sql restclient
 android: QT += androidextras
 win32: CONFIG += skip_target_version_ext
 
@@ -21,7 +21,6 @@ QMAKE_TARGET_COPYRIGHT = "Felix Barz"
 DEFINES += CORE_LIBRARY
 DEFINES += QT_DEPRECATED_WARNINGS
 
-include(../QtRestClient/qtrestclient.pri)
 include(../QtMvvm/core/qtmvvmcore.pri)
 
 HEADERS += core.h\
@@ -36,11 +35,11 @@ HEADERS += core.h\
 	ProxerApi/infoclass.h \
 	proxerapp.h \
 	maincontrol.h \
-    addanimecontrol.h \
+	addanimecontrol.h \
 	seasonstatusloader.h \
-    statuscontrol.h \
-    proxersettingscontrol.h \
-    detailscontrol.h
+	statuscontrol.h \
+	proxersettingscontrol.h \
+	detailscontrol.h
 
 SOURCES += core.cpp \
 	animestore.cpp \
@@ -52,11 +51,11 @@ SOURCES += core.cpp \
 	ProxerApi/infoclass.cpp \
 	proxerapp.cpp \
 	maincontrol.cpp \
-    addanimecontrol.cpp \
+	addanimecontrol.cpp \
 	seasonstatusloader.cpp \
 	statuscontrol.cpp \
-    proxersettingscontrol.cpp \
-    detailscontrol.cpp
+	proxersettingscontrol.cpp \
+	detailscontrol.cpp
 
 RESOURCES += \
 	seasonproxer_core.qrc

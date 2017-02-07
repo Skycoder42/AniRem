@@ -60,22 +60,3 @@ else:unix: LIBS += -L$$OUT_PWD/../Core/ -lSeasonProxerCore
 
 INCLUDEPATH += $$PWD/../Core
 DEPENDPATH += $$PWD/../Core
-
-#library location fixes
-win32 {
-	msvc {
-		contains(QT_ARCH, x86_64) {
-			CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/msvc64/release/
-			else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/msvc64/debug/
-		} else {
-			CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/msvc/release/
-			else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/msvc/debug/
-		}
-	} else:win32-g++ {
-		CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/mingw/release/
-		else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/mingw/debug/
-	}
-} else:unix {
-	CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/QJsonSerializer/gcc64/release/ -lQJsonSerializer
-	else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/QJsonSerializer/gcc64/debug/ -lQJsonSerializer
-}
