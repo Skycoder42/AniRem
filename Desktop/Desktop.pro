@@ -32,9 +32,9 @@ HEADERS  += mainwindow.h \
 	animemodel.h \
 	addanimedialog.h \
 	imageloader.h \
-    systemtraypresenter.h \
-    statusview.h \
-    detailsdockwidget.h
+	systemtraypresenter.h \
+	statusview.h \
+	detailsdockwidget.h
 
 SOURCES += \
 	mainwindow.cpp \
@@ -42,16 +42,16 @@ SOURCES += \
 	addanimedialog.cpp \
 	imageloader.cpp \
 	main.cpp \
-    systemtraypresenter.cpp \
-    statusview.cpp \
-    detailsdockwidget.cpp
+	systemtraypresenter.cpp \
+	statusview.cpp \
+	detailsdockwidget.cpp
 
 FORMS    += mainwindow.ui \
 	addanimedialog.ui \
-    detailsdockwidget.ui
+	detailsdockwidget.ui
 
 RESOURCES += \
-    seasonproxer_desktop.qrc
+	seasonproxer_desktop.qrc
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore
@@ -61,6 +61,7 @@ else:unix: LIBS += -L$$OUT_PWD/../Core/ -lSeasonProxerCore
 INCLUDEPATH += $$PWD/../Core
 DEPENDPATH += $$PWD/../Core
 
+#library location fixes
 win32 {
 	msvc {
 		contains(QT_ARCH, x86_64) {
@@ -74,4 +75,7 @@ win32 {
 		CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/mingw/release/
 		else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/mingw/debug/
 	}
+} else:unix {
+	CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/QJsonSerializer/gcc64/release/ -lQJsonSerializer
+	else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/QJsonSerializer/gcc64/debug/ -lQJsonSerializer
 }

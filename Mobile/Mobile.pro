@@ -23,32 +23,32 @@ include(../QtMvvm/quick/qtmvvmquick.pri)
 
 HEADERS += \
 	cachingnamfactory.h \
-    notifyingpresenter.h
+	notifyingpresenter.h
 
 SOURCES += main.cpp \
 	cachingnamfactory.cpp \
-    notifyingpresenter.cpp
+	notifyingpresenter.cpp
 
 RESOURCES += \
-    seasonproxer_mobile.qrc
+	seasonproxer_mobile.qrc
 
 DISTFILES += \
 	android/AndroidManifest.xml \
 	android/res/values/libs.xml \
 	android/build.gradle \
-    android/res/drawable-hdpi/ic_launcher.png \
-    android/res/drawable-mdpi/ic_launcher.png \
-    android/res/drawable-xhdpi/ic_launcher.png \
-    android/res/drawable-xxhdpi/ic_launcher.png \
-    android/res/drawable-xxxhdpi/ic_launcher.png \
-    android/res/values/strings.xml \
-    android/src/de/skycoder42/seasonproxer/SeasonProxerService.java \
-    android/src/de/skycoder42/seasonproxer/AlarmReceiver.java \
-    android/res/drawable-hdpi/ic_notification.png \
-    android/res/drawable-mdpi/ic_notification.png \
-    android/res/drawable-xhdpi/ic_notification.png \
-    android/res/drawable-xxhdpi/ic_notification.png \
-    android/res/drawable-xxxhdpi/ic_notification.png
+	android/res/drawable-hdpi/ic_launcher.png \
+	android/res/drawable-mdpi/ic_launcher.png \
+	android/res/drawable-xhdpi/ic_launcher.png \
+	android/res/drawable-xxhdpi/ic_launcher.png \
+	android/res/drawable-xxxhdpi/ic_launcher.png \
+	android/res/values/strings.xml \
+	android/src/de/skycoder42/seasonproxer/SeasonProxerService.java \
+	android/src/de/skycoder42/seasonproxer/AlarmReceiver.java \
+	android/res/drawable-hdpi/ic_notification.png \
+	android/res/drawable-mdpi/ic_notification.png \
+	android/res/drawable-xhdpi/ic_notification.png \
+	android/res/drawable-xxhdpi/ic_notification.png \
+	android/res/drawable-xxxhdpi/ic_notification.png
 
 android {
 	HEADERS += statusview.h
@@ -86,4 +86,7 @@ win32 {
 	QT += sql #required like this because of the sqlite plugin
 	CONFIG(release, debug|release): ANDROID_EXTRA_LIBS += $$PWD/../QtRestClient/android_armv7/release/libQtRestClient.so
 	CONFIG(debug, debug|release): ANDROID_EXTRA_LIBS += $$PWD/../QtRestClient/android_armv7/debug/libQtRestClient.so
+} else:unix {
+	CONFIG(release, debug|release): LIBS += -L$$PWD/../QtRestClient/QJsonSerializer/gcc64/release/ -lQJsonSerializer
+	else:CONFIG(debug, debug|release): LIBS += -L$$PWD/../QtRestClient/QJsonSerializer/gcc64/debug/ -lQJsonSerializer
 }
