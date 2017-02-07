@@ -5,7 +5,7 @@
 #include <QObject>
 #include "proxerstatus.h"
 
-class CORESHARED_EXPORT ProxerEntryData : public QtRestClient::RestObject
+class CORESHARED_EXPORT ProxerEntryData : public QObject
 {
 	Q_OBJECT
 

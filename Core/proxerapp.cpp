@@ -21,7 +21,7 @@ ProxerApp::ProxerApp(QObject *parent) :
 	showNoUpdatesInfo(false)
 {
 	qRegisterMetaType<AnimeList>();
-	QtRestClient::registerListConverters<ProxerEntryData*>();
+	QJsonSerializer::registerListConverters<ProxerEntryData*>();
 }
 
 void ProxerApp::checkForSeasonUpdate(AnimeInfo *animeInfo)

@@ -3,9 +3,8 @@
 
 #include "core_global.h"
 #include <QObject>
-#include <restobject.h>
 
-class CORESHARED_EXPORT ProxerStatus : public QtRestClient::RestObject
+class CORESHARED_EXPORT ProxerStatus : public QObject
 {
 	Q_OBJECT
 

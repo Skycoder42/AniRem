@@ -6,7 +6,7 @@ ProxerEntry::ProxerEntry(QObject *parent) :
 {}
 
 ProxerEntryData::ProxerEntryData(QObject *parent) :
-	RestObject(parent),
+	QObject(parent),
 	id(0),
 	name(),
 	medium(),

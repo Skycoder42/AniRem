@@ -11,7 +11,6 @@ class CORESHARED_EXPORT ProxerRelations : public ProxerStatus
 	Q_OBJECT
 
 	Q_PROPERTY(QList<ProxerEntryData*> data MEMBER data)
-	QTRESTCLIENT_OBJECT_LIST_PROPERTY(data, ProxerEntryData*)
 
 public:
 	Q_INVOKABLE ProxerRelations(QObject *parent = nullptr);
