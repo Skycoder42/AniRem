@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick network svg
+QT += qml quick network svg datasync
 CONFIG += c++11
 
 TARGET = SeasonProxer

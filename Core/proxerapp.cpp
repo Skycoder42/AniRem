@@ -1,6 +1,7 @@
 #include "proxerapp.h"
 #include <QtRestClient>
 #include <QDate>
+#include <wsauthenticator.h>
 #include "core.h"
 #include "coremessage.h"
 #include "animeinfo.h"
@@ -21,7 +22,9 @@ ProxerApp::ProxerApp(QObject *parent) :
 	showNoUpdatesInfo(false)
 {
 	qRegisterMetaType<AnimeList>();
+	qRegisterMetaType<QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo>>("QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo>");
 	QJsonSerializer::registerListConverters<ProxerEntryData*>();
+	QJsonSerializer::registerListConverters<AnimeInfo*>();
 }
 
 void ProxerApp::checkForSeasonUpdate(AnimeInfo *animeInfo)
@@ -69,6 +72,18 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 	if(autoShowHelpOrVersion(parser))
 		return true;
 
+	//datasync setup
+	QtDataSync::Setup().create();
+	QtDataSync::WsAuthenticator* auth = QtDataSync::Setup::authenticatorForSetup<QtDataSync::WsAuthenticator>(this);
+	//auth->setRemoteUrl(QStringLiteral("wss://apps.skycoder42.de/seasonproxer"));
+	auth->deleteLater();
+
+	//anime data store
+	store = new AnimeStore(this);
+	connect(store, &AnimeStore::storeLoaded,
+			this, &ProxerApp::storeLoaded,
+			Qt::QueuedConnection);
+
 	//create proxer rest api
 	auto client = new QtRestClient::RestClient(qApp);
 	client->setBaseUrl(QStringLiteral("https://proxer.me/api"));
@@ -77,22 +92,19 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 	client->serializer()->setAllowDefaultNull(true);//DEBUG use this to provoke an error to test error handling
 	QtRestClient::RestClient::addGlobalApi(Core::ProxerRest, client);
 
-	//anime data store
-	store = new AnimeStore(this);
-	connect(store, &AnimeStore::storeLoaded,
-			this, &ProxerApp::storeLoaded,
-			Qt::QueuedConnection);
-
+	//updater
 	loader = new SeasonStatusLoader(this);
 	connect(loader, &SeasonStatusLoader::animeInfoUpdated,
 			store, &AnimeStore::saveAnime);
 
+	//main control
 	mainControl = new MainControl(store, this);
 	connect(loader, &SeasonStatusLoader::updated,
 			mainControl, &MainControl::setProgress);
 	connect(loader, &SeasonStatusLoader::completed,
 			this, &ProxerApp::updateDone);
 
+	//init control flow
 	passiveUpdate = parser.isSet("update");
 	if(passiveUpdate) {
 		statusControl = new StatusControl(this);

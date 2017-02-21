@@ -5,7 +5,7 @@
 #-------------------------------------------------
 TEMPLATE = app
 
-QT       += core gui widgets network
+QT       += core gui widgets network datasync
 CONFIG += c++11
 
 TARGET = SeasonProxer

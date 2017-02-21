@@ -13,9 +13,9 @@ class CORESHARED_EXPORT AnimeInfo : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(int id READ id CONSTANT)
+	Q_PROPERTY(int id READ id USER true CONSTANT)
 	Q_PROPERTY(QString title READ title CONSTANT)
-	Q_PROPERTY(QMap<SeasonType, SeasonInfo> seasonState READ seasonState WRITE setSeasonState NOTIFY seasonStateChanged)
+	Q_PROPERTY(QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo> seasonState READ seasonState WRITE setSeasonState NOTIFY seasonStateChanged)
 	Q_PROPERTY(int totalSeasonCount READ totalSeasonCount NOTIFY seasonStateChanged STORED false)
 	Q_PROPERTY(bool hasNewSeasons READ hasNewSeasons NOTIFY seasonStateChanged STORED false)
 	Q_PROPERTY(QDate lastUpdateCheck READ lastUpdateCheck WRITE setLastUpdateCheck NOTIFY lastUpdateCheckChanged)

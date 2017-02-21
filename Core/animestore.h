@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QSemaphore>
 #include <QThreadPool>
+#include <cachingdatastore.h>
 
 class CORESHARED_EXPORT AnimeStore : public QObject
 {
@@ -16,7 +17,6 @@ class CORESHARED_EXPORT AnimeStore : public QObject
 
 public:
 	explicit AnimeStore(QObject *parent = nullptr);
-	~AnimeStore();
 
 	AnimeList animeInfoList() const;
 	AnimeInfo *animeInfo(int id) const;
@@ -28,25 +28,13 @@ public slots:
 
 signals:
 	void storeLoaded();
-
 	void animeInfoListChanged(AnimeList infoList);
 
 private slots:
-	void loadAnimes();
-	void setInternal(AnimeList infoList, bool emitComplete);
-
-	void saveQuitApp();
-
 	void showError(const QString &error);
 
 private:
-	static const QString dbName;
-
-	QThreadPool *tp;
-	CountLock lock;
-
-	//the store owns all anime info objects!
-	QHash<int, AnimeInfo*> infoMap;
+	QtDataSync::CachingDataStore<AnimeInfo*> *store;
 };
 
 #endif // ANIMESTORE_H

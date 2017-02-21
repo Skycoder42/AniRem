@@ -5,7 +5,7 @@
 #-------------------------------------------------
 TEMPLATE = lib
 
-QT       += core gui network concurrent sql restclient
+QT       += core gui network datasync restclient
 android: QT += androidextras
 win32: CONFIG += skip_target_version_ext
 
