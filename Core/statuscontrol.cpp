@@ -5,7 +5,7 @@ StatusControl::StatusControl(QObject *parent) :
 	Control(parent)
 {}
 
-void StatusControl::loadUpdateStatus(AnimeList animes)
+void StatusControl::loadUpdateStatus(QList<AnimeInfo *> animes)
 {
 	QStringList updatesList;
 	foreach (auto anime, animes) {

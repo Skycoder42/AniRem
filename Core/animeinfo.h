@@ -13,8 +13,8 @@ class CORESHARED_EXPORT AnimeInfo : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(int id READ id USER true CONSTANT)
-	Q_PROPERTY(QString title READ title CONSTANT)
+	Q_PROPERTY(int id MEMBER _id READ id USER true)
+	Q_PROPERTY(QString title MEMBER _title READ title)
 	Q_PROPERTY(QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo> seasonState READ seasonState WRITE setSeasonState NOTIFY seasonStateChanged)
 	Q_PROPERTY(int totalSeasonCount READ totalSeasonCount NOTIFY seasonStateChanged STORED false)
 	Q_PROPERTY(bool hasNewSeasons READ hasNewSeasons NOTIFY seasonStateChanged STORED false)
@@ -38,6 +38,7 @@ public:
 	Q_ENUM(SeasonType)
 
 	explicit AnimeInfo(int id, const QString &title, QObject *parent = nullptr);
+	Q_INVOKABLE explicit AnimeInfo(QObject *parent = nullptr);
 
 	int id() const;
 	QString title() const;
@@ -74,8 +75,6 @@ private:
 	mutable int _hasNewSeasons;
 };
 
-typedef QList<AnimeInfo*> AnimeList;
-
-Q_DECLARE_METATYPE(AnimeList)
+Q_DECLARE_METATYPE(AnimeInfo::SeasonInfo)
 
 #endif // ANIMEINFO_H

@@ -145,7 +145,7 @@ void MainControl::onShow()
 	settingsControl->ensureAutoStart();
 }
 
-void MainControl::storeListLoaded(AnimeList list)
+void MainControl::storeListLoaded(QList<AnimeInfo*> list)
 {
 	model->resetModel(list);
 }

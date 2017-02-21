@@ -13,7 +13,7 @@ public:
 	explicit SeasonStatusLoader(QObject *parent = nullptr);
 
 public slots:
-	void checkForUpdates(const AnimeList &animeList, bool forceHasUpdates = false);
+	void checkForUpdates(const QList<AnimeInfo*> &animeList, bool forceHasUpdates = false);
 
 signals:
 	void updated(int value, int max);

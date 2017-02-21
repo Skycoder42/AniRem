@@ -13,12 +13,12 @@ class CORESHARED_EXPORT AnimeStore : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY(AnimeList animeInfoList READ animeInfoList NOTIFY animeInfoListChanged)
+	Q_PROPERTY(QList<AnimeInfo*> animeInfoList READ animeInfoList NOTIFY animeInfoListChanged)
 
 public:
 	explicit AnimeStore(QObject *parent = nullptr);
 
-	AnimeList animeInfoList() const;
+	QList<AnimeInfo*> animeInfoList() const;
 	AnimeInfo *animeInfo(int id) const;
 	bool containsAnime(int id) const;
 
@@ -28,7 +28,7 @@ public slots:
 
 signals:
 	void storeLoaded();
-	void animeInfoListChanged(AnimeList infoList);
+	void animeInfoListChanged(QList<AnimeInfo*> infoList);
 
 private slots:
 	void showError(const QString &error);

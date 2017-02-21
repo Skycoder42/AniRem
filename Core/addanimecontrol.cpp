@@ -41,7 +41,7 @@ void AddAnimeControl::accept(bool allowInvalid)
 	if((allowInvalid || _acceptable) && _id != -1) {
 		if(_title.isEmpty())
 			setTitle(tr("Anime %1").arg(_id));
-		auto info = new AnimeInfo(_id, _title, this);
+		auto info = new AnimeInfo(_id, _title);
 		emit completed(info);
 	}
 }

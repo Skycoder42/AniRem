@@ -6,6 +6,7 @@
 #include "coremessage.h"
 #include "animeinfo.h"
 #include "proxer-api-key.h"
+#include "jsonserializer.h"
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras>
 #endif
@@ -21,7 +22,7 @@ ProxerApp::ProxerApp(QObject *parent) :
 	passiveUpdate(false),
 	showNoUpdatesInfo(false)
 {
-	qRegisterMetaType<AnimeList>();
+	//qRegisterMetaType<QList<AnimeInfo*>>();
 	qRegisterMetaType<QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo>>("QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo>");
 	QJsonSerializer::registerListConverters<ProxerEntryData*>();
 	QJsonSerializer::registerListConverters<AnimeInfo*>();
@@ -73,7 +74,9 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 		return true;
 
 	//datasync setup
-	QtDataSync::Setup().create();
+	QtDataSync::Setup()
+			.setSerializer(new JsonSerializer())
+			.create();
 	QtDataSync::WsAuthenticator* auth = QtDataSync::Setup::authenticatorForSetup<QtDataSync::WsAuthenticator>(this);
 	//auth->setRemoteUrl(QStringLiteral("wss://apps.skycoder42.de/seasonproxer"));
 	auth->deleteLater();

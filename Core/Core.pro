@@ -5,7 +5,7 @@
 #-------------------------------------------------
 TEMPLATE = lib
 
-QT       += core gui network datasync restclient
+QT       += core gui network datasync restclient jsonserializer
 android: QT += androidextras
 win32: CONFIG += skip_target_version_ext
 
@@ -39,7 +39,8 @@ HEADERS += core.h\
 	seasonstatusloader.h \
 	statuscontrol.h \
 	proxersettingscontrol.h \
-	detailscontrol.h
+	detailscontrol.h \
+    jsonserializer.h
 
 SOURCES += core.cpp \
 	animestore.cpp \
@@ -55,7 +56,8 @@ SOURCES += core.cpp \
 	seasonstatusloader.cpp \
 	statuscontrol.cpp \
 	proxersettingscontrol.cpp \
-	detailscontrol.cpp
+	detailscontrol.cpp \
+    jsonserializer.cpp
 
 RESOURCES += \
 	seasonproxer_core.qrc

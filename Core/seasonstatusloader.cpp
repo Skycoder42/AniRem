@@ -13,7 +13,7 @@ SeasonStatusLoader::SeasonStatusLoader(QObject *parent) :
 			this, &SeasonStatusLoader::error);
 }
 
-void SeasonStatusLoader::checkForUpdates(const AnimeList &animeList, bool forceHasUpdates)
+void SeasonStatusLoader::checkForUpdates(const QList<AnimeInfo *> &animeList, bool forceHasUpdates)
 {
 	if(forceHasUpdates)
 		anyUpdated = true;

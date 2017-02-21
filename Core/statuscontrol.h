@@ -14,7 +14,7 @@ class CORESHARED_EXPORT StatusControl : public Control
 public:
 	explicit StatusControl(QObject *parent = nullptr);
 
-	void loadUpdateStatus(AnimeList animes);
+	void loadUpdateStatus(QList<AnimeInfo*> animes);
 	void loadErrorStatus(const QString &error);
 
 public slots:

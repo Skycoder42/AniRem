@@ -7,16 +7,16 @@ AnimeStore::AnimeStore(QObject *parent) :
 {
 	connect(store, &QtDataSync::CachingDataStoreBase::storeLoaded,
 			this, [=](){
-		emit animeInfoListChanged(store->loadAll());
+		emit animeInfoListChanged(animeInfoList());
 		emit storeLoaded();
 	});
 	connect(store, &QtDataSync::CachingDataStoreBase::dataChanged,
 			this, [=](){
-		emit animeInfoListChanged(store->loadAll());
+		emit animeInfoListChanged(animeInfoList());
 	});
 }
 
-AnimeList AnimeStore::animeInfoList() const
+QList<AnimeInfo*> AnimeStore::animeInfoList() const
 {
 	return store->loadAll();
 }
