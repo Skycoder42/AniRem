@@ -24,9 +24,7 @@ QVariant AnimeModel::data(const QModelIndex &index, int role) const
 	case Qt::DisplayRole:
 		switch(index.column()) {
 		case 2:
-			return info->seasonState().isEmpty() ?
-					tr("Not loaded") :
-					QLocale().toString(info->totalSeasonCount());
+			return QLocale().toString(info->totalSeasonCount());
 		default:
 			break;
 		}
@@ -35,11 +33,6 @@ QVariant AnimeModel::data(const QModelIndex &index, int role) const
 		if(info->hasNewSeasons()) {
 			QFont font;
 			font.setBold(true);
-			return font;
-		} else if(index.column() == 2 &&
-				  info->seasonState().isEmpty()) {
-			QFont font;
-			font.setItalic(true);
 			return font;
 		} else
 			break;
