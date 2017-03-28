@@ -46,6 +46,6 @@ void DetailsControl::uncheckAnime()
 {
 	if(_animeInfo && _animeInfo->hasNewSeasons()) {
 		_animeInfo->setAllUnchanged();
-		_store->saveAnime(_animeInfo);
+		_store->save(_animeInfo);
 	}
 }

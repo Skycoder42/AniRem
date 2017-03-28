@@ -38,7 +38,7 @@ void ProxerApp::checkForSeasonUpdates()
 {
 	mainControl->updateLoadStatus(true);
 	showNoUpdatesInfo = true;
-	loader->checkForUpdates(store->animeInfoList());
+	loader->checkForUpdates(store->loadAll());
 }
 
 void ProxerApp::showMainControl()
@@ -95,7 +95,7 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 	//updater
 	loader = new SeasonStatusLoader(this);
 	connect(loader, &SeasonStatusLoader::animeInfoUpdated,
-			store, &AnimeStore::saveAnime);
+			store, &AnimeStore::save);
 
 	//main control
 	mainControl = new MainControl(store, this);
@@ -134,7 +134,7 @@ void ProxerApp::updateDone(bool hasUpdates, QString errorString)
 		passiveUpdate = false;
 		if(hasUpdates || !errorString.isNull()) {
 			if(errorString.isNull())
-				statusControl->loadUpdateStatus(store->animeInfoList());
+				statusControl->loadUpdateStatus(store->loadAll());
 			else
 				statusControl->loadErrorStatus(errorString);
 		} else
@@ -156,7 +156,7 @@ void ProxerApp::automaticUpdateCheck()
 	QSettings settings;
 	settings.beginGroup("updates");
 
-	auto updateList = store->animeInfoList();
+	auto updateList = store->loadAll();
 
 	//check if there are still animes with updates
 	bool hasUpdates = false;
