@@ -41,6 +41,9 @@ signals:
 	void loadingChanged(bool loading);
 	void acceptableChanged(bool acceptable);
 
+private slots:
+	void error(const QString &error);
+
 private:
 	InfoClass *infoClass;
 

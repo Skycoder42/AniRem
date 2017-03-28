@@ -1,0 +1,13 @@
+{
+	"$type": "gadget",
+	"$name": "ProxerEntry",
+	"$parent": "ProxerStatus",
+	"$includes": [
+		"proxerstatus.h",
+		"proxerentryvalue.h",
+		"ProxerApi/equals_fix.h"
+	],
+	"$export": "CORESHARED_EXPORT",
+
+	"data": "ProxerEntryValue"
+}

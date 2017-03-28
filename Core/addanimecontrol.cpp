@@ -1,19 +1,18 @@
 #include "addanimecontrol.h"
-#include <ProxerApi/infoclass.h>
+#include "infoclass.h"
+#include "proxerapi.h"
+#include "ProxerApi/apihelper.h"
 using namespace QtRestClient;
 
 AddAnimeControl::AddAnimeControl(QObject *parent) :
 	Control(parent),
-	infoClass(new InfoClass(this)),
+	infoClass(ProxerApi::factory().info().instance(this)),
 	_id(-1),
 	_title(),
 	_loading(false),
 	_acceptable(false)
 {
-	connect(infoClass, &InfoClass::apiError, this, [this](QString error){
-		setLoading(false);
-		emit loadError(error);
-	});
+	//TODO use api error correctly
 }
 
 int AddAnimeControl::id() const
@@ -63,15 +62,16 @@ void AddAnimeControl::setId(int id)
 	setTitle(QString());
 	setLoading(true);
 
-	infoClass->getEntry(_id)->onSucceeded([this](RestReply*, int code, ProxerEntry *entry){
-		if(infoClass->testValid(code, entry)) {
-			if(entry->data->id == _id) {
-				setTitle(entry->data->name);//FEATURE choose name from combolist
+	auto rep = infoClass->getEntry(_id);
+	ApiHelper::setOnError(rep, [this](QString s){error(s);});
+	rep->onSucceeded([this](int code, ProxerEntry entry){
+		if(ApiHelper::testValid(code, entry, [this](QString s){error(s);})) {
+			if(entry.data().id() == _id) {
+				setTitle(entry.data().name());//FEATURE choose name from combolist
 				setLoading(false);
 				setAcceptable(true);
 			}
 		}
-		entry->deleteLater();
 	});
 }
 
@@ -82,6 +82,12 @@ void AddAnimeControl::setTitle(QString title)
 
 	_title = title;
 	emit titleChanged(title);
+}
+
+void AddAnimeControl::error(const QString &error)
+{
+	setLoading(false);
+	emit loadError(error);
 }
 
 void AddAnimeControl::setLoading(bool loading)

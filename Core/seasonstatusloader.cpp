@@ -1,16 +1,19 @@
 #include "seasonstatusloader.h"
+
+#include "proxerapi.h"
+#include "ProxerApi/apihelper.h"
+
 using namespace QtRestClient;
 
 SeasonStatusLoader::SeasonStatusLoader(QObject *parent) :
 	QObject(parent),
-	infoClass(new InfoClass(this)),
+	infoClass(ProxerApi::factory().info().instance(this)),
 	updateQueue(),
 	lastMax(0),
 	progress(0),
 	anyUpdated(false)
 {
-	connect(infoClass, &InfoClass::apiError,
-			this, &SeasonStatusLoader::error);
+	//TODO use api error correctly
 }
 
 void SeasonStatusLoader::checkForUpdates(const QList<AnimeInfo *> &animeList, bool forceHasUpdates)
@@ -32,16 +35,15 @@ void SeasonStatusLoader::checkNext()
 		anyUpdated = false;
 	} else {
 		auto next = updateQueue.head();
-		infoClass->getRelations(next->id())
-				->onSucceeded([=](RestReply*, int code, ProxerRelations *relation) {
-			if(!infoClass->testValid(code, relation)) {
-				relation->deleteLater();
+		auto rep = infoClass->getRelations(next->id());
+		ApiHelper::setOnError(rep, [this](QString s){error(s);});
+		rep->onSucceeded([=](int code, ProxerRelations relation) {
+			if(!ApiHelper::testValid(code, relation, [this](QString s){error(s);}))
 				return;
-			}
 
 			QHash<AnimeInfo::SeasonType, int> state;
-			foreach(auto season, relation->data) {
-				auto type = toType(season->medium);
+			foreach(auto season, relation.data()) {
+				auto type = toType(season.medium());
 				state[type]++;
 			}
 
@@ -61,7 +63,6 @@ void SeasonStatusLoader::checkNext()
 			if(next->hasNewSeasons())
 				anyUpdated = true;
 
-			relation->deleteLater();
 			updateQueue.dequeue();
 			checkNext();
 		});

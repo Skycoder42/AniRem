@@ -1,0 +1,21 @@
+{
+	"type": "api",
+	"name": "ProxerApi",
+	"export": "CORESHARED_EXPORT",
+	"includes": [
+		"proxer-api-key.h",
+		"infoclass.h"
+	],
+
+	"baseUrl": "https://proxer.me/api",
+	"apiVersion": "1",
+	"headers": {
+		"proxer-api-key": "$PROXER_API_KEY"
+	},
+	"globalName": "proxer",
+	"autoCreate": true,
+
+	"classes": {
+		"info": "InfoClass"
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"$type": "gadget",
+	"$name": "ProxerStatus",
+	"$export": "CORESHARED_EXPORT",
+	
+	"error": "int",
+	"message": "QString",
+	"code": "int"
+}

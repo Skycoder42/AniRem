@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QQueue>
-#include <ProxerApi/infoclass.h>
+#include "infoclass.h"
 #include "animeinfo.h"
 
 class SeasonStatusLoader : public QObject

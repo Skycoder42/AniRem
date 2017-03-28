@@ -5,7 +5,9 @@
 #-------------------------------------------------
 TEMPLATE = lib
 
-QT       += core gui network datasync restclient jsonserializer
+load(qrestbuilder)
+
+QT += core gui network datasync restclient jsonserializer
 android: QT += androidextras
 win32: CONFIG += skip_target_version_ext
 
@@ -29,10 +31,6 @@ HEADERS += core.h\
 	animeinfo.h \
 	countlock.h \
 	proxer-api-key.h \
-	ProxerApi/proxerentry.h \
-	ProxerApi/proxerrelations.h \
-	ProxerApi/proxerstatus.h \
-	ProxerApi/infoclass.h \
 	proxerapp.h \
 	maincontrol.h \
 	addanimecontrol.h \
@@ -40,16 +38,14 @@ HEADERS += core.h\
 	statuscontrol.h \
 	proxersettingscontrol.h \
 	detailscontrol.h \
-    jsonserializer.h
+	jsonserializer.h \
+	ProxerApi/equals_fix.h \
+    ProxerApi/apihelper.h
 
 SOURCES += core.cpp \
 	animestore.cpp \
 	animeinfo.cpp \
 	countlock.cpp \
-	ProxerApi/proxerentry.cpp \
-	ProxerApi/proxerrelations.cpp \
-	ProxerApi/proxerstatus.cpp \
-	ProxerApi/infoclass.cpp \
 	proxerapp.cpp \
 	maincontrol.cpp \
 	addanimecontrol.cpp \
@@ -57,7 +53,19 @@ SOURCES += core.cpp \
 	statuscontrol.cpp \
 	proxersettingscontrol.cpp \
 	detailscontrol.cpp \
-    jsonserializer.cpp
+	jsonserializer.cpp \
+    ProxerApi/apihelper.cpp
+
+REST_API_OBJECTS += ProxerApi/proxerstatus.json \
+	ProxerApi/proxerentryvalue.json \
+	ProxerApi/proxerentry.json \
+	ProxerApi/proxerrelations.json
+
+REST_API_CLASSES += ProxerApi/proxerapi.json \
+	ProxerApi/infoclass.json
 
 RESOURCES += \
 	seasonproxer_core.qrc
+
+DISTFILES += \
+	ProxerApi/proxerapi_kopie.json

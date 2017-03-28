@@ -7,6 +7,7 @@
 #include "animeinfo.h"
 #include "proxer-api-key.h"
 #include "jsonserializer.h"
+#include "proxerapi.h"
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras>
 #endif
@@ -24,7 +25,6 @@ ProxerApp::ProxerApp(QObject *parent) :
 {
 	//qRegisterMetaType<QList<AnimeInfo*>>();
 	qRegisterMetaType<QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo>>("QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo>");
-	QJsonSerializer::registerListConverters<ProxerEntryData*>();
 	QJsonSerializer::registerListConverters<AnimeInfo*>();
 }
 
@@ -87,13 +87,10 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 			this, &ProxerApp::storeLoaded,
 			Qt::QueuedConnection);
 
-	//create proxer rest api
-	auto client = new QtRestClient::RestClient(qApp);
-	client->setBaseUrl(QStringLiteral("https://proxer.me/api"));
-	client->setApiVersion({1});
-	client->addGlobalHeader("proxer-api-key", PROXER_API_KEY);
-	client->serializer()->setAllowDefaultNull(true);//DEBUG use this to provoke an error to test error handling
-	QtRestClient::RestClient::addGlobalApi(Core::ProxerRest, client);
+	//fixup with additional setup for proxer rest api
+	ProxerApi api;
+	api.restClient()->addGlobalHeader("proxer-api-key", PROXER_API_KEY);
+	api.restClient()->serializer()->setAllowDefaultNull(true);//DEBUG use this to provoke an error to test error handling
 
 	//updater
 	loader = new SeasonStatusLoader(this);

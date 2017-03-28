@@ -1,0 +1,12 @@
+{
+	"$type": "gadget",
+	"$name": "ProxerEntryValue",
+	"$export": "CORESHARED_EXPORT",
+
+	"id": "int",
+	"name": "QString",
+	"medium": "QString",
+
+	"year": "int",
+	"season": "int"
+}

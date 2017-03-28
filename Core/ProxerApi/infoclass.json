@@ -1,0 +1,29 @@
+{
+	"type": "class",
+	"name": "InfoClass",
+	"export": "CORESHARED_EXPORT",
+	"includes": [
+		"proxerentry.h",
+		"proxerrelations.h"
+	],
+
+	"path": "info",
+	"except": "ProxerStatus",
+
+	"methods": {
+		"getEntry": {
+			"path": "entry",
+			"parameters": [
+				"id;int"
+			],
+			"returns": "ProxerEntry"
+		},
+		"getRelations": {
+			"path": "relations",
+			"parameters": [
+				"id;int"
+			],
+			"returns": "ProxerRelations"
+		}
+	}
+}

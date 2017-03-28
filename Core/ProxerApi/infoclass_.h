@@ -20,7 +20,7 @@ public:
 	QtRestClient::GenericRestReply<ProxerEntry, ProxerStatus> *getEntry(int id);
 	QtRestClient::GenericRestReply<ProxerRelations, ProxerStatus> *getRelations(int id);
 
-	bool testValid(int code, ProxerStatus *status);
+	bool testValid(int code, ProxerStatus status);
 
 signals:
 	void apiError(QString error);
@@ -28,7 +28,7 @@ signals:
 private:
 	QtRestClient::RestClass *restClass;
 
-	static QString transformError(ProxerStatus *status, int);
+	static QString transformError(ProxerStatus status, int);
 	void raiseError(QtRestClient::RestReply::ErrorType type, int errorCode, const QString &error);
 };
 
