@@ -8,6 +8,7 @@
 #include "detailscontrol.h"
 #include <objectlistmodel.h>
 #include <settingscontrol.h>
+#include <synccontroller.h>
 
 class CORESHARED_EXPORT MainControl : public Control
 {
@@ -28,6 +29,7 @@ public slots:
 	void reload();
 	void showSettings();
 	void showAbout();
+	void resyncData();
 
 	void uncheckAnime(int id);
 	void itemAction(int id);
@@ -52,6 +54,7 @@ private slots:
 
 private:
 	AnimeStore *store;
+	QtDataSync::SyncController *syncController;
 	GenericListModel<AnimeInfo> *model;
 	bool _loading;
 

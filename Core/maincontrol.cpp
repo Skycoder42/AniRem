@@ -12,6 +12,7 @@
 MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	Control(parent),
 	store(store),
+	syncController(new QtDataSync::SyncController(this)),
 	model(new GenericListModel<AnimeInfo>(false, this)),
 	_loading(true),
 	detailsControl(new DetailsControl(store, this)),
@@ -57,6 +58,16 @@ void MainControl::showAbout()
 						  "check for new seasons and notify you about them!"),
 					   true,
 					   QStringLiteral("https://skycoder42.de"));
+}
+
+void MainControl::resyncData()
+{
+	syncController->triggerResyncWithResult([this](QtDataSync::SyncController::SyncState state){
+		if(state == QtDataSync::SyncController::Synced)
+			CoreMessage::information(tr("Synchronization"), tr("Synchonization completed successfully!"));
+		else
+			CoreMessage::critical(tr("Synchronization"), tr("Failed to synchronize with server!"));
+	});
 }
 
 void MainControl::uncheckAnime(int id)

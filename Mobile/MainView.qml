@@ -47,6 +47,12 @@ Page {
 				text: qsTr("About")
 				onClicked: control.showAbout()
 			}
+
+			MenuItem {
+				id: resync
+				text: qsTr("Resync data")
+				onClicked: control.resyncData()
+			}
 		}
 	}
 

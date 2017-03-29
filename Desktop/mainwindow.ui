@@ -78,6 +78,8 @@
     </property>
     <addaction name="action_About"/>
     <addaction name="actionAbout_Qt"/>
+    <addaction name="separator"/>
+    <addaction name="actionResync_Data"/>
    </widget>
    <widget class="QMenu" name="menu_Actions">
     <property name="title">
@@ -243,6 +245,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+K</string>
+   </property>
+  </action>
+  <action name="actionResync_Data">
+   <property name="icon">
+    <iconset theme="view-refresh"/>
+   </property>
+   <property name="text">
+    <string>Resync Data</string>
    </property>
   </action>
  </widget>
