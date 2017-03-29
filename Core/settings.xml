@@ -4,7 +4,7 @@
 		<Entry key="updates/autoCheck"
 			   type="list"
 			   title="&amp;Automatic Season Check"
-			   tooltip="Automatically check for new seaons every given interval"
+			   tooltip="Automatically check for new seaons every given interval."
 			   default="7">
 				<Property key="_list_data" type="string">int</Property>
 				<Property key="_list_elements" type="list">
@@ -29,21 +29,35 @@
 		<Entry key="updates/checkLimit"
 			   type="int"
 			   title="Season check &amp;limit"
-			   tooltip="If checking for too many seasons at once, proxer.me may block your ip. To prevent this, limit the amount of checked animes per day (0 equals no limit)"
+			   tooltip="If checking for too many seasons at once, proxer.me may block your ip. To prevent this, limit the amount of checked animes per day (0 equals no limit)."
 			   default="10">
 			<Property key="specialValueText" type="string">No limit</Property>
 		</Entry>
 	</Group>
-	<Group title="Long/Double click action">
+	<Group title="Long/Double click actions">
 		<Entry key="openEntries"
 			   type="bool"
 			   title="&amp;Open Animes in browser"
-			   tooltip="Such an action will automatically open the animes relations in your browser"
+			   tooltip="Such an action will automatically open the animes relations in your browser."
 			   default="false" />
 		<Entry key="uncheckEntries"
 			   type="bool"
 			   title="&amp;Unmark new seasons"
-			   tooltip="Such an action will remove the &apos;new seasons&apos; mark from the anime, if it had one"
+			   tooltip="Such an action will remove the &apos;new seasons&apos; mark from the anime, if it had one."
 			   default="true" />
+	</Group>
+	<Group title="Synchronization">
+		<Entry key="sync/sync"
+			   type="bool"
+			   title="&amp;Enable Synchronization"
+			   tooltip="If enabled, your stored seasons are stored online. By sharing the user id from below, you can synchronize between devices."
+			   default="true" />
+		<Entry key="sync/user"
+			   type="string"
+			   title="&amp;User identity"
+			   tooltip="Your identity. This key is used to identify you across devices. Copy it to another device to sync your data there."
+			   default="00000000-0000-0000-0000-000000000000">
+			<Property key="inputMask" type="string">HHHHHHHH-HHHH-HHHH-HHHH-HHHHHHHHHHHH</Property>
+		</Entry>
 	</Group>
 </SettingsConfig>

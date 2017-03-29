@@ -16,6 +16,9 @@ public:
 	Q_INVOKABLE DetailsDockWidget(Control *mControl, QWidget *parent = nullptr);
 	~DetailsDockWidget();
 
+protected:
+	void closeEvent(QCloseEvent *event) override;
+
 private slots:
 	void updateInfo();
 

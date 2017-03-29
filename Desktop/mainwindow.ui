@@ -87,6 +87,7 @@
     <addaction name="separator"/>
     <addaction name="action_Open_Anime_in_browser"/>
     <addaction name="action_Unmark_new_seasons"/>
+    <addaction name="separator"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -189,7 +190,8 @@
   </action>
   <action name="action_About">
    <property name="icon">
-    <iconset theme="help-about"/>
+    <iconset theme="help-about">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>
@@ -197,7 +199,8 @@
   </action>
   <action name="actionAbout_Qt">
    <property name="icon">
-    <iconset theme="qt"/>
+    <iconset theme="qt">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>About &amp;Qt</string>

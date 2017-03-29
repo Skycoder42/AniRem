@@ -112,6 +112,12 @@ void MainWindow::updateLoadStatus(bool isLoading)
 	statusProgress->setVisible(isLoading);
 }
 
+void MainWindow::addDockAction(QAction *action)
+{
+	if(!ui->menu_Actions->actions().contains(action))
+		ui->menu_Actions->addAction(action);
+}
+
 void MainWindow::updatePreview(const QModelIndex &index)
 {
 	auto mIndex = mapToCtrl(index);

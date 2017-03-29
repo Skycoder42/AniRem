@@ -28,6 +28,8 @@ public slots:
 
 	void updateLoadStatus(bool isLoading);
 
+	void addDockAction(QAction *action);
+
 private slots:
 	void updatePreview(const QModelIndex &index);
 

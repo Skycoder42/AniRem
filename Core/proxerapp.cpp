@@ -77,8 +77,14 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 	QtDataSync::Setup()
 			.setSerializer(new JsonSerializer())
 			.create();
-	QtDataSync::WsAuthenticator* auth = QtDataSync::Setup::authenticatorForSetup<QtDataSync::WsAuthenticator>(this);
-	//auth->setRemoteUrl(QStringLiteral("wss://apps.skycoder42.de/seasonproxer"));
+	auto auth = QtDataSync::Setup::authenticatorForSetup<QtDataSync::WsAuthenticator>(this);
+#ifndef QT_NO_DEBUG
+	auth->setServerSecret(QStringLiteral("baum42"));
+	auth->setRemoteUrl(QStringLiteral("ws://localhost:8080"));
+#else
+	auth->setServerSecret(SERVER_SECRET);
+	auth->setRemoteUrl(QStringLiteral("wss://apps.skycoder42.de/seasonproxer"));
+#endif
 	auth->deleteLater();
 
 	//anime data store

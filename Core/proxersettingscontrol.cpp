@@ -1,12 +1,17 @@
 #include "proxersettingscontrol.h"
 #include <QStandardPaths>
 #include <coremessage.h>
+#include <setup.h>
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras>
 #endif
 
+#include <QDebug>
+#include <QUuid>
+
 ProxerSettingsControl::ProxerSettingsControl(QObject *parent) :
-	SettingsControl(parent)
+	SettingsControl(parent),
+	authenticator(QtDataSync::Setup::authenticatorForSetup<QtDataSync::WsAuthenticator>(this))
 {
 	connect(this, &ProxerSettingsControl::autoCheckChanged,
 			this, &ProxerSettingsControl::updateAutoStart);
@@ -18,11 +23,46 @@ void ProxerSettingsControl::ensureAutoStart()
 							  Q_ARG(int, autoCheck()));
 }
 
+QVariant ProxerSettingsControl::loadValue(const QString &uiId, const QVariant &defaultValue) const
+{
+	if(uiId.startsWith(QStringLiteral("sync/"))) {
+		if(uiId == QStringLiteral("sync/sync")){
+			Q_UNIMPLEMENTED();//TODO use real property
+			return true;//TODO use real property
+		} else if(uiId == QStringLiteral("sync/user"))
+			return authenticator->userIdentity();
+		else
+			return defaultValue;
+	} else
+		return SettingsControl::loadValue(uiId, defaultValue);
+}
+
+void ProxerSettingsControl::saveValue(const QString &uiId, const QVariant &value)
+{
+	if(uiId.startsWith(QStringLiteral("sync/"))) {
+		if(uiId == QStringLiteral("sync/sync"))
+			Q_UNIMPLEMENTED();//TODO use real property
+		else if(uiId == QStringLiteral("sync/user"))
+			authenticator->setUserIdentity(QUuid(value.toString()).toByteArray());
+	} else
+		SettingsControl::saveValue(uiId, value);
+}
+
+void ProxerSettingsControl::resetValue(const QString &uiId)
+{
+	if(uiId.startsWith(QStringLiteral("sync/"))) {
+		if(uiId == QStringLiteral("sync/sync"))
+			Q_UNIMPLEMENTED();//TODO use real property
+		else if(uiId == QStringLiteral("sync/user"))
+			authenticator->resetUserIdentity();
+	} else
+		SettingsControl::resetValue(uiId);
+}
+
 void ProxerSettingsControl::updateAutoStart(int interval)
 {
 	bool autoStart = interval > 0;
 	if(!setAutoStart(autoStart)) {
-		qDebug("here");
 		if(autoStart) {
 			CoreMessage::information(tr("Enable autostart"),
 									 tr("For automatic update checks to work, you need to add this application as "
@@ -66,6 +106,7 @@ bool ProxerSettingsControl::setAutoStart(bool autoStart)
 		return true;
 	}
 #elif defined(Q_OS_LINUX)
+	//TODO won't work this way, because the desktop file needs the --update parameter
 	auto desktopFilePath = QStringLiteral("/usr/share/applications/%1.desktop")
 						   .arg(QCoreApplication::applicationName());
 	auto linkPath = QStringLiteral("%1/autostart/%2.desktop")

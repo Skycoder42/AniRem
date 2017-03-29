@@ -2,6 +2,7 @@
 #include "ui_detailsdockwidget.h"
 #include "imageloader.h"
 
+#include <QCloseEvent>
 #include <QMainWindow>
 
 DetailsDockWidget::DetailsDockWidget(Control *mControl, QWidget *parent) :
@@ -17,11 +18,20 @@ DetailsDockWidget::DetailsDockWidget(Control *mControl, QWidget *parent) :
 	connect(control, &DetailsControl::animeInfoChanged,
 			this, &DetailsDockWidget::updateInfo);
 	updateInfo();
+
+	QMetaObject::invokeMethod(parent, "addDockAction",
+							  Q_ARG(QAction*, toggleViewAction()));
 }
 
 DetailsDockWidget::~DetailsDockWidget()
 {
 	delete ui;
+}
+
+void DetailsDockWidget::closeEvent(QCloseEvent *event)
+{
+	event->ignore();
+	hide();
 }
 
 void DetailsDockWidget::updateInfo()

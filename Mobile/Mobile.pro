@@ -69,8 +69,5 @@ android:contains(QT_ARCH, arm) {
 	# extra dependencies from core
 	ANDROID_EXTRA_LIBS += \
 		$$[QT_INSTALL_LIBS]/libQt5Concurrent.so \
-		$$[QT_INSTALL_LIBS]/libQt5JsonSerializer.so \
-		$$[QT_INSTALL_LIBS]/libQt5RestClient.so# \
-#		$$[QT_INSTALL_LIBS]/libQt5Sql.so
-	QT += sql #required like this because of the sqlite plugin
+		$$[QT_INSTALL_LIBS]/libQt5RestClient.so
 }
