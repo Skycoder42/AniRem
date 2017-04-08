@@ -185,7 +185,7 @@ void MainControl::createAddControl(int id)
 
 void MainControl::internalAddInfo(AnimeInfo *info)
 {
-	if(store->keys().contains(info->id()))
+	if(store->contains(info->id()))
 		CoreMessage::warning(tr("Anime duplicated"), tr("Anime \"%1\" is already in the list!").arg(info->title()));
 	else {
 		model->addObject(info);

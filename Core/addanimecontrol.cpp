@@ -67,7 +67,7 @@ void AddAnimeControl::setId(int id)
 	rep->onSucceeded([this](int code, ProxerEntry entry){
 		if(ApiHelper::testValid(code, entry)) {
 			if(entry.data().id() == _id) {
-				setTitle(entry.data().name());//FEATURE choose name from combolist
+				setTitle(entry.data().name());
 				setLoading(false);
 				setAcceptable(true);
 			}
