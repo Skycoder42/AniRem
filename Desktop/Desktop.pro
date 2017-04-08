@@ -24,8 +24,8 @@ DEFINES += "DISPLAY_NAME=\"\\\"$$QMAKE_TARGET_PRODUCT\\\"\""
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
+include(vendor/vendor.pri)
 include(../QtMvvm/widgets/qtmvvmwidgets.pri)
-include(../QtUtils/DialogMaster/dialogmaster.pri)
 include(../QSingleInstance/QSingleInstance/qsingleinstance.pri)
 
 HEADERS  += mainwindow.h \
