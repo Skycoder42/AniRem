@@ -1,13 +1,12 @@
 #ifndef STATUSCONTROL_H
 #define STATUSCONTROL_H
 
-#include "core_global.h"
 #include "animeinfo.h"
 
 #include <QObject>
 #include <control.h>
 
-class CORESHARED_EXPORT StatusControl : public Control
+class StatusControl : public Control
 {
 	Q_OBJECT
 

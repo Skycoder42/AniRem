@@ -1,10 +1,6 @@
 {
 	"$type": "gadget",
 	"$name": "ProxerEntryValue",
-	"$export": "CORESHARED_EXPORT",
-	"$includes": [
-		">core_global.h"
-	],
 
 	"id": "int",
 	"name": "QString",

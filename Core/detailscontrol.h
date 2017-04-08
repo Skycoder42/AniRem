@@ -1,14 +1,13 @@
 #ifndef DETAILSCONTROL_H
 #define DETAILSCONTROL_H
 
-#include "core_global.h"
 #include "animeinfo.h"
 #include "animestore.h"
 
 #include <QObject>
 #include <control.h>
 
-class CORESHARED_EXPORT DetailsControl : public Control
+class DetailsControl : public Control
 {
 	Q_OBJECT
 

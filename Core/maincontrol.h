@@ -1,7 +1,6 @@
 #ifndef MAINCONTROL_H
 #define MAINCONTROL_H
 
-#include "core_global.h"
 #include "animestore.h"
 #include "control.h"
 #include "proxersettingscontrol.h"
@@ -10,7 +9,7 @@
 #include <settingscontrol.h>
 #include <synccontroller.h>
 
-class CORESHARED_EXPORT MainControl : public Control
+class MainControl : public Control
 {
 	Q_OBJECT
 
