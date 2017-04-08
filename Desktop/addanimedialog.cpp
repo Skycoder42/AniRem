@@ -3,7 +3,7 @@
 #include <QPushButton>
 #include <QIntValidator>
 #include "core.h"
-#include "dialogmaster.h"
+#include <dialogmaster.h>
 
 AddAnimeDialog::AddAnimeDialog(Control *mControl, QWidget *parent) :
 	QDialog(parent),
