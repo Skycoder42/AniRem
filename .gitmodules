@@ -1,6 +1,3 @@
-[submodule "QSingleInstance"]
-	path = QSingleInstance
-	url = git@github.com:Skycoder42/QSingleInstance.git
 [submodule "QtMvvm"]
 	path = QtMvvm
 	url = git@github.com:Skycoder42/QtMvvm.git
