@@ -95,7 +95,6 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 
 	//fixup with additional setup for proxer rest api
 	ProxerApi api;
-	api.restClient()->addGlobalHeader("proxer-api-key", PROXER_API_KEY);
 	api.restClient()->serializer()->setAllowDefaultNull(true);//DEBUG use this to provoke an error to test error handling
 
 	//updater

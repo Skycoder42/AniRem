@@ -12,7 +12,8 @@ AddAnimeControl::AddAnimeControl(QObject *parent) :
 	_loading(false),
 	_acceptable(false)
 {
-	//TODO use api error correctly
+	connect(infoClass, &InfoClass::apiError,
+			this, &AddAnimeControl::error);
 }
 
 int AddAnimeControl::id() const
@@ -63,15 +64,15 @@ void AddAnimeControl::setId(int id)
 	setLoading(true);
 
 	auto rep = infoClass->getEntry(_id);
-	ApiHelper::setOnError(rep, [this](QString s){error(s);});
 	rep->onSucceeded([this](int code, ProxerEntry entry){
-		if(ApiHelper::testValid(code, entry, [this](QString s){error(s);})) {
+		if(ApiHelper::testValid(code, entry)) {
 			if(entry.data().id() == _id) {
 				setTitle(entry.data().name());//FEATURE choose name from combolist
 				setLoading(false);
 				setAcceptable(true);
 			}
-		}
+		} else
+		   error(entry.message(), code, RestReply::FailureError);
 	});
 }
 
@@ -84,10 +85,10 @@ void AddAnimeControl::setTitle(QString title)
 	emit titleChanged(title);
 }
 
-void AddAnimeControl::error(const QString &error)
+void AddAnimeControl::error(const QString &errorString, int errorCode, int errorType)
 {
 	setLoading(false);
-	emit loadError(error);
+	emit loadError(ApiHelper::formatError(errorString, errorCode, (RestReply::ErrorType)errorType));
 }
 
 void AddAnimeControl::setLoading(bool loading)

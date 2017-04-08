@@ -42,7 +42,7 @@ signals:
 	void acceptableChanged(bool acceptable);
 
 private slots:
-	void error(const QString &error);
+	void error(const QString &errorString, int errorCode, int errorType);
 
 private:
 	InfoClass *infoClass;

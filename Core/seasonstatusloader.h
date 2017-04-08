@@ -22,7 +22,7 @@ signals:
 
 private slots:
 	void checkNext();
-	void error(const QString &errorString);
+	void error(const QString &errorString, int errorCode, QtRestClient::RestReply::ErrorType errorType);
 
 private:
 	InfoClass *infoClass;

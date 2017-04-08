@@ -13,7 +13,8 @@ SeasonStatusLoader::SeasonStatusLoader(QObject *parent) :
 	progress(0),
 	anyUpdated(false)
 {
-	//TODO use api error correctly
+	connect(infoClass, &InfoClass::apiError,
+			this, &SeasonStatusLoader::error);
 }
 
 void SeasonStatusLoader::checkForUpdates(const QList<AnimeInfo *> &animeList, bool forceHasUpdates)
@@ -36,10 +37,11 @@ void SeasonStatusLoader::checkNext()
 	} else {
 		auto next = updateQueue.head();
 		auto rep = infoClass->getRelations(next->id());
-		ApiHelper::setOnError(rep, [this](QString s){error(s);});
 		rep->onSucceeded([=](int code, ProxerRelations relation) {
-			if(!ApiHelper::testValid(code, relation, [this](QString s){error(s);}))
+			if(!ApiHelper::testValid(code, relation)) {
+				error(relation.message(), code, RestReply::FailureError);
 				return;
+			}
 
 			QHash<AnimeInfo::SeasonType, int> state;
 			foreach(auto season, relation.data()) {
@@ -69,10 +71,10 @@ void SeasonStatusLoader::checkNext()
 	}
 }
 
-void SeasonStatusLoader::error(const QString &errorString)
+void SeasonStatusLoader::error(const QString &errorString, int errorCode, RestReply::ErrorType errorType)
 {
 	updateQueue.clear();
-	emit completed(anyUpdated, errorString);
+	emit completed(anyUpdated, ApiHelper::formatError(errorString, errorCode, errorType));
 	anyUpdated = false;
 }
 
