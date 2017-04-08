@@ -1,7 +1,6 @@
 #ifndef ANIMEINFO_H
 #define ANIMEINFO_H
 
-#include "core_global.h"
 #include <QDate>
 #include <QMap>
 #include <QObject>
@@ -9,7 +8,7 @@
 #include <QSharedPointer>
 #include <QUrl>
 
-class CORESHARED_EXPORT AnimeInfo : public QObject
+class AnimeInfo : public QObject
 {
 	Q_OBJECT
 

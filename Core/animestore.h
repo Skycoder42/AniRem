@@ -1,14 +1,13 @@
 #ifndef ANIMESTORE_H
 #define ANIMESTORE_H
 
-#include "core_global.h"
 #include "animeinfo.h"
 #include <QObject>
 #include <QSemaphore>
 #include <QThreadPool>
 #include <cachingdatastore.h>
 
-class CORESHARED_EXPORT AnimeStore : public QtDataSync::CachingDataStore<AnimeInfo*, int>
+class AnimeStore : public QtDataSync::CachingDataStore<AnimeInfo*, int>
 {
 	Q_OBJECT
 

@@ -4,29 +4,22 @@
 #
 #-------------------------------------------------
 TEMPLATE = lib
+CONFIG += staticlib #important because dlls are problematic
 
 load(qrestbuilder)
 
-QT += core gui network datasync restclient jsonserializer
+QT += core gui network datasync restclient
 android: QT += androidextras
 win32: CONFIG += skip_target_version_ext
 
 TARGET = SeasonProxerCore
 VERSION = 1.0.0
 
-RC_ICONS += ./main.ico
-QMAKE_TARGET_COMPANY = "Skycoder42"
-QMAKE_TARGET_PRODUCT = "Proxer.me Season Reminder core library"
-QMAKE_TARGET_DESCRIPTION = $$QMAKE_TARGET_PRODUCT
-QMAKE_TARGET_COPYRIGHT = "Felix Barz"
-
-DEFINES += CORE_LIBRARY
 DEFINES += QT_DEPRECATED_WARNINGS
 
 include(../QtMvvm/core/qtmvvmcore.pri)
 
 HEADERS += core.h\
-		core_global.h \
 	animestore.h \
 	animeinfo.h \
 	proxer-api-key.h \
@@ -38,7 +31,7 @@ HEADERS += core.h\
 	proxersettingscontrol.h \
 	detailscontrol.h \
 	jsonserializer.h \
-    ProxerApi/apihelper.h
+	ProxerApi/apihelper.h
 
 SOURCES += core.cpp \
 	animestore.cpp \
@@ -51,7 +44,7 @@ SOURCES += core.cpp \
 	proxersettingscontrol.cpp \
 	detailscontrol.cpp \
 	jsonserializer.cpp \
-    ProxerApi/apihelper.cpp
+	ProxerApi/apihelper.cpp
 
 REST_API_OBJECTS += ProxerApi/proxerstatus.json \
 	ProxerApi/proxerentryvalue.json \

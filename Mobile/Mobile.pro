@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick network svg datasync
+QT += qml quick network svg datasync restclient
 CONFIG += c++11
 
 TARGET = SeasonProxer
@@ -64,10 +64,3 @@ else:unix: LIBS += -L$$OUT_PWD/../Core/ -lSeasonProxerCore
 
 INCLUDEPATH += $$PWD/../Core
 DEPENDPATH += $$PWD/../Core
-
-android:contains(QT_ARCH, arm) {
-	# extra dependencies from core
-	ANDROID_EXTRA_LIBS += \
-		$$[QT_INSTALL_LIBS]/libQt5Concurrent.so \
-		$$[QT_INSTALL_LIBS]/libQt5RestClient.so
-}

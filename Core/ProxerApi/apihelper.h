@@ -5,10 +5,9 @@
 #include <genericrestreply.h>
 #include <functional>
 
-#include "core_global.h"
 #include "proxerstatus.h"
 
-class CORESHARED_EXPORT ApiHelper
+class ApiHelper
 {
 	Q_DECLARE_TR_FUNCTIONS(ApiHelper)
 
