@@ -2,7 +2,10 @@
 	"$type": "gadget",
 	"$name": "ProxerStatus",
 	"$export": "CORESHARED_EXPORT",
-	
+	"$includes": [
+		">core_global.h"
+	],
+
 	"error": "int",
 	"message": "QString",
 	"code": "int"

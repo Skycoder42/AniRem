@@ -3,6 +3,7 @@
 	"name": "InfoClass",
 	"export": "CORESHARED_EXPORT",
 	"includes": [
+		">core_global.h",
 		"proxerentry.h",
 		"proxerrelations.h"
 	],

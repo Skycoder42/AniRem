@@ -38,7 +38,6 @@ HEADERS += core.h\
 	proxersettingscontrol.h \
 	detailscontrol.h \
 	jsonserializer.h \
-	ProxerApi/equals_fix.h \
     ProxerApi/apihelper.h
 
 SOURCES += core.cpp \

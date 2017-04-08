@@ -3,9 +3,9 @@
 	"$name": "ProxerRelations",
 	"$parent": "ProxerStatus",
 	"$includes": [
-		"proxerstatus.h",
-		"proxerentryvalue.h",
-		"ProxerApi/equals_fix.h"
+		">core_global.h"
+,		"proxerstatus.h",
+		"proxerentryvalue.h"
 	],
 	"$export": "CORESHARED_EXPORT",
 

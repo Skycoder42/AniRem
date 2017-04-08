@@ -3,7 +3,8 @@
 	"name": "ProxerApi",
 	"export": "CORESHARED_EXPORT",
 	"includes": [
-		"proxer-api-key.h",
+		">proxer-api-key.h",
+		">core_global.h",
 		"infoclass.h"
 	],
 
