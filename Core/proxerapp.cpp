@@ -23,6 +23,8 @@ ProxerApp::ProxerApp(QObject *parent) :
 	passiveUpdate(false),
 	showNoUpdatesInfo(false)
 {
+	Q_INIT_RESOURCE(seasonproxer_core);
+
 	//qRegisterMetaType<QList<AnimeInfo*>>();
 	qRegisterMetaType<QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo>>("QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo>");
 	QJsonSerializer::registerListConverters<AnimeInfo*>();

@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QIcon>
 #include <qsingleinstance.h>
+#include <settingsdialog.h>
 #include "addanimedialog.h"
 #include "detailsdockwidget.h"
 #include "mainwindow.h"
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
 	QSingleInstance instance;
 	instance.setStartupFunction([&](){
 		WidgetPresenter::registerAsPresenter<SystemTrayPresenter>();
+		WidgetPresenter::registerWidget<SettingsDialog>();
 		WidgetPresenter::registerWidget<MainWindow>();
 		WidgetPresenter::registerWidget<AddAnimeDialog>();
 		WidgetPresenter::registerWidget<DetailsDockWidget>();
