@@ -3,8 +3,8 @@
 #include <QFont>
 #include <QLocale>
 
-AnimeModel::AnimeModel(GenericListModel<AnimeInfo> *srcModel, QObject *parent) :
-	ObjectProxyModel({tr("Id"), tr("Name"), tr("Season Count"), tr("Season Overview")}, parent)
+AnimeModel::AnimeModel(QGenericListModel<AnimeInfo> *srcModel, QObject *parent) :
+	QObjectProxyModel({tr("Id"), tr("Name"), tr("Season Count"), tr("Season Overview")}, parent)
 {
 	setSourceModel(srcModel);
 	addMapping(0, Qt::DisplayRole, "id");
@@ -19,7 +19,7 @@ QVariant AnimeModel::data(const QModelIndex &index, int role) const
 	if(!src.isValid())
 		return {};
 
-	auto info = qobject_cast<AnimeInfo*>(sourceModel()->object(src));
+	auto info = static_cast<QGenericListModel<AnimeInfo>*>(sourceModel())->object(src);
 	switch (role) {
 	case Qt::DisplayRole:
 		switch(index.column()) {
@@ -45,5 +45,5 @@ QVariant AnimeModel::data(const QModelIndex &index, int role) const
 		break;
 	}
 
-	return ObjectProxyModel::data(index, role);
+	return QObjectProxyModel::data(index, role);
 }

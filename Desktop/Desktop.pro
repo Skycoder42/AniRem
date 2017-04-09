@@ -24,6 +24,8 @@ DEFINES += "DISPLAY_NAME=\"\\\"$$QMAKE_TARGET_PRODUCT\\\"\""
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
+QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
+
 include(vendor/vendor.pri)
 include(../QtMvvm/widgets/qtmvvmwidgets.pri)
 

@@ -2,15 +2,15 @@
 #define ANIMEMODEL_H
 
 #include <QObject>
-#include <objectproxymodel.h>
+#include <qobjectproxymodel.h>
 #include <animeinfo.h>
 
-class AnimeModel : public ObjectProxyModel
+class AnimeModel : public QObjectProxyModel
 {
 	Q_OBJECT
 
 public:
-	explicit AnimeModel(GenericListModel<AnimeInfo> *srcModel, QObject *parent = nullptr);
+	explicit AnimeModel(QGenericListModel<AnimeInfo> *srcModel, QObject *parent = nullptr);
 
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 };
