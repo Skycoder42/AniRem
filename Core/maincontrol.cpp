@@ -13,7 +13,7 @@ MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	Control(parent),
 	store(store),
 	syncController(new QtDataSync::SyncController(this)),
-	model(new GenericListModel<AnimeInfo>(false, this)),
+	model(new QGenericListModel<AnimeInfo>(false, this)),
 	_loading(true),
 	detailsControl(new DetailsControl(store, this)),
 	settingsControl(new ProxerSettingsControl(this))
@@ -22,7 +22,7 @@ MainControl::MainControl(AnimeStore *store, QObject *parent) :
 			this, &MainControl::storeListLoaded);
 }
 
-GenericListModel<AnimeInfo> *MainControl::animeModel() const
+QGenericListModel<AnimeInfo> *MainControl::animeModel() const
 {
 	return model;
 }

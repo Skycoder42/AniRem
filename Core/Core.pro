@@ -17,7 +17,7 @@ VERSION = 1.0.0
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-include(../QtMvvm/core/qtmvvmcore.pri)
+include(vendor/vendor.pri)
 
 HEADERS += core.h\
 	animestore.h \

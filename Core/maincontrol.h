@@ -5,7 +5,7 @@
 #include "control.h"
 #include "proxersettingscontrol.h"
 #include "detailscontrol.h"
-#include <objectlistmodel.h>
+#include <qobjectlistmodel.h>
 #include <settingscontrol.h>
 #include <synccontroller.h>
 
@@ -13,13 +13,13 @@ class MainControl : public Control
 {
 	Q_OBJECT
 
-	Q_PROPERTY(GenericListModel<AnimeInfo>* animeModel READ animeModel CONSTANT)
+	Q_PROPERTY(QGenericListModel<AnimeInfo>* animeModel READ animeModel CONSTANT)
 	Q_PROPERTY(bool reloadingAnimes READ isReloadingAnimes NOTIFY reloadingAnimesChanged)
 
 public:
 	explicit MainControl(AnimeStore *store, QObject *parent = nullptr);
 
-	GenericListModel<AnimeInfo>* animeModel() const;
+	QGenericListModel<AnimeInfo>* animeModel() const;
 
 	bool isReloadingAnimes() const;
 	void updateLoadStatus(bool loading);
@@ -54,7 +54,7 @@ private slots:
 private:
 	AnimeStore *store;
 	QtDataSync::SyncController *syncController;
-	GenericListModel<AnimeInfo> *model;
+	QGenericListModel<AnimeInfo> *model;
 	bool _loading;
 
 	DetailsControl *detailsControl;
@@ -65,6 +65,6 @@ private:
 	void internalAddInfo(AnimeInfo *info);
 };
 
-Q_DECLARE_METATYPE(GenericListModel<AnimeInfo>*)
+Q_DECLARE_METATYPE(QGenericListModel<AnimeInfo>*)
 
 #endif // MAINCONTROL_H
