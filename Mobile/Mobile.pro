@@ -21,7 +21,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
 include(vendor/vendor.pri)
-include(../QtMvvm/quick/qtmvvmquick.pri)
 
 HEADERS += \
 	cachingnamfactory.h \

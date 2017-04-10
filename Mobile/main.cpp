@@ -3,6 +3,7 @@
 #include <QQmlApplicationEngine>
 #include <quickpresenter.h>
 #include <quickextras.h>
+#include <settingsinputviewfactory.h>
 #include "cachingnamfactory.h"
 
 #include "notifyingpresenter.h"
@@ -31,6 +32,7 @@ int main(int argc, char *argv[])
 	qmlRegisterUncreatableType<DetailsControl>("de.skycoder42.seasonproxer", 1, 0, "DetailsControl", "Controls cannot be created!");
 
 	QuickPresenter::registerAsPresenter<NotifyingPresenter>();
+	QuickPresenter::registerInputViewFactory(new SettingsInputViewFactory());
 	if(!isServer()) {
 		auto engine = QuickPresenter::createAppEngine(QUrl());
 		engine->setNetworkAccessManagerFactory(new CachingNamFactory());
