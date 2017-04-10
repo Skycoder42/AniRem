@@ -2,6 +2,7 @@
 #include <QtRestClient>
 #include <QDate>
 #include <wsauthenticator.h>
+#include <exceptions.h>
 #include "core.h"
 #include "coremessage.h"
 #include "animeinfo.h"
@@ -76,9 +77,19 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 		return true;
 
 	//datasync setup
-	QtDataSync::Setup()
-			.setSerializer(new JsonSerializer())
-			.create();
+	try {
+		QtDataSync::Setup()
+				.setSerializer(new JsonSerializer())
+				.create();
+	} catch(QtDataSync::SetupLockedException &e) {
+		qInfo() << "Another instance is already running and blocking the setup."
+				<< "Update check will be skipped!";
+		qApp->quit();
+		return true;
+	} catch(QException &e) {
+		qCritical() << "Failed to create setup with error:" << e.what();
+	}
+
 	auto auth = QtDataSync::Setup::authenticatorForSetup<QtDataSync::WsAuthenticator>(this);
 #ifndef QT_NO_DEBUG
 	auth->setServerSecret(QStringLiteral("baum42"));
