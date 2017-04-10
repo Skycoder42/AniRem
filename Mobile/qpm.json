@@ -2,7 +2,8 @@
   "name": "",
   "description": "",
   "dependencies": [
-    "de.skycoder42.qpm-include@1.0.0"
+    "de.skycoder42.qpm-include@1.0.0",
+    "de.skycoder42.quickextras@1.0.0"
   ],
   "license": "NONE",
   "pri_filename": "",
