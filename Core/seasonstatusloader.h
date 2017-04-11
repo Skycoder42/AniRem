@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include <QQueue>
-#include "infoclass.h"
+#include <restreply.h>
 #include "animeinfo.h"
+class InfoClass;
 
 class SeasonStatusLoader : public QObject
 {

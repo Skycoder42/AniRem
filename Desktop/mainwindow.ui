@@ -210,8 +210,8 @@
   </action>
   <action name="action_Settings">
    <property name="icon">
-    <iconset theme="configure" resource="seasonproxer_desktop.qrc">
-     <normaloff>:/icons/settings.ico</normaloff>:/icons/settings.ico</iconset>
+    <iconset theme="configure" resource="vendor/de/skycoder42/qtmvvm/settings/widgets/de_skycoder42_qtmvvm_settings_widgets.qrc">
+     <normaloff>:/qtmvvm/icons/settings.ico</normaloff>:/qtmvvm/icons/settings.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Settings</string>
@@ -249,7 +249,8 @@
   </action>
   <action name="actionResync_Data">
    <property name="icon">
-    <iconset theme="view-refresh"/>
+    <iconset theme="view-refresh">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Resync Data</string>
@@ -258,6 +259,7 @@
  </widget>
  <resources>
   <include location="seasonproxer_desktop.qrc"/>
+  <include location="vendor/de/skycoder42/qtmvvm/settings/widgets/de_skycoder42_qtmvvm_settings_widgets.qrc"/>
  </resources>
  <connections/>
 </ui>

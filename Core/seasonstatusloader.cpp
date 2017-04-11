@@ -1,6 +1,7 @@
 #include "seasonstatusloader.h"
 
 #include "proxerapi.h"
+#include "infoclass.h"
 #include "ProxerApi/apihelper.h"
 
 using namespace QtRestClient;

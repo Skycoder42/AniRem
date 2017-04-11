@@ -13,8 +13,6 @@
 #include <QtAndroidExtras>
 #endif
 
-REGISTER_CORE_APP(ProxerApp)
-
 ProxerApp::ProxerApp(QObject *parent) :
 	CoreApp(parent),
 	store(nullptr),
@@ -26,7 +24,6 @@ ProxerApp::ProxerApp(QObject *parent) :
 {
 	Q_INIT_RESOURCE(seasonproxer_core);
 
-	//qRegisterMetaType<QList<AnimeInfo*>>();
 	qRegisterMetaType<QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo>>("QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo>");
 	QJsonSerializer::registerListConverters<AnimeInfo*>();
 }

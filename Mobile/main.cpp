@@ -4,6 +4,7 @@
 #include <quickpresenter.h>
 #include <quickextras.h>
 #include <settingsinputviewfactory.h>
+#include <proxerapp.h>
 #include "cachingnamfactory.h"
 
 #include "notifyingpresenter.h"
@@ -13,6 +14,8 @@
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras>
 #endif
+
+REGISTER_CORE_APP(ProxerApp)
 
 static bool isServer();
 

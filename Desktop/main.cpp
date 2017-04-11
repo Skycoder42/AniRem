@@ -2,10 +2,13 @@
 #include <QIcon>
 #include <qsingleinstance.h>
 #include <settingsdialog.h>
+#include <proxerapp.h>
 #include "addanimedialog.h"
 #include "detailsdockwidget.h"
 #include "mainwindow.h"
 #include "systemtraypresenter.h"
+
+REGISTER_CORE_APP(ProxerApp)
 
 int main(int argc, char *argv[])
 {

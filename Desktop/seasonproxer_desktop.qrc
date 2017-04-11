@@ -8,7 +8,6 @@
         <file alias="reload.ico">resources/arrow_refresh.ico</file>
         <file alias="openLink.ico">resources/world_go.ico</file>
         <file alias="unmarkNew.ico">resources/bell_valid.ico</file>
-        <file alias="settings.ico">resources/setting_tools.ico</file>
     </qresource>
     <qresource prefix="/animations">
         <file alias="loading.gif">resources/ajax-loader.gif</file>
