@@ -1,13 +1,15 @@
 #ifndef PROXERAPP_H
 #define PROXERAPP_H
 
-#include "animestore.h"
-#include "seasonstatusloader.h"
-#include "maincontrol.h"
-#include "statuscontrol.h"
-class QNetworkAccessManager;
+#include "animeinfo.h"
+#include <cachingdatastore.h>
+class MainControl;
+class StatusControl;
+class SeasonStatusLoader;
 
 #include <coreapp.h>
+
+typedef QtDataSync::CachingDataStore<AnimeInfo*, int> AnimeStore;
 
 class ProxerApp : public CoreApp
 {
@@ -26,9 +28,6 @@ public slots:
 protected:
 	void setupParser(QCommandLineParser &parser, bool &allowInvalid) const override;
 	bool startApp(const QCommandLineParser &parser) override;
-
-protected slots:
-	void aboutToQuit() override;
 
 private slots:
 	void storeLoaded();

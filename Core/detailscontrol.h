@@ -2,7 +2,7 @@
 #define DETAILSCONTROL_H
 
 #include "animeinfo.h"
-#include "animestore.h"
+#include "proxerapp.h"
 
 #include <QObject>
 #include <control.h>

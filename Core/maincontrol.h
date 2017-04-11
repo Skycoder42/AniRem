@@ -1,7 +1,7 @@
 #ifndef MAINCONTROL_H
 #define MAINCONTROL_H
 
-#include "animestore.h"
+#include "proxerapp.h"
 #include "control.h"
 #include "proxersettingscontrol.h"
 #include "detailscontrol.h"

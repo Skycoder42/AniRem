@@ -20,9 +20,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 include(vendor/vendor.pri)
 
 HEADERS +=\
-	animestore.h \
 	animeinfo.h \
-	proxer-api-key.h \
 	proxerapp.h \
 	maincontrol.h \
 	addanimecontrol.h \
@@ -32,10 +30,10 @@ HEADERS +=\
 	detailscontrol.h \
 	jsonserializer.h \
 	ProxerApi/apihelper.h \
-    cachingnam.h
+    cachingnam.h \
+    apikeys.h
 
 SOURCES += \
-	animestore.cpp \
 	animeinfo.cpp \
 	proxerapp.cpp \
 	maincontrol.cpp \
