@@ -5,6 +5,7 @@
 #include "seasonstatusloader.h"
 #include "maincontrol.h"
 #include "statuscontrol.h"
+class QNetworkAccessManager;
 
 #include <coreapp.h>
 

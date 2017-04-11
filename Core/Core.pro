@@ -19,7 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 include(vendor/vendor.pri)
 
-HEADERS += core.h\
+HEADERS +=\
 	animestore.h \
 	animeinfo.h \
 	proxer-api-key.h \
@@ -31,9 +31,10 @@ HEADERS += core.h\
 	proxersettingscontrol.h \
 	detailscontrol.h \
 	jsonserializer.h \
-	ProxerApi/apihelper.h
+	ProxerApi/apihelper.h \
+    cachingnam.h
 
-SOURCES += core.cpp \
+SOURCES += \
 	animestore.cpp \
 	animeinfo.cpp \
 	proxerapp.cpp \
@@ -44,7 +45,8 @@ SOURCES += core.cpp \
 	proxersettingscontrol.cpp \
 	detailscontrol.cpp \
 	jsonserializer.cpp \
-	ProxerApi/apihelper.cpp
+	ProxerApi/apihelper.cpp \
+    cachingnam.cpp
 
 REST_API_OBJECTS += ProxerApi/proxerstatus.json \
 	ProxerApi/proxerentryvalue.json \

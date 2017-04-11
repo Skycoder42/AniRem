@@ -3,7 +3,7 @@
 #include <QDate>
 #include <wsauthenticator.h>
 #include <exceptions.h>
-#include "core.h"
+#include "cachingnam.h"
 #include "coremessage.h"
 #include "animeinfo.h"
 #include "proxer-api-key.h"

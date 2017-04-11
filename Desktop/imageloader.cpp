@@ -1,5 +1,5 @@
 #include "imageloader.h"
-#include <core.h>
+#include <cachingnam.h>
 #include <QApplication>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -10,7 +10,7 @@ ImageLoader *ImageLoader::_instance = nullptr;
 
 ImageLoader::ImageLoader(QObject *parent) :
 	QObject(parent),
-	nam(Core::createImageLoaderNam(this)),
+	nam(new CachingNam(this)),
 	cache()
 {}
 
