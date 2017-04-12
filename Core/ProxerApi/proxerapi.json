@@ -2,7 +2,7 @@
 	"type": "api",
 	"name": "ProxerApi",
 	"includes": [
-		">proxer-api-key.h",
+		">apikeys.h",
 		"infoclass.h"
 	],
 

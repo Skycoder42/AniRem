@@ -40,10 +40,13 @@ QVariant ProxerSettingsControl::loadValue(const QString &uiId, const QVariant &d
 void ProxerSettingsControl::saveValue(const QString &uiId, const QVariant &value)
 {
 	if(uiId.startsWith(QStringLiteral("sync/"))) {
-		if(uiId == QStringLiteral("sync/sync"))
+		if(uiId == QStringLiteral("sync/sync")) {
 			authenticator->setRemoteEnabled(value.toBool());
-		else if(uiId == QStringLiteral("sync/user"))
+			authenticator->reconnect();
+		} else if(uiId == QStringLiteral("sync/user")) {
 			authenticator->setUserIdentity(QUuid(value.toString()).toByteArray());
+			authenticator->reconnect();
+		}
 	} else
 		SettingsControl::saveValue(uiId, value);
 }
@@ -51,8 +54,10 @@ void ProxerSettingsControl::saveValue(const QString &uiId, const QVariant &value
 void ProxerSettingsControl::resetValue(const QString &uiId)
 {
 	if(uiId.startsWith(QStringLiteral("sync/"))) {
-		if(uiId == QStringLiteral("sync/sync"))
+		if(uiId == QStringLiteral("sync/sync")) {
 			authenticator->setRemoteEnabled(true);
+			authenticator->reconnect();
+		}
 		//don't reset user identity
 	} else
 		SettingsControl::resetValue(uiId);

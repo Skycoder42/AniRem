@@ -99,7 +99,7 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 	auto auth = QtDataSync::Setup::authenticatorForSetup<QtDataSync::WsAuthenticator>(this);
 #ifndef QT_NO_DEBUG
 	auth->setServerSecret(QStringLiteral("baum42"));
-	auth->setRemoteUrl(QStringLiteral("ws://localhost:8080"));
+	auth->setRemoteUrl(QStringLiteral("ws://192.168.179.20:8080"));
 #else
 	auth->setServerSecret(DATASYNC_SERVER_SECRET);
 	auth->setRemoteUrl(QStringLiteral("wss://apps.skycoder42.de/seasonproxer"));
