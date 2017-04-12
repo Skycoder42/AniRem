@@ -31,8 +31,8 @@ int main(int argc, char *argv[])
 		WidgetPresenter::registerWidget<DetailsDockWidget>();
 		CoreApp::instance()->bootApp();
 
-		QObject::connect(&instance, SIGNAL(instanceMessage(QStringList)),
-						 coreApp, SLOT(showMainControl()));
+		QObject::connect(&instance, &QSingleInstance::instanceMessage,
+						 coreApp, &ProxerApp::showMainControl);
 
 		return EXIT_SUCCESS;
 	});

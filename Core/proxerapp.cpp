@@ -52,8 +52,10 @@ void ProxerApp::checkForSeasonUpdates()
 void ProxerApp::showMainControl()
 {
 	showControl(mainControl);
-	if(statusControl)
+	if(passiveUpdate) {
+		passiveUpdate = false;
 		closeControl(statusControl);
+	}
 }
 
 void ProxerApp::quitApp()
@@ -144,7 +146,7 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 void ProxerApp::storeLoaded()
 {
 	if(passiveUpdate)
-		automaticUpdateCheck();
+		syncLocalData(true);
 	else
 		mainControl->updateLoadStatus(false);
 }
@@ -154,14 +156,13 @@ void ProxerApp::updateDone(bool hasUpdates, QString errorString)
 	mainControl->updateLoadStatus(false);
 
 	if(passiveUpdate) {
-		passiveUpdate = false;
 		if(hasUpdates || !errorString.isNull()) {
 			if(errorString.isNull())
 				statusControl->loadUpdateStatus(store->loadAll());
 			else
 				statusControl->loadErrorStatus(errorString);
 		} else
-			quitApp();
+			syncLocalData(false);
 	} else {
 		if(!errorString.isNull())
 			CoreMessage::critical(tr("Season check failed"), errorString);
@@ -172,6 +173,21 @@ void ProxerApp::updateDone(bool hasUpdates, QString errorString)
 			CoreMessage::information(tr("Season check completed"), tr("No seasons changed."));
 		}
 	}
+}
+
+void ProxerApp::syncLocalData(bool updateNext)
+{
+	auto controller = new QtDataSync::SyncController(this);
+	qDebug() << "Syncing local anime store...";
+	controller->triggerSyncWithResult([this, controller, updateNext](QtDataSync::SyncController::SyncState state) {
+		//No matter how the result, try to check for updates anyway
+		qInfo() << "Synced anime store with result:" << state;
+		if(updateNext)
+			automaticUpdateCheck();
+		else
+			quitApp();
+		controller->deleteLater();
+	});
 }
 
 void ProxerApp::automaticUpdateCheck()
@@ -213,8 +229,10 @@ void ProxerApp::automaticUpdateCheck()
 	if(updateList.isEmpty() || interval == 0) {
 		if(hasUpdates)
 			updateDone(true, {});
-		else
+		else {
+			qInfo() << "No animes need season checks";
 			quitApp();
+		}
 		return;
 	}
 

@@ -44,7 +44,9 @@ private:
 	bool passiveUpdate;
 	bool showNoUpdatesInfo;
 
+	void syncLocalData(bool updateNext);
 	void automaticUpdateCheck();
+	void completeUpdating(bool hasUpdates);
 };
 
 #undef coreApp
