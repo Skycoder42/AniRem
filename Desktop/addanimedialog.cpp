@@ -2,7 +2,6 @@
 #include "ui_addanimedialog.h"
 #include <QPushButton>
 #include <QIntValidator>
-#include "core.h"
 #include <dialogmaster.h>
 
 AddAnimeDialog::AddAnimeDialog(Control *mControl, QWidget *parent) :
