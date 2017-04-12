@@ -8,6 +8,9 @@ TEMPLATE = app
 QT       += core gui widgets network datasync restclient
 CONFIG += c++11
 
+!no_updater:QT += autoupdatergui
+else: DEFINES += NO_AUTO_UPDATER
+
 TARGET = seasonproxer
 VERSION = 1.0.0
 

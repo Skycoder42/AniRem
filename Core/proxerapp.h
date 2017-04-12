@@ -18,6 +18,8 @@ class ProxerApp : public CoreApp
 public:
 	explicit ProxerApp(QObject *parent = nullptr);
 
+	bool isUpdater() const;
+
 public slots:
 	void checkForSeasonUpdate(AnimeInfo *animeInfo);
 	void checkForSeasonUpdates();

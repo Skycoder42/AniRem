@@ -31,6 +31,11 @@ ProxerApp::ProxerApp(QObject *parent) :
 	QJsonSerializer::registerListConverters<AnimeInfo*>();
 }
 
+bool ProxerApp::isUpdater() const
+{
+	return passiveUpdate;
+}
+
 void ProxerApp::checkForSeasonUpdate(AnimeInfo *animeInfo)
 {
 	mainControl->updateLoadStatus(true);

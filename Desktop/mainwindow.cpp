@@ -6,6 +6,10 @@
 #include <QSettings>
 #include "addanimedialog.h"
 
+#ifndef NO_AUTO_UPDATER
+#include <updatecontroller.h>
+#endif
+
 MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 	QMainWindow(parent),
 	control(static_cast<MainControl*>(mControl)),
@@ -77,6 +81,14 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 			qApp, &QApplication::aboutQt);
 
 	updateLoadStatus(control->isReloadingAnimes());
+
+#ifndef NO_AUTO_UPDATER
+	auto updater = new QtAutoUpdater::UpdateController(this, qApp);
+	auto action = ui->menu_Help->actions().first();
+	ui->menu_Help->insertAction(action, updater->createUpdateAction(ui->menu_Help));
+	ui->menu_Help->insertSeparator(action);
+	updater->start();
+#endif
 }
 
 MainWindow::~MainWindow()
