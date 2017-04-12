@@ -19,6 +19,8 @@ MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	settingsControl(new ProxerSettingsControl(this))
 {
 	connect(store, &AnimeStore::animeInfoListChanged,
+	//TODO use async store instead of caching and make object model the data owner
+	//TODO only update items on data change, don't recreate them
 			this, &MainControl::storeListLoaded);
 }
 
@@ -156,9 +158,9 @@ void MainControl::onShow()
 	settingsControl->ensureAutoStart();
 }
 
-void MainControl::storeListLoaded(QList<AnimeInfo*> list)
+void MainControl::storeListLoaded()
 {
-	model->resetModel(list);
+	model->resetModel(store->loadAll());
 }
 
 AnimeInfo *MainControl::infoFromId(int id) const
