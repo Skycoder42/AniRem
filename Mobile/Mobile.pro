@@ -3,18 +3,13 @@ TEMPLATE = app
 QT += qml quick network svg datasync restclient
 CONFIG += c++11
 
+TARGET = SeasonProxer
 VERSION = 1.0.0
-
-RC_ICONS += ../Core/main.ico
-QMAKE_TARGET_COMPANY = "Skycoder42"
-QMAKE_TARGET_PRODUCT = "Proxer.me Season Reminder"
-QMAKE_TARGET_DESCRIPTION = $$QMAKE_TARGET_PRODUCT
-QMAKE_TARGET_COPYRIGHT = "Felix Barz"
 
 DEFINES += "TARGET=\\\"$$TARGET\\\""
 DEFINES += "VERSION=\\\"$$VERSION\\\""
-DEFINES += "COMPANY=\"\\\"$$QMAKE_TARGET_COMPANY\\\"\""
-DEFINES += "DISPLAY_NAME=\"\\\"$$QMAKE_TARGET_PRODUCT\\\"\""
+DEFINES += "COMPANY=\"\\\"Skycoder42\\\"\""
+DEFINES += "DISPLAY_NAME=\"\\\"Proxer.me Season Reminder\\\"\""
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
