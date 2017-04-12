@@ -2,6 +2,7 @@
 #include <QStandardPaths>
 #include <coremessage.h>
 #include <setup.h>
+#include <QGuiApplication>
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras>
 #endif
@@ -104,17 +105,40 @@ bool ProxerSettingsControl::setAutoStart(bool autoStart)
 		return true;
 	}
 #elif defined(Q_OS_LINUX)
-	//TODO won't work this way, because the desktop file needs the --update parameter
-	auto desktopFilePath = QStringLiteral("/usr/share/applications/%1.desktop")
-						   .arg(QCoreApplication::applicationName());
-	auto linkPath = QStringLiteral("%1/autostart/%2.desktop")
-					.arg(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation))
-					.arg(QCoreApplication::applicationName());
+	auto autoStartPath = QStringLiteral("%1/autostart/%2.%3.desktop")
+						 .arg(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation))
+						 .arg(QCoreApplication::organizationDomain())
+						 .arg(QCoreApplication::applicationName());
 	if(autoStart) {
-		if(QFile::link(desktopFilePath, linkPath))
+		if(QFile::exists(autoStartPath))
 			return true;
+		else {
+			QSettings autoStartFile(autoStartPath, QSettings::IniFormat);
+			autoStartFile.beginGroup(QStringLiteral("Desktop_Entry"));
+			autoStartFile.setValue(QStringLiteral("Type"), QStringLiteral("Application"));
+			autoStartFile.setValue(QStringLiteral("Version"), QStringLiteral("1.1"));
+			autoStartFile.setValue(QStringLiteral("Name"), QGuiApplication::applicationDisplayName());
+			autoStartFile.setValue(QStringLiteral("Comment"), QGuiApplication::applicationDisplayName());
+			autoStartFile.setValue(QStringLiteral("Exec"), QCoreApplication::applicationFilePath() + QStringLiteral(" --update"));
+			autoStartFile.setValue(QStringLiteral("Icon"), QCoreApplication::applicationName());
+			autoStartFile.setValue(QStringLiteral("Terminal"), false);
+			autoStartFile.endGroup();
+			autoStartFile.sync();
+
+			//fix the underscore to space
+			QFile fixFile(autoStartPath);
+			if(!fixFile.open(QIODevice::ReadWrite)) {
+				fixFile.remove();
+				return false;
+			} else {
+				fixFile.seek(8);
+				fixFile.write(" ", 1);
+				fixFile.close();
+				return true;
+			}
+		}
 	} else {
-		if(QFile::remove(linkPath))
+		if(QFile::remove(autoStartPath))
 			return true;
 	}
 #endif

@@ -8,7 +8,7 @@ TEMPLATE = app
 QT       += core gui widgets network datasync restclient
 CONFIG += c++11
 
-TARGET = SeasonProxer
+TARGET = seasonproxer
 VERSION = 1.0.0
 
 RC_ICONS += ../Core/main.ico

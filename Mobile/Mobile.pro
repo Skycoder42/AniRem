@@ -3,7 +3,6 @@ TEMPLATE = app
 QT += qml quick network svg datasync restclient
 CONFIG += c++11
 
-TARGET = SeasonProxer
 VERSION = 1.0.0
 
 RC_ICONS += ../Core/main.ico
