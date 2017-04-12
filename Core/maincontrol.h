@@ -49,7 +49,7 @@ protected:
 	void onShow() override;
 
 private slots:
-	void storeListLoaded(QList<AnimeInfo*> list);
+	void storeListLoaded();
 
 private:
 	AnimeStore *store;
