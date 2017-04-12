@@ -21,6 +21,29 @@ static bool isServer();
 
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_ANDROID
+	if(QtAndroid::androidSdkVersion() >= 21) {
+		QtAndroid::runOnAndroidThreadSync([=](){
+			auto activity = QtAndroid::androidActivity();
+			if(activity.isValid()) {
+				const auto FLAG_TRANSLUCENT_STATUS = QAndroidJniObject::getStaticField<jint>("android/view/WindowManager$LayoutParams",
+																							 "FLAG_TRANSLUCENT_STATUS");
+				const auto FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS = QAndroidJniObject::getStaticField<jint>("android/view/WindowManager$LayoutParams",
+																									   "FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS");
+				const auto color = QAndroidJniObject::callStaticMethod<jint>("android/graphics/Color",
+																			 "parseColor",
+																			 "(Ljava/lang/String;)I",
+																			 QAndroidJniObject::fromString("#4E4E4E").object());
+
+				QAndroidJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+				window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_STATUS);
+				window.callMethod<void>("addFlags", "(I)V", FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+				window.callMethod<void>("setStatusBarColor", "(I)V", color);
+			}
+		});
+	}
+#endif
+
 	QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	QGuiApplication app(argc, argv);
 	QGuiApplication::setApplicationName(QStringLiteral(TARGET));

@@ -43,7 +43,8 @@ DISTFILES += \
 	android/res/drawable-mdpi/ic_notification.png \
 	android/res/drawable-xhdpi/ic_notification.png \
 	android/res/drawable-xxhdpi/ic_notification.png \
-	android/res/drawable-xxxhdpi/ic_notification.png
+	android/res/drawable-xxxhdpi/ic_notification.png \
+    android/res/values/styles.xml
 
 android {
 	HEADERS += statusview.h

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="SeasonProxerTheme" parent="android:Theme.Material">
+	<item name="android:colorPrimary">#777777</item>
+	<item name="android:colorPrimaryDark">#4E4E4E</item>
+	<item name="android:colorAccent">#8A0E0E</item>
+	<item name="android:windowBackground">@drawable/splash</item>
+	<item name="android:textColorPrimary">#FFFFFF</item>
+  </style>
+</resources>

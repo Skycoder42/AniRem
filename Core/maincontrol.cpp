@@ -8,6 +8,9 @@
 #include <coremessage.h>
 #include <QTimer>
 #include <QDebug>
+#ifdef Q_OS_ANDROID
+#include <QtAndroid>
+#endif
 
 MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	Control(parent),
@@ -160,6 +163,13 @@ void MainControl::removeAnime(int id)
 void MainControl::onShow()
 {
 	settingsControl->ensureAutoStart();
+#ifdef Q_OS_ANDROID
+	static bool once = true;
+	if(once) {
+		QtAndroid::hideSplashScreen();
+		once = false;
+	}
+#endif
 }
 
 void MainControl::storeListLoaded()
