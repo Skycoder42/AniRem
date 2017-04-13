@@ -3,7 +3,7 @@ TEMPLATE = app
 QT += qml quick network svg datasync restclient
 CONFIG += c++11
 
-TARGET = SeasonProxer
+TARGET = seasonproxer
 VERSION = 1.0.0
 
 DEFINES += "TARGET=\\\"$$TARGET\\\""
@@ -44,7 +44,7 @@ DISTFILES += \
 	android/res/drawable-xhdpi/ic_notification.png \
 	android/res/drawable-xxhdpi/ic_notification.png \
 	android/res/drawable-xxxhdpi/ic_notification.png \
-    android/res/values/styles.xml
+	android/res/values/styles.xml
 
 android {
 	HEADERS += statusview.h

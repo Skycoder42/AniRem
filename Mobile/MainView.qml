@@ -66,7 +66,7 @@ Page {
 		SortFilterProxyModel {
 			id: sortModel
 			sourceModel: control ? control.animeModel : null
-			sortRoleName: "id"
+			sortRoleName: control ? "id" : ""
 		}
 
 		model: sortModel
