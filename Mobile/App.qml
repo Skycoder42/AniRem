@@ -5,11 +5,11 @@ import QtQuick.Controls.Material 2.1
 import de.skycoder42.qtmvvm.quick 1.0
 
 App {
-	Material.theme: Material.Dark
+	//Material.theme: Material.Dark
 
-	Material.primary: "#777777"
-	Material.accent: "#8A0E0E"
-	Material.background: "#4E4E4E"
+	//Material.primary: "#777777"
+	//Material.accent: "#8A0E0E"
+	//Material.background: "#4E4E4E"
 
 	//Material.primary: Material.color(Material.Grey, Material.Shade600)
 	//Material.accent: Material.color(Material.Red, Material.Shade900)
