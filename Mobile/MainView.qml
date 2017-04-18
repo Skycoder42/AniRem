@@ -2,6 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import de.skycoder42.quickextras 1.0
+import de.skycoder42.androidutils 1.0
 import de.skycoder42.seasonproxer 1.0
 import de.skycoder42.qtmvvm.quick 1.0
 import ".."
@@ -12,7 +13,7 @@ Page {
 
 	Connections {
 		target: control
-		onShowStatus: QuickExtras.showToast(message, true)
+		onShowStatus: AndroidUtils.showToast(message, true)
 	}
 
 	header: ActionBar {
@@ -77,7 +78,7 @@ Page {
 			onAnimeDeleted: control.removeAnime(id)
 			onClicked: control.showDetails(id)
 			onPressAndHold: {
-				QuickExtras.hapticFeedback();
+				QuickExtras.hapticLongPress();
 				control.itemAction(id);
 			}
 		}
