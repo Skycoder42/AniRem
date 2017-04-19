@@ -14,7 +14,6 @@ DEFINES += "DISPLAY_NAME=\"\\\"Proxer.me Season Reminder\\\"\""
 DEFINES += QT_DEPRECATED_WARNINGS
 
 QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
-BUILD_ROOT = $$OUT_PWD/..
 include(vendor/vendor.pri)
 
 HEADERS += \

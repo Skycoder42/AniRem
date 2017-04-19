@@ -1,7 +1,7 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
-import de.skycoder42.quickextras 1.0
+import de.skycoder42.quickextras 2.0
 import de.skycoder42.qtmvvm.quick 1.0
 import de.skycoder42.seasonproxer 1.0
 

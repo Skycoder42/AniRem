@@ -3,9 +3,9 @@
   "description": "",
   "dependencies": [
     "de.skycoder42.qpm-include@1.0.0",
-    "de.skycoder42.quickextras@2.0.2",
-    "de.skycoder42.qtmvvm.quick@1.0.2",
-    "de.skycoder42.qtmvvm.settings.quick@1.0.2",
+    "de.skycoder42.quickextras@2.0.3",
+    "de.skycoder42.qtmvvm.quick@1.0.3",
+    "de.skycoder42.qtmvvm.settings.quick@1.0.3",
     "android.native.pri@0.0.4",
     "de.skycoder42.androidutils@1.0.1"
   ],
