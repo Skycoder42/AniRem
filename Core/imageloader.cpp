@@ -64,9 +64,18 @@ void ImageLoader::imageNetworkReply(int id, QNetworkReply *reply)
 	if(reply->error() == QNetworkReply::NoError) {
 		QImageReader reader(reply, "jpg");
 		QImage img;
-		if(reader.canRead() && reader.read(&img))
-			completeLoading(id, img);
-		else
+		if(reader.canRead() && reader.read(&img)) {
+			//save to file first
+			QDir cacheDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+			auto dir = QStringLiteral("anmimg");
+			if(cacheDir.mkpath(dir) && cacheDir.cd(dir)) {
+				auto imgPath = cacheDir.absoluteFilePath(QStringLiteral("img_%1.png").arg(id));
+				if(!img.save(imgPath, "png"))
+					qWarning() << "Failed to cache image with id" << id;
+				completeLoading(id, img);
+			} else
+				failLoading(id, tr("Cache directory is not accessible"));
+		} else
 			failLoading(id, tr("Failed to read image with error: ") + reader.errorString());
 	} else
 		failLoading(id, tr("Network Error: ") + reply->errorString());
