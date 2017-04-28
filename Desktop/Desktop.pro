@@ -33,7 +33,6 @@ include(vendor/vendor.pri)
 HEADERS  += mainwindow.h \
 	animemodel.h \
 	addanimedialog.h \
-	imageloader.h \
 	systemtraypresenter.h \
 	statusview.h \
 	detailsdockwidget.h
@@ -42,7 +41,6 @@ SOURCES += \
 	mainwindow.cpp \
 	animemodel.cpp \
 	addanimedialog.cpp \
-	imageloader.cpp \
 	main.cpp \
 	systemtraypresenter.cpp \
 	statusview.cpp \

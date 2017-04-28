@@ -2,6 +2,7 @@
 #define PROXERAPP_H
 
 #include "animeinfo.h"
+#include "imageloader.h"
 #include <cachingdatastore.h>
 class MainControl;
 class StatusControl;

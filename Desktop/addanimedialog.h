@@ -5,7 +5,7 @@
 #include <QMovie>
 #include <addanimecontrol.h>
 #include <animeinfo.h>
-#include "imageloader.h"
+#include <imageloader.h>
 
 namespace Ui {
 	class AddAnimeDialog;
@@ -29,9 +29,14 @@ private slots:
 
 	void loadError(QString error);
 
+	void imageLoaded(int id, const QImage &image);
+	void imageLoadFailed(int id, const QString &error);
+
 private:
 	AddAnimeControl *control;
 	Ui::AddAnimeDialog *ui;
+	ImageLoader *loader;
+
 	QMovie *loadingMovie;
 	QPixmap currentPixmap;
 	bool pmLoading;

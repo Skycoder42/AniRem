@@ -8,6 +8,7 @@ AddAnimeDialog::AddAnimeDialog(Control *mControl, QWidget *parent) :
 	QDialog(parent),
 	control(static_cast<AddAnimeControl*>(mControl)),
 	ui(new Ui::AddAnimeDialog),
+	loader(new ImageLoader(this)),
 	loadingMovie(new QMovie(QStringLiteral(":/animations/loading.gif"), "gif", this)),
 	currentPixmap(),
 	pmLoading(false)
@@ -15,6 +16,11 @@ AddAnimeDialog::AddAnimeDialog(Control *mControl, QWidget *parent) :
 	ui->setupUi(this);
 	DialogMaster::masterDialog(this, true);
 	ui->proxerIDLineEdit->setValidator(new QIntValidator(0, INT_MAX, ui->proxerIDLineEdit));
+
+	connect(loader, &ImageLoader::imageLoaded,
+			this, &AddAnimeDialog::imageLoaded);
+	connect(loader, &ImageLoader::imageLoadFailed,
+			this, &AddAnimeDialog::imageLoadFailed);
 
 	connect(ui->proxerIDLineEdit, &QLineEdit::editingFinished,
 			this, &AddAnimeDialog::reloadAnime);
@@ -61,13 +67,7 @@ void AddAnimeDialog::idChanged(int id)
 		currentPixmap = QPixmap();
 		pmLoading = true;
 		updatePm();
-		ImageLoader::instance()->loadImage(id, [=](int id, QPixmap pm){
-			if(control->id() == id) {
-				currentPixmap = pm;
-				pmLoading = false;
-				updatePm();
-			}
-		});
+		loader->loadImage(id);
 	}
 }
 
@@ -114,6 +114,25 @@ void AddAnimeDialog::loadError(QString error)
 		break;
 	default:
 		break;
+	}
+}
+
+void AddAnimeDialog::imageLoaded(int id, const QImage &image)
+{
+	if(control->id() == id) {
+		currentPixmap = QPixmap::fromImage(image);
+		pmLoading = false;
+		updatePm();
+	}
+}
+
+void AddAnimeDialog::imageLoadFailed(int id, const QString &error)
+{
+	if(control->id() == id) {
+		currentPixmap = QPixmap();
+		pmLoading = false;
+		updatePm();
+		ui->previewLabel->setText(QStringLiteral("<i>%1</i>").arg(error));
 	}
 }
 

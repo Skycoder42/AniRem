@@ -3,6 +3,7 @@
 
 #include <QDockWidget>
 #include <detailscontrol.h>
+#include <imageloader.h>
 
 namespace Ui {
 class DetailsDockWidget;
@@ -22,9 +23,14 @@ protected:
 private slots:
 	void updateInfo();
 
+	void imageLoaded(int id, const QImage &image);
+	void imageLoadFailed(int id, const QString &error);
+
 private:
 	DetailsControl *control;
 	Ui::DetailsDockWidget *ui;
+
+	ImageLoader *loader;
 };
 
 #endif // DETAILSDOCKWIDGET_H

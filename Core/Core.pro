@@ -31,7 +31,8 @@ HEADERS +=\
 	jsonserializer.h \
 	ProxerApi/apihelper.h \
     cachingnam.h \
-    apikeys.h
+    apikeys.h \
+    imageloader.h
 
 SOURCES += \
 	animeinfo.cpp \
@@ -44,7 +45,8 @@ SOURCES += \
 	detailscontrol.cpp \
 	jsonserializer.cpp \
 	ProxerApi/apihelper.cpp \
-    cachingnam.cpp
+    cachingnam.cpp \
+    imageloader.cpp
 
 REST_API_OBJECTS += ProxerApi/proxerstatus.json \
 	ProxerApi/proxerentryvalue.json \
