@@ -30,7 +30,6 @@ HEADERS +=\
 	detailscontrol.h \
 	jsonserializer.h \
 	ProxerApi/apihelper.h \
-    cachingnam.h \
     apikeys.h \
     imageloader.h
 
@@ -45,7 +44,6 @@ SOURCES += \
 	detailscontrol.cpp \
 	jsonserializer.cpp \
 	ProxerApi/apihelper.cpp \
-    cachingnam.cpp \
     imageloader.cpp
 
 REST_API_OBJECTS += ProxerApi/proxerstatus.json \

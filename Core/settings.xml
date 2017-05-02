@@ -46,18 +46,4 @@
 			   tooltip="Such an action will remove the &apos;new seasons&apos; mark from the anime, if it had one."
 			   default="true" />
 	</Group>
-	<Group title="Synchronization">
-		<Entry key="sync/sync"
-			   type="bool"
-			   title="&amp;Enable Synchronization"
-			   tooltip="If enabled, your stored seasons are stored online. By sharing the user id from below, you can synchronize between devices."
-			   default="true" />
-		<Entry key="sync/user"
-			   type="string"
-			   title="&amp;User identity"
-			   tooltip="Your identity. This key is used to identify you across devices. Copy it to another device to sync your data there."
-			   default="00000000-0000-0000-0000-000000000000">
-			<Property key="inputMask" type="string">HHHHHHHH-HHHH-HHHH-HHHH-HHHHHHHHHHHH</Property>
-		</Entry>
-	</Group>
 </SettingsConfig>

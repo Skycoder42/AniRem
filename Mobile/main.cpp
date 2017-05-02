@@ -6,7 +6,6 @@
 #include <androidutils.h>
 #include <settingsinputviewfactory.h>
 #include <proxerapp.h>
-#include "cachingnamfactory.h"
 
 #include "notifyingpresenter.h"
 #include "maincontrol.h"
@@ -44,11 +43,8 @@ int main(int argc, char *argv[])
 
 	QuickPresenter::registerAsPresenter<NotifyingPresenter>();
 	QuickPresenter::registerInputViewFactory(new SettingsInputViewFactory());
-	if(!isServer()) {
-		auto engine = QuickPresenter::createAppEngine(QUrl());
-		engine->setNetworkAccessManagerFactory(new CachingNamFactory());
-		engine->load(QUrl(QLatin1String("qrc:///qml/App.qml")));
-	}
+	if(!isServer())
+		QuickPresenter::createAppEngine(QUrl(QLatin1String("qrc:///qml/App.qml")));
 
 	auto res = app.exec();
 #ifdef Q_OS_ANDROID

@@ -17,11 +17,9 @@ QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
 include(vendor/vendor.pri)
 
 HEADERS += \
-	cachingnamfactory.h \
 	notifyingpresenter.h
 
 SOURCES += main.cpp \
-	cachingnamfactory.cpp \
 	notifyingpresenter.cpp
 
 RESOURCES += \

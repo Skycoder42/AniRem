@@ -1,7 +1,6 @@
 #include "proxersettingscontrol.h"
 #include <QStandardPaths>
 #include <coremessage.h>
-#include <setup.h>
 #include <QGuiApplication>
 #ifdef Q_OS_ANDROID
 #include <QtAndroidExtras>
@@ -11,8 +10,7 @@
 #include <QUuid>
 
 ProxerSettingsControl::ProxerSettingsControl(QObject *parent) :
-	SettingsControl(parent),
-	authenticator(QtDataSync::Setup::authenticatorForSetup<QtDataSync::WsAuthenticator>(this))
+	SettingsControl(parent)
 {
 	connect(this, &ProxerSettingsControl::autoCheckChanged,
 			this, &ProxerSettingsControl::updateAutoStart);
@@ -22,45 +20,6 @@ void ProxerSettingsControl::ensureAutoStart()
 {
 	QMetaObject::invokeMethod(this, "updateAutoStart", Qt::QueuedConnection,
 							  Q_ARG(int, autoCheck()));
-}
-
-QVariant ProxerSettingsControl::loadValue(const QString &uiId, const QVariant &defaultValue) const
-{
-	if(uiId.startsWith(QStringLiteral("sync/"))) {
-		if(uiId == QStringLiteral("sync/sync"))
-			return authenticator->isRemoteEnabled();
-		else if(uiId == QStringLiteral("sync/user"))
-			return authenticator->userIdentity();
-		else
-			return defaultValue;
-	} else
-		return SettingsControl::loadValue(uiId, defaultValue);
-}
-
-void ProxerSettingsControl::saveValue(const QString &uiId, const QVariant &value)
-{
-	if(uiId.startsWith(QStringLiteral("sync/"))) {
-		if(uiId == QStringLiteral("sync/sync")) {
-			authenticator->setRemoteEnabled(value.toBool());
-			authenticator->reconnect();
-		} else if(uiId == QStringLiteral("sync/user")) {
-			authenticator->setUserIdentity(QUuid(value.toString()).toByteArray());
-			authenticator->reconnect();
-		}
-	} else
-		SettingsControl::saveValue(uiId, value);
-}
-
-void ProxerSettingsControl::resetValue(const QString &uiId)
-{
-	if(uiId.startsWith(QStringLiteral("sync/"))) {
-		if(uiId == QStringLiteral("sync/sync")) {
-			authenticator->setRemoteEnabled(true);
-			authenticator->reconnect();
-		}
-		//don't reset user identity
-	} else
-		SettingsControl::resetValue(uiId);
 }
 
 void ProxerSettingsControl::updateAutoStart(int interval)

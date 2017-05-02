@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <settingscontrol.h>
-#include <wsauthenticator.h>
 
 class ProxerSettingsControl : public SettingsControl
 {
@@ -19,10 +18,6 @@ public:
 
 	void ensureAutoStart();
 
-	QVariant loadValue(const QString &uiId, const QVariant &defaultValue) const override;
-	void saveValue(const QString &uiId, const QVariant &value) override;
-	void resetValue(const QString &uiId) override;
-
 signals:
 	void openEntriesChanged(bool openEntries);
 	void uncheckEntriesChanged(bool openEntries);
@@ -33,9 +28,6 @@ private slots:
 	void updateAutoStart(int interval);
 
 	bool setAutoStart(bool autoStart);
-
-private:
-	QtDataSync::WsAuthenticator *authenticator;
 };
 
 #endif // PROXERSETTINGSCONTROL_H
