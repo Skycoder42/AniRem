@@ -17,20 +17,11 @@ MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	Control(parent),
 	store(store),
 	syncController(new QtDataSync::SyncController(this)),
-	model(new QGenericListModel<AnimeInfo>(false, this)),
+	model(new DatasyncObjectModel<AnimeInfo>(this)),
 	_loading(true),
 	detailsControl(new DetailsControl(store, this)),
 	settingsControl(new ProxerSettingsControl(this))
-{
-	//TODO use async store instead of caching and make object model the data owner
-	//TODO only update items on data change, don't recreate them
-	connect(store, &AnimeStore::storeLoaded,
-			this, &MainControl::storeListLoaded);
-	connect(store, &AnimeStore::dataChanged,
-			this, &MainControl::storeListLoaded);
-	connect(store, &AnimeStore::dataResetted,
-			this, &MainControl::storeListLoaded);
-}
+{}
 
 QGenericListModel<AnimeInfo> *MainControl::animeModel() const
 {
@@ -154,7 +145,6 @@ void MainControl::removeAnime(int id)
 	if(info) {
 		model->removeObject(model->index(info));
 		showStatus(tr("Removed Anime: %1").arg(info->title()));
-		store->remove(info->id());
 	}
 }
 
@@ -168,11 +158,6 @@ void MainControl::onShow()
 		once = false;
 	}
 #endif
-}
-
-void MainControl::storeListLoaded()
-{
-	model->resetModel(store->loadAll());
 }
 
 AnimeInfo *MainControl::infoFromId(int id) const
@@ -202,9 +187,8 @@ void MainControl::internalAddInfo(AnimeInfo *info)
 	if(store->contains(info->id()))
 		CoreMessage::warning(tr("Anime duplicated"), tr("Anime \"%1\" is already in the list!").arg(info->title()));
 	else {
+		coreApp->checkForSeasonUpdate(info->id());
 		model->addObject(info);
-		store->save(info);
 		showStatus(tr("Added Anime: %1").arg(info->title()));
-		coreApp->checkForSeasonUpdate(info);
 	}
 }

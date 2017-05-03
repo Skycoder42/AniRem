@@ -31,7 +31,8 @@ HEADERS +=\
 	jsonserializer.h \
 	ProxerApi/apihelper.h \
     apikeys.h \
-    imageloader.h
+    imageloader.h \
+    datasyncobjectmodel.h
 
 SOURCES += \
 	animeinfo.cpp \

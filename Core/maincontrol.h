@@ -5,6 +5,7 @@
 #include "control.h"
 #include "proxersettingscontrol.h"
 #include "detailscontrol.h"
+#include "datasyncobjectmodel.h"
 #include <qobjectlistmodel.h>
 #include <settingscontrol.h>
 #include <synccontroller.h>
@@ -48,13 +49,10 @@ signals:
 protected:
 	void onShow() override;
 
-private slots:
-	void storeListLoaded();
-
 private:
 	AnimeStore *store;
 	QtDataSync::SyncController *syncController;
-	QGenericListModel<AnimeInfo> *model;
+	DatasyncObjectModel<AnimeInfo> *model;
 	bool _loading;
 
 	DetailsControl *detailsControl;
