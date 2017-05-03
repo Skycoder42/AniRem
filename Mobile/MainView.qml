@@ -44,15 +44,15 @@ Page {
 			}
 
 			MenuItem {
-				id: about
-				text: qsTr("About")
-				onClicked: control.showAbout()
-			}
-
-			MenuItem {
 				id: sync
 				text: qsTr("Synchronization")
 				onClicked: control.showSync()
+			}
+
+			MenuItem {
+				id: about
+				text: qsTr("About")
+				onClicked: control.showAbout()
 			}
 		}
 	}
