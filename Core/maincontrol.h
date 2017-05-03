@@ -27,8 +27,8 @@ public:
 public slots:
 	void reload();
 	void showSettings();
+	void showSync();
 	void showAbout();
-	void resyncData();
 
 	void uncheckAnime(int id);
 	void itemAction(int id);

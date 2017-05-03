@@ -2,6 +2,7 @@
 #include <QIcon>
 #include <qsingleinstance.h>
 #include <settingsdialog.h>
+#include <datasyncdialog.h>
 #include <proxerapp.h>
 #include "addanimedialog.h"
 #include "detailsdockwidget.h"
@@ -26,6 +27,7 @@ int main(int argc, char *argv[])
 	instance.setStartupFunction([&](){
 		WidgetPresenter::registerAsPresenter<SystemTrayPresenter>();
 		WidgetPresenter::registerWidget<SettingsDialog>();
+		DatasyncDialog::registerWidgets();
 		WidgetPresenter::registerWidget<MainWindow>();
 		WidgetPresenter::registerWidget<AddAnimeDialog>();
 		WidgetPresenter::registerWidget<DetailsDockWidget>();

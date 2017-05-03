@@ -61,6 +61,8 @@
     <addaction name="actionReload_Seasons"/>
     <addaction name="separator"/>
     <addaction name="action_Settings"/>
+    <addaction name="actionSynchronization"/>
+    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -78,8 +80,6 @@
     </property>
     <addaction name="action_About"/>
     <addaction name="actionAbout_Qt"/>
-    <addaction name="separator"/>
-    <addaction name="actionResync_Data"/>
    </widget>
    <widget class="QMenu" name="menu_Actions">
     <property name="title">
@@ -247,19 +247,22 @@
     <string>Ctrl+K</string>
    </property>
   </action>
-  <action name="actionResync_Data">
+  <action name="actionSynchronization">
    <property name="icon">
     <iconset theme="view-refresh">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>Resync Data</string>
+    <string>Syn&amp;chronization</string>
+   </property>
+   <property name="toolTip">
+    <string>Synchronization</string>
    </property>
   </action>
  </widget>
  <resources>
-  <include location="seasonproxer_desktop.qrc"/>
   <include location="vendor/de/skycoder42/qtmvvm/settings/widgets/de_skycoder42_qtmvvm_settings_widgets.qrc"/>
+  <include location="seasonproxer_desktop.qrc"/>
  </resources>
  <connections/>
 </ui>

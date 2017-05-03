@@ -38,8 +38,8 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 			control, &MainControl::addAnime);
 	connect(ui->actionPaste_ID_URL, &QAction::triggered,
 			control, &MainControl::addAnimeFromClipboard);
-	connect(ui->actionResync_Data, &QAction::triggered,
-			control, &MainControl::resyncData);
+	connect(ui->actionSynchronization, &QAction::triggered,
+			control, &MainControl::showSync);
 	connect(ui->actionQuit, &QAction::triggered,
 			this, &MainWindow::close);
 

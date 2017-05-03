@@ -50,9 +50,9 @@ Page {
 			}
 
 			MenuItem {
-				id: resync
-				text: qsTr("Resync data")
-				onClicked: control.resyncData()
+				id: sync
+				text: qsTr("Synchronization")
+				onClicked: control.showSync()
 			}
 		}
 	}
