@@ -60,7 +60,7 @@ Page {
 				Layout.minimumHeight: 277
 				Layout.maximumHeight: 277
 				Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-				source: "https://cdn.proxer.me/cover/%1.jpg".arg(control && control.animeInfo ? control.animeInfo.id : -1)
+				source: "image://proxer/%1".arg(control && control.animeInfo ? control.animeInfo.id : -1)
 				mipmap: true
 			}
 

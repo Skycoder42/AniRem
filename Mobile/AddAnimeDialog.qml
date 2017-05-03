@@ -71,7 +71,7 @@ AlertDialog {
 				fillMode: Image.PreserveAspectFit
 				horizontalAlignment: Image.AlignHCenter
 				verticalAlignment: Image.AlignVCenter
-				source: control && control.id > 0 ? "https://cdn.proxer.me/cover/%1.jpg".arg(control.id) : ""
+				source: control && control.id > 0 ? "image://proxer/%1".arg(control.id) : ""
 				mipmap: true
 				visible: !previewItem.showLoading
 			}

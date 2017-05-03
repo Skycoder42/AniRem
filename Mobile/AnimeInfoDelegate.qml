@@ -44,7 +44,7 @@ SwipeDelegate {
 			Layout.maximumWidth: 42
 			Layout.minimumHeight: 42
 			Layout.maximumHeight: 42
-			source: "https://cdn.proxer.me/cover/%1.jpg".arg(id)
+			source: "image://proxer/%1".arg(id)
 			mipmap: true
 		}
 

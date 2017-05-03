@@ -10,7 +10,8 @@ QMutex ImageLoader::requestMutex;
 QMultiHash<int, QPointer<ImageLoader>> ImageLoader::activeRequests;
 
 ImageLoader::ImageLoader(QObject *parent) :
-	QObject(parent)
+	QObject(parent),
+	nam(nullptr)
 {}
 
 void ImageLoader::loadImage(int id)
@@ -47,12 +48,12 @@ void ImageLoader::loadImage(int id)
 				}
 			}
 
-			auto nam = new QNetworkAccessManager(this);
+			if(!nam)
+				nam = new QNetworkAccessManager(this);
 			auto reply = nam->get(QNetworkRequest(QStringLiteral("https://cdn.proxer.me/cover/%1.jpg").arg(id)));
 			connect(reply, &QNetworkReply::finished, this, [=](){
 				imageNetworkReply(id, reply);
 				reply->deleteLater();
-				nam->deleteLater();
 			}, Qt::QueuedConnection);
 		} else
 			failLoading(id, tr("Cache directory is not accessible"));

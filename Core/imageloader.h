@@ -31,6 +31,8 @@ private:
 	static QMutex requestMutex;
 	static QMultiHash<int, QPointer<ImageLoader>> activeRequests;
 
+	QNetworkAccessManager *nam;
+
 	void imageNetworkReply(int id, QNetworkReply *reply);
 	void completeLoading(int id, const QImage &image);
 	void failLoading(int id, const QString &errorString);

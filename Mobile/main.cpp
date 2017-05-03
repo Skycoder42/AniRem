@@ -8,6 +8,7 @@
 #include <proxerapp.h>
 
 #include "notifyingpresenter.h"
+#include "proxerimageprovider.h"
 #include "maincontrol.h"
 #include "addanimecontrol.h"
 
@@ -43,8 +44,11 @@ int main(int argc, char *argv[])
 
 	QuickPresenter::registerAsPresenter<NotifyingPresenter>();
 	QuickPresenter::registerInputViewFactory(new SettingsInputViewFactory());
-	if(!isServer())
-		QuickPresenter::createAppEngine(QUrl(QLatin1String("qrc:///qml/App.qml")));
+	if(!isServer()) {
+		auto engine = QuickPresenter::createAppEngine(QUrl());
+		engine->addImageProvider(QStringLiteral("proxer"), new ProxerImageProvider());
+		engine->load(QUrl(QStringLiteral("qrc:///qml/App.qml")));
+	}
 
 	auto res = app.exec();
 #ifdef Q_OS_ANDROID

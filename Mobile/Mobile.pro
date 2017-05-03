@@ -17,10 +17,12 @@ QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
 include(vendor/vendor.pri)
 
 HEADERS += \
-	notifyingpresenter.h
+	notifyingpresenter.h \
+    proxerimageprovider.h
 
 SOURCES += main.cpp \
-	notifyingpresenter.cpp
+	notifyingpresenter.cpp \
+    proxerimageprovider.cpp
 
 RESOURCES += \
 	seasonproxer_mobile.qrc
