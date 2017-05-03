@@ -4,7 +4,7 @@
 #include <QStandardPaths>
 
 QReadWriteLock ImageLoader::cacheLock;
-QHash<int, QImage> ImageLoader::cache;
+QCache<int, QImage> ImageLoader::cache;
 
 QMutex ImageLoader::requestMutex;
 QMultiHash<int, QPointer<ImageLoader>> ImageLoader::activeRequests;
@@ -19,9 +19,9 @@ void ImageLoader::loadImage(int id)
 	//try to load image from cache
 	{
 		QReadLocker _(&cacheLock);
-		auto image = cache.value(id);
-		if(!image.isNull()) {
-			emit imageLoaded(id, image);
+		auto image = cache.object(id);
+		if(image) {
+			emit imageLoaded(id, *image);
 			return;
 		}
 	}
@@ -87,7 +87,7 @@ void ImageLoader::completeLoading(int id, const QImage &image)
 	//cache the image
 	{
 		QWriteLocker _(&cacheLock);
-		cache.insert(id, image);
+		cache.insert(id, new QImage(image));
 	}
 	//notify all loaders
 	QList<QPointer<ImageLoader>> loaders;

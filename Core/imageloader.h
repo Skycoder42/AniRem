@@ -8,6 +8,8 @@
 #include <QPointer>
 #include <QReadWriteLock>
 #include <QThreadStorage>
+#include <QMultiHash>
+#include <QCache>
 #include <functional>
 
 class ImageLoader : public QObject
@@ -26,7 +28,7 @@ signals:
 
 private:
 	static QReadWriteLock cacheLock;
-	static QHash<int, QImage> cache;
+	static QCache<int, QImage> cache;
 
 	static QMutex requestMutex;
 	static QMultiHash<int, QPointer<ImageLoader>> activeRequests;
