@@ -6,24 +6,26 @@
 #include <cachingdatastore.h>
 #include <qobjectlistmodel.h>
 
-template <typename T>
+template <typename T, typename K = QString>
 class DatasyncObjectModel : public QGenericListModel<T>
 {
 public:
 	explicit DatasyncObjectModel(QObject *parent = nullptr);
 	explicit DatasyncObjectModel(const QString &setupName, QObject *parent = nullptr);
+	explicit DatasyncObjectModel(QtDataSync::CachingDataStore<T*, K> *store, QObject *parent = nullptr);
 
+	QtDataSync::CachingDataStore<T*, K> *store() const;
+
+private:
+	QtDataSync::CachingDataStore<T*, K> *_store;
+	QSet<QString> _activeKeys;
+
+	//"removed" methods
 	void addObject(T *object);
 	void insertObject(const QModelIndex &index, T *object);
 	void insertObject(int index, T *object);
 	void removeObject(const QModelIndex &index);
 	void removeObject(int index);
-
-private:
-	QtDataSync::CachingDataStore<T*> *_store;
-	QSet<QString> _activeKeys;
-
-	//"removed" methods
 	T *takeObject(const QModelIndex &index);
 	T *takeObject(int index);
 	void resetModel(QList<T*> objects);
@@ -35,110 +37,122 @@ private:
 	void onChanged(const QString &key, const QVariant &value);
 };
 
-template<typename T>
-DatasyncObjectModel<T>::DatasyncObjectModel(QObject *parent) :
+template<typename T, typename K>
+DatasyncObjectModel<T, K>::DatasyncObjectModel(QObject *parent) :
 	DatasyncObjectModel(QtDataSync::Setup::DefaultSetup, parent)
 {}
 
-template<typename T>
-DatasyncObjectModel<T>::DatasyncObjectModel(const QString &setupName, QObject *parent) :
+template<typename T, typename K>
+DatasyncObjectModel<T, K>::DatasyncObjectModel(const QString &setupName, QObject *parent) :
 	QGenericListModel<T>(false, parent),
-	_store(new QtDataSync::CachingDataStore<T*>(setupName, parent)),
+	_store(new QtDataSync::CachingDataStore<T*, K>(setupName, this)),
 	_activeKeys()
 {
 	QObject::connect(_store, &QtDataSync::CachingDataStoreBase::storeLoaded,
-			this, &DatasyncObjectModel<T>::onLoaded);
+					 this, &DatasyncObjectModel<T, K>::onLoaded);
 	QObject::connect(_store, &QtDataSync::CachingDataStoreBase::dataResetted,
-			this, &DatasyncObjectModel<T>::onReset);
+					 this, &DatasyncObjectModel<T, K>::onReset);
 	QObject::connect(_store, &QtDataSync::CachingDataStoreBase::dataChanged,
-			this, &DatasyncObjectModel<T>::onChanged);
+					 this, &DatasyncObjectModel<T, K>::onChanged);
 }
 
-template<typename T>
-void DatasyncObjectModel<T>::addObject(T *object)
+template<typename T, typename K>
+DatasyncObjectModel<T, K>::DatasyncObjectModel(QtDataSync::CachingDataStore<T*, K> *store, QObject *parent) :
+	QGenericListModel<T>(false, parent),
+	_store(store),
+	_activeKeys()
 {
-	_activeKeys.insert(getKey(object));
-	_store->save(object);
-	QObjectListModel::addObject(object);
+	QObject::connect(_store, &QtDataSync::CachingDataStoreBase::storeLoaded,
+					 this, &DatasyncObjectModel<T, K>::onLoaded);
+	QObject::connect(_store, &QtDataSync::CachingDataStoreBase::dataResetted,
+					 this, &DatasyncObjectModel<T, K>::onReset);
+	QObject::connect(_store, &QtDataSync::CachingDataStoreBase::dataChanged,
+					 this, &DatasyncObjectModel<T, K>::onChanged);
 }
 
-template<typename T>
-void DatasyncObjectModel<T>::insertObject(const QModelIndex &index, T *object)
+template<typename T, typename K>
+QtDataSync::CachingDataStore<T*, K> *DatasyncObjectModel<T, K>::store() const
 {
-	_activeKeys.insert(getKey(object));
-	_store->save(object);
-	QObjectListModel::insertObject(index, object);
+	return _store;
 }
 
-template<typename T>
-void DatasyncObjectModel<T>::insertObject(int index, T *object)
+template<typename T, typename K>
+void DatasyncObjectModel<T, K>::addObject(T *object)
 {
-	_activeKeys.insert(getKey(object));
-	_store->save(object);
-	QObjectListModel::insertObject(index, object);
+	Q_UNUSED(object);
 }
 
-template<typename T>
-void DatasyncObjectModel<T>::removeObject(const QModelIndex &index)
+template<typename T, typename K>
+void DatasyncObjectModel<T, K>::insertObject(const QModelIndex &index, T *object)
 {
-	auto obj = QObjectListModel::takeObject(index);
-	auto key = getKey(obj);
-	_activeKeys.remove(key);
-	_store->remove(key);
+	Q_UNUSED(index);
+	Q_UNUSED(object);
 }
 
-template<typename T>
-void DatasyncObjectModel<T>::removeObject(int index)
+template<typename T, typename K>
+void DatasyncObjectModel<T, K>::insertObject(int index, T *object)
 {
-	auto obj = QObjectListModel::takeObject(index);
-	auto key = getKey(obj);
-	_activeKeys.remove(key);
-	_store->remove(key);
+	Q_UNUSED(index);
+	Q_UNUSED(object);
 }
 
-template<typename T>
-T *DatasyncObjectModel<T>::takeObject(const QModelIndex &index)
+template<typename T, typename K>
+void DatasyncObjectModel<T, K>::removeObject(const QModelIndex &index)
 {
-	removeObject(index);
+	Q_UNUSED(index);
+}
+
+template<typename T, typename K>
+void DatasyncObjectModel<T, K>::removeObject(int index)
+{
+	Q_UNUSED(index);
+}
+
+template<typename T, typename K>
+T *DatasyncObjectModel<T, K>::takeObject(const QModelIndex &index)
+{
+	Q_UNUSED(index);
 	return nullptr;
 }
 
-template<typename T>
-T *DatasyncObjectModel<T>::takeObject(int index)
+template<typename T, typename K>
+T *DatasyncObjectModel<T, K>::takeObject(int index)
 {
-	removeObject(index);
+	Q_UNUSED(index);
 	return nullptr;
 }
 
-template<typename T>
-void DatasyncObjectModel<T>::resetModel(QList<T *> objects)
+template<typename T, typename K>
+void DatasyncObjectModel<T, K>::resetModel(QList<T *> objects)
 {
 	Q_UNUSED(objects);
 }
 
-template<typename T>
-QString DatasyncObjectModel<T>::getKey(QObject *obj) const
+template<typename T, typename K>
+QString DatasyncObjectModel<T, K>::getKey(QObject *obj) const
 {
 	auto user = obj->metaObject()->userProperty();
 	return user.read(obj).toString();
 }
 
-template<typename T>
-void DatasyncObjectModel<T>::onLoaded()
+template<typename T, typename K>
+void DatasyncObjectModel<T, K>::onLoaded()
 {
-	_activeKeys = QSet<QString>::fromList(_store->keys());
+	_activeKeys.clear();
+	foreach (auto key, _store->keys())
+		_activeKeys.insert(QVariant::fromValue(key).toString());
 	QGenericListModel<T>::resetModel(_store->loadAll());
 }
 
-template<typename T>
-void DatasyncObjectModel<T>::onReset()
+template<typename T, typename K>
+void DatasyncObjectModel<T, K>::onReset()
 {
-	_activeKeys = QSet<QString>::fromList(_store->keys());
-	QGenericListModel<T>::resetModel(_store->loadAll());
+	_activeKeys.clear();
+	QGenericListModel<T>::resetModel({});
 }
 
-template<typename T>
-void DatasyncObjectModel<T>::onChanged(const QString &key, const QVariant &value)
+template<typename T, typename K>
+void DatasyncObjectModel<T, K>::onChanged(const QString &key, const QVariant &value)
 {
 	if(value.isValid()) {// added/changed
 		if(!_activeKeys.contains(key)) {// added

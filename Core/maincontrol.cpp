@@ -17,7 +17,7 @@ MainControl::MainControl(AnimeStore *store, QObject *parent) :
 	Control(parent),
 	store(store),
 	syncController(new QtDataSync::SyncController(this)),
-	model(new DatasyncObjectModel<AnimeInfo>(this)),
+	model(new DatasyncObjectModel<AnimeInfo, int>(store, this)),
 	_loading(true),
 	detailsControl(new DetailsControl(store, this)),
 	settingsControl(new ProxerSettingsControl(this))
@@ -143,8 +143,8 @@ void MainControl::removeAnime(int id)
 {
 	auto info = infoFromId(id);
 	if(info) {
-		model->removeObject(model->index(info));
 		showStatus(tr("Removed Anime: %1").arg(info->title()));
+		store->remove(info->id());
 	}
 }
 
@@ -188,7 +188,7 @@ void MainControl::internalAddInfo(AnimeInfo *info)
 		CoreMessage::warning(tr("Anime duplicated"), tr("Anime \"%1\" is already in the list!").arg(info->title()));
 	else {
 		coreApp->checkForSeasonUpdate(info->id());
-		model->addObject(info);
+		store->save(info);
 		showStatus(tr("Added Anime: %1").arg(info->title()));
 	}
 }

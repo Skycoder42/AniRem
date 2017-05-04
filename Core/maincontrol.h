@@ -52,7 +52,7 @@ protected:
 private:
 	AnimeStore *store;
 	QtDataSync::SyncController *syncController;
-	DatasyncObjectModel<AnimeInfo> *model;
+	DatasyncObjectModel<AnimeInfo, int> *model;
 	bool _loading;
 
 	DetailsControl *detailsControl;
