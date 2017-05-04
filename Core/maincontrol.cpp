@@ -187,8 +187,8 @@ void MainControl::internalAddInfo(AnimeInfo *info)
 	if(store->contains(info->id()))
 		CoreMessage::warning(tr("Anime duplicated"), tr("Anime \"%1\" is already in the list!").arg(info->title()));
 	else {
-		coreApp->checkForSeasonUpdate(info->id());
 		store->save(info);
 		showStatus(tr("Added Anime: %1").arg(info->title()));
+		coreApp->checkForSeasonUpdate(info);
 	}
 }

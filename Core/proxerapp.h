@@ -22,7 +22,7 @@ public:
 	bool isUpdater() const;
 
 public slots:
-	void checkForSeasonUpdate(int id);
+	void checkForSeasonUpdate(AnimeInfo *info);
 	void checkForSeasonUpdates();
 	void showMainControl();
 
@@ -35,7 +35,6 @@ protected:
 private slots:
 	void storeLoaded();
 	void updateDone(bool hasUpdates, QString errorString);
-	void storeDataChanged(const QString &id);
 
 private:
 	AnimeStore *store;
@@ -45,8 +44,6 @@ private:
 
 	bool passiveUpdate;
 	bool showNoUpdatesInfo;
-
-	int checkPlannedId;
 
 	void syncLocalData(bool updateNext);
 	void automaticUpdateCheck();

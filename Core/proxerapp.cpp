@@ -22,8 +22,7 @@ ProxerApp::ProxerApp(QObject *parent) :
 	mainControl(nullptr),
 	statusControl(nullptr),
 	passiveUpdate(false),
-	showNoUpdatesInfo(false),
-	checkPlannedId(-1)
+	showNoUpdatesInfo(false)
 {
 	Q_INIT_RESOURCE(seasonproxer_core);
 
@@ -36,11 +35,10 @@ bool ProxerApp::isUpdater() const
 	return passiveUpdate;
 }
 
-void ProxerApp::checkForSeasonUpdate(int id)
+void ProxerApp::checkForSeasonUpdate(AnimeInfo *info)
 {
 	mainControl->updateLoadStatus(true);
-	Q_ASSERT(checkPlannedId == -1);
-	checkPlannedId = id;
+	loader->checkForUpdates({info});
 }
 
 void ProxerApp::checkForSeasonUpdates()
@@ -115,8 +113,6 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 	connect(store, &AnimeStore::storeLoaded,
 			this, &ProxerApp::storeLoaded,
 			Qt::QueuedConnection);
-	connect(store, &AnimeStore::dataChanged,
-			this, &ProxerApp::storeDataChanged);
 
 	//fixup with additional setup for proxer rest api
 	ProxerApi api;
@@ -175,14 +171,6 @@ void ProxerApp::updateDone(bool hasUpdates, QString errorString)
 			showNoUpdatesInfo = false;
 			CoreMessage::information(tr("Season check completed"), tr("No seasons changed."));
 		}
-	}
-}
-
-void ProxerApp::storeDataChanged(const QString &id)
-{
-	if(id.toInt() == checkPlannedId) {
-		loader->checkForUpdates({store->load(checkPlannedId)});
-		checkPlannedId = -1;
 	}
 }
 
