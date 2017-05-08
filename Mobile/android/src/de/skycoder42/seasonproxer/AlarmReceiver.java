@@ -17,6 +17,17 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
 	static public void scheduleAutoCheck(Context context, boolean autoCheck) {
 		Intent intent = new Intent(context, AlarmReceiver.class);
+
+		//skip existing alarm
+		if(autoCheck) {
+			PendingIntent pending = PendingIntent.getBroadcast(context,
+				ALARM_INTENT_ID,
+				intent,
+				PendingIntent.FLAG_NO_CREATE);
+			if(pending != null)
+				return;
+		}
+
 		PendingIntent pending = PendingIntent.getBroadcast(context,
 			ALARM_INTENT_ID,
 			intent,
