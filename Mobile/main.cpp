@@ -23,8 +23,6 @@ static bool isServer();
 int main(int argc, char *argv[])
 {
 	QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-	if(!(argc > 1 && argv[1] == QByteArray("--update")))
-		AndroidUtils::instance()->setStatusBarColor(QColor(0x4E, 0x4E, 0x4E));
 
 	QGuiApplication app(argc, argv);
 	QGuiApplication::setApplicationName(QStringLiteral(TARGET));
@@ -45,6 +43,7 @@ int main(int argc, char *argv[])
 	QuickPresenter::registerAsPresenter<NotifyingPresenter>();
 	QuickPresenter::registerInputViewFactory(new SettingsInputViewFactory());
 	if(!isServer()) {
+		AndroidUtils::instance()->setStatusBarColor(QColor(0x4E, 0x4E, 0x4E));
 		auto engine = QuickPresenter::createAppEngine(QUrl());
 		engine->addImageProvider(QStringLiteral("proxer"), new ProxerImageProvider());
 		engine->load(QUrl(QStringLiteral("qrc:///qml/App.qml")));

@@ -103,7 +103,7 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 	auth->setRemoteUrl(QStringLiteral("ws://192.168.179.20:8080"));
 #else
 	auth->setServerSecret(DATASYNC_SERVER_SECRET);
-	auth->setRemoteUrl(QStringLiteral("wss://apps.skycoder42.de/seasonproxer"));
+	auth->setRemoteUrl(QStringLiteral("wss://apps.skycoder42.de/seasonproxer/"));
 #endif
 	auth->reconnect();
 	auth->deleteLater();
