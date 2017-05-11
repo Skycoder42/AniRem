@@ -19,10 +19,13 @@
 REGISTER_CORE_APP(ProxerApp)
 
 static bool isServer();
+static void setStatusBarColor(QColor color) ;
 
 int main(int argc, char *argv[])
 {
 	QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+	if(!(argc > 1 && argv[1] == QByteArray("--update")))
+		setStatusBarColor(QColor(0x4E, 0x4E, 0x4E));//AndroidUtils::instance()->setStatusBarColor(QColor(0x4E, 0x4E, 0x4E));
 
 	QGuiApplication app(argc, argv);
 	QGuiApplication::setApplicationName(QStringLiteral(TARGET));
@@ -43,7 +46,6 @@ int main(int argc, char *argv[])
 	QuickPresenter::registerAsPresenter<NotifyingPresenter>();
 	QuickPresenter::registerInputViewFactory(new SettingsInputViewFactory());
 	if(!isServer()) {
-		AndroidUtils::instance()->setStatusBarColor(QColor(0x4E, 0x4E, 0x4E));
 		auto engine = QuickPresenter::createAppEngine(QUrl());
 		engine->addImageProvider(QStringLiteral("proxer"), new ProxerImageProvider());
 		engine->load(QUrl(QStringLiteral("qrc:///qml/App.qml")));
@@ -61,5 +63,33 @@ static bool isServer()
 {
 	auto parser = coreApp->getParser();
 	return parser && parser->isSet("update");
+}
+
+static void setStatusBarColor(QColor color)
+{
+#ifdef Q_OS_ANDROID
+  if(QtAndroid::androidSdkVersion() >= 21) {
+	QtAndroid::runOnAndroidThreadSync([=](){
+	  auto activity = QtAndroid::androidActivity();
+	  if(activity.isValid()) {
+		const auto FLAG_TRANSLUCENT_STATUS = QAndroidJniObject::getStaticField<jint>("android/view/WindowManager$LayoutParams",
+																					 "FLAG_TRANSLUCENT_STATUS");
+		const auto FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS = QAndroidJniObject::getStaticField<jint>("android/view/WindowManager$LayoutParams",
+																							   "FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS");
+		const auto jColor = QAndroidJniObject::callStaticMethod<jint>("android/graphics/Color",
+																	  "parseColor",
+																	  "(Ljava/lang/String;)I",
+																	  QAndroidJniObject::fromString(color.name()).object());
+
+		QAndroidJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+		if(window.isValid()) {
+		  window.callMethod<void>("clearFlags", "(I)V", FLAG_TRANSLUCENT_STATUS);
+		  window.callMethod<void>("addFlags", "(I)V", FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+		  window.callMethod<void>("setStatusBarColor", "(I)V", jColor);
+		}
+	  }
+	});
+  }
+#endif
 }
 
