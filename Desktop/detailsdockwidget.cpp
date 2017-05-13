@@ -12,7 +12,7 @@ DetailsDockWidget::DetailsDockWidget(Control *mControl, QWidget *parent) :
 {
 	ui->setupUi(this);
 	setMinimumWidth(ui->previewLabel->minimumWidth() +
-					2 +
+					8 +
 					style()->pixelMetric(QStyle::PM_ScrollBarExtent));
 
 	connect(loader, &ImageLoader::imageLoaded,
