@@ -53,6 +53,11 @@ FORMS    += mainwindow.ui \
 RESOURCES += \
 	seasonproxer_desktop.qrc
 
+DISTFILES += \
+	seasonproxer_desktop_de.ts
+
+TRANSLATIONS += seasonproxer_desktop_de.ts
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore
 else:mac: LIBS += -F$$OUT_PWD/../Core/ -framework SeasonProxerCore

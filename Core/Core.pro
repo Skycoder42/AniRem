@@ -30,9 +30,9 @@ HEADERS +=\
 	detailscontrol.h \
 	jsonserializer.h \
 	ProxerApi/apihelper.h \
-    apikeys.h \
-    imageloader.h \
-    datasyncobjectmodel.h
+	apikeys.h \
+	imageloader.h \
+	datasyncobjectmodel.h
 
 SOURCES += \
 	animeinfo.cpp \
@@ -45,7 +45,7 @@ SOURCES += \
 	detailscontrol.cpp \
 	jsonserializer.cpp \
 	ProxerApi/apihelper.cpp \
-    imageloader.cpp
+	imageloader.cpp
 
 REST_API_OBJECTS += ProxerApi/proxerstatus.json \
 	ProxerApi/proxerentryvalue.json \
@@ -59,4 +59,7 @@ RESOURCES += \
 	seasonproxer_core.qrc
 
 DISTFILES += \
-	ProxerApi/proxerapi_kopie.json
+	ProxerApi/proxerapi_kopie.json \
+	seasonproxer_core_de.ts
+
+TRANSLATIONS += seasonproxer_core_de.ts

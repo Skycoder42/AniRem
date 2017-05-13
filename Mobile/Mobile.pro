@@ -18,16 +18,17 @@ include(vendor/vendor.pri)
 
 HEADERS += \
 	notifyingpresenter.h \
-    proxerimageprovider.h
+	proxerimageprovider.h
 
 SOURCES += main.cpp \
 	notifyingpresenter.cpp \
-    proxerimageprovider.cpp
+	proxerimageprovider.cpp
 
 RESOURCES += \
 	seasonproxer_mobile.qrc
 
 DISTFILES += \
+	seasonproxer_mobile_de.ts \
 	android/AndroidManifest.xml \
 	android/res/values/libs.xml \
 	android/build.gradle \
@@ -45,6 +46,8 @@ DISTFILES += \
 	android/res/drawable-xxhdpi/ic_notification.png \
 	android/res/drawable-xxxhdpi/ic_notification.png \
 	android/res/values/styles.xml
+
+TRANSLATIONS += seasonproxer_mobile_de.ts
 
 android {
 	HEADERS += statusview.h
