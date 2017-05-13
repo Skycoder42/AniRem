@@ -25,9 +25,11 @@ QQuickImageResponse *ProxerImageProvider::requestImageResponse(const QString &id
 		auto loader = store.localData();
 		auto response = new ProxerImageResponse(rId, requestedSize);
 		QObject::connect(loader.data(), &ImageLoader::imageLoaded,
-						 response, &ProxerImageResponse::imageLoaded);
+						 response, &ProxerImageResponse::imageLoaded,
+						 Qt::QueuedConnection);
 		QObject::connect(loader.data(), &ImageLoader::imageLoadFailed,
-						 response, &ProxerImageResponse::imageLoadFailed);
+						 response, &ProxerImageResponse::imageLoadFailed,
+						 Qt::QueuedConnection);
 		loader->loadImage(rId);
 		return response;
 	} else
