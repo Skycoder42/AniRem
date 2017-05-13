@@ -3,9 +3,6 @@
 #include <QImageReader>
 #include <QStandardPaths>
 
-QReadWriteLock ImageLoader::cacheLock;
-QCache<int, QImage> ImageLoader::cache;
-
 QMutex ImageLoader::requestMutex;
 QMultiHash<int, QPointer<ImageLoader>> ImageLoader::activeRequests;
 
@@ -16,16 +13,6 @@ ImageLoader::ImageLoader(QObject *parent) :
 
 void ImageLoader::loadImage(int id)
 {
-	//try to load image from cache
-	{
-		QReadLocker _(&cacheLock);
-		auto image = cache.object(id);
-		if(image) {
-			emit imageLoaded(id, *image);
-			return;
-		}
-	}
-
 	//load the image or register for info
 	auto isMe = false;
 	{
@@ -84,11 +71,6 @@ void ImageLoader::imageNetworkReply(int id, QNetworkReply *reply)
 
 void ImageLoader::completeLoading(int id, const QImage &image)
 {
-	//cache the image
-	{
-		QWriteLocker _(&cacheLock);
-		cache.insert(id, new QImage(image));
-	}
 	//notify all loaders
 	QList<QPointer<ImageLoader>> loaders;
 	{

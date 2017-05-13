@@ -27,9 +27,6 @@ signals:
 	void imageLoadFailed(int id, const QString &errorString);
 
 private:
-	static QReadWriteLock cacheLock;
-	static QCache<int, QImage> cache;
-
 	static QMutex requestMutex;
 	static QMultiHash<int, QPointer<ImageLoader>> activeRequests;
 
