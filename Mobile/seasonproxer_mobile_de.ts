@@ -6,17 +6,17 @@
     <message>
         <location filename="vendor/de/skycoder42/quickextras/ActionBar.qml" line="35"/>
         <source>Go back</source>
-        <translation type="unfinished"></translation>
+        <translation>Zurück</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/quickextras/ActionBar.qml" line="35"/>
         <source>Show menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menü Anzeigen</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/quickextras/ActionBar.qml" line="61"/>
         <source>More…</source>
-        <translation type="unfinished"></translation>
+        <translation>Mehr…</translation>
     </message>
 </context>
 <context>
@@ -24,32 +24,32 @@
     <message>
         <location filename="AddAnimeDialog.qml" line="8"/>
         <source>Add Anime</source>
-        <translation type="unfinished"></translation>
+        <translation>Anime hinzufügen</translation>
     </message>
     <message>
         <location filename="AddAnimeDialog.qml" line="24"/>
         <source>Proxer-ID:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="AddAnimeDialog.qml" line="50"/>
         <source>Retry</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiederholen</translation>
     </message>
     <message>
         <location filename="AddAnimeDialog.qml" line="86"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel:</translation>
     </message>
     <message>
         <location filename="AddAnimeDialog.qml" line="122"/>
         <source>Save anyway</source>
-        <translation type="unfinished"></translation>
+        <translation>Trotzdem Speichern</translation>
     </message>
     <message>
         <location filename="AddAnimeDialog.qml" line="122"/>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>Ok</translation>
     </message>
 </context>
 <context>
@@ -57,7 +57,7 @@
     <message>
         <location filename="AnimeInfoDelegate.qml" line="81"/>
         <source>Delete Anime</source>
-        <translation type="unfinished"></translation>
+        <translation>Anime löschen</translation>
     </message>
 </context>
 <context>
@@ -65,7 +65,7 @@
     <message>
         <location filename="vendor/de/skycoder42/androidutils/contentdevice.cpp" line="73"/>
         <source>You can only open ContentDevice with QIODevice::ReadOnly OR QIODevice::WriteOnly. Other flags are not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein ContentDevice can nur mit QIODevice::ReadOnly ODER QIODevice::WriteOnly geöffnet werden. Andere modi werden nicht unterstützt</translation>
     </message>
 </context>
 <context>
@@ -73,47 +73,47 @@
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/DatasyncView.qml" line="16"/>
         <source>Datasync Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchronisations-Status</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/DatasyncView.qml" line="27"/>
         <source>Exchange user data</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdaten Austauschen</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/DatasyncView.qml" line="34"/>
         <source>Export to file</source>
-        <translation type="unfinished"></translation>
+        <translation>In Datei exportieren</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/DatasyncView.qml" line="38"/>
         <source>Import from file</source>
-        <translation type="unfinished"></translation>
+        <translation>Von Datei importieren</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/DatasyncView.qml" line="42"/>
         <source>Resync</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/DatasyncView.qml" line="61"/>
         <source>Synchronization enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchronisation aktiviert</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/DatasyncView.qml" line="105"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchronisieren</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/DatasyncView.qml" line="120"/>
         <source>Datasync Export File (*.dse)</source>
-        <translation type="unfinished"></translation>
+        <translation>Datasync Export-Datei (*.dse)</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/DatasyncView.qml" line="120"/>
         <source>All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Datein (*)</translation>
     </message>
 </context>
 <context>
@@ -121,22 +121,22 @@
     <message>
         <location filename="DetailsView.qml" line="14"/>
         <source>%1 Details</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Details</translation>
     </message>
     <message>
         <location filename="DetailsView.qml" line="14"/>
         <source>Anime</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="DetailsView.qml" line="21"/>
         <source>Unmark new seasons</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Seasons demarkieren</translation>
     </message>
     <message>
         <location filename="DetailsView.qml" line="31"/>
         <source>Open relations in your browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbindungen im Browser öffnen</translation>
     </message>
 </context>
 <context>
@@ -145,12 +145,12 @@
         <location filename="vendor/de/skycoder42/androidutils/filechooser.cpp" line="103"/>
         <location filename="vendor/de/skycoder42/androidutils/filechooser.cpp" line="113"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei öffnen</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/androidutils/filechooser.cpp" line="124"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei speichern</translation>
     </message>
 </context>
 <context>
@@ -158,22 +158,22 @@
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/filehelper.cpp" line="26"/>
         <source>User data export</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdaten exportieren</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/filehelper.cpp" line="26"/>
         <source>Failed to create file with error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Konnte Datei nicht erstellen mit Fehler: %1</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/filehelper.cpp" line="43"/>
         <source>User data import</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdaten importieren</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/filehelper.cpp" line="43"/>
         <source>Failed to read file with error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Konnte Datei nicht lesen mit Fehler: %1</translation>
     </message>
 </context>
 <context>
@@ -181,7 +181,7 @@
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/settings/quick/ListSection.qml" line="17"/>
         <source>:</source>
-        <translation type="unfinished"></translation>
+        <translation>:</translation>
     </message>
 </context>
 <context>
@@ -189,42 +189,42 @@
     <message>
         <location filename="MainView.qml" line="21"/>
         <source>Anime List</source>
-        <translation type="unfinished"></translation>
+        <translation>Anime Liste</translation>
     </message>
     <message>
         <location filename="MainView.qml" line="27"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Seasons neu laden</translation>
     </message>
     <message>
         <location filename="MainView.qml" line="36"/>
         <source>Paste ID/URL</source>
-        <translation type="unfinished"></translation>
+        <translation>ID/URL einfügen</translation>
     </message>
     <message>
         <location filename="MainView.qml" line="42"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="MainView.qml" line="48"/>
         <source>Synchronization</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchronisation</translation>
     </message>
     <message>
         <location filename="MainView.qml" line="54"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Info</translation>
     </message>
     <message>
         <location filename="MainView.qml" line="96"/>
         <source>Add Anime</source>
-        <translation type="unfinished"></translation>
+        <translation>Anime hinzufügen</translation>
     </message>
     <message>
         <location filename="MainView.qml" line="104"/>
         <source>Checking for new seasons…</source>
-        <translation type="unfinished"></translation>
+        <translation>Überprüfe auf neue Seasons…</translation>
     </message>
 </context>
 <context>
@@ -232,7 +232,7 @@
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/settings/quick/settingsentryelement.cpp" line="30"/>
         <source>:</source>
-        <translation type="unfinished"></translation>
+        <translation>:</translation>
     </message>
 </context>
 <context>
@@ -240,7 +240,7 @@
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/settings/quick/settingsuibuilder.cpp" line="134"/>
         <source>Others</source>
-        <translation type="unfinished"></translation>
+        <translation>Andere</translation>
     </message>
 </context>
 <context>
@@ -248,17 +248,17 @@
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/settings/quick/SettingsView.qml" line="16"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/settings/quick/SettingsView.qml" line="33"/>
         <source>Search in settings</source>
-        <translation type="unfinished"></translation>
+        <translation>In Einstellungen suchen</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/settings/quick/SettingsView.qml" line="49"/>
         <source>Restore settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Werkseinstellungen wiederherstellen</translation>
     </message>
 </context>
 <context>
@@ -266,27 +266,27 @@
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/UserDataExchangeView.qml" line="14"/>
         <source>User data exchange</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdaten austauschen</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/UserDataExchangeView.qml" line="30"/>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Port:</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/UserDataExchangeView.qml" line="47"/>
         <source>Apply Port change</source>
-        <translation type="unfinished"></translation>
+        <translation>Port-Änderung anwenden</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/UserDataExchangeView.qml" line="54"/>
         <source>Device Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geräte-Name:</translation>
     </message>
     <message>
         <location filename="vendor/de/skycoder42/qtmvvm/datasync/quick/UserDataExchangeView.qml" line="63"/>
         <source>Name to display this device as</source>
-        <translation type="unfinished"></translation>
+        <translation>Name, unter dem dieses Gerät angezeigt wird</translation>
     </message>
 </context>
 </TS>
