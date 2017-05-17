@@ -1,11 +1,15 @@
 #!/bin/bash
-# $1 Qt lib dir
-# $2 Qt plugin dir
-# $3 Qt translations dir
+# $1 Qt bin dir
+# $2 Qt lib dir
+# $3 Qt plugin dir
+# $4 Qt translations dir
+# $5 pro-dir
 
-lib=$1
-plugin=$2
-translation=$3
+bin=$1
+lib=$2
+plugin=$3
+translation=$4
+pro=$5
 
 rm -rf deployment
 set -e
@@ -56,11 +60,15 @@ cp $plugin/sqldrivers/libqsqlite.so ./sqldrivers/
 
 cd ..
 
+$bin/lrelease -compress -nounfinished $pro/Core/Core.pro
+$bin/lrelease -compress -nounfinished $pro/Desktop/Desktop.pro
+
 mkdir translations
 cd translations
-cp $translation/qt_*.qm ./
 cp $translation/qtbase_*.qm ./
 cp $translation/qtwebsockets_*.qm ./
+cp $pro/Core/*.qm ./
+cp $pro/Desktop/*.qm ./
 cd ..
 
 echo "[Paths]" > qt.conf

@@ -76,6 +76,6 @@ else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Core/libSeasonProxerCore.a
 # deployment
 deploy.target = deploy
 linux {
-	deploy.commands = $$shell_quote($$PWD/deploy_x11.sh) $$shell_quote($$[QT_INSTALL_LIBS]) $$shell_quote($$[QT_INSTALL_PLUGINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS])
+	deploy.commands = $$shell_quote($$PWD/deploy_x11.sh) $$shell_quote($$[QT_INSTALL_BINS]) $$shell_quote($$[QT_INSTALL_LIBS]) $$shell_quote($$[QT_INSTALL_PLUGINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS]) $$shell_quote($$_PRO_FILE_PWD_/..)
 }
 QMAKE_EXTRA_TARGETS += deploy
