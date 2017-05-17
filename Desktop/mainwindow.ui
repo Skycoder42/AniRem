@@ -249,8 +249,8 @@
   </action>
   <action name="actionSynchronization">
    <property name="icon">
-    <iconset theme="view-refresh">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="view-refresh" resource="seasonproxer_desktop.qrc">
+     <normaloff>:/icons/reload.ico</normaloff>:/icons/reload.ico</iconset>
    </property>
    <property name="text">
     <string>Syn&amp;chronization</string>

@@ -90,6 +90,8 @@ static void setStatusBarColor(QColor color)
 			}
 		});
 	}
+#else
+	Q_UNUSED(color);
 #endif
 }
 

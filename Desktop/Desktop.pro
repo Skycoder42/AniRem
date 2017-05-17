@@ -54,7 +54,8 @@ RESOURCES += \
 	seasonproxer_desktop.qrc
 
 DISTFILES += \
-	seasonproxer_desktop_de.ts
+	seasonproxer_desktop_de.ts \
+	deploy_x11.sh
 
 TRANSLATIONS += seasonproxer_desktop_de.ts
 
@@ -71,3 +72,10 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/release/SeasonProxerCore.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/debug/SeasonProxerCore.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Core/libSeasonProxerCore.a
+
+# deployment
+deploy.target = deploy
+linux {
+	deploy.commands = $$shell_quote($$PWD/deploy_x11.sh) $$shell_quote($$[QT_INSTALL_LIBS]) $$shell_quote($$[QT_INSTALL_PLUGINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS])
+}
+QMAKE_EXTRA_TARGETS += deploy
