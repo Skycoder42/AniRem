@@ -66,7 +66,6 @@ TRANSLATIONS += seasonproxer_desktop_de.ts \
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore
-else:mac: LIBS += -F$$OUT_PWD/../Core/ -framework SeasonProxerCore
 else:unix: LIBS += -L$$OUT_PWD/../Core/ -lSeasonProxerCore
 
 INCLUDEPATH += $$PWD/../Core
