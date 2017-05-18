@@ -55,9 +55,11 @@ RESOURCES += \
 
 DISTFILES += \
 	seasonproxer_desktop_de.ts \
+	seasonproxer_de.ts \
 	deploy_x11.sh
 
-TRANSLATIONS += seasonproxer_desktop_de.ts
+TRANSLATIONS += seasonproxer_desktop_de.ts \
+	seasonproxer_de.ts
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore

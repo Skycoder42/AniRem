@@ -4,8 +4,6 @@
 #include <settingsdialog.h>
 #include <datasyncdialog.h>
 #include <proxerapp.h>
-#include <QTranslator>
-#include <QLibraryInfo>
 #include "addanimedialog.h"
 #include "detailsdockwidget.h"
 #include "mainwindow.h"
@@ -24,18 +22,6 @@ int main(int argc, char *argv[])
 	QApplication::setOrganizationDomain(QStringLiteral("de.skycoder42"));
 	QApplication::setApplicationDisplayName(DISPLAY_NAME);
 	QApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
-
-	//load translations
-	auto translator = new QTranslator(&a);
-	if(translator->load(QLocale(),
-						QStringLiteral("seasonproxer_desktop"),
-						QStringLiteral("_"),
-						QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
-		a.installTranslator(translator);
-	else {
-		qDebug() << "Failed to load translator" << QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-		delete translator;
-	}
 
 	QSingleInstance instance;
 	instance.setStartupFunction([&](){

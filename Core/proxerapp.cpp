@@ -1,6 +1,8 @@
 #include "proxerapp.h"
 #include <QtRestClient>
 #include <QDate>
+#include <QTranslator>
+#include <QLibraryInfo>
 #include <wsauthenticator.h>
 #include <exceptions.h>
 #include "coremessage.h"
@@ -28,6 +30,18 @@ ProxerApp::ProxerApp(QObject *parent) :
 
 	qRegisterMetaType<QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo>>("QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo>");
 	QJsonSerializer::registerListConverters<AnimeInfo*>();
+
+	//load translations
+	auto translator = new QTranslator(this);
+	if(translator->load(QLocale(),
+						QStringLiteral("seasonproxer"),
+						QStringLiteral("_"),
+						QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+		qApp->installTranslator(translator);
+	else {
+		qWarning() << "Failed to load translations";
+		delete translator;
+	}
 }
 
 bool ProxerApp::isUpdater() const
