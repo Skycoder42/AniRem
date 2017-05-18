@@ -11,7 +11,8 @@ CONFIG += c++11
 !no_updater:QT += autoupdatergui
 else: DEFINES += NO_AUTO_UPDATER
 
-TARGET = seasonproxer
+linux: TARGET = seasonproxer
+else: TARGET = SeasonProxer
 VERSION = 1.0.0
 
 RC_ICONS += ../Core/main.ico
@@ -19,6 +20,9 @@ QMAKE_TARGET_COMPANY = "Skycoder42"
 QMAKE_TARGET_PRODUCT = "Proxer.me Season Reminder"
 QMAKE_TARGET_DESCRIPTION = $$QMAKE_TARGET_PRODUCT
 QMAKE_TARGET_COPYRIGHT = "Felix Barz"
+
+ICON = ../Core/main.icns
+QMAKE_TARGET_BUNDLE_PREFIX = de.skycoder42
 
 DEFINES += "TARGET=\\\"$$TARGET\\\""
 DEFINES += "VERSION=\\\"$$VERSION\\\""
