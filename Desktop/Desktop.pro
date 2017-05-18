@@ -61,7 +61,8 @@ DISTFILES += \
 	seasonproxer_desktop_de.ts \
 	seasonproxer_de.ts \
 	deploy_x11.sh \
-    deploy_win.bat
+    deploy_win.bat \
+    deploy_mac.command
 
 TRANSLATIONS += seasonproxer_desktop_de.ts \
 	seasonproxer_de.ts
@@ -86,4 +87,5 @@ deploy.target = deploy
 linux: deploy.commands = $$shell_quote($$PWD/deploy_x11.sh) $$shell_quote($$[QT_INSTALL_BINS]) $$shell_quote($$[QT_INSTALL_LIBS]) $$shell_quote($$[QT_INSTALL_PLUGINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS]) $$shell_quote($$_PRO_FILE_PWD_/..)
 else:win32:CONFIG(release, debug|release): deploy.commands = $$shell_quote($$PWD/deploy_win.bat) release $$shell_quote($$[QT_INSTALL_BINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS]) $$shell_quote($$_PRO_FILE_PWD_/..)
 else:win32:CONFIG(debug, debug|release): deploy.commands = $$shell_quote($$PWD/deploy_win.bat) debug $$shell_quote($$[QT_INSTALL_BINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS]) $$shell_quote($$_PRO_FILE_PWD_/..)
+else:mac: deploy.commands = $$shell_quote($$PWD/deploy_mac.command) $$shell_quote($$[QT_INSTALL_BINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS]) $$shell_quote($$_PRO_FILE_PWD_/..)
 QMAKE_EXTRA_TARGETS += deploy

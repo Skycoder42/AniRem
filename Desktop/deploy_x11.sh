@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # $1 Qt bin dir
 # $2 Qt lib dir
 # $3 Qt plugin dir
@@ -75,8 +75,6 @@ echo "[Paths]" > qt.conf
 echo "Prefix=." >> qt.conf
 
 chrpath -r "./lib" seasonproxer
-
-exit 0
 
 
 
