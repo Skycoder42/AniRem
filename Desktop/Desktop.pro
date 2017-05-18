@@ -61,6 +61,8 @@ DISTFILES += \
 TRANSLATIONS += seasonproxer_desktop_de.ts \
 	seasonproxer_de.ts
 
+!no_updater:TRANSLATIONS += QtAutoUpdaterController_de.ts #TODO use qm from installation
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore
 else:mac: LIBS += -F$$OUT_PWD/../Core/ -framework SeasonProxerCore

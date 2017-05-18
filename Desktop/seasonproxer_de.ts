@@ -6,5 +6,6 @@
 		<dependency catalog="qtwebsockets_de"/>
 		<dependency catalog="seasonproxer_core_de"/>
 		<dependency catalog="seasonproxer_desktop_de"/>
+		<dependency catalog="QtAutoUpdaterController_de"/>
 	</dependencies>
 </TS>
