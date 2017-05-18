@@ -165,8 +165,7 @@
   </action>
   <action name="actionQuit">
    <property name="icon">
-    <iconset theme="gtk-quit">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="gtk-quit"/>
    </property>
    <property name="text">
     <string>&amp;Quit</string>
@@ -192,8 +191,7 @@
   </action>
   <action name="action_About">
    <property name="icon">
-    <iconset theme="help-about">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="help-about"/>
    </property>
    <property name="text">
     <string>&amp;About</string>
@@ -201,8 +199,7 @@
   </action>
   <action name="actionAbout_Qt">
    <property name="icon">
-    <iconset theme="qt">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="qt"/>
    </property>
    <property name="text">
     <string>About &amp;Qt</string>
