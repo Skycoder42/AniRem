@@ -31,9 +31,6 @@ DEFINES += "DISPLAY_NAME=\"\\\"$$QMAKE_TARGET_PRODUCT\\\"\""
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
-include(vendor/vendor.pri)
-
 HEADERS  += mainwindow.h \
 	animemodel.h \
 	addanimedialog.h \
@@ -61,8 +58,10 @@ DISTFILES += \
 	seasonproxer_desktop_de.ts \
 	seasonproxer_de.ts \
 	deploy_x11.sh \
-    deploy_win.bat \
-    deploy_mac.command
+	deploy_win.bat \
+	deploy_mac.command \
+	config.xml \
+	meta/package.xml
 
 TRANSLATIONS += seasonproxer_desktop_de.ts \
 	seasonproxer_de.ts
@@ -89,3 +88,17 @@ else:win32:CONFIG(release, debug|release): deploy.commands = $$shell_quote($$PWD
 else:win32:CONFIG(debug, debug|release): deploy.commands = $$shell_quote($$PWD/deploy_win.bat) debug $$shell_quote($$[QT_INSTALL_BINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS]) $$shell_quote($$_PRO_FILE_PWD_/..)
 else:mac: deploy.commands = $$shell_quote($$PWD/deploy_mac.command) $$shell_quote($$[QT_INSTALL_BINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS]) $$shell_quote($$_PRO_FILE_PWD_/..)
 QMAKE_EXTRA_TARGETS += deploy
+
+# installer
+QTIFW_TARGET = "SeasonProxer Installer"
+QTIFW_CONFIG = config.xml
+
+proxerpkg.pkg = de.skycoder42.seasonproxer
+proxerpkg.meta = meta
+proxerpkg.data = $$OUT_PWD/deployment
+
+QTIFW_PACKAGES += proxerpkg
+
+# qpm
+QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
+include(vendor/vendor.pri)
