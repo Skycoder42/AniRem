@@ -59,7 +59,6 @@ RESOURCES += \
 	seasonproxer_core.qrc
 
 DISTFILES += \
-	ProxerApi/proxerapi_kopie.json \
 	seasonproxer_core_de.ts
 
 TRANSLATIONS += seasonproxer_core_de.ts
