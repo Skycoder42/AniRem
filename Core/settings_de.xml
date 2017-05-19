@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SettingsConfig allowSearch="true" allowRestore="true">
+	<Group>
+		<Entry key="updates/autoCheck"
+			   type="list"
+			   title="&amp;Automatischer Season-Check"
+			   tooltip="Automatisch nach neuen Seasons suche, nach gegebenen Intervall."
+			   default="7">
+				<Property key="_list_data" type="string">int</Property>
+				<Property key="_list_elements" type="list">
+					<Element type="object">
+						<Property key="name" type="string">Nie</Property>
+						<Property key="value" type="number">0</Property>
+					</Element>
+					<Element type="object">
+						<Property key="name" type="string">Täglich</Property>
+						<Property key="value" type="number">1</Property>
+					</Element>
+					<Element type="object">
+						<Property key="name" type="string">Wöchentlich</Property>
+						<Property key="value" type="number">7</Property>
+					</Element>
+					<Element type="object">
+						<Property key="name" type="string">Monatlich</Property>
+						<Property key="value" type="number">30</Property>
+					</Element>
+				</Property>
+		</Entry>
+		<Entry key="updates/checkLimit"
+			   type="int"
+			   title="Season-Check &amp;Limit"
+			   tooltip="Wenn zu viele ANimes überprüft werden, kann es sein, dass proxer.me die IP blockiert. Gibt das Limit für Checks pro Tag an(0 heißt kein Limit)."
+			   default="10">
+			<Property key="specialValueText" type="string">Kein Limit</Property>
+		</Entry>
+	</Group>
+	<Group title="Lang/Doppel-Klick Aktionen">
+		<Entry key="openEntries"
+			   type="bool"
+			   title="Animes im &amp;Browser öffnen"
+			   tooltip="Eine solche Aktion öffnet Animes automatisch im Browser."
+			   default="false" />
+		<Entry key="uncheckEntries"
+			   type="bool"
+			   title="Neue Seasons &amp;demarkieren"
+			   tooltip="Eine solche Aktion entfernt automatisch die &apos;neue Seasons&apos; Information."
+			   default="true" />
+	</Group>
+</SettingsConfig>
