@@ -110,16 +110,16 @@ no_updater {
 	INSTALLS += target
 } else {
 	target_d.target = target_d
-	target_d.command = echo deploying
+	target_d.commands = echo deploying
 	target_d.depends = deploy
 
 	target_i.target = target_i
-	target_i.command = echo creating installer
+	target_i.commands = echo creating installer
 	target_i.depends = target_d installer
 
 	target_r.target = install
-	target_r.command = $$QMAKE_COPY_DIR $$OUT_PWD/qtifw-installer $(INSTALL_ROOT)
-	target_i.depends = target_i
+	target_r.commands = $$QMAKE_COPY_DIR $$OUT_PWD/qtifw-installer $(INSTALL_ROOT)
+	target_r.depends = target_i
 
 	QMAKE_EXTRA_TARGETS += target_d target_i target_r
 }
