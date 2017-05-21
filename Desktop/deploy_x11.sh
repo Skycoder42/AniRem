@@ -32,6 +32,7 @@ cp $lib/libQt5Widgets.so* ./
 cp $lib/libQt5Network.so* ./
 cp $lib/libQt5WebSockets.so* ./
 cp $lib/libQt5Sql.so* ./
+cp $lib/libQt5JsonSerializer.so* ./
 cp $lib/libQt5RestClient.so* ./
 cp $lib/libQt5DataSync.so* ./
 cp $lib/libQt5AutoUpdaterCore.so* ./
