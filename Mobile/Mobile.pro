@@ -3,7 +3,7 @@ TEMPLATE = app
 QT += qml quick network svg datasync restclient
 CONFIG += c++11
 
-TARGET = seasonproxer
+TARGET = SeasonProxer
 VERSION = 1.0.0
 
 DEFINES += "TARGET=\\\"$$TARGET\\\""
