@@ -92,6 +92,7 @@ QMAKE_EXTRA_TARGETS += deploy
 # installer
 QTIFW_TARGET = "SeasonProxer Installer"
 QTIFW_CONFIG = config.xml
+QTIFW_MODE = online_all
 
 proxerpkg.pkg = de.skycoder42.seasonproxer
 proxerpkg.meta = meta

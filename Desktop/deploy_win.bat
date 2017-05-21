@@ -8,6 +8,7 @@ cd deployment
 copy "..\%1\seasonproxer.exe" .\
 
 "%~2\windeployqt.exe" --%1 -no-translations seasonproxer.exe
+del vcredist_x64.exe
 
 "%~2\lrelease.exe" -compress -nounfinished "%~4\Core\Core.pro"
 "%~2\lrelease.exe" -compress -nounfinished "%~4\Desktop\Desktop.pro"
