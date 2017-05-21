@@ -103,3 +103,19 @@ QTIFW_PACKAGES += proxerpkg
 # qpm
 QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
 include(vendor/vendor.pri)
+
+# make install
+no_updater {
+	target.path = /usr/bin
+	INSTALLS += target
+} else {
+	target_d.target = target_d
+	target_d.command = echo d
+	target_d.depends = deploy
+
+	target_i.target = install
+	target_i.command = echo i
+	target_i.depends = target_d installer
+
+	QMAKE_EXTRA_TARGETS += target_d target_i
+}
