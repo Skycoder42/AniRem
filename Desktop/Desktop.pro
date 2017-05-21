@@ -20,7 +20,7 @@ QMAKE_TARGET_PRODUCT = "Proxer.me Season Reminder"
 QMAKE_TARGET_DESCRIPTION = $$QMAKE_TARGET_PRODUCT
 QMAKE_TARGET_COPYRIGHT = "Felix Barz"
 
-ICON = ../Core/main.icns
+ICON = main.icns
 QMAKE_TARGET_BUNDLE_PREFIX = de.skycoder42
 
 DEFINES += "TARGET=\\\"$$TARGET\\\""
@@ -60,7 +60,8 @@ DISTFILES += \
 	deploy_win.bat \
 	deploy_mac.command \
 	config.xml \
-	meta/package.xml
+	meta/package.xml \
+	main.png
 
 TRANSLATIONS += seasonproxer_desktop_de.ts \
 	seasonproxer_de.ts

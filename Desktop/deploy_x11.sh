@@ -17,6 +17,7 @@ set -e
 mkdir deployment
 cd deployment
 cp ../SeasonProxer ./
+cp $pro/Desktop/main.png ./
 
 mkdir lib
 cd lib
