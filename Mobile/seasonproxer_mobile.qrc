@@ -20,7 +20,4 @@
         <file alias="ic_check.svg">icons/svgs/ic_check_white_24px.svg</file>
         <file alias="ic_open_in_browser.svg">icons/svgs/ic_open_in_browser_white_24px.svg</file>
     </qresource>
-    <qresource prefix="/qt/etc">
-        <file>qt.conf</file>
-    </qresource>
 </RCC>
