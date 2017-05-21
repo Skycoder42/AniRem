@@ -16,7 +16,7 @@ set -e
 
 mkdir deployment
 cd deployment
-cp ../seasonproxer ./
+cp ../SeasonProxer ./
 
 mkdir lib
 cd lib
@@ -74,7 +74,6 @@ cd ..
 echo "[Paths]" > qt.conf
 echo "Prefix=." >> qt.conf
 
-chrpath -r "./lib" seasonproxer
-
+chrpath -r "./lib" SeasonProxer
 
 
