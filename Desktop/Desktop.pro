@@ -11,8 +11,7 @@ CONFIG += c++11
 !no_updater:QT += autoupdatergui
 else: DEFINES += NO_AUTO_UPDATER
 
-linux: TARGET = seasonproxer
-else: TARGET = SeasonProxer
+TARGET = SeasonProxer
 VERSION = 1.0.0
 
 RC_ICONS += ../Core/main.ico
@@ -96,7 +95,8 @@ QTIFW_MODE = online_all
 
 proxerpkg.pkg = de.skycoder42.seasonproxer
 proxerpkg.meta = meta
-proxerpkg.data = $$OUT_PWD/deployment
+!mac: proxerpkg.data = $$OUT_PWD/deployment
+else: proxerpkg.data = $$OUT_PWD/deployment/SeasonProxer.app
 
 QTIFW_PACKAGES += proxerpkg
 

@@ -7,7 +7,7 @@
 	<ProductUrl>https://github.com/Skycoder42/SeasonProxer</ProductUrl>
 	<StartMenuDir>SeasonProxer</StartMenuDir><!-- Enter name only, not a path! -->
 	<TargetDir>SeasonProxer</TargetDir><!-- Enter name only, not a path! -->
-	<RunProgram>seasonproxer</RunProgram><!-- Enter name only, not a path! -->
+	<RunProgram>SeasonProxer</RunProgram><!-- Enter name only, not a path! -->
 	<AllowSpaceInPath>true</AllowSpaceInPath>
 	<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
 	<RemoteRepositories>
