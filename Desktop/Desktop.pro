@@ -56,6 +56,7 @@ RESOURCES += \
 DISTFILES += \
 	seasonproxer_desktop_de.ts \
 	seasonproxer_de.ts \
+	no_updater/seasonproxer_de.ts \
 	deploy_x11.sh \
 	deploy_win.bat \
 	deploy_mac.command \
@@ -63,8 +64,9 @@ DISTFILES += \
 	meta/package.xml \
 	main.png
 
-TRANSLATIONS += seasonproxer_desktop_de.ts \
-	seasonproxer_de.ts
+TRANSLATIONS += seasonproxer_desktop_de.ts
+!no_updater: TRANSLATIONS += seasonproxer_de.ts
+else: TRANSLATIONS += no_updater/seasonproxer_de.ts
 
 !no_updater:TRANSLATIONS += QtAutoUpdaterController_de.ts #TODO use qm from installation
 
