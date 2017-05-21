@@ -24,11 +24,12 @@ SOURCES += main.cpp \
 	notifyingpresenter.cpp \
 	proxerimageprovider.cpp
 
-RESOURCES += \
-	seasonproxer_mobile.qrc
+RESOURCES += seasonproxer_mobile.qrc
+android: RESOURCES += seasonproxer_android.qrc
 
 DISTFILES += \
 	seasonproxer_mobile_de.ts \
+	seasonproxer_de.ts \
 	android/AndroidManifest.xml \
 	android/res/values/libs.xml \
 	android/build.gradle \
@@ -47,7 +48,8 @@ DISTFILES += \
 	android/res/drawable-xxxhdpi/ic_notification.png \
 	android/res/values/styles.xml
 
-TRANSLATIONS += seasonproxer_mobile_de.ts
+TRANSLATIONS += seasonproxer_mobile_de.ts \
+	seasonproxer_de.ts
 
 android {
 	HEADERS += statusview.h
@@ -68,3 +70,17 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/release/SeasonProxerCore.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/debug/SeasonProxerCore.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Core/libSeasonProxerCore.a
+
+# translation install
+qtPrepareTool(LRELEASE, lrelease)
+LRELEASE += -compress -nounfinished
+
+lrelease_target.target = lrelease_core
+lrelease_target.commands = $$LRELEASE $$PWD/../Core/Core.pro && $$LRELEASE $$_PRO_FILE_
+
+ts_target.files = "$$[QT_INSTALL_TRANSLATIONS]/qtbase_*.qm" "$$[QT_INSTALL_TRANSLATIONS]/qtwebsockets_*.qm" "$$PWD/../Core/*.qm" "$$PWD/*.qm"
+ts_target.path = /assets/translations
+ts_target.depends += lrelease_target
+
+QMAKE_EXTRA_TARGETS += lrelease_target
+INSTALLS += ts_target
