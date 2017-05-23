@@ -28,6 +28,7 @@ cp -P $lib/libQt5Core.so* ./
 cp -P $lib/libQt5DBus.so* ./
 cp -P $lib/libQt5XcbQpa.so* ./
 cp -P $lib/libQt5Gui.so* ./
+cp -P $lib/libQt5Svg.so* ./
 cp -P $lib/libQt5Widgets.so* ./
 cp -P $lib/libQt5Network.so* ./
 cp -P $lib/libQt5WebSockets.so* ./
@@ -45,17 +46,12 @@ cd plugins
 mkdir platforms
 cp $plugin/platforms/libqxcb.so ./platforms/
 
-mkdir platforminputcontexts
-cp $plugin/platforminputcontexts/libcomposeplatforminputcontextplugin.so ./platforminputcontexts/
-
-mkdir xcbglintegrations
-cp $plugin/xcbglintegrations/libqxcb-glx-integration.so ./xcbglintegrations/
-
 cp -r $plugin/bearer ./
-
-mkdir imageformats
-cp $plugin/imageformats/libqgif.so ./imageformats/
-cp $plugin/imageformats/libqico.so ./imageformats/
+cp -r $plugin/imageformats ./
+cp -r $plugin/iconengines ./
+cp -r $plugin/platforminputcontexts ./
+cp -r $plugin/platformthemes ./
+cp -r $plugin/xcbglintegrations ./
 
 mkdir sqldrivers
 cp $plugin/sqldrivers/libqsqlite.so ./sqldrivers/
