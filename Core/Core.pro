@@ -13,7 +13,7 @@ android: QT += androidextras
 win32: CONFIG += skip_target_version_ext
 
 TARGET = SeasonProxerCore
-VERSION = 1.0.0
+VERSION = 1.0.1
 
 DEFINES += QT_DEPRECATED_WARNINGS
 

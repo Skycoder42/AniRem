@@ -4,7 +4,7 @@ QT += qml quick network svg datasync restclient
 CONFIG += c++11
 
 TARGET = SeasonProxer
-VERSION = 1.0.0
+VERSION = 1.0.1
 
 DEFINES += "TARGET=\\\"$$TARGET\\\""
 DEFINES += "VERSION=\\\"$$VERSION\\\""

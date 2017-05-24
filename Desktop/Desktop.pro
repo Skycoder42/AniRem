@@ -12,7 +12,7 @@ CONFIG += c++11
 else: DEFINES += NO_AUTO_UPDATER
 
 TARGET = SeasonProxer
-VERSION = 1.0.0
+VERSION = 1.0.1
 
 RC_ICONS += ../Core/main.ico
 QMAKE_TARGET_COMPANY = "Skycoder42"
