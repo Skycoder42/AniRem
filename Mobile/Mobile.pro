@@ -3,13 +3,13 @@ TEMPLATE = app
 QT += qml quick network svg datasync restclient
 CONFIG += c++11
 
-TARGET = SeasonProxer
-VERSION = 1.0.1
+TARGET = AniRem
+VERSION = $$SP_VERSION
 
 DEFINES += "TARGET=\\\"$$TARGET\\\""
 DEFINES += "VERSION=\\\"$$VERSION\\\""
 DEFINES += "COMPANY=\"\\\"Skycoder42\\\"\""
-DEFINES += "DISPLAY_NAME=\"\\\"Proxer.me Season Reminder\\\"\""
+DEFINES += "DISPLAY_NAME=\\\"$$TARGET\\\""
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
@@ -41,6 +41,17 @@ DISTFILES += \
 	android/res/values/strings.xml \
 	android/src/de/skycoder42/seasonproxer/SeasonProxerService.java \
 	android/src/de/skycoder42/seasonproxer/AlarmReceiver.java \
+	android/res/values/styles.xml \
+	android/res/drawable-hdpi/ic_notification.png \
+	android/res/drawable-hdpi/splash.9.png \
+	android/res/drawable-mdpi/ic_notification.png \
+	android/res/drawable-mdpi/splash.9.png \
+	android/res/drawable-xhdpi/ic_notification.png \
+	android/res/drawable-xhdpi/splash.9.png \
+	android/res/drawable-xxhdpi/ic_notification.png \
+	android/res/drawable-xxhdpi/splash.9.png \
+	android/res/drawable-xxxhdpi/ic_notification.png \
+	android/res/drawable-xxxhdpi/splash.9.png \
 	android/res/drawable-hdpi/ic_notification.png \
 	android/res/drawable-mdpi/ic_notification.png \
 	android/res/drawable-xhdpi/ic_notification.png \
@@ -58,18 +69,18 @@ android {
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore
-else:unix: LIBS += -L$$OUT_PWD/../Core/ -lSeasonProxerCore
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lAniRemCore
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lAniRemCore
+else:unix: LIBS += -L$$OUT_PWD/../Core/ -lAniRemCore
 
 INCLUDEPATH += $$PWD/../Core
 DEPENDPATH += $$PWD/../Core
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/release/libSeasonProxerCore.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/debug/libSeasonProxerCore.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/release/SeasonProxerCore.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/debug/SeasonProxerCore.lib
-else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Core/libSeasonProxerCore.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/release/libAniRemCore.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/debug/libAniRemCore.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/release/AniRemCore.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/debug/AniRemCore.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Core/libAniRemCore.a
 
 # translation install
 qtPrepareTool(LRELEASE, lrelease)

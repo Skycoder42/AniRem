@@ -61,9 +61,9 @@ void MainControl::showSync()
 
 void MainControl::showAbout()
 {
-	CoreMessage::about(tr("SeaonsProxer is an utility to easily get notifications for new seasons "
-						  "of your favorite animes. You can add your animes and it will automatically "
-						  "check for new seasons and notify you about them!"),
+	CoreMessage::about(tr("AniRem is an utility to easily get notifications for new seasons "
+						  "of your favorite animes on proxer.me. You can add your animes and "
+						  "it will automatically check for new seasons and notify you about them!"),
 					   true,
 					   QStringLiteral("https://skycoder42.de"));
 }

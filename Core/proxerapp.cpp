@@ -87,7 +87,7 @@ void ProxerApp::setupParser(QCommandLineParser &parser, bool &allowInvalid) cons
 	CoreApp::setupParser(parser, allowInvalid);
 	parser.addOption({
 						 {"u", "update"},
-						 "SeasonProxer will start with a GUI, checking for updates passively"
+						 "AniRem will start with a GUI, checking for updates passively"
 					 });
 }
 

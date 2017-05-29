@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
-	<Name>Proxer.me Season Reminder</Name>
-	<Version>1.0.0</Version>
-	<Title>Proxer.me Season Reminder Installer</Title>
+	<Name>AniRem Season Reminder</Name>
+	<Version>1.1.0</Version>
+	<Title>AniRem Season Reminder Installer</Title>
 	<Publisher>Sykcoder42</Publisher>
 	<ProductUrl>https://github.com/Skycoder42/SeasonProxer</ProductUrl>
-	<StartMenuDir>SeasonProxer</StartMenuDir><!-- Enter name only, not a path! -->
-	<TargetDir>SeasonProxer</TargetDir><!-- Enter name only, not a path! -->
-	<RunProgram>SeasonProxer</RunProgram><!-- Enter name only, not a path! -->
+	<StartMenuDir>AniRem</StartMenuDir><!-- Enter name only, not a path! -->
+	<TargetDir>AniRem</TargetDir><!-- Enter name only, not a path! -->
+	<RunProgram>AniRem</RunProgram><!-- Enter name only, not a path! -->
 	<AllowSpaceInPath>true</AllowSpaceInPath>
 	<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
 	<RemoteRepositories>
 		<Repository>
 			<Url>https://install.skycoder42.de/installers/SeasonProxer</Url>
 			<Enabled>1</Enabled>
-			<DisplayName>Proxer.me Season Reminder Repository</DisplayName>
+			<DisplayName>AniRem Season Reminder Repository</DisplayName>
 		</Repository>
 	</RemoteRepositories>
 	<ControlScript>controller.js</ControlScript>
