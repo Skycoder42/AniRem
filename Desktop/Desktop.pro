@@ -57,18 +57,14 @@ DISTFILES += \
 	seasonproxer_desktop_de.ts \
 	seasonproxer_de.ts \
 	no_updater/seasonproxer_de.ts \
-	deploy_x11.sh \
-	deploy_win.bat \
-	deploy_mac.command \
 	config.xml \
 	meta/package.xml \
 	main.png
 
 TRANSLATIONS += seasonproxer_desktop_de.ts
-!no_updater: TRANSLATIONS += seasonproxer_de.ts
+!no_updater: TRANSLATIONS += seasonproxer_de.ts \
+	QtAutoUpdaterController_de.ts #TODO use qm from installation
 else: TRANSLATIONS += no_updater/seasonproxer_de.ts
-
-!no_updater:TRANSLATIONS += QtAutoUpdaterController_de.ts #TODO use qm from installation
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lSeasonProxerCore
@@ -84,12 +80,8 @@ else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Core/libSeasonProxerCore.a
 
 # deployment
-deploy.target = deploy
-linux: deploy.commands = $$shell_quote($$PWD/deploy_x11.sh) $$shell_quote($$[QT_INSTALL_BINS]) $$shell_quote($$[QT_INSTALL_LIBS]) $$shell_quote($$[QT_INSTALL_PLUGINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS]) $$shell_quote($$_PRO_FILE_PWD_/..)
-else:win32:CONFIG(release, debug|release): deploy.commands = $$shell_quote($$PWD/deploy_win.bat) release $$shell_quote($$[QT_INSTALL_BINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS]) $$shell_quote($$_PRO_FILE_PWD_/..)
-else:win32:CONFIG(debug, debug|release): deploy.commands = $$shell_quote($$PWD/deploy_win.bat) debug $$shell_quote($$[QT_INSTALL_BINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS]) $$shell_quote($$_PRO_FILE_PWD_/..)
-else:mac: deploy.commands = $$shell_quote($$PWD/deploy_mac.command) $$shell_quote($$[QT_INSTALL_BINS]) $$shell_quote($$[QT_INSTALL_TRANSLATIONS]) $$shell_quote($$_PRO_FILE_PWD_/..)
-QMAKE_EXTRA_TARGETS += deploy
+CONFIG += qtifw_auto_deploy
+QTIFW_DEPLOY_TSPRO = $$_PRO_FILE_ $$_PRO_FILE_PWD_/../Core/Core.pro
 
 # installer
 QTIFW_TARGET = "SeasonProxer Installer"
@@ -98,31 +90,17 @@ QTIFW_MODE = online_all
 
 proxerpkg.pkg = de.skycoder42.seasonproxer
 proxerpkg.meta = meta
-!mac: proxerpkg.data = $$OUT_PWD/deployment
-else: proxerpkg.data = $$OUT_PWD/deployment/SeasonProxer.app
+linux: proxerpkg.files = main.png
+QTIFW_AUTO_INSTALL_PKG = proxerpkg
 
 QTIFW_PACKAGES += proxerpkg
-
-# qpm
-QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
-include(vendor/vendor.pri)
 
 # make install
 no_updater {
 	target.path = /usr/bin
 	INSTALLS += target
-} else {
-	target_d.target = target_d
-	target_d.commands = echo deploying
-	target_d.depends = deploy
+} else:CONFIG += qtifw_install_target
 
-	target_i.target = target_i
-	target_i.commands = echo creating installer
-	target_i.depends = target_d installer
-
-	target_r.target = install
-	target_r.commands = $$QMAKE_COPY_DIR $$OUT_PWD/qtifw-installer $(INSTALL_ROOT)
-	target_r.depends = target_i
-
-	QMAKE_EXTRA_TARGETS += target_d target_i target_r
-}
+# qpm
+QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
+include(vendor/vendor.pri)
