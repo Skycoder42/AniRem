@@ -1,4 +1,4 @@
-package de.skycoder42.seasonproxer;
+package de.skycoder42.anirem;
 
 import android.app.NotificationManager;
 import android.app.Notification;

@@ -39,8 +39,8 @@ DISTFILES += \
 	android/res/drawable-xxhdpi/ic_launcher.png \
 	android/res/drawable-xxxhdpi/ic_launcher.png \
 	android/res/values/strings.xml \
-	android/src/de/skycoder42/seasonproxer/SeasonProxerService.java \
-	android/src/de/skycoder42/seasonproxer/AlarmReceiver.java \
+	android/src/de/skycoder42/anirem/SeasonProxerService.java \
+	android/src/de/skycoder42/anirem/AlarmReceiver.java \
 	android/res/values/styles.xml \
 	android/res/drawable-hdpi/ic_notification.png \
 	android/res/drawable-hdpi/splash.9.png \
