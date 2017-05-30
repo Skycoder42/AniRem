@@ -192,7 +192,7 @@ void ProxerApp::syncLocalData(bool updateNext)
 {
 	auto controller = new QtDataSync::SyncController(this);
 	qDebug() << "Syncing local anime store...";
-	auto resFn = [this, controller, updateNext](QtDataSync::SyncController::SyncState state) {
+	controller->triggerSyncWithResult([this, controller, updateNext](QtDataSync::SyncController::SyncState state) {
 		//No matter how the result, try to check for updates anyway
 		qInfo() << "Synced anime store with result:" << state;
 		if(updateNext)
@@ -200,12 +200,7 @@ void ProxerApp::syncLocalData(bool updateNext)
 		else
 			quitApp();
 		controller->deleteLater();
-	};
-
-	if(controller->syncState() == QtDataSync::SyncController::Disconnected)
-		resFn(QtDataSync::SyncController::Disconnected);
-	else
-		controller->triggerSyncWithResult(resFn);
+	});
 }
 
 void ProxerApp::automaticUpdateCheck()
