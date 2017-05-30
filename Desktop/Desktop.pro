@@ -14,13 +14,13 @@ else: DEFINES += NO_AUTO_UPDATER
 TARGET = AniRem
 VERSION = $$SP_VERSION
 
-RC_ICONS += ../Core/main.ico
+RC_ICONS += ../icn/anirem.ico
 QMAKE_TARGET_COMPANY = "Skycoder42"
 QMAKE_TARGET_PRODUCT = $$TARGET
 QMAKE_TARGET_DESCRIPTION = "AniRem — Anime Season Reminder"
 QMAKE_TARGET_COPYRIGHT = "Felix Barz"
 
-ICON = main.icns
+ICON = ../icn/anirem.icns
 QMAKE_TARGET_BUNDLE_PREFIX = de.skycoder42
 
 DEFINES += "TARGET=\\\"$$TARGET\\\""
@@ -90,7 +90,7 @@ QTIFW_MODE = online_all
 
 proxerpkg.pkg = de.skycoder42.seasonproxer
 proxerpkg.meta = meta
-linux: proxerpkg.files = main.png
+linux: proxerpkg.files = ../icn/main.png
 QTIFW_AUTO_INSTALL_PKG = proxerpkg
 
 QTIFW_PACKAGES += proxerpkg
