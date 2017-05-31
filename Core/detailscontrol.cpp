@@ -30,7 +30,7 @@ void DetailsControl::setAnimeInfo(AnimeInfo *animeInfo)
 	if (_animeInfo == animeInfo)
 		return;
 
-	if(_animeInfo) {
+	if(_animeInfo) {//TODO crashes if info was deleted elsewhere
 		disconnect(_animeInfo, &AnimeInfo::seasonStateChanged,
 				   this, &DetailsControl::animeInfoChanged);
 	}
