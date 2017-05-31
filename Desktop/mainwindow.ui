@@ -80,6 +80,8 @@
     </property>
     <addaction name="action_About"/>
     <addaction name="actionAbout_Qt"/>
+    <addaction name="separator"/>
+    <addaction name="actionMigrate_from_SeasonProxer"/>
    </widget>
    <widget class="QMenu" name="menu_Actions">
     <property name="title">
@@ -254,6 +256,11 @@
    </property>
    <property name="toolTip">
     <string>Synchronization</string>
+   </property>
+  </action>
+  <action name="actionMigrate_from_SeasonProxer">
+   <property name="text">
+    <string>&amp;Migrate from SeasonProxer</string>
    </property>
   </action>
  </widget>

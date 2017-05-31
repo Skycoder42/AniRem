@@ -1,5 +1,8 @@
 #include <QApplication>
 #include <QIcon>
+#include <QStandardPaths>
+#include <QDir>
+#include <dialogmaster.h>
 #include <qsingleinstance.h>
 #include <settingsdialog.h>
 #include <datasyncdialog.h>
@@ -25,6 +28,27 @@ int main(int argc, char *argv[])
 
 	QSingleInstance instance;
 	instance.setStartupFunction([&](){
+		QSettings settings;
+		if(settings.value(QStringLiteral("migrate")).toBool()) {
+			settings.setValue(QStringLiteral("migrate"), false);
+			QDir ardir = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+			auto goalPath = ardir.absoluteFilePath(QStringLiteral("./qtdatasync_localstore"));
+			auto oldPath = ardir.absoluteFilePath(QStringLiteral("./qtdatasync_localstore.old"));
+			try {
+				if(!ardir.rename(goalPath, oldPath))
+					throw QCoreApplication::translate("GLOBAL", "Failed to backup the original files.");
+				QDir spdir = QDir(ardir.absolutePath().replace(QStringLiteral("AniRem"), QStringLiteral("SeasonProxer")));
+				if(!spdir.exists())
+					throw QCoreApplication::translate("GLOBAL", "Failed to find the data of SeasonProxer. Did you use seasonproxer?");
+				if(!spdir.rename(QStringLiteral("./qtdatasync_localstore"), goalPath))
+					throw QCoreApplication::translate("GLOBAL", "Failed to move the data from SeasonProxer to AnimRem.");
+				DialogMaster::information(nullptr, QCoreApplication::translate("GLOBAL", "Migration successfully completed!"));
+			} catch(QString error) {
+				ardir.rename(oldPath, goalPath);
+				DialogMaster::critical(nullptr, error, QCoreApplication::translate("GLOBAL", "Migration failed!"));
+			}
+		}
+
 		WidgetPresenter::registerAsPresenter<SystemTrayPresenter>();
 		WidgetPresenter::registerWidget<SettingsDialog>();
 		DatasyncDialog::registerWidgets();

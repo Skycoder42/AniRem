@@ -4,6 +4,7 @@
 #include <QClipboard>
 #include <QDesktopServices>
 #include <QSettings>
+#include <dialogmaster.h>
 #include "addanimedialog.h"
 
 #ifndef NO_AUTO_UPDATER
@@ -211,4 +212,18 @@ QModelIndex MainWindow::mapToCtrl(const QModelIndex &uiIndex) const
 	}
 
 	return {};
+}
+
+void MainWindow::on_actionMigrate_from_SeasonProxer_triggered()
+{
+	if(DialogMaster::question(this,
+							  tr("Do you really want to migrate your data from SeasonProxer? "
+								 "The application will quit itself, and after you restart it, you will have "
+								 "back the data from your SeasonProxer installation."),
+							  tr("Migrate from SeasonProxer"))
+	   == QMessageBox::Yes) {
+		QSettings settings;
+		settings.setValue(QStringLiteral("migrate"), true);
+		qApp->quit();
+	}
 }
