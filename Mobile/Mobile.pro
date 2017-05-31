@@ -57,7 +57,8 @@ DISTFILES += \
 	android/res/drawable-xhdpi/ic_notification.png \
 	android/res/drawable-xxhdpi/ic_notification.png \
 	android/res/drawable-xxxhdpi/ic_notification.png \
-	android/res/values/styles.xml
+	android/res/values/styles.xml \
+	android/res/values-de/strings.xml
 
 TRANSLATIONS += seasonproxer_mobile_de.ts \
 	seasonproxer_de.ts
