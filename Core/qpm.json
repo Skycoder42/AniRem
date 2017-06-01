@@ -2,7 +2,7 @@
   "name": "",
   "description": "",
   "dependencies": [
-    "de.skycoder42.qtmvvm.settings.core@1.0.1",
+    "de.skycoder42.qtmvvm.settings.core@1.0.3",
     "de.skycoder42.qtmvvm.core@1.0.0",
     "de.skycoder42.qtmvvm.datasync.core@1.0.1",
     "de.skycoder42.qobjectlistmodel@1.1.1"
