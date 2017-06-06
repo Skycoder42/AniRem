@@ -55,7 +55,7 @@ void ProxerApp::checkForSeasonUpdate(AnimeInfo *info)
 	loader->checkForUpdates({info});
 }
 
-void ProxerApp::checkForSeasonUpdates(int limit)
+void ProxerApp::checkForSeasonUpdates()
 {
 	auto updateList = store->loadAll();
 
@@ -65,11 +65,12 @@ void ProxerApp::checkForSeasonUpdates(int limit)
 	});
 
 	//reduce to allowed list size
-	updateList = updateList.mid(0, limit);
-
-	//quit if none have to be updated or show already updated
-	if(updateList.isEmpty())
-		return;
+	QSettings settings;
+	settings.beginGroup("updates");
+	auto maxSize = settings.value("checkLimit", 15).toInt();
+	if(maxSize > 0)
+		updateList = updateList.mid(0, maxSize);
+	settings.endGroup();
 
 	mainControl->updateLoadStatus(true);
 	showNoUpdatesInfo = true;
@@ -228,7 +229,7 @@ void ProxerApp::automaticUpdateCheck()
 	});
 
 	//reduce to allowed list size
-	auto maxSize = settings.value("checkLimit", 10).toInt();
+	auto maxSize = settings.value("checkLimit", 15).toInt();
 	if(maxSize > 0)
 		updateList = updateList.mid(0, maxSize);
 

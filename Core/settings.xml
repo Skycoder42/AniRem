@@ -30,7 +30,7 @@
 			   type="int"
 			   title="Season check &amp;limit"
 			   tooltip="If checking for too many seasons at once, proxer.me may block your ip. To prevent this, limit the amount of checked animes per day (0 equals no limit)."
-			   default="10">
+			   default="15">
 			<Property key="specialValueText" type="string">No limit</Property>
 		</Entry>
 	</Group>

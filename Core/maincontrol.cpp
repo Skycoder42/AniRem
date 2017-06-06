@@ -44,13 +44,7 @@ void MainControl::updateLoadStatus(bool loading)
 
 void MainControl::reload()
 {
-	CoreMessage::getInput(tr("Check for new Seasons"),
-						  tr("Please select for how many animes seasons should be checked:"),
-						  QMetaType::Int,
-						  [](QVariant res) {
-		if(res.isValid())
-			coreApp->checkForSeasonUpdates(res.toInt());
-	}, settingsControl->checkLimit());
+	coreApp->checkForSeasonUpdates();
 }
 
 void MainControl::showSettings()

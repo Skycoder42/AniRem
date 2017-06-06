@@ -30,7 +30,7 @@
 			   type="int"
 			   title="Season-Check &amp;Limit"
 			   tooltip="Wenn zu viele ANimes überprüft werden, kann es sein, dass proxer.me die IP blockiert. Gibt das Limit für Checks pro Tag an(0 heißt kein Limit)."
-			   default="10">
+			   default="15">
 			<Property key="specialValueText" type="string">Kein Limit</Property>
 		</Entry>
 	</Group>
