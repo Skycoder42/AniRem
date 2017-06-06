@@ -70,7 +70,7 @@ void MainControl::showAbout()
 
 void MainControl::showCaptcha()
 {
-	QDesktopServices::openUrl(QStringLiteral("http://proxer.me/misc/captcha"));
+	QDesktopServices::openUrl(QStringLiteral("https://proxer.me/misc/captcha"));
 }
 
 void MainControl::uncheckAnime(int id)

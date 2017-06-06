@@ -24,7 +24,7 @@ Page {
 		AppBarButton {
 			id: refreshButton
 			imageSource: "image://svg/icons/ic_autorenew"
-			text: qsTr("Refresh")
+			text: qsTr("Check for new Seasons")
 			onClicked: control.reload()
 		}
 
@@ -36,6 +36,8 @@ Page {
 				text: qsTr("Paste ID/URL")
 				onClicked: control.addAnimeFromClipboard()
 			}
+
+			MenuSeparator {}
 
 			MenuItem {
 				id: settings
@@ -49,10 +51,18 @@ Page {
 				onClicked: control.showSync()
 			}
 
+			MenuSeparator {}
+
 			MenuItem {
 				id: about
 				text: qsTr("About")
 				onClicked: control.showAbout()
+			}
+
+			MenuItem {
+				id: unblockCaptcha
+				text: qsTr("Unblock IP Captcha")
+				onClicked: control.showCaptcha()
 			}
 		}
 	}
