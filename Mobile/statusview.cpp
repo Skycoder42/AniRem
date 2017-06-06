@@ -27,16 +27,5 @@ void StatusView::showUpdateNotification(bool success, const QString &title, cons
 							 (jboolean)success,
 							 QAndroidJniObject::fromString(title).object<jstring>(),
 							 QAndroidJniObject::fromString(message).object<jstring>());
-
-	service.callMethod<void>("stopSelf");
-}
-
-#include <jni.h>
-extern "C" {
-
-JNIEXPORT void JNICALL Java_de_skycoder42_seasonproxer_SeasonProxerService_quitApp(JNIEnv */*env*/, jobject /*obj*/)
-{
-	QMetaObject::invokeMethod(qApp, "quit", Qt::QueuedConnection);
-}
-
+	qApp->quit();
 }

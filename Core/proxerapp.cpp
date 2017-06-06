@@ -71,17 +71,6 @@ void ProxerApp::showMainControl()
 	}
 }
 
-void ProxerApp::quitApp()
-{
-#ifdef Q_OS_ANDROID
-	auto service = QtAndroid::androidService();
-	if(service.isValid())
-		service.callMethod<void>("stopSelf");
-	else
-#endif
-	qApp->quit();
-}
-
 void ProxerApp::setupParser(QCommandLineParser &parser, bool &allowInvalid) const
 {
 	CoreApp::setupParser(parser, allowInvalid);
@@ -198,7 +187,7 @@ void ProxerApp::syncLocalData(bool updateNext)
 		if(updateNext)
 			automaticUpdateCheck();
 		else
-			quitApp();
+			qApp->quit();
 		controller->deleteLater();
 	});
 }
@@ -244,7 +233,7 @@ void ProxerApp::automaticUpdateCheck()
 			updateDone(true, {});
 		else {
 			qInfo() << "No animes need season checks";
-			quitApp();
+			qApp->quit();
 		}
 		return;
 	}

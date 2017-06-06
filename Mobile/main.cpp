@@ -51,12 +51,7 @@ int main(int argc, char *argv[])
 		engine->load(QUrl(QStringLiteral("qrc:///qml/App.qml")));
 	}
 
-	auto res = app.exec();
-#ifdef Q_OS_ANDROID
-	if(isServer())
-		QAndroidJniObject::callStaticMethod<void>("java/lang/System", "exit", "(I)V", res);
-#endif
-	return res;
+	return app.exec();
 }
 
 static bool isServer()
