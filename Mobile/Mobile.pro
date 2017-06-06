@@ -24,6 +24,11 @@ SOURCES += main.cpp \
 	notifyingpresenter.cpp \
 	proxerimageprovider.cpp
 
+android {
+	HEADERS += statusview.h
+	SOURCES += statusview.cpp
+}
+
 RESOURCES += seasonproxer_mobile.qrc
 android: RESOURCES += seasonproxer_android.qrc
 
@@ -32,41 +37,30 @@ DISTFILES += \
 	seasonproxer_de.ts \
 	android/AndroidManifest.xml \
 	android/res/values/libs.xml \
-	android/build.gradle \
-	android/res/drawable-hdpi/ic_launcher.png \
-	android/res/drawable-mdpi/ic_launcher.png \
-	android/res/drawable-xhdpi/ic_launcher.png \
-	android/res/drawable-xxhdpi/ic_launcher.png \
-	android/res/drawable-xxxhdpi/ic_launcher.png \
 	android/res/values/strings.xml \
-	android/src/de/skycoder42/anirem/SeasonProxerService.java \
-	android/src/de/skycoder42/anirem/AlarmReceiver.java \
 	android/res/values/styles.xml \
+	android/res/values-de/strings.xml \
+	android/res/drawable-hdpi/ic_launcher.png \
 	android/res/drawable-hdpi/ic_notification.png \
 	android/res/drawable-hdpi/splash.9.png \
+	android/res/drawable-mdpi/ic_launcher.png \
 	android/res/drawable-mdpi/ic_notification.png \
 	android/res/drawable-mdpi/splash.9.png \
+	android/res/drawable-xhdpi/ic_launcher.png \
 	android/res/drawable-xhdpi/ic_notification.png \
 	android/res/drawable-xhdpi/splash.9.png \
+	android/res/drawable-xxhdpi/ic_launcher.png \
 	android/res/drawable-xxhdpi/ic_notification.png \
 	android/res/drawable-xxhdpi/splash.9.png \
+	android/res/drawable-xxxhdpi/ic_launcher.png \
 	android/res/drawable-xxxhdpi/ic_notification.png \
 	android/res/drawable-xxxhdpi/splash.9.png \
-	android/res/drawable-hdpi/ic_notification.png \
-	android/res/drawable-mdpi/ic_notification.png \
-	android/res/drawable-xhdpi/ic_notification.png \
-	android/res/drawable-xxhdpi/ic_notification.png \
-	android/res/drawable-xxxhdpi/ic_notification.png \
-	android/res/values/styles.xml \
-	android/res/values-de/strings.xml
+	android/build.gradle \
+	android/src/de/skycoder42/seasonproxer/AlarmReceiver.java \
+	android/src/de/skycoder42/seasonproxer/SeasonProxerService.java
 
 TRANSLATIONS += seasonproxer_mobile_de.ts \
 	seasonproxer_de.ts
-
-android {
-	HEADERS += statusview.h
-	SOURCES += statusview.cpp
-}
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 

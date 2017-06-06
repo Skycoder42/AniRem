@@ -26,8 +26,6 @@ public slots:
 	void checkForSeasonUpdates();
 	void showMainControl();
 
-	void quitApp();
-
 protected:
 	void setupParser(QCommandLineParser &parser, bool &allowInvalid) const override;
 	bool startApp(const QCommandLineParser &parser) override;

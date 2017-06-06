@@ -24,7 +24,6 @@ public class SeasonProxerService extends QtService {
 	private NotificationCompat.Builder progressBuilder = null;
 	private Intent startIntent = null;
 
-	public static native void quitApp();
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -40,7 +39,6 @@ public class SeasonProxerService extends QtService {
 			startIntent = null;
 		}
 		super.onDestroy();
-		quitApp();
 	}
 
 	@Override
