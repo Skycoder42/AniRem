@@ -60,7 +60,7 @@ void SeasonStatusLoader::checkNext()
 			}
 			next->setSeasonState(infoState);
 
-			next->setLastUpdateCheck(QDate::currentDate());
+			next->setLastUpdateCheck(QDateTime::currentDateTime());
 			emit animeInfoUpdated(next);
 
 			if(next->hasNewSeasons())

@@ -235,7 +235,7 @@ void ProxerApp::automaticUpdateCheck()
 	//reduce to allowed interval
 	auto interval = settings.value("autoCheck", 7).toInt();
 	for(auto i = 0; i < updateList.size(); i++) {
-		if(updateList[i]->lastUpdateCheck().daysTo(QDate::currentDate()) < interval) {
+		if(updateList[i]->lastUpdateCheck().date().daysTo(QDate::currentDate()) < interval) {
 			updateList = updateList.mid(0, i);
 			break;
 		}
