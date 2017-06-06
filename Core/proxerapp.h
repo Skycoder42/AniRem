@@ -23,7 +23,7 @@ public:
 
 public slots:
 	void checkForSeasonUpdate(AnimeInfo *info);
-	void checkForSeasonUpdates();
+	void checkForSeasonUpdates(int limit);
 	void showMainControl();
 
 protected:

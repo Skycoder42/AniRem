@@ -55,11 +55,25 @@ void ProxerApp::checkForSeasonUpdate(AnimeInfo *info)
 	loader->checkForUpdates({info});
 }
 
-void ProxerApp::checkForSeasonUpdates()
+void ProxerApp::checkForSeasonUpdates(int limit)
 {
+	auto updateList = store->loadAll();
+
+	//sort by last update check time
+	std::sort(updateList.begin(), updateList.end(), [](AnimeInfo *left, AnimeInfo *right){
+		return left->lastUpdateCheck() < right->lastUpdateCheck();
+	});
+
+	//reduce to allowed list size
+	updateList = updateList.mid(0, limit);
+
+	//quit if none have to be updated or show already updated
+	if(updateList.isEmpty())
+		return;
+
 	mainControl->updateLoadStatus(true);
 	showNoUpdatesInfo = true;
-	loader->checkForUpdates(store->loadAll());
+	loader->checkForUpdates(updateList);
 }
 
 void ProxerApp::showMainControl()
