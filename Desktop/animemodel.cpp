@@ -4,13 +4,24 @@
 #include <QLocale>
 
 AnimeModel::AnimeModel(QGenericListModel<AnimeInfo> *srcModel, QObject *parent) :
-	QObjectProxyModel({tr("Id"), tr("Name"), tr("Season Count"), tr("Season Overview")}, parent)
+	QObjectProxyModel({tr("Id"), tr("Name"), tr("Season Count"), tr("Last updated"), tr("Season Overview")}, parent)
 {
 	setSourceModel(srcModel);
+
 	addMapping(0, Qt::DisplayRole, "id");
+	addMapping(0, Qt::ToolTipRole, "id");
+
 	addMapping(1, Qt::DisplayRole, "title");
+	addMapping(1, Qt::ToolTipRole, "title");
+
 	addMapping(2, Qt::DisplayRole, "totalSeasonCount");
-	addMapping(3, Qt::DisplayRole, "relationsUrl");
+	addMapping(2, Qt::ToolTipRole, "totalSeasonCount");
+
+	addMapping(3, Qt::DisplayRole, "lastUpdateCheck");
+	addMapping(3, Qt::ToolTipRole, "lastUpdateCheck");
+
+	addMapping(4, Qt::DisplayRole, "relationsUrl");
+	addMapping(4, Qt::ToolTipRole, "relationsUrl");
 }
 
 QVariant AnimeModel::data(const QModelIndex &index, int role) const
@@ -22,9 +33,12 @@ QVariant AnimeModel::data(const QModelIndex &index, int role) const
 	auto info = static_cast<QGenericListModel<AnimeInfo>*>(sourceModel())->object(src);
 	switch (role) {
 	case Qt::DisplayRole:
+	case Qt::ToolTipRole:
 		switch(index.column()) {
 		case 2:
 			return QLocale().toString(info->totalSeasonCount());
+		case 3:
+			return info->lastUpdateCheck().toString(Qt::DefaultLocaleShortDate);
 		default:
 			break;
 		}
