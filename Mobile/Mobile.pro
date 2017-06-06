@@ -4,7 +4,7 @@ QT += qml quick network svg datasync restclient
 CONFIG += c++11
 
 TARGET = SeasonProxer
-VERSION = 1.0.1
+VERSION = $$SP_VERSION 
 
 DEFINES += "TARGET=\\\"$$TARGET\\\""
 DEFINES += "VERSION=\\\"$$VERSION\\\""
@@ -41,6 +41,17 @@ DISTFILES += \
 	android/res/values/strings.xml \
 	android/src/de/skycoder42/seasonproxer/SeasonProxerService.java \
 	android/src/de/skycoder42/seasonproxer/AlarmReceiver.java \
+	android/res/values/styles.xml \ 
+	android/res/drawable-hdpi/ic_notification.png \ 
+	android/res/drawable-hdpi/splash.9.png \ 
+	android/res/drawable-mdpi/ic_notification.png \ 
+	android/res/drawable-mdpi/splash.9.png \ 
+	android/res/drawable-xhdpi/ic_notification.png \ 
+	android/res/drawable-xhdpi/splash.9.png \ 
+	android/res/drawable-xxhdpi/ic_notification.png \ 
+	android/res/drawable-xxhdpi/splash.9.png \ 
+	android/res/drawable-xxxhdpi/ic_notification.png \ 
+	android/res/drawable-xxxhdpi/splash.9.png \ 
 	android/res/drawable-hdpi/ic_notification.png \
 	android/res/drawable-mdpi/ic_notification.png \
 	android/res/drawable-xhdpi/ic_notification.png \
