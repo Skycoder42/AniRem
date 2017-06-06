@@ -32,6 +32,7 @@ public slots:
 
 private slots:
 	void updatePreview(const QModelIndex &index);
+	void updateCount();
 
 	void on_actionRemove_Anime_triggered();
 	void on_actionCopy_selected_Info_triggered();

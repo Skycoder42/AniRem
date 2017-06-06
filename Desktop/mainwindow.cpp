@@ -14,7 +14,7 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 	QMainWindow(parent),
 	control(static_cast<MainControl*>(mControl)),
 	ui(new Ui::MainWindow),
-	statusLabel(new QLabel(tr("Checking for new seasons…"), this)),
+	statusLabel(new QLabel(this)),
 	statusProgress(new QProgressBar(this)),
 	animeModel(new AnimeModel(control->animeModel(), this)),
 	proxyModel(new QSortFilterProxyModel(this))
@@ -56,7 +56,6 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 									   ui->actionRemove_Anime
 								   });
 
-	statusLabel->hide();
 	statusBar()->addWidget(statusLabel);
 	statusProgress->setTextVisible(false);
 	statusProgress->setFixedSize(125, 16);
@@ -74,6 +73,14 @@ MainWindow::MainWindow(Control *mControl, QWidget *parent) :
 	proxyModel->setSortLocaleAware(true);
 	proxyModel->setSourceModel(animeModel);
 	ui->seasonTreeView->setModel(proxyModel);
+
+	connect(control->animeModel(), &QObjectListModel::rowsInserted,
+			this, &MainWindow::updateCount);
+	connect(control->animeModel(), &QObjectListModel::rowsRemoved,
+			this, &MainWindow::updateCount);
+	connect(control->animeModel(), &QObjectListModel::modelReset,
+			this, &MainWindow::updateCount);
+	updateCount();
 
 	connect(ui->seasonTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
 			this, &MainWindow::updatePreview);
@@ -121,7 +128,10 @@ void MainWindow::updateLoadStatus(bool isLoading)
 	ui->actionRemove_Anime->setEnabled(!isLoading);
 	ui->actionPaste_ID_URL->setEnabled(!isLoading);
 
-	statusLabel->setVisible(isLoading);
+	if(isLoading)
+		statusBar()->showMessage(tr("Checking for new seasons…"));
+	else
+		statusBar()->clearMessage();
 	statusProgress->setRange(0, 0);
 	statusProgress->setVisible(isLoading);
 }
@@ -141,6 +151,11 @@ void MainWindow::updatePreview(const QModelIndex &index)
 		ui->action_Unmark_new_seasons->setEnabled(info->hasNewSeasons());
 	} else
 		control->showDetails(-1);
+}
+
+void MainWindow::updateCount()
+{
+	statusLabel->setText(tr("Animes in list: %L1").arg(control->animeModel()->rowCount()));
 }
 
 void MainWindow::on_actionRemove_Anime_triggered()
