@@ -4,8 +4,8 @@
   "dependencies": [
     "de.skycoder42.qsingleinstance@1.0.2",
     "de.skycoder42.qtmvvm.widgets@1.0.2",
-    "de.skycoder42.qtmvvm.settings.widgets@1.0.3",
-    "de.skycoder42.qtmvvm.datasync.widgets@1.0.1",
+    "de.skycoder42.qtmvvm.settings.widgets@1.0.4",
+    "de.skycoder42.qtmvvm.datasync.widgets@1.1.0",
     "de.skycoder42.dialog-master@1.2.5",
     "de.skycoder42.qpm-include@1.0.0",
     "de.skycoder42.qtifw-advanced-setup@1.0.0"
