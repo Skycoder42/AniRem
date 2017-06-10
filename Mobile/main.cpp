@@ -18,8 +18,9 @@
 
 REGISTER_CORE_APP(ProxerApp)
 
-static bool isServer();
-static void setStatusBarColor(QColor color) ;
+static bool isService();
+static void setStatusBarColor(QColor color);
+static void stopSelf();
 
 int main(int argc, char *argv[])
 {
@@ -45,16 +46,17 @@ int main(int argc, char *argv[])
 
 	QuickPresenter::registerAsPresenter<NotifyingPresenter>();
 	QuickPresenter::registerInputViewFactory(new SettingsInputViewFactory());
-	if(!isServer()) {
+	if(!isService()) {
 		auto engine = QuickPresenter::createAppEngine(QUrl());
 		engine->addImageProvider(QStringLiteral("proxer"), new ProxerImageProvider());
 		engine->load(QUrl(QStringLiteral("qrc:///qml/App.qml")));
-	}
+	} else
+		qAddPostRoutine(stopSelf);
 
 	return app.exec();
 }
 
-static bool isServer()
+static bool isService()
 {
 	auto parser = coreApp->getParser();
 	return parser && parser->isSet("update");
@@ -88,5 +90,10 @@ static void setStatusBarColor(QColor color)
 #else
 	Q_UNUSED(color);
 #endif
+}
+
+static void stopSelf()
+{
+	QtAndroid::androidService().callMethod<void>("stopSelf");
 }
 
