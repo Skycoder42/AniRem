@@ -94,6 +94,8 @@ static void setStatusBarColor(QColor color)
 
 static void stopSelf()
 {
+#ifdef Q_OS_ANDROID
 	QtAndroid::androidService().callMethod<void>("stopSelf");
+#endif
 }
 
