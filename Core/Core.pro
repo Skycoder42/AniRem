@@ -13,10 +13,12 @@ android: QT += androidextras
 win32: CONFIG += skip_target_version_ext
 
 TARGET = SeasonProxerCore
-VERSION = $$SP_VERSION 
+VERSION = $$SP_VERSION
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
+	qtPrepareTool(LUPDATE, lupdate)
+	LUPDATE += -locations relative -no-obsolete
 include(vendor/vendor.pri)
 
 HEADERS +=\
