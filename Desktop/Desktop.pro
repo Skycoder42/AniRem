@@ -12,7 +12,7 @@ CONFIG += c++11
 else: DEFINES += NO_AUTO_UPDATER
 
 TARGET = SeasonProxer
-VERSION = $$SP_VERSION 
+VERSION = $$SP_VERSION
 
 RC_ICONS += ../Core/main.ico
 QMAKE_TARGET_COMPANY = "Skycoder42"
@@ -62,8 +62,7 @@ DISTFILES += \
 	main.png
 
 TRANSLATIONS += seasonproxer_desktop_de.ts
-!no_updater: TRANSLATIONS += seasonproxer_de.ts \
-	QtAutoUpdaterController_de.ts #TODO use qm from installation
+!no_updater: TRANSLATIONS += seasonproxer_de.ts
 else: TRANSLATIONS += no_updater/seasonproxer_de.ts
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lSeasonProxerCore
