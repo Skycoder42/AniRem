@@ -116,7 +116,7 @@ no_updater {
 		$$OUT_PWD/seasonproxer_desktop_de.qm \
 		$$OUT_PWD/../Core/seasonproxer_core_de.qm
 	trInstall.CONFIG += no_check_exist
-	trInstall.depends = qpmlcombine
+	#trInstall.depends = qpmlcombine
 
 	INSTALLS += trInstall
 }

@@ -91,6 +91,6 @@ trInstall.files = $$PWD/seasonproxer_de.qm \
 	$$OUT_PWD/seasonproxer_mobile_de.qm \
 	$$OUT_PWD/../Core/seasonproxer_core_de.qm
 trInstall.CONFIG += no_check_exist
-trInstall.depends = qpmlcombine
+#trInstall.depends = qpmlcombine
 
 INSTALLS += tsqtInstall trInstall
