@@ -17,8 +17,6 @@ VERSION = $$SP_VERSION
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-include(vendor/vendor.pri)
-
 HEADERS +=\
 	animeinfo.h \
 	proxerapp.h \
@@ -62,3 +60,5 @@ DISTFILES += \
 	seasonproxer_core_de.ts
 
 TRANSLATIONS += seasonproxer_core_de.ts
+
+include(vendor/vendor.pri)
