@@ -5,7 +5,4 @@
     <qresource prefix="/etc">
         <file>settings.xml</file>
     </qresource>
-    <qresource prefix="/etc" lang="de">
-        <file alias="settings.xml">settings_de.xml</file>
-    </qresource>
 </RCC>

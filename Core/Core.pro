@@ -53,6 +53,9 @@ REST_API_OBJECTS += ProxerApi/proxerstatus.json \
 REST_API_CLASSES += ProxerApi/proxerapi.json \
 	ProxerApi/infoclass.json
 
+QTMVVM_SETTINGS_TS_FILE = $$PWD/settings.xml
+QTMVVM_SETTINGS_TS_LOCALES = de template
+
 RESOURCES += \
 	seasonproxer_core.qrc
 
