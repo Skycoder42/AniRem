@@ -112,8 +112,9 @@
     <name>MainControl</name>
     <message>
         <location filename="maincontrol.cpp" line="+64"/>
-        <source>SeaonsProxer is an utility to easily get notifications for new seasons of your favorite animes. You can add your animes and it will automatically check for new seasons and notify you about them!</source>
-        <translation>SeasonProxer ist eine Anwendung um auf einfache Weise Benachrichtigungen für neue Seasons deiner Lieblingsanime zu bekommen. Du kannst Animes hinzufügen, und es wird automatisch auf neue Seasons geprüft und du darüber benachrichtigt!</translation>
+        <source>AniRem is an utility to easily get notifications for new seasons of your favorite animes on proxer.me. You can add your animes and it will automatically check for new seasons and notify you about them!</source>
+        <oldsource>SeaonsProxer is an utility to easily get notifications for new seasons of your favorite animes. You can add your animes and it will automatically check for new seasons and notify you about them!</oldsource>
+        <translation>AniRem ist eine Anwendung um auf einfache Weise Benachrichtigungen für neue Seasons deiner Lieblingsanime zu bekommen. Du kannst Animes hinzufügen, und es wird automatisch auf neue Seasons geprüft und du darüber benachrichtigt!</translation>
     </message>
     <message>
         <location line="+68"/>
@@ -145,9 +146,9 @@
     <name>ProxerApp</name>
     <message>
         <location filename="proxerapp.cpp" line="+94"/>
-        <source>SeasonProxer will start without a GUI, checking for updates passively</source>
-        <oldsource>SeasonProxer will start with a GUI, checking for updates passively</oldsource>
-        <translation>SeasonProxer startet ohne GUI, und üperfrüft im Hintergrund auf Updates</translation>
+        <source>AniRem will start with a GUI, checking for updates passively</source>
+        <oldsource>SeasonProxer will start without a GUI, checking for updates passively</oldsource>
+        <translation>AniRem startet ohne GUI, und üperfrüft im Hintergrund auf Updates</translation>
     </message>
     <message>
         <location line="+91"/>

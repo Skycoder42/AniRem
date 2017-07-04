@@ -97,6 +97,34 @@
     </message>
 </context>
 <context>
+    <name>GLOBAL</name>
+    <message>
+        <location filename="main.cpp" line="+39"/>
+        <source>Failed to backup the original files.</source>
+        <translation>Konnte Originaldaten nicht sichern.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Failed to find the data of SeasonProxer. Did you use seasonproxer?</source>
+        <translation>Konnte keine SeasonProxer Daten finden. Haben Sie SeasonProxer verwendet?</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Failed to move the data from SeasonProxer to AnimRem.</source>
+        <translation>Konnte Daten von SeasonProxer nicht übernehmen.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Migration successfully completed!</source>
+        <translation>Migration erfolgreich abgeschlossen!</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Migration failed!</source>
+        <translation>Migration fehlgeschlagen!</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="+59"/>
@@ -114,7 +142,7 @@
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+11"/>
         <source>&amp;Actions</source>
         <translation>&amp;Aktionen</translation>
     </message>
@@ -189,7 +217,12 @@
         <translation>IP-&amp;Unblock Captcha öffnen</translation>
     </message>
     <message>
-        <location line="-72"/>
+        <location line="+5"/>
+        <source>&amp;Migrate from SeasonProxer</source>
+        <translation>Von SeasonProxer &amp;migrieren</translation>
+    </message>
+    <message>
+        <location line="-77"/>
         <source>Ctrl+R</source>
         <translation></translation>
     </message>
@@ -244,7 +277,7 @@
         <translation>Synchronisation</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="+134"/>
+        <location filename="mainwindow.cpp" line="+135"/>
         <source>Checking for new seasons…</source>
         <translation>Überprüfe auf neue Seasons…</translation>
     </message>
@@ -272,6 +305,16 @@
         <location line="+4"/>
         <source>Copied Relations URL: %1</source>
         <translation>Anime-Verbindungen-URL kopiert: %1</translation>
+    </message>
+    <message>
+        <location line="+43"/>
+        <source>Do you really want to migrate your data from SeasonProxer? The application will quit itself, and after you restart it, you will have back the data from your SeasonProxer installation.</source>
+        <translation>Möchten Sie wirklich ihre daten von SeasonProxer migrieren? Die Anwendung wird sich selbst beenden, und beim nächsten Start die Daten von SeasonProxer übernehmen.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Migrate from SeasonProxer</source>
+        <translation>Von SeasonProxer migrieren</translation>
     </message>
 </context>
 <context>

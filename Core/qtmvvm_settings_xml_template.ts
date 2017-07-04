@@ -9,42 +9,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+4"/>
         <source>Season check &amp;limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-2"/>
         <source>If checking for too many seasons at once, proxer.me may block your ip. To prevent this, limit the amount of checked animes per day (0 equals no limit).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="-1"/>
         <source>&amp;Unmark new seasons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+2"/>
         <source>Such an action will remove the &apos;new seasons&apos; mark from the anime, if it had one.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-5"/>
         <source>Automatically check for new seaons every given interval.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-2"/>
         <source>&amp;Open Animes in browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+1"/>
         <source>Such an action will automatically open the animes relations in your browser.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="+2"/>
         <source>Long/Double click actions</source>
         <translation type="unfinished"></translation>
     </message>
