@@ -80,9 +80,10 @@
     </property>
     <addaction name="action_About"/>
     <addaction name="actionAbout_Qt"/>
-    <addaction name="actionMigrate_from_SeasonProxer"/>
     <addaction name="separator"/>
     <addaction name="action_Unblock_IP_Captcha"/>
+    <addaction name="separator"/>
+    <addaction name="actionMigrate_from_SeasonProxer"/>
    </widget>
    <widget class="QMenu" name="menu_Actions">
     <property name="title">
