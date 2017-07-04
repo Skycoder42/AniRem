@@ -4,7 +4,7 @@ CONFIG += ordered
 
 SUBDIRS += Core
 !android: SUBDIRS += Desktop
-SUBDIRS += Mobile
+!no_mobile: SUBDIRS += Mobile
 
 qpmlupdate.target = lupdate
 qpmlupdate.CONFIG += recursive
