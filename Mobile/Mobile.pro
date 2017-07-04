@@ -13,9 +13,6 @@ DEFINES += "DISPLAY_NAME=\\\"$$TARGET\\\""
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
-include(vendor/vendor.pri)
-
 HEADERS += \
 	notifyingpresenter.h \
 	proxerimageprovider.h
@@ -59,8 +56,7 @@ DISTFILES += \
 	android/src/de/skycoder42/seasonproxer/AlarmReceiver.java \
 	android/src/de/skycoder42/seasonproxer/SeasonProxerService.java
 
-TRANSLATIONS += seasonproxer_mobile_de.ts \
-	seasonproxer_de.ts
+TRANSLATIONS += seasonproxer_mobile_de.ts
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
@@ -77,16 +73,24 @@ else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PW
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Core/debug/AniRemCore.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Core/libAniRemCore.a
 
+QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
+include(vendor/vendor.pri)
+
+# custom tr
+splrelease.target = lrelease-extra
+splrelease.commands = $$LRELEASE $$shell_quote($$shell_path($$PWD/seasonproxer_de.ts))
+qpmlcombine.depends += splrelease
+QMAKE_EXTRA_TARGETS += splrelease
+
 # translation install
-qtPrepareTool(LRELEASE, lrelease)
-LRELEASE += -compress -nounfinished
+tsqtInstall.path = /assets/translations
+tsqtInstall.files = $$[QT_INSTALL_TRANSLATIONS]/qtbase_*.qm $$[QT_INSTALL_TRANSLATIONS]/qtwebsockets_*.qm
 
-lrelease_target.target = lrelease_core
-lrelease_target.commands = $$LRELEASE $$PWD/../Core/Core.pro && $$LRELEASE $$_PRO_FILE_
+trInstall.path = /assets/translations
+trInstall.files = $$PWD/seasonproxer_de.qm \
+	$$OUT_PWD/seasonproxer_mobile_de.qm \
+	$$OUT_PWD/../Core/seasonproxer_core_de.qm
+trInstall.CONFIG += no_check_exist
+#trInstall.depends = qpmlcombine
 
-ts_target.files = "$$[QT_INSTALL_TRANSLATIONS]/qtbase_*.qm" "$$[QT_INSTALL_TRANSLATIONS]/qtwebsockets_*.qm" "$$PWD/../Core/*.qm" "$$PWD/*.qm"
-ts_target.path = /assets/translations
-ts_target.depends += lrelease_target
-
-QMAKE_EXTRA_TARGETS += lrelease_target
-INSTALLS += ts_target
+INSTALLS += tsqtInstall trInstall

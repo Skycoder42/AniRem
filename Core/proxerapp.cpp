@@ -57,9 +57,24 @@ void ProxerApp::checkForSeasonUpdate(AnimeInfo *info)
 
 void ProxerApp::checkForSeasonUpdates()
 {
+	auto updateList = store->loadAll();
+
+	//sort by last update check time
+	std::sort(updateList.begin(), updateList.end(), [](AnimeInfo *left, AnimeInfo *right){
+		return left->lastUpdateCheck() < right->lastUpdateCheck();
+	});
+
+	//reduce to allowed list size
+	QSettings settings;
+	settings.beginGroup("updates");
+	auto maxSize = settings.value("checkLimit", 15).toInt();
+	if(maxSize > 0)
+		updateList = updateList.mid(0, maxSize);
+	settings.endGroup();
+
 	mainControl->updateLoadStatus(true);
 	showNoUpdatesInfo = true;
-	loader->checkForUpdates(store->loadAll());
+	loader->checkForUpdates(updateList);
 }
 
 void ProxerApp::showMainControl()
@@ -76,7 +91,7 @@ void ProxerApp::setupParser(QCommandLineParser &parser, bool &allowInvalid) cons
 	CoreApp::setupParser(parser, allowInvalid);
 	parser.addOption({
 						 {"u", "update"},
-						 "AniRem will start with a GUI, checking for updates passively"
+						 tr("AniRem will start with a GUI, checking for updates passively")
 					 });
 }
 
@@ -214,14 +229,14 @@ void ProxerApp::automaticUpdateCheck()
 	});
 
 	//reduce to allowed list size
-	auto maxSize = settings.value("checkLimit", 10).toInt();
+	auto maxSize = settings.value("checkLimit", 15).toInt();
 	if(maxSize > 0)
 		updateList = updateList.mid(0, maxSize);
 
 	//reduce to allowed interval
 	auto interval = settings.value("autoCheck", 7).toInt();
 	for(auto i = 0; i < updateList.size(); i++) {
-		if(updateList[i]->lastUpdateCheck().daysTo(QDate::currentDate()) < interval) {
+		if(updateList[i]->lastUpdateCheck().date().daysTo(QDate::currentDate()) < interval) {
 			updateList = updateList.mid(0, i);
 			break;
 		}

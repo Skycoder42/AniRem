@@ -1,7 +1,7 @@
 #ifndef ANIMEINFO_H
 #define ANIMEINFO_H
 
-#include <QDate>
+#include <QDateTime>
 #include <QMap>
 #include <QObject>
 #include <QPixmap>
@@ -17,7 +17,7 @@ class AnimeInfo : public QObject
 	Q_PROPERTY(QMap<AnimeInfo::SeasonType, AnimeInfo::SeasonInfo> seasonState READ seasonState WRITE setSeasonState NOTIFY seasonStateChanged)
 	Q_PROPERTY(int totalSeasonCount READ totalSeasonCount NOTIFY seasonStateChanged STORED false)
 	Q_PROPERTY(bool hasNewSeasons READ hasNewSeasons NOTIFY seasonStateChanged STORED false)
-	Q_PROPERTY(QDate lastUpdateCheck READ lastUpdateCheck WRITE setLastUpdateCheck NOTIFY lastUpdateCheckChanged)
+	Q_PROPERTY(QDateTime lastUpdateCheck READ lastUpdateCheck WRITE setLastUpdateCheck NOTIFY lastUpdateCheckChanged)
 	Q_PROPERTY(QUrl relationsUrl READ relationsUrl CONSTANT STORED false)
 
 public:
@@ -45,7 +45,7 @@ public:
 	SeasonInfo seasonInfo(SeasonType type) const;
 	int totalSeasonCount() const;
 	bool hasNewSeasons() const;
-	QDate lastUpdateCheck() const;
+	QDateTime lastUpdateCheck() const;
 
 	QUrl relationsUrl() const;
 
@@ -55,20 +55,20 @@ public:
 public slots:
 	void setSeasonState(QMap<SeasonType, SeasonInfo> seasonState);
 	void setSeasonInfo(SeasonType type, SeasonInfo info);
-	void setLastUpdateCheck(QDate lastUpdateCheck);
+	void setLastUpdateCheck(QDateTime lastUpdateCheck);
 
 	void openUrl();
 
 signals:
 	void seasonStateChanged();
-	void lastUpdateCheckChanged(QDate lastUpdateCheck);
+	void lastUpdateCheckChanged(QDateTime lastUpdateCheck);
 
 private:
 	int _id;
 	QString _title;
 
 	QMap<SeasonType, SeasonInfo> _seasonState;
-	QDate _lastUpdateCheck;
+	QDateTime _lastUpdateCheck;
 
 	mutable int _seasonCount;
 	mutable int _hasNewSeasons;

@@ -80,8 +80,9 @@
     </property>
     <addaction name="action_About"/>
     <addaction name="actionAbout_Qt"/>
-    <addaction name="separator"/>
     <addaction name="actionMigrate_from_SeasonProxer"/>
+    <addaction name="separator"/>
+    <addaction name="action_Unblock_IP_Captcha"/>
    </widget>
    <widget class="QMenu" name="menu_Actions">
     <property name="title">
@@ -185,7 +186,7 @@
      <normaloff>:/icons/reload.ico</normaloff>:/icons/reload.ico</iconset>
    </property>
    <property name="text">
-    <string>&amp;Reload Seasons</string>
+    <string>Season &amp;Check</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -258,6 +259,11 @@
     <string>Synchronization</string>
    </property>
   </action>
+  <action name="action_Unblock_IP_Captcha">
+   <property name="text">
+    <string>&amp;Unblock IP Captcha</string>
+   </property>
+  </action>
   <action name="actionMigrate_from_SeasonProxer">
    <property name="text">
     <string>&amp;Migrate from SeasonProxer</string>
@@ -265,8 +271,8 @@
   </action>
  </widget>
  <resources>
-  <include location="vendor/de/skycoder42/qtmvvm/settings/widgets/de_skycoder42_qtmvvm_settings_widgets.qrc"/>
   <include location="seasonproxer_desktop.qrc"/>
+  <include location="vendor/de/skycoder42/qtmvvm/settings/widgets/de_skycoder42_qtmvvm_settings_widgets.qrc"/>
  </resources>
  <connections/>
 </ui>

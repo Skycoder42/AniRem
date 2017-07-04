@@ -7,7 +7,7 @@ AnimeInfo::AnimeInfo(int id, const QString &title, QObject *parent) :
 	_id(id),
 	_title(title),
 	_seasonState(),
-	_lastUpdateCheck(1, 1, 1),//DEBUG
+	_lastUpdateCheck(),//DEBUG
 	_seasonCount(-1),
 	_hasNewSeasons(-1)
 {
@@ -64,7 +64,7 @@ bool AnimeInfo::hasNewSeasons() const
 	return _hasNewSeasons;
 }
 
-QDate AnimeInfo::lastUpdateCheck() const
+QDateTime AnimeInfo::lastUpdateCheck() const
 {
 	return _lastUpdateCheck;
 }
@@ -139,7 +139,7 @@ void AnimeInfo::setSeasonInfo(AnimeInfo::SeasonType type, AnimeInfo::SeasonInfo 
 	emit seasonStateChanged();
 }
 
-void AnimeInfo::setLastUpdateCheck(QDate lastUpdateCheck)
+void AnimeInfo::setLastUpdateCheck(QDateTime lastUpdateCheck)
 {
 	if (_lastUpdateCheck == lastUpdateCheck)
 		return;

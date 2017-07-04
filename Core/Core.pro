@@ -17,8 +17,6 @@ VERSION = $$SP_VERSION
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-include(vendor/vendor.pri)
-
 HEADERS +=\
 	animeinfo.h \
 	proxerapp.h \
@@ -55,6 +53,9 @@ REST_API_OBJECTS += ProxerApi/proxerstatus.json \
 REST_API_CLASSES += ProxerApi/proxerapi.json \
 	ProxerApi/infoclass.json
 
+QTMVVM_SETTINGS_TS_FILES = settings.xml
+QTMVVM_SETTINGS_TS_LOCALES = de template
+
 RESOURCES += \
 	seasonproxer_core.qrc
 
@@ -62,3 +63,5 @@ DISTFILES += \
 	seasonproxer_core_de.ts
 
 TRANSLATIONS += seasonproxer_core_de.ts
+
+include(vendor/vendor.pri)

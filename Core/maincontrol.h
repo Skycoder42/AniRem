@@ -30,6 +30,7 @@ public slots:
 	void showSettings();
 	void showSync();
 	void showAbout();
+	void showCaptcha();
 
 	void uncheckAnime(int id);
 	void itemAction(int id);

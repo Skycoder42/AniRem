@@ -68,6 +68,11 @@ void MainControl::showAbout()
 					   QStringLiteral("https://skycoder42.de"));
 }
 
+void MainControl::showCaptcha()
+{
+	QDesktopServices::openUrl(QStringLiteral("https://proxer.me/misc/captcha"));
+}
+
 void MainControl::uncheckAnime(int id)
 {
 	auto info = infoFromId(id);

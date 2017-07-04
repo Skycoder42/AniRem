@@ -11,7 +11,7 @@ class ProxerSettingsControl : public SettingsControl
 	SETTINGS_PROPERTY(bool, openEntries, false)
 	SETTINGS_PROPERTY(bool, uncheckEntries, true)
 	SETTINGS_PROPERTY_WKEY(int, autoCheck, "updates/autoCheck", 7)
-	SETTINGS_PROPERTY_WKEY(int, checkLimit, "updates/checkLimit", 10)
+	SETTINGS_PROPERTY_WKEY(int, checkLimit, "updates/checkLimit", 15)
 
 public:
 	explicit ProxerSettingsControl(QObject *parent = nullptr);

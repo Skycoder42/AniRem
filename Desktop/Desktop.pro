@@ -62,9 +62,6 @@ DISTFILES += \
 	main.png
 
 TRANSLATIONS += seasonproxer_desktop_de.ts
-!no_updater: TRANSLATIONS += seasonproxer_de.ts \
-	QtAutoUpdaterController_de.ts #TODO use qm from installation
-else: TRANSLATIONS += no_updater/seasonproxer_de.ts
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lAniRemCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lAniRemCore
@@ -90,6 +87,7 @@ QTIFW_MODE = online_all
 
 proxerpkg.pkg = de.skycoder42.seasonproxer
 proxerpkg.meta = meta
+proxerpkg.files += $$PWD/seasonproxer_de.qm
 linux: proxerpkg.files = ../icn/main.png
 QTIFW_AUTO_INSTALL_PKG = proxerpkg
 
@@ -97,10 +95,28 @@ QTIFW_PACKAGES += proxerpkg
 
 # make install
 no_updater {
-	target.path = /usr/bin
+	target.path = $$[QT_INSTALL_BINS]
 	INSTALLS += target
 } else:CONFIG += qtifw_install_target
 
 # qpm
 QPM_INCLUDEPATH = $$PWD/../Core/vendor/vendor.pri
 include(vendor/vendor.pri)
+
+# custom tr
+splrelease.target = lrelease-extra
+splrelease.commands = $$LRELEASE $$shell_quote($$shell_path($$PWD/seasonproxer_de.ts)) $$shell_quote($$shell_path($$PWD/no_updater/seasonproxer_de.ts))
+qpmlcombine.depends += splrelease
+QMAKE_EXTRA_TARGETS += splrelease
+
+# tr installs
+no_updater {
+	trInstall.path = $$[QT_INSTALL_TRANSLATIONS]
+	trInstall.files = $$PWD/no_updater/seasonproxer_de.qm \
+		$$OUT_PWD/seasonproxer_desktop_de.qm \
+		$$OUT_PWD/../Core/seasonproxer_core_de.qm
+	trInstall.CONFIG += no_check_exist
+	#trInstall.depends = qpmlcombine
+
+	INSTALLS += trInstall
+}
