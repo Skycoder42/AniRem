@@ -144,7 +144,13 @@
 <context>
     <name>ProxerApp</name>
     <message>
-        <location filename="proxerapp.cpp" line="+185"/>
+        <location filename="proxerapp.cpp" line="+94"/>
+        <source>SeasonProxer will start without a GUI, checking for updates passively</source>
+        <oldsource>SeasonProxer will start with a GUI, checking for updates passively</oldsource>
+        <translation>SeasonProxer startet ohne GUI, und üperfrüft im Hintergrund auf Updates</translation>
+    </message>
+    <message>
+        <location line="+91"/>
         <source>Season check failed</source>
         <translation>Season-Check fehlgeschlagen</translation>
     </message>
