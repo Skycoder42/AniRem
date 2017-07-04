@@ -60,7 +60,7 @@ bool ProxerSettingsControl::setAutoStart(bool autoStart)
 	auto activity = QtAndroid::androidActivity();
 	if(activity.isValid()) {
 		QtAndroid::runOnAndroidThread([=](){
-			QAndroidJniObject::callStaticMethod<void>("de/skycoder42/seasonproxer/AlarmReceiver",
+			QAndroidJniObject::callStaticMethod<void>("de/skycoder42/anirem/AlarmReceiver",
 													  "scheduleAutoCheck",
 													  "(Landroid/content/Context;Z)V",
 													  activity.object(),

@@ -53,8 +53,8 @@ DISTFILES += \
 	android/res/drawable-xxxhdpi/ic_notification.png \
 	android/res/drawable-xxxhdpi/splash.9.png \
 	android/build.gradle \
-	android/src/de/skycoder42/seasonproxer/AlarmReceiver.java \
-	android/src/de/skycoder42/seasonproxer/SeasonProxerService.java
+	android/src/de/skycoder42/anirem/AlarmReceiver.java \
+	android/src/de/skycoder42/anirem/SeasonProxerService.java
 
 TRANSLATIONS += seasonproxer_mobile_de.ts
 

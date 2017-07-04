@@ -81,7 +81,7 @@ CONFIG += qtifw_auto_deploy
 QTIFW_DEPLOY_TSPRO = $$_PRO_FILE_ $$_PRO_FILE_PWD_/../Core/Core.pro
 
 # installer
-QTIFW_TARGET = "SeasonProxer Installer"
+QTIFW_TARGET = "AniRem Installer"
 QTIFW_CONFIG = config.xml
 QTIFW_MODE = online_all
 
