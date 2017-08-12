@@ -2,8 +2,8 @@
 <Package>
 	<DisplayName>AniRem Season Reminder</DisplayName>
 	<Description>AniRem Season Reminder</Description>
-	<Version>1.0.1</Version>
-	<ReleaseDate>2017-05-24</ReleaseDate>
+	<Version>1.1.0</Version>
+	<ReleaseDate>2017-08-12</ReleaseDate>
 	<ForcedInstallation>true</ForcedInstallation>
 	<Default>true</Default>
 </Package>
