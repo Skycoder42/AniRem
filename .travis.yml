@@ -39,7 +39,7 @@ script:
   - ./ci/droid_deploy.sh
 
 before_deploy:
-  - tar cJf ./install/repository_$TRAVIS_OS_NAME.tar.xz ./install/repository
+  - tar cJf ./install/repository_$TRAVIS_OS_NAME.tar.xz ./install/repository #TODO fix for android
 deploy:
   provider: releases
   skip_cleanup: true
