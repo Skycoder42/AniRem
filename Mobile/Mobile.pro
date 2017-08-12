@@ -11,8 +11,6 @@ DEFINES += "VERSION=\\\"$$VERSION\\\""
 DEFINES += "COMPANY=\"\\\"Skycoder42\\\"\""
 DEFINES += "DISPLAY_NAME=\\\"$$TARGET\\\""
 
-DEFINES += QT_DEPRECATED_WARNINGS
-
 HEADERS += \
 	notifyingpresenter.h \
 	proxerimageprovider.h
@@ -91,6 +89,6 @@ trInstall.files = $$PWD/seasonproxer_de.qm \
 	$$OUT_PWD/seasonproxer_mobile_de.qm \
 	$$OUT_PWD/../Core/seasonproxer_core_de.qm
 trInstall.CONFIG += no_check_exist
-#trInstall.depends = qpmlcombine
+auto_tr: trInstall.depends = qpmlcombine
 
 INSTALLS += tsqtInstall trInstall

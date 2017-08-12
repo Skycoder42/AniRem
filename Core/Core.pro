@@ -15,8 +15,6 @@ win32: CONFIG += skip_target_version_ext
 TARGET = AniRemCore
 VERSION = $$SP_VERSION
 
-DEFINES += QT_DEPRECATED_WARNINGS
-
 HEADERS +=\
 	animeinfo.h \
 	proxerapp.h \
@@ -65,3 +63,9 @@ DISTFILES += \
 TRANSLATIONS += seasonproxer_core_de.ts
 
 include(vendor/vendor.pri)
+
+auto_tr {
+	install.depends += lrelease
+	QMAKE_EXTRA_TARGETS += install
+}
+

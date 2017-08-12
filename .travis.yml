@@ -1,0 +1,63 @@
+language: cpp
+
+sudo: required
+dist: trusty
+osx_image: xcode8.3
+services:
+  - docker
+
+env:
+  global:
+    - QT_VER=5.9.1
+    - NO_TESTS=true
+    - EXTRA_MODULES=".skycoder42 .gcc_64" #always install gcc for the android tools
+    - secure: xrjRnCXdhkR0vGe+I7eNRsodmwu59if9H8KMgrRvfNpFSulxTP6gLxV/fOn6tNXHNynKt1wwf6KqRGoDPu8iAaaHyFnXDT0a70TbUH+Sbk+8UuGYaoHT4e+A3ywEhj/u6jX/PpKv40o0iqno2TDXWYAyq63Ik3S6+pu13tLUCOEG+RuS0MGaeKPaZOQAqviGBL3suslYtk2+HCKUpg70S4nuf/fvZbe/3M6KJdGLdBNXj0HxG6h168HObchAyjvGbo2/6GzwRDXbCxLKh0GUl/3kgDSF9/31MoGFEHlZNopTyrmfa6VUgpQ+mdraeqqKv3kwRk/BmwBup7GUL7tCJBrqOfQYdnAaV3YZXJ/a2thechiKZiT4qjuTFBSFXP3hv/wh4ZUpqi0MBUzPe1u8YKbwrfCddeIIzioyP9qVFkXEdAto+WgEGuT58mX83q9fjgRaGMc9x2KzXrqbCH3czdjhoAsg2fTIrAofh3COP2LraeEsy7QN9x4xfl+ySXT+m9WMuj3bR+VMzRQXXc+i5rlH2HGvEBK0nWsvq5LlRiSUMf1vDaoCNIPrcDuvVaIeciAuONHIg4GEbfJbIxvHOWbCXlWVDVhhQqVD8pgZKqVfLjJ0fz+/m/lHfueHKrbts1RXfK+kunQ7thfrjc1s6sNRFdpOZhytZaazTv1Htx0=
+matrix:
+  include:
+    - os: linux
+      env:
+        - PLATFORM=gcc_64
+    - os: linux
+      env:
+        - PLATFORM=android_armv7
+        - SUDO=sudo
+    - os: linux
+      env:
+        - PLATFORM=android_x86
+        - SUDO=sudo
+    - os: osx
+      env:
+        - PLATFORM=clang_64
+
+before_install:
+  - git clone https://github.com/Skycoder42/QtModules.git ./qtmodules-travis
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then travis_wait 40 ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh; else ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh; fi
+
+script:
+  - ./ci/travis_init.sh
+  - ./qtmodules-travis/ci/$TRAVIS_OS_NAME/build.sh
+  - ./ci/droid_deploy.sh
+
+before_deploy:
+  - tar cJf ./install/repository_$TRAVIS_OS_NAME.tar.xz ./install/repository
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: mSzeSXiPdqGn7LoIWF7tPqM01IpA7Q44P8i3wB5V8jBqr5lRuhkLzE+j+EI6NzLtxZEYZLl/Y+s11E7Q8e36qQe0eJtlgb5CJC+CrAE4vGWV6BjZFhUsaB5fs8zLOhWL2fhdMiHUQaQrh1foWnvrtJqt2Av5jf9kTttrrqg/YGRly8omXe3MV+9ZbHcZTuDWISaD29nLPmr4obunrcjy8oWiP1MRJmPsEp3poTLTQjWSOBLlTKqK/JZtieTTS1vzG+lENxSxCaRGQRuEYji056KudKEvx8lxI1cP6nPG+h7L74plYIGRZZ3V4Ux7ytnn6UfdBU45wRLT1bDSfG6nyGHT+4CetVFDH9+DE00PFz3oEcVOpRavb4eRArSq1r45coYtTdFKtjnN4o6kbZ77AdXKKJbUKks9wbV9jJmfyK1RP+snH5VmY5r2R5FlTg2zbcl4oYY3lSjzgCwbFkuEXT9NjWeKUX0CIZ5C7vUTh8Yk3hB6jFa3ZUxcTOT0pmzgC7RVmWG/1k55daoLClxpdF/HUr/x+OyXqFLMY7bXzYLLT1TxUZg3B5zcGbuZecrLs35f5Jr3cB+aJG+4CADDBoY+3Kw2jM8j433pYHuJa2P1Zl6BaZvsPkOvfaVD+9Zq+mcenwh2QQ8tcGAWgKcLd3TcaNhYVvxn7+mIY+5brFk=
+  file_glob: true
+  file:
+    - ./install/repository_*.tar.xz
+    - ./install/AniRem Installer.*
+  on:
+    repo: Skycoder42/SeasonProxer
+    tags: true
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache

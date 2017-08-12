@@ -1,0 +1,34 @@
+image:
+  - Visual Studio 2017
+
+version: build-{build}
+
+environment:
+  QT_VER: 5.9.1
+  PLATFORM: msvc2017_64
+  EXTRA_MODULES: .skycoder42
+  NO_TESTS: true
+  PROXER_DATA:
+    secure: fktz4h6RVTRjrTLC7mJCpyFsaGDk5SfT/Qu+7/1U+DOjHprCUclci8+Ph/Cx1xnHzFdekP81JSmZ3H9DBhzmFUdPWRTL/XWKshOOq7Qso+g=
+
+install:
+  - git clone https://github.com/Skycoder42/QtModules.git .\qtmodules-travis
+  - .\qtmodules-travis\ci\win\setup.bat
+
+build_script:
+  - .\ci\appveyor_init.bat
+  - .\qtmodules-travis\ci\win\build.bat
+
+artifacts:
+  - path: install\repository
+    type: zip
+  - path: install\AniRem Installer.exe
+
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: Cp5GRQku2ZWnKPE12NB5q11ZO0Fr5mlzdUTjnLpYJr/dki4LPVqm231edFggogy8
+  artifact: /.*/
+  force_update: false
+  on:
+    appveyor_repo_tag: true
