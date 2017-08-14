@@ -76,7 +76,7 @@ include(vendor/vendor.pri)
 
 # custom tr
 splrelease.target = lrelease-extra
-splrelease.commands = $$LRELEASE $$shell_quote($$shell_path($$PWD/seasonproxer_de.ts))
+splrelease.commands = $$LRELEASE $$shell_quote($$shell_path($$PWD/seasonproxer_de.ts)) -qm $$shell_quote($$shell_path($$OUT_PWD/seasonproxer_de.qm))
 qpmlcombine.depends += splrelease
 QMAKE_EXTRA_TARGETS += splrelease
 
@@ -85,7 +85,7 @@ tsqtInstall.path = /assets/translations
 tsqtInstall.files = $$[QT_INSTALL_TRANSLATIONS]/qtbase_*.qm $$[QT_INSTALL_TRANSLATIONS]/qtwebsockets_*.qm
 
 trInstall.path = /assets/translations
-trInstall.files = $$PWD/seasonproxer_de.qm \
+trInstall.files = $$OUT_PWD/seasonproxer_de.qm \
 	$$OUT_PWD/seasonproxer_mobile_de.qm \
 	$$OUT_PWD/../Core/seasonproxer_core_de.qm
 trInstall.CONFIG += no_check_exist

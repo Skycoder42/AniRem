@@ -104,14 +104,15 @@ include(vendor/vendor.pri)
 
 # custom tr
 splrelease.target = lrelease-extra
-splrelease.commands = $$LRELEASE $$shell_quote($$shell_path($$PWD/seasonproxer_de.ts)) $$shell_quote($$shell_path($$PWD/no_updater/seasonproxer_de.ts))
+no_updater: splrelease.commands = $$LRELEASE $$shell_quote($$shell_path($$PWD/no_updater/seasonproxer_de.ts)) -qm $$shell_quote($$shell_path($$OUT_PWD/seasonproxer_de.qm))
+else: splrelease.commands = $$LRELEASE $$shell_quote($$shell_path($$PWD/seasonproxer_de.ts)) -qm $$shell_quote($$shell_path($$OUT_PWD/seasonproxer_de.qm))
 qpmlcombine.depends += splrelease
 QMAKE_EXTRA_TARGETS += splrelease
 
 # tr installs
 no_updater {
 	trInstall.path = $$[QT_INSTALL_TRANSLATIONS]
-	trInstall.files = $$PWD/no_updater/seasonproxer_de.qm \
+	trInstall.files = $$OUT_PWD/seasonproxer_de.qm \
 		$$OUT_PWD/seasonproxer_desktop_de.qm \
 		$$OUT_PWD/../Core/seasonproxer_core_de.qm
 	trInstall.CONFIG += no_check_exist
