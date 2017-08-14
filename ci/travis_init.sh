@@ -17,7 +17,7 @@ fi
 
 # unpack data
 mkdir ../__private
-7z x "-p$PROXER_DATA" -o../__private "./ci/proxer.data"
+7z x "-p$PROXER_DATA" -o../__private "./ci/proxer.data" > /dev/null
 
 # move data into docker
 if [[ $PLATFORM == "gcc_64" ]]; then

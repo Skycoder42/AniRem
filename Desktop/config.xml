@@ -7,7 +7,7 @@
 	<ProductUrl>https://github.com/Skycoder42/SeasonProxer</ProductUrl>
 	<StartMenuDir>AniRem</StartMenuDir><!-- Enter name only, not a path! -->
 	<TargetDir>AniRem</TargetDir><!-- Enter name only, not a path! -->
-	<RunProgram>AniRem</RunProgram><!-- Enter name only, not a path! -->
+	<RunProgram>anirem</RunProgram><!-- Enter name only, not a path! -->
 	<AllowSpaceInPath>true</AllowSpaceInPath>
 	<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
 	<RemoteRepositories>

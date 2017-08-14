@@ -11,12 +11,12 @@ CONFIG += c++11
 !no_updater:QT += autoupdatergui
 else: DEFINES += NO_AUTO_UPDATER
 
-TARGET = AniRem
+TARGET = anirem
 VERSION = $$SP_VERSION
 
 RC_ICONS += ../icn/anirem.ico
 QMAKE_TARGET_COMPANY = "Skycoder42"
-QMAKE_TARGET_PRODUCT = $$TARGET
+QMAKE_TARGET_PRODUCT = "AniRem"
 QMAKE_TARGET_DESCRIPTION = "AniRem — Anime Season Reminder"
 QMAKE_TARGET_COPYRIGHT = "Felix Barz"
 
@@ -58,8 +58,7 @@ DISTFILES += \
 	seasonproxer_de.ts \
 	no_updater/seasonproxer_de.ts \
 	config.xml \
-	meta/package.xml \
-	main.png
+	meta/package.xml
 
 TRANSLATIONS += seasonproxer_desktop_de.ts
 

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.1
+Name=AniRem — Anime Season Reminder
+Comment=A tool to passivly check for updates on seasons, for proxer.me
+Exec=anirem
+Icon=anirem
+Terminal=false
+Categories=Utility;
