@@ -86,8 +86,8 @@ QTIFW_MODE = online_all
 
 proxerpkg.pkg = de.skycoder42.seasonproxer
 proxerpkg.meta = meta
-proxerpkg.files += $$PWD/seasonproxer_de.qm
-linux: proxerpkg.files = ../icn/main.png
+proxerpkg.files += $$OUT_PWD/seasonproxer_de.qm
+linux: proxerpkg.files += ../icn/main.png
 QTIFW_AUTO_INSTALL_PKG = proxerpkg
 
 QTIFW_PACKAGES += proxerpkg
