@@ -1,6 +1,10 @@
 #!/bin/bash
+set -e
 
-if [ "$TRAVIS_OS_NAME" != "android_"* ]; then
+if [[ $PLATFORM == "android_"* ]]; then
+	mkdir -p ./install
+	$HOME/android/sdk/build-tools/*/apksigner sign --ks "$(dirname $0)/anirem.aks" --ks-pass env:AKS_DATA --key-pass env:AKS_DATA --out "./install/anirem-${ANIREM_VER}_${PLATFORM}.apk" "build-$PLATFORM/android-build/build/outputs/apk/android-build-release-unsigned.apk"
+else
 	cd install
 	
 	if [ "$TRAVIS_OS_NAME" == "osx" ]; then
