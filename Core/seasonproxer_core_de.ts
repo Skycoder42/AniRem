@@ -6,7 +6,7 @@
     <message>
         <location filename="addanimecontrol.cpp" line="+43"/>
         <source>Anime %1</source>
-        <translation></translation>
+        <translation>Anime %1</translation>
     </message>
 </context>
 <context>
@@ -14,7 +14,7 @@
     <message>
         <location filename="animeinfo.cpp" line="+97"/>
         <source>Animes</source>
-        <translation></translation>
+        <translation>Animes</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -24,32 +24,32 @@
     <message>
         <location line="+2"/>
         <source>OVAs</source>
-        <translation></translation>
+        <translation>OVAs</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Hentais</source>
-        <translation></translation>
+        <translation>Hentais</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mangas</source>
-        <translation></translation>
+        <translation>Mangas</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Oneshots</source>
-        <translation></translation>
+        <translation>Oneshots</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Doujinshi</source>
-        <translation></translation>
+        <translation>Doujinshi</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>H-Mangas</source>
-        <translation></translation>
+        <translation>H-Mangas</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -81,7 +81,7 @@
     <message>
         <location filename="detailscontrol.cpp" line="+18"/>
         <source>&lt;tr&gt;&lt;td&gt;&amp;nbsp;%2:&amp;nbsp;&lt;/td&gt;&lt;td&gt;&amp;nbsp;%L1&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;</source>
-        <translation></translation>
+        <translation>&lt;tr&gt;&lt;td&gt;&amp;nbsp;%2:&amp;nbsp;&lt;/td&gt;&lt;td&gt;&amp;nbsp;%L1&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;</translation>
     </message>
     <message>
         <location line="+2"/>

@@ -11,7 +11,7 @@
     <message>
         <location line="+16"/>
         <source>Proxer-ID:</source>
-        <translation></translation>
+        <translation>Proxer-ID:</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -52,7 +52,7 @@
     <message>
         <location line="+0"/>
         <source>Anime</source>
-        <translation></translation>
+        <translation>Anime</translation>
     </message>
     <message>
         <location line="+7"/>

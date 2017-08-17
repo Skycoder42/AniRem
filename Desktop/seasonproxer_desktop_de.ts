@@ -11,12 +11,12 @@
     <message>
         <location line="+8"/>
         <source>Proxer-&amp;ID:</source>
-        <translation></translation>
+        <translation>Proxer-&amp;ID:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>894</source>
-        <translation></translation>
+        <translation>894</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -83,12 +83,12 @@
         <location filename="detailsdockwidget.ui" line="+20"/>
         <location filename="detailsdockwidget.cpp" line="+52"/>
         <source>Anime Details</source>
-        <translation></translation>
+        <translation>Anime Details</translation>
     </message>
     <message>
         <location filename="detailsdockwidget.cpp" line="-6"/>
         <source>%1 Details</source>
-        <translation></translation>
+        <translation>%1 Details</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -159,7 +159,7 @@
     <message>
         <location line="+3"/>
         <source>Ctrl+Ins</source>
-        <translation></translation>
+        <translation>Ctrl+Ins</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -169,7 +169,7 @@
     <message>
         <location line="+3"/>
         <source>Del</source>
-        <translation></translation>
+        <translation>Del</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -179,7 +179,7 @@
     <message>
         <location line="+3"/>
         <source>Ctrl+V</source>
-        <translation></translation>
+        <translation>Ctrl+V</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -189,7 +189,7 @@
     <message>
         <location line="+3"/>
         <source>Ctrl+C</source>
-        <translation></translation>
+        <translation>Ctrl+C</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -204,7 +204,7 @@
     <message>
         <location line="+3"/>
         <source>Alt+F4</source>
-        <translation></translation>
+        <translation>Alt+F4</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -224,7 +224,7 @@
     <message>
         <location line="-77"/>
         <source>Ctrl+R</source>
-        <translation></translation>
+        <translation>Ctrl+R</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -244,7 +244,7 @@
     <message>
         <location line="+3"/>
         <source>Ctrl+Alt+S</source>
-        <translation></translation>
+        <translation>Ctrl+Alt+S</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -254,7 +254,7 @@
     <message>
         <location line="+3"/>
         <source>Ctrl+U</source>
-        <translation></translation>
+        <translation>Ctrl+U</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -264,7 +264,7 @@
     <message>
         <location line="+3"/>
         <source>Ctrl+K</source>
-        <translation></translation>
+        <translation>Ctrl+K</translation>
     </message>
     <message>
         <location line="+9"/>
