@@ -7,7 +7,7 @@ set -e
 currdir=$(pwd)
 pkgname=anirem
 pkgver=${1:?Invalid commands. Syntax: arch.sh <version> <outdir>}
-outdir=${2:?Invalid commands. Syntax: arch.sh <version> <outdir>}
+outdir=$(readlink -f ${2:?Invalid commands. Syntax: arch.sh <version> <outdir>})
 pkgdir=$(mktemp -d)
 
 echo 'CONFIG += no_mobile no_updater' >> .qmake.conf
@@ -27,6 +27,7 @@ for res in 16 22 24 32 48 64 72 96 192 256 512; do
 	install -D -m 644 -p "icn/${pkgname}_${res}.png" "$pkgdir/usr/share/icons/hicolor/${res}x${res}/apps/${pkgname}.png"
 done
 
-cd "$outdir"
+mkdir -p "$outdir"
+cd "$pkgdir"
 export XZ_OPT=-9
-tar cJf ${pkgname}-${pkgver}.tar.xz "$pkgdir"
+tar cJf "$outdir/${pkgname}-${pkgver}.tar.xz" ./*
