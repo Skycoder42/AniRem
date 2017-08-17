@@ -54,7 +54,7 @@ static void tryMigration()
 	QSettings settings;
 
 	QDir ardir = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-	QDir spdir = QDir(ardir.absolutePath().replace(QStringLiteral("AniRem"), QStringLiteral("SeasonProxer")));
+	QDir spdir = QDir(ardir.absolutePath().replace(QCoreApplication::applicationName(), QStringLiteral("SeasonProxer")));
 
 	if(settings.value(QStringLiteral("migrate")).toBool()) {
 		auto goalPath = ardir.absoluteFilePath(QStringLiteral("./qtdatasync_localstore"));
