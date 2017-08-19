@@ -8,7 +8,7 @@
 #include "coremessage.h"
 #include "animeinfo.h"
 #include "apikeys.h"
-#include "jsonserializer.h"
+#include "jsonseasondataconverter.h"
 #include "proxerapi.h"
 #include "seasonstatusloader.h"
 #include "maincontrol.h"
@@ -102,9 +102,9 @@ bool ProxerApp::startApp(const QCommandLineParser &parser)
 
 	//datasync setup
 	try {
-		QtDataSync::Setup()
-				.setSerializer(new JsonSerializer())
-				.create();
+		QtDataSync::Setup setup;
+		setup.serializer()->addJsonTypeConverter(new JsonSeasonDataConverter());
+		setup.create();
 	} catch(QtDataSync::SetupLockedException &) {
 		qInfo() << "Another instance is already running and blocking the setup."
 				<< "Update check will be skipped!";

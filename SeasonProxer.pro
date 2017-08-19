@@ -15,3 +15,5 @@ qpmlrelease.CONFIG += recursive
 qpmlrelease.recurse_target = lrelease
 
 QMAKE_EXTRA_TARGETS += qpmlupdate qpmlrelease
+
+DISTFILES += .qmake.conf
