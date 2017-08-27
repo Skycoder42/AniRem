@@ -2,8 +2,7 @@
 A tool to passivly check for updates on seasons, for https://proxer.me
 
 [![Travis Build Status](https://travis-ci.org/Skycoder42/SeasonProxer.svg?branch=master)](https://travis-ci.org/Skycoder42/SeasonProxer)
-[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/kqmf5af1ngg2phqo?svg=true)](https://ci.appveyor.com/project/Skycoder42/seasonproxer)
-
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/kqmf5af1ngg2phqo/branch/master?svg=true)](https://ci.appveyor.com/project/Skycoder42/seasonproxer/branch/master)
 
 ## Features
 Proxer is awesome, but misses one feature: A notification when a new season/ova/etc is released for an anime you have already watched. This tools purpose is to do exactly that. You can
@@ -18,4 +17,4 @@ There are multiple ways to get the application:
 
 1. Arch Linux users: Have an AUR package: [`anirem`](https://aur.archlinux.org/packages/anirem/)
 2. All platforms: Download the installer/apk from the [release page](https://github.com/Skycoder42/SeasonProxer/releases)
-3. Android: While the apk is available as direct download, you can also get it via google play store: [Ani-Rem Google Play](www.example.com)
+3. Android: While the apk is available as direct download, you can also get it via google play store: [Ani-Rem Google Play](https://play.google.com/store/apps/details?id=de.skycoder42.anirem&hl=de)
