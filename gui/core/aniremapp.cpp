@@ -4,7 +4,10 @@
 #include <QCommandLineParser>
 #include <QGuiApplication>
 #include <QIcon>
+#include <QtMvvmCore/ServiceRegistry>
 #include <libanirem.h>
+
+#include "imageloader.h"
 
 AniRemApp::AniRemApp(QObject *parent) :
 	CoreApp(parent)
@@ -20,6 +23,8 @@ void AniRemApp::performRegistrations()
 {
 	Q_INIT_RESOURCE(anirem_core);
 	AniRem::prepareTranslations();
+
+	QtMvvm::ServiceRegistry::instance()->registerObject<ImageLoader>();
 }
 
 int AniRemApp::startApp(const QStringList &arguments)

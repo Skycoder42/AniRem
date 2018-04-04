@@ -3,6 +3,7 @@
 
 #include <QtMvvmCore/ViewModel>
 #include <animeinfo.h>
+#include "imageloader.h"
 class InfoClass;
 
 class AddAnimeViewModel : public QtMvvm::ViewModel
@@ -14,6 +15,8 @@ class AddAnimeViewModel : public QtMvvm::ViewModel
 	Q_PROPERTY(bool loading READ isLoading NOTIFY loadingChanged)
 	Q_PROPERTY(bool acceptable READ isAcceptable NOTIFY acceptableChanged)
 
+	QTMVVM_INJECT_PROP(ImageLoader*, imageLoader, _loader)
+
 public:
 	Q_INVOKABLE explicit AddAnimeViewModel(QObject *parent = nullptr);
 
@@ -21,6 +24,8 @@ public:
 	QString title() const;
 	bool isLoading() const;
 	bool isAcceptable() const;
+
+	ImageLoader* imageLoader() const;
 
 public slots:
 	bool accept(bool allowInvalid);
@@ -41,6 +46,7 @@ private slots:
 
 private:
 	InfoClass *_infoClass;
+	ImageLoader *_loader;
 
 	int _id;
 	QString _title;

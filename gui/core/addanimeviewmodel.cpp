@@ -8,6 +8,7 @@
 AddAnimeViewModel::AddAnimeViewModel(QObject *parent) :
 	ViewModel(parent),
 	_infoClass(ProxerApi::factory().info().instance(this)),
+	_loader(nullptr),
 	_id(-1),
 	_title(),
 	_loading(false),
@@ -35,6 +36,11 @@ bool AddAnimeViewModel::isLoading() const
 bool AddAnimeViewModel::isAcceptable() const
 {
 	return _acceptable;
+}
+
+ImageLoader *AddAnimeViewModel::imageLoader() const
+{
+	return _loader;
 }
 
 bool AddAnimeViewModel::accept(bool allowInvalid)

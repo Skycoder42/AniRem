@@ -5,7 +5,6 @@
 #include <QMovie>
 #include <animeinfo.h>
 #include <addanimeviewmodel.h>
-#include <imageloader.h>
 
 namespace Ui {
 	class AddAnimeDialog;
@@ -43,7 +42,6 @@ private:
 
 	AddAnimeViewModel *_viewModel;
 	Ui::AddAnimeDialog *_ui;
-	ImageLoader *_loader;
 
 	QMovie *_loadingMovie;
 	QPixmap _currentPixmap;

@@ -9,7 +9,6 @@ AddAnimeDialog::AddAnimeDialog(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	QDialog(parent),
 	_viewModel(static_cast<AddAnimeViewModel*>(viewModel)),
 	_ui(new Ui::AddAnimeDialog),
-	_loader(new ImageLoader(this)),
 	_loadingMovie(new QMovie(QStringLiteral(":/animations/loading.gif"), "gif", this)),
 	_currentPixmap(),
 	_pmState(PmCleared)
@@ -18,10 +17,12 @@ AddAnimeDialog::AddAnimeDialog(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	DialogMaster::masterDialog(this, true);
 	_ui->proxerIDLineEdit->setValidator(new QIntValidator(0, INT_MAX, _ui->proxerIDLineEdit));
 
-	connect(_loader, &ImageLoader::imageLoaded,
-			this, &AddAnimeDialog::imageLoaded);
-	connect(_loader, &ImageLoader::imageLoadFailed,
-			this, &AddAnimeDialog::imageLoadFailed);
+	connect(_viewModel->imageLoader(), &ImageLoader::imageLoaded,
+			this, &AddAnimeDialog::imageLoaded,
+			Qt::QueuedConnection);
+	connect(_viewModel->imageLoader(), &ImageLoader::imageLoadFailed,
+			this, &AddAnimeDialog::imageLoadFailed,
+			Qt::QueuedConnection);
 
 	connect(_ui->proxerIDLineEdit, &QLineEdit::editingFinished,
 			this, &AddAnimeDialog::uiIdChanged);
@@ -75,7 +76,7 @@ void AddAnimeDialog::setUiId(int id)
 		_ui->proxerIDLineEdit->setText(QString::number(id));
 		_pmState = PmLoading;
 		updatePm();
-		_loader->loadImage(id);
+		_viewModel->imageLoader()->loadImage(id);
 	}
 }
 
