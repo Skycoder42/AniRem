@@ -8,12 +8,16 @@ TARGET = anirem-core
 HEADERS += \
 	mainviewmodel.h \
 	aniremapp.h \
-    datasyncsettingsviewmodel.h
+    datasyncsettingsviewmodel.h \
+    addanimeviewmodel.h \
+    imageloader.h
 
 SOURCES += \
 	mainviewmodel.cpp \
 	aniremapp.cpp \
-    datasyncsettingsviewmodel.cpp
+    datasyncsettingsviewmodel.cpp \
+    addanimeviewmodel.cpp \
+    imageloader.cpp
 
 RESOURCES += \
 	anirem-core.qrc

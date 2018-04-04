@@ -5,7 +5,9 @@
 #include <QGuiApplication>
 #include <QtMvvmCore/Messages>
 #include <QtMvvmDataSyncCore/DataSyncViewModel>
+
 #include "datasyncsettingsviewmodel.h"
+#include "addanimeviewmodel.h"
 
 MainViewModel::MainViewModel(QObject *parent) :
 	ViewModel(parent),
@@ -89,7 +91,7 @@ void MainViewModel::itemAction(int id)
 
 void MainViewModel::addAnime()
 {
-	//TODO show
+	show<AddAnimeViewModel>();
 }
 
 void MainViewModel::addAnimeFromClipboard()

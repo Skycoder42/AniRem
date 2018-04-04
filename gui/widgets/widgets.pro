@@ -8,13 +8,16 @@ DEFINES += NO_AUTO_UPDATER
 TARGET = anirem
 
 HEADERS += mainwindow.h \
-	animemodel.h
+	animemodel.h \
+    addanimedialog.h
 
 SOURCES += main.cpp \
 	mainwindow.cpp \
-	animemodel.cpp
+	animemodel.cpp \
+    addanimedialog.cpp
 
-FORMS += mainwindow.ui
+FORMS += mainwindow.ui \
+    addanimedialog.ui
 
 RESOURCES += \
 	anirem-widgets.qrc
