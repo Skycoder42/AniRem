@@ -4,6 +4,7 @@
 #include <QtMvvmCore/ViewModel>
 #include <QtDataSync/DataStoreModel>
 #include <syncedsettings.h>
+#include <seasonstatusloader.h>
 
 #include <animeinfo.h>
 class DetailsViewModel;
@@ -16,6 +17,7 @@ class MainViewModel : public QtMvvm::ViewModel
 	Q_PROPERTY(bool reloadingAnimes READ isReloadingAnimes NOTIFY reloadingAnimesChanged)
 
 	QTMVVM_INJECT_PROP(SyncedSettings*, settings, _settings)
+	QTMVVM_INJECT_PROP(SeasonStatusLoader*, updater, _updater)
 
 public:
 	Q_INVOKABLE explicit MainViewModel(QObject *parent = nullptr);
@@ -23,7 +25,6 @@ public:
 	QtDataSync::DataStoreModel* animeModel() const;
 
 	bool isReloadingAnimes() const;
-	void updateLoadStatus(bool loading);
 
 public slots:
 	void reload();
@@ -48,13 +49,20 @@ signals:
 
 	void reloadingAnimesChanged(bool reloadingAnimes);
 
+protected:
+	void onInit(const QVariantHash &params) override;
+
 private slots:
 	void setDetailsView(QPointer<DetailsViewModel> details);
+	void updaterStarted();
+	void updaterDone(bool hasUpdates, const QString &error);
 
 private:
 	QtDataSync::DataStoreModel *_model;
 	SyncedSettings *_settings;
+	SeasonStatusLoader *_updater;
 	bool _loading;
+	bool _showNoChanges;
 
 	QPointer<DetailsViewModel> _currentDetails;
 

@@ -18,13 +18,13 @@ QString ApiHelper::formatError(const QString &error, int errorCode, RestReply::E
 
 	switch (type) {
 	case RestReply::NetworkError:
-		return tr("Network Error: ") + error;
+		return tr("Network Error: <i>%1</i>").arg(error);
 	case RestReply::JsonParseError:
-		return tr("Data Error: ") + error;
+		return tr("Data Error: <i>%1</i>").arg(error);
 	case RestReply::FailureError:
-		return tr("Proxer-API Error: ") + error;
+		return tr("Proxer-API Error: <i>%1</i>").arg(error);
 	case RestReply::DeserializationError:
-		return tr("Data Error: ") + error;
+		return tr("Data Error: <i>%1</i>").arg(error);
 	default:
 		Q_UNREACHABLE();
 		return QString();

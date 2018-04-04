@@ -17,7 +17,7 @@ class LIB_ANIREM_EXPORT AnimeInfo
 
 	Q_PROPERTY(int id READ id WRITE setId USER true)
 	Q_PROPERTY(QString title READ title WRITE setTitle)
-	Q_PROPERTY(SeasonMap seasonState READ seasonState WRITE setSeasonState)
+	Q_PROPERTY(AnimeInfo::SeasonMap seasonState READ seasonState WRITE setSeasonState)
 	Q_PROPERTY(int totalSeasonCount READ totalSeasonCount STORED false)
 	Q_PROPERTY(bool hasNewSeasons READ hasNewSeasons STORED false)
 	Q_PROPERTY(QDateTime lastUpdateCheck READ lastUpdateCheck WRITE setLastUpdateCheck)

@@ -2,8 +2,7 @@
 #include <QtMvvmCore/Messages>
 #include <QtMvvmCore/CoreApp>
 #include <proxerapi.h>
-#include <infoclass.h>
-#include <api/apihelper.h>
+#include <apihelper.h>
 
 const QString AddAnimeViewModel::ParamId = QStringLiteral("id");
 
@@ -19,6 +18,7 @@ AddAnimeViewModel::AddAnimeViewModel(QObject *parent) :
 	_store(new AniremStore(this)),
 	_infoClass(ProxerApi::factory().info().instance(this)),
 	_loader(nullptr),
+	_updater(nullptr),
 	_id(-1),
 	_title(),
 	_loading(false),
@@ -58,8 +58,17 @@ bool AddAnimeViewModel::accept(bool allowInvalid)
 	if((allowInvalid || _acceptable) && _id != -1) {
 		if(_title.isEmpty())
 			setTitle(tr("Anime No. %1").arg(_id));
+
 		try {
-			_store->save({_id, _title});
+			try {
+				_store->load(_id);
+				// can load -> already exists!
+				QtMvvm::information(tr("Anime exists!"), tr("Anime does already exist. If you wanted to reset it, delete it first!"));
+			} catch(QtDataSync::NoDataException &) {
+				AnimeInfo info {_id, _title};
+				_store->save(info);
+				_updater->checkForUpdates(info);
+			}
 			return true;
 		} catch(QException &e) {
 			qCritical() << "Failed to save entry with id" << _id
@@ -110,10 +119,8 @@ void AddAnimeViewModel::onInit(const QVariantHash &params)
 		setId(params.value(ParamId).toInt());
 }
 
-void AddAnimeViewModel::error(const QString &errorString, int errorCode, int errorType)
+void AddAnimeViewModel::error(const QString &errorString, int errorCode, QtRestClient::RestReply::ErrorType errorType)
 {
-	qCritical().noquote() << "Network error of type" << static_cast<QtRestClient::RestReply::ErrorType>(errorType)
-						  << "with code" << errorCode << "and error message:" << errorString;
 	setLoading(false);
 
 	QtMvvm::MessageConfig config {
@@ -121,7 +128,8 @@ void AddAnimeViewModel::error(const QString &errorString, int errorCode, int err
 		QtMvvm::MessageConfig::SubTypeCritical,
 	};
 	config.setTitle(tr("Network Error"))
-			.setText(tr("Unable to download data about the Anime from the server!"))
+			.setText(tr("<p>Unable to download data about the Anime from the server!</p>"
+						"<p>%1</p>").arg(ApiHelper::formatError(errorString, errorCode, errorType)))
 			.setButtons(QtMvvm::MessageConfig::Retry | QtMvvm::MessageConfig::Cancel)
 			.setButtonText(QtMvvm::MessageConfig::Save, tr("Save anyways"));
 

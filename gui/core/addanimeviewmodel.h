@@ -4,8 +4,9 @@
 #include <QtMvvmCore/ViewModel>
 #include <animeinfo.h>
 #include <libanirem.h>
+#include <infoclass.h>
+#include <seasonstatusloader.h>
 #include "imageloader.h"
-class InfoClass;
 
 class AddAnimeViewModel : public QtMvvm::ViewModel
 {
@@ -17,6 +18,7 @@ class AddAnimeViewModel : public QtMvvm::ViewModel
 	Q_PROPERTY(bool acceptable READ isAcceptable NOTIFY acceptableChanged)
 
 	QTMVVM_INJECT_PROP(ImageLoader*, imageLoader, _loader)
+	QTMVVM_INJECT_PROP(SeasonStatusLoader*, updater, _updater)
 
 public:
 	static const QString ParamId;
@@ -50,12 +52,13 @@ protected:
 	void onInit(const QVariantHash &params) override;
 
 private slots:
-	void error(const QString &errorString, int errorCode, int errorType);
+	void error(const QString &errorString, int errorCode, QtRestClient::RestReply::ErrorType errorType);
 
 private:
 	AniremStore *_store;
 	InfoClass *_infoClass;
 	ImageLoader *_loader;
+	SeasonStatusLoader *_updater;
 
 	int _id;
 	QString _title;

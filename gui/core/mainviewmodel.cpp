@@ -14,7 +14,9 @@ MainViewModel::MainViewModel(QObject *parent) :
 	ViewModel(parent),
 	_model(new QtDataSync::DataStoreModel(this)),
 	_settings(nullptr),
+	_updater(nullptr),
 	_loading(false),
+	_showNoChanges(false),
 	_currentDetails()
 {
 	_model->setTypeId<AnimeInfo>();
@@ -30,18 +32,12 @@ bool MainViewModel::isReloadingAnimes() const
 	return _loading;
 }
 
-void MainViewModel::updateLoadStatus(bool loading)
-{
-	if(_loading == loading)
-		return;
-
-	_loading = loading;
-	emit reloadingAnimesChanged(loading);
-}
-
 void MainViewModel::reload()
 {
-	Q_UNIMPLEMENTED();
+	if(!_updater->isUpdating()) {
+		_showNoChanges = true;
+		_updater->checkForUpdates();
+	}
 }
 
 void MainViewModel::showSettings()
@@ -158,9 +154,53 @@ void MainViewModel::removeAnime(int id)
 	}
 }
 
+void MainViewModel::onInit(const QVariantHash &params)
+{
+	Q_UNUSED(params)
+
+	connect(_updater, &SeasonStatusLoader::started,
+			this, &MainViewModel::updaterStarted);
+	connect(_updater, &SeasonStatusLoader::completed,
+			this, &MainViewModel::updaterDone);
+	connect(_updater, &SeasonStatusLoader::updated,
+			this, &MainViewModel::setProgress);
+
+	if(_updater->isUpdating())
+		updaterStarted();
+
+#ifdef Q_OS_ANDROID
+	static bool once = true;
+	if(once) {
+		QtAndroid::hideSplashScreen();
+		once = false;
+	}
+#endif
+}
+
 void MainViewModel::setDetailsView(QPointer<DetailsViewModel> details)
 {
 	_currentDetails = std::move(details);
+}
+
+void MainViewModel::updaterStarted()
+{
+	_loading = true;
+	emit reloadingAnimesChanged(_loading);
+}
+
+void MainViewModel::updaterDone(bool hasUpdates, const QString &error)
+{
+	_loading = false;
+	emit reloadingAnimesChanged(_loading);
+
+	if(!error.isNull())
+		QtMvvm::critical(tr("Season check failed"), error);
+	else if(hasUpdates)
+		QtMvvm::information(tr("Season check completed"), tr("New Seasons are available!"));
+	else if(_showNoChanges) {
+		_showNoChanges = false;
+		QtMvvm::information(tr("Season check completed"), tr("No seasons changed."));
+	}
 }
 
 AnimeInfo MainViewModel::infoFromId(int id) const

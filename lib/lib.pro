@@ -8,16 +8,18 @@ DEFINES += BUILD_LIB_ANIREM
 
 HEADERS += lib_anirem_global.h \
 	libanirem.h \
-	api/apihelper.h \
+	apihelper.h \
 	apikeys.h \
 	animeinfo.h \
-	jsonseasondataconverter.h
+	jsonseasondataconverter.h \
+	seasonstatusloader.h
 
 SOURCES += \
 	libanirem.cpp \
-	api/apihelper.cpp \
+	apihelper.cpp \
 	animeinfo.cpp \
-	jsonseasondataconverter.cpp
+	jsonseasondataconverter.cpp \
+	seasonstatusloader.cpp
 
 REST_API_OBJECTS += api/proxerstatus.json \
 	api/proxerentryvalue.json \

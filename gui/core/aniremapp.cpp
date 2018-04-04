@@ -10,6 +10,7 @@
 #include <QSettings>
 #include <QStandardPaths>
 #include <libanirem.h>
+#include <seasonstatusloader.h>
 #include <syncedsettings.h>
 #include <localsettings.h>
 
@@ -48,6 +49,7 @@ void AniRemApp::performRegistrations()
 	AniRem::prepareTranslations();
 
 	QtMvvm::ServiceRegistry::instance()->registerObject<ImageLoader>();
+	QtMvvm::ServiceRegistry::instance()->registerObject<SeasonStatusLoader>();
 }
 
 int AniRemApp::startApp(const QStringList &arguments)

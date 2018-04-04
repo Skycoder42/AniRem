@@ -52,7 +52,7 @@ void cleanSettings()
 
 void setupAniRemLib()
 {
-	qRegisterMetaType<AnimeInfo::SeasonMap>();
+	qRegisterMetaType<AnimeInfo::SeasonMap>("AnimeInfo::SeasonMap");
 
 	QJsonSerializer::registerListConverters<AnimeInfo>();
 
