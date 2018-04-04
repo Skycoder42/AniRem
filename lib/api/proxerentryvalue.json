@@ -1,0 +1,15 @@
+{
+	"$type": "gadget",
+	"$name": "ProxerEntryValue",
+	"$export": "LIB_ANIREM_EXPORT",
+	"$includes": [
+		">lib_anirem_global.h"
+	],
+
+	"id": "int",
+	"name": "QString",
+	"medium": "QString",
+
+	"year": "int",
+	"season": "int"
+}

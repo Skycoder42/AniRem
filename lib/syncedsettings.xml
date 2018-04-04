@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Settings name="SyncedSettings" prefix="LIB_ANIREM_EXPORT" backend="DataSyncSettingsAccessor">
+	<Include>lib_anirem_global.h</Include>
+
+</Settings>

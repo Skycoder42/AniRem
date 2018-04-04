@@ -2,28 +2,59 @@
 #define MAINVIEWMODEL_H
 
 #include <QtMvvmCore/ViewModel>
+#include <QtDataSync/DataStoreModel>
+#include <syncedsettings.h>
+
+#include "animeinfo.h"
 
 class MainViewModel : public QtMvvm::ViewModel
 {
 	Q_OBJECT
 
-	Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+	Q_PROPERTY(QtDataSync::DataStoreModel* animeModel READ animeModel CONSTANT)
+	Q_PROPERTY(bool reloadingAnimes READ isReloadingAnimes NOTIFY reloadingAnimesChanged)
+
+	QTMVVM_INJECT_PROP(SyncedSettings*, settings, _settings)
 
 public:
 	Q_INVOKABLE explicit MainViewModel(QObject *parent = nullptr);
 
-	QString text() const;
+	QtDataSync::DataStoreModel* animeModel() const;
 
-public Q_SLOTS:
+	bool isReloadingAnimes() const;
+	void updateLoadStatus(bool loading);
+
+public slots:
+	void reload();
 	void showSettings();
+	void showSync();
+	void showAbout();
+	void showCaptcha();
 
-	void setText(const QString &text);
+	void uncheckAnime(int id);
+	void itemAction(int id);
 
-Q_SIGNALS:
-	void textChanged(const QString &text);
+	void addAnime();
+	void addAnimeFromClipboard();
+	void showDetails(int id);
+	void openUrl(int id);
+
+	void removeAnime(int id);
+
+signals:
+	void showStatus(const QString &message);
+	void setProgress(int value, int max);
+
+	void reloadingAnimesChanged(bool reloadingAnimes);
+
+protected:
 
 private:
-	QString _text;
+	QtDataSync::DataStoreModel *_model;
+	SyncedSettings *_settings;
+	bool _loading;
+
+	AnimeInfo infoFromId(int id) const;
 };
 
 #endif // MAINVIEWMODEL_H

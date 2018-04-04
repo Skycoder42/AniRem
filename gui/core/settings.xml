@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SettingsConfig>
-	<Entry key="property"
-		   type="bool"
-		   title="&amp;Check me"
-		   tooltip="I am a checkbox!"
-		   default="false" />
+<SettingsConfig allowSearch="true" allowRestore="true">
+	<Group>
+		<Entry key="updates/autoCheck"
+			   type="list"
+			   title="&amp;Automatic Season Check"
+			   tooltip="Automatically check for new seaons every given interval."
+			   default="7">
+				<Property key="listElements" type="list">
+					<Element type="object">
+						<Property key="name" type="string">Never</Property>
+						<Property key="value" type="int">0</Property>
+					</Element>
+					<Element type="object">
+						<Property key="name" type="string">Dayly</Property>
+						<Property key="value" type="int">1</Property>
+					</Element>
+					<Element type="object">
+						<Property key="name" type="string">Weekly</Property>
+						<Property key="value" type="int">7</Property>
+					</Element>
+					<Element type="object">
+						<Property key="name" type="string">Monthly</Property>
+						<Property key="value" type="int">30</Property>
+					</Element>
+				</Property>
+		</Entry>
+		<Entry key="updates/checkLimit"
+			   type="int"
+			   title="Season check &amp;limit"
+			   tooltip="If checking for too many seasons at once, proxer.me may block your ip. To prevent this, limit the amount of checked animes per day (0 equals no limit)."
+			   default="15">
+			<Property key="specialValueText" type="string">No limit</Property>
+		</Entry>
+	</Group>
+	<Group title="Long/Double click actions">
+		<Entry key="gui/openEntries"
+			   type="bool"
+			   title="&amp;Open Animes in browser"
+			   tooltip="Such an action will automatically open the animes relations in your browser."
+			   default="false" />
+		<Entry key="gui/uncheckEntries"
+			   type="bool"
+			   title="&amp;Unmark new seasons"
+			   tooltip="Such an action will remove the &apos;new seasons&apos; mark from the anime, if it had one."
+			   default="true" />
+	</Group>
 </SettingsConfig>

@@ -1,15 +1,23 @@
 TEMPLATE = app
 
-QT += widgets mvvmwidgets
+QT += widgets mvvmwidgets mvvmdatasyncwidgets
+
+# TODO add
+DEFINES += NO_AUTO_UPDATER
 
 TARGET = anirem
 
-HEADERS += mainwindow.h
+HEADERS += mainwindow.h \
+	animemodel.h
 
 SOURCES += main.cpp \
-	mainwindow.cpp
+	mainwindow.cpp \
+	animemodel.cpp
 
 FORMS += mainwindow.ui
+
+RESOURCES += \
+	anirem-widgets.qrc
 
 TRANSLATIONS += gui_widgets_de.ts \
 	gui_widgets_template.ts
@@ -27,3 +35,8 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../core
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../core/release/anirem-core.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../core/debug/anirem-core.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../core/libanirem-core.a
+
+include(../../lib.pri)
+
+!ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
+else: include($$OUT_PWD/qpmx_generated.pri)

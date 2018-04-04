@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	// If you want to support file dialogs on platforms other then android, use a QApplication instead (and add QT += widgets to the pro file)
 	QGuiApplication app(argc, argv);
 
-	qmlRegisterUncreatableType<MainViewModel>("de.skycoder42.anirem", 1, 0, "MainViewModel", "ViewModels cannot be created!");
+	qmlRegisterUncreatableType<MainViewModel>("de.skycoder42.anirem", 1, 0, "MainViewModel", QStringLiteral("ViewModels cannot be created!"));
 
 	QQmlApplicationEngine engine;
 	engine.load(QUrl(QStringLiteral("qrc:/App.qml")));

@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="remove.ico">resources/cross.ico</file>
+        <file alias="add.ico">resources/plus.ico</file>
+        <file alias="paste.ico">resources/paste_plain.ico</file>
+        <file alias="copy.ico">resources/page_white_copy.ico</file>
+        <file alias="reload.ico">resources/arrow_refresh.ico</file>
+        <file alias="openLink.ico">resources/world_go.ico</file>
+        <file alias="unmarkNew.ico">resources/bell_valid.ico</file>
+        <file alias="inverted.ico">resources/anirem_inverted.ico</file>
+    </qresource>
+    <qresource prefix="/animations">
+        <file alias="loading.gif">resources/ajax-loader.gif</file>
+    </qresource>
+</RCC>

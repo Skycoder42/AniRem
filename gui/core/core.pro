@@ -1,17 +1,19 @@
 TEMPLATE = lib
 
-QT += mvvmcore
+QT += mvvmcore mvvmdatasynccore
 CONFIG += static
 
 TARGET = anirem-core
 
 HEADERS += \
 	mainviewmodel.h \
-	aniremapp.h
+	aniremapp.h \
+    datasyncsettingsviewmodel.h
 
 SOURCES += \
 	mainviewmodel.cpp \
-	aniremapp.cpp
+	aniremapp.cpp \
+    datasyncsettingsviewmodel.cpp
 
 RESOURCES += \
 	anirem-core.qrc
@@ -23,3 +25,5 @@ DISTFILES += $$TRANSLATIONS
 QTMVVM_TS_SETTINGS = settings.xml
 _never_true_condition: SOURCES += $$files($$PWD/.ts-dummy/*)
 PRE_TARGETDEPS += qtmvvm-tsgen
+
+include(../../lib.pri)
