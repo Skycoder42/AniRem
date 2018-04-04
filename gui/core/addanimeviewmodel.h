@@ -3,6 +3,7 @@
 
 #include <QtMvvmCore/ViewModel>
 #include <animeinfo.h>
+#include <libanirem.h>
 #include "imageloader.h"
 class InfoClass;
 
@@ -18,6 +19,10 @@ class AddAnimeViewModel : public QtMvvm::ViewModel
 	QTMVVM_INJECT_PROP(ImageLoader*, imageLoader, _loader)
 
 public:
+	static const QString ParamId;
+
+	static QVariantHash params(int id);
+
 	Q_INVOKABLE explicit AddAnimeViewModel(QObject *parent = nullptr);
 
 	int id() const;
@@ -41,10 +46,14 @@ signals:
 	void loadingChanged(bool loading);
 	void acceptableChanged(bool acceptable);
 
+protected:
+	void onInit(const QVariantHash &params) override;
+
 private slots:
 	void error(const QString &errorString, int errorCode, int errorType);
 
 private:
+	AniremStore *_store;
 	InfoClass *_infoClass;
 	ImageLoader *_loader;
 

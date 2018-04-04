@@ -5,8 +5,18 @@
 #include <infoclass.h>
 #include <api/apihelper.h>
 
+const QString AddAnimeViewModel::ParamId = QStringLiteral("id");
+
+QVariantHash AddAnimeViewModel::params(int id)
+{
+	return {
+		{ParamId, id}
+	};
+}
+
 AddAnimeViewModel::AddAnimeViewModel(QObject *parent) :
 	ViewModel(parent),
+	_store(new AniremStore(this)),
 	_infoClass(ProxerApi::factory().info().instance(this)),
 	_loader(nullptr),
 	_id(-1),
@@ -48,8 +58,14 @@ bool AddAnimeViewModel::accept(bool allowInvalid)
 	if((allowInvalid || _acceptable) && _id != -1) {
 		if(_title.isEmpty())
 			setTitle(tr("Anime No. %1").arg(_id));
-		auto info = new AnimeInfo(_id, _title); //TODO store
-		return true;
+		try {
+			_store->save({_id, _title});
+			return true;
+		} catch(QException &e) {
+			qCritical() << "Failed to save entry with id" << _id
+						<< "and error:" << e.what();
+			return false;
+		}
 	} else
 		return false;
 }
@@ -84,6 +100,12 @@ void AddAnimeViewModel::setTitle(QString title)
 
 	_title = title;
 	emit titleChanged(title);
+}
+
+void AddAnimeViewModel::onInit(const QVariantHash &params)
+{
+	if(params.contains(ParamId))
+		setId(params.value(ParamId).toInt());
 }
 
 void AddAnimeViewModel::error(const QString &errorString, int errorCode, int errorType)

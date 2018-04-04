@@ -2,8 +2,12 @@
 #define LIBANIREM_H
 
 #include <QtDataSync/Setup>
+#include <QtDataSync/DataTypeStore>
 
 #include "lib_anirem_global.h"
+#include "animeinfo.h"
+
+using AniremStore = QtDataSync::DataTypeStore<AnimeInfo, int>;
 
 namespace AniRem {
 

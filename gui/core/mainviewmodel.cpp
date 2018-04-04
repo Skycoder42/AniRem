@@ -121,7 +121,7 @@ void MainViewModel::addAnimeFromClipboard()
 	}
 
 	if(id != -1)
-		;//TODO show
+		show<AddAnimeViewModel>(AddAnimeViewModel::params(id));
 	else
 		emit showStatus(tr("Clipboard does not contain a proxer url or an id"));
 }
