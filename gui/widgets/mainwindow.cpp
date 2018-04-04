@@ -91,7 +91,7 @@ MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	if(LocalSettings::instance()->gui.mainwindow.state.isSet())
 		restoreState(LocalSettings::instance()->gui.mainwindow.state);
 	if(LocalSettings::instance()->gui.mainwindow.header.isSet())
-		_ui->seasonTreeView->header()->restoreState(LocalSettings::instance()->gui.mainwindow.header); //TODO restoring is not working...
+		_ui->seasonTreeView->header()->restoreState(LocalSettings::instance()->gui.mainwindow.header);
 }
 
 MainWindow::~MainWindow()
@@ -178,9 +178,13 @@ void MainWindow::on_actionCopy_selected_Info_triggered()
 			break;
 		case 2:
 			clipBoard->setText(QLocale().toString(info.totalSeasonCount()));
-			showStatus(tr("Copied Season Count: %1").arg(info.totalSeasonCount()));
+			showStatus(tr("Copied Season Count: %L1").arg(info.totalSeasonCount()));
 			break;
 		case 3:
+			clipBoard->setText(QLocale().toString(info.lastUpdateCheck()));
+			showStatus(tr("Copied Last updated: %1").arg(clipBoard->text()));
+			break;
+		case 4:
 			clipBoard->setText(info.relationsUrl().toString());
 			showStatus(tr("Copied Relations URL: %1").arg(info.relationsUrl().toString()));
 			break;

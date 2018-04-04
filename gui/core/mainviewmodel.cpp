@@ -6,7 +6,7 @@
 #include <QtMvvmCore/Messages>
 #include <QtMvvmDataSyncCore/DataSyncViewModel>
 
-#include "datasyncsettingsviewmodel.h"
+#include "aniremsettingsviewmodel.h"
 #include "addanimeviewmodel.h"
 #include "detailsviewmodel.h"
 
@@ -46,7 +46,7 @@ void MainViewModel::reload()
 
 void MainViewModel::showSettings()
 {
-	show<DataSyncSettingsViewModel>();
+	show<AniremSettingsViewModel>();
 }
 
 void MainViewModel::showSync()

@@ -10,4 +10,7 @@
 			<Entry key="header" type="QByteArray"/>
 		</Node>
 	</Node>
+	<Node key="updates">
+		<Entry key="didNotify" type="bool" default="false" />
+	</Node>
 </Settings>

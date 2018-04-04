@@ -10,12 +10,17 @@ class AniRemApp : public QtMvvm::CoreApp
 public:
 	explicit AniRemApp(QObject *parent = nullptr);
 
+	void updateAutoStartState();
+
 protected:
 	void performRegistrations() override;
 	int startApp(const QStringList &arguments) override;
+
+private:
+	bool setAutoStart(bool autoStart);
 };
 
 #undef coreApp
-#define coreApp static_cast<guiApp*>(CoreApp::instance())
+#define coreApp static_cast<AniRemApp*>(QtMvvm::CoreApp::instance())
 
 #endif // GUIAPP_H
