@@ -1,5 +1,5 @@
-#ifndef ADDANIMECONTROL_H
-#define ADDANIMECONTROL_H
+#ifndef ADDANIMEVIEWMODEL_H
+#define ADDANIMEVIEWMODEL_H
 
 #include <QtMvvmCore/ViewModel>
 #include <animeinfo.h>
@@ -66,4 +66,4 @@ private:
 	void setAcceptable(bool acceptable);
 };
 
-#endif // ADDANIMECONTROL_H
+#endif // ADDANIMEVIEWMODEL_H

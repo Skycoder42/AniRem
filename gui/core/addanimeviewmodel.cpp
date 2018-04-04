@@ -64,6 +64,8 @@ bool AddAnimeViewModel::accept(bool allowInvalid)
 		} catch(QException &e) {
 			qCritical() << "Failed to save entry with id" << _id
 						<< "and error:" << e.what();
+			QtMvvm::critical(tr("Adding failed!"),
+							 tr("Failed to add anime to underlying data storage."));
 			return false;
 		}
 	} else

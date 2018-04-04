@@ -9,15 +9,18 @@ TARGET = anirem
 
 HEADERS += mainwindow.h \
 	animemodel.h \
-    addanimedialog.h
+    addanimedialog.h \
+    detailsdockwidget.h
 
 SOURCES += main.cpp \
 	mainwindow.cpp \
 	animemodel.cpp \
-    addanimedialog.cpp
+    addanimedialog.cpp \
+    detailsdockwidget.cpp
 
 FORMS += mainwindow.ui \
-    addanimedialog.ui
+    addanimedialog.ui \
+    detailsdockwidget.ui
 
 RESOURCES += \
 	anirem-widgets.qrc

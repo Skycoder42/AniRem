@@ -5,6 +5,7 @@
 
 #include "mainwindow.h"
 #include "addanimedialog.h"
+#include "detailsdockwidget.h"
 
 // Register the core app
 QTMVVM_REGISTER_CORE_APP(AniRemApp)
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
 	QtMvvm::registerDataSyncWidgets();
 	QtMvvm::WidgetsPresenter::registerView<MainWindow>();
 	QtMvvm::WidgetsPresenter::registerView<AddAnimeDialog>();
+	QtMvvm::WidgetsPresenter::registerView<DetailsDockWidget>();
 
 	return a.exec();
 }

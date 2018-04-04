@@ -91,7 +91,7 @@ MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	if(LocalSettings::instance()->gui.mainwindow.state.isSet())
 		restoreState(LocalSettings::instance()->gui.mainwindow.state);
 	if(LocalSettings::instance()->gui.mainwindow.header.isSet())
-		_ui->seasonTreeView->header()->restoreState(LocalSettings::instance()->gui.mainwindow.header);
+		_ui->seasonTreeView->header()->restoreState(LocalSettings::instance()->gui.mainwindow.header); //TODO restoring is not working...
 }
 
 MainWindow::~MainWindow()

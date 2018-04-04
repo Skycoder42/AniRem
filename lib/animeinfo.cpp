@@ -20,6 +20,19 @@ public:
 
 	mutable int seasonCount = -1; //TODO make threadsafe?
 	mutable int hasNewSeasons = -1;
+
+	bool operator==(const AnimeInfoData &other) const {
+		return id == other.id &&
+				title == other.title &&
+				seasonState == other.seasonState &&
+				lastUpdateCheck == other.lastUpdateCheck;
+	}
+	bool operator!=(const AnimeInfoData &other) const {
+		return id != other.id ||
+				title != other.title ||
+				seasonState != other.seasonState ||
+				lastUpdateCheck != other.lastUpdateCheck;
+	}
 };
 
 
@@ -168,6 +181,16 @@ QString AnimeInfo::typeToString(AnimeInfo::SeasonType type)
 		Q_UNREACHABLE();
 		return {};
 	}
+}
+
+bool AnimeInfo::operator==(const AnimeInfo &other) const
+{
+	return (*d) == *(other.d);
+}
+
+bool AnimeInfo::operator!=(const AnimeInfo &other) const
+{
+	return d != other.d && (*d) != *(other.d);
 }
 
 void AnimeInfo::setId(int id)

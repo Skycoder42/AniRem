@@ -5,7 +5,8 @@
 #include <QtDataSync/DataStoreModel>
 #include <syncedsettings.h>
 
-#include "animeinfo.h"
+#include <animeinfo.h>
+class DetailsViewModel;
 
 class MainViewModel : public QtMvvm::ViewModel
 {
@@ -47,12 +48,15 @@ signals:
 
 	void reloadingAnimesChanged(bool reloadingAnimes);
 
-protected:
+private slots:
+	void setDetailsView(QPointer<DetailsViewModel> details);
 
 private:
 	QtDataSync::DataStoreModel *_model;
 	SyncedSettings *_settings;
 	bool _loading;
+
+	QPointer<DetailsViewModel> _currentDetails;
 
 	AnimeInfo infoFromId(int id) const;
 };

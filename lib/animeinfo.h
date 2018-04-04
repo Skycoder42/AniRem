@@ -66,6 +66,9 @@ public:
 
 	Q_INVOKABLE static QString typeToString(SeasonType type);
 
+	bool operator==(const AnimeInfo &other) const;
+	bool operator!=(const AnimeInfo &other) const;
+
 private:
 	QSharedDataPointer<AnimeInfoData> d;
 

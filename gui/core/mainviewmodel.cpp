@@ -8,12 +8,14 @@
 
 #include "datasyncsettingsviewmodel.h"
 #include "addanimeviewmodel.h"
+#include "detailsviewmodel.h"
 
 MainViewModel::MainViewModel(QObject *parent) :
 	ViewModel(parent),
 	_model(new QtDataSync::DataStoreModel(this)),
 	_settings(nullptr),
-	_loading(false)
+	_loading(false),
+	_currentDetails()
 {
 	_model->setTypeId<AnimeInfo>();
 }
@@ -130,9 +132,13 @@ void MainViewModel::showDetails(int id)
 {
 	auto info = infoFromId(id);
 	if(info) {
-		//TODO show
+		if(_currentDetails)
+			_currentDetails->setAnimeInfo(info);
+		else
+			show<DetailsViewModel>(DetailsViewModel::params(info, this));
 	} else {
-		//TODO close
+		if(_currentDetails)
+			_currentDetails->clear();
 	}
 }
 
@@ -150,6 +156,11 @@ void MainViewModel::removeAnime(int id)
 		emit showStatus(tr("Removed Anime: %1").arg(info.title()));
 		_model->store()->remove<AnimeInfo>(info.id());
 	}
+}
+
+void MainViewModel::setDetailsView(QPointer<DetailsViewModel> details)
+{
+	_currentDetails = std::move(details);
 }
 
 AnimeInfo MainViewModel::infoFromId(int id) const

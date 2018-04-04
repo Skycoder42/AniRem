@@ -10,14 +10,16 @@ HEADERS += \
 	aniremapp.h \
     datasyncsettingsviewmodel.h \
     addanimeviewmodel.h \
-    imageloader.h
+    imageloader.h \
+    detailsviewmodel.h
 
 SOURCES += \
 	mainviewmodel.cpp \
 	aniremapp.cpp \
     datasyncsettingsviewmodel.cpp \
     addanimeviewmodel.cpp \
-    imageloader.cpp
+    imageloader.cpp \
+    detailsviewmodel.cpp
 
 RESOURCES += \
 	anirem-core.qrc
