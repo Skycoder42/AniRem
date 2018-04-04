@@ -59,7 +59,7 @@ void SeasonStatusLoader::checkNext()
 		_anyUpdated = false;
 	} else {
 		auto next = _updateQueue.head();
-		auto rep = _infoClass->getRelations(next.id());
+		auto rep = _infoClass->getRelations(next.id(), _settings->updates.hentai);
 		rep->onSucceeded([this, next](int code, ProxerRelations relation) {
 			auto animeInfo = next;
 			if(!ApiHelper::testValid(code, relation)) {

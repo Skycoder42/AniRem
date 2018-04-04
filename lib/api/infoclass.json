@@ -22,7 +22,8 @@
 		"getRelations": {
 			"path": "relations",
 			"parameters": [
-				"id;int"
+				"id;int",
+				"isH;bool;false"
 			],
 			"returns": "ProxerRelations"
 		}

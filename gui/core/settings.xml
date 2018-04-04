@@ -32,6 +32,11 @@
 			   default="15">
 			<Property key="specialValueText" type="string">No limit</Property>
 		</Entry>
+		<Entry key="updates/hentai"
+			   type="bool"
+			   title="Include &amp;Adult content"
+			   tooltip="When enabled, the applications update-checks will include Adult-Content, like Hentais, H-Mangas and Doujins."
+			   default="false" />
 	</Group>
 	<Group title="Long/Double click actions">
 		<Entry key="gui/openEntries"
