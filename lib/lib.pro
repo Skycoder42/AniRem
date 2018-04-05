@@ -5,16 +5,19 @@ QT = core datasync restclient mvvmcore
 TARGET = anirem
 
 DEFINES += BUILD_LIB_ANIREM
+!include(../api.pri):error(You need to provide a proxer api key. Add it as DEFINES in a file name api.pri in the project root directory)
 
-HEADERS += lib_anirem_global.h \
+PUBLIC_HEADERS = \
+	lib_anirem_global.h \
 	libanirem.h \
 	apihelper.h \
-	apikeys.h \
-	animeinfo.h \
-	jsonseasondataconverter.h \
 	seasonstatusloader.h \
-    iupdatenotifier.h \
-    passiveupdater.h
+	iupdatenotifier.h \
+	animeinfo.h \
+	passiveupdater.h
+
+HEADERS += $$PUBLIC_HEADERS \
+	jsonseasondataconverter.h
 
 SOURCES += \
 	libanirem.cpp \
@@ -22,7 +25,7 @@ SOURCES += \
 	animeinfo.cpp \
 	jsonseasondataconverter.cpp \
 	seasonstatusloader.cpp \
-    passiveupdater.cpp
+	passiveupdater.cpp
 
 REST_API_OBJECTS += api/proxerstatus.json \
 	api/proxerentryvalue.json \
@@ -38,8 +41,7 @@ SETTINGS_GENERATORS += \
 
 MVVM_SETTINGS_FILES += $$PWD/../gui/core/settings.xml
 
-TRANSLATIONS += anirem_lib_de.ts \
-	anirem_lib_template.ts
+TRANSLATIONS += anirem_lib_de.ts
 
 DISTFILES += $$TRANSLATIONS
 
@@ -51,3 +53,20 @@ for(header, SETTINGSGENERATOR_BUILD_HEADERS) {
 	theader = $$shadowed($$SETTINGSGENERATOR_DIR/$$basename(header))
 	!exists($$theader):system($$QMAKE_COPY_FILE $$shell_quote($$shell_path($$header)) $$shell_quote($$shell_path($$theader)))
 }
+
+# install
+target.path = $$INSTALL_LIBS
+qpmx_ts_target.path = $$INSTALL_TRANSLATIONS
+header_install.files = $$PUBLIC_HEADERS \
+	$$SETTINGSGENERATOR_BUILD_HEADERS \
+	$$SETTINGSGENERATOR_DIR/localsettings.h \
+	$$SETTINGSGENERATOR_DIR/syncedsettings.h \
+	$$OUT_PWD/proxerstatus.h \
+	$$OUT_PWD/proxerentryvalue.h \
+	$$OUT_PWD/proxerentry.h \
+	$$OUT_PWD/proxerrelations.h \
+	$$OUT_PWD/infoclass.h \
+	$$OUT_PWD/proxerapi.h
+header_install.path = $$INSTALL_HEADERS/anirem
+INSTALLS += target qpmx_ts_target
+!android: INSTALLS += header_install

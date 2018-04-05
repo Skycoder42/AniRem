@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="800"
+   height="800"
+   version="1.1"
+   id="svg156"
+   sodipodi:docname="anirem_white.svg"
+   inkscape:version="0.92.1 r">
+  <metadata
+     id="metadata162">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs160" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1006"
+     id="namedview158"
+     showgrid="true"
+     inkscape:zoom="0.7062229"
+     inkscape:cx="106.84536"
+     inkscape:cy="379.80699"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg156"
+     showguides="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4698" />
+  </sodipodi:namedview>
+  <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+  <g
+     id="g154"
+     transform="matrix(1.1219884,0,0,1.1219884,-89.453861,-103.34098)"
+     style="fill:#ffffff">
+    <title
+       id="title149">Layer 1</title>
+    <text
+       transform="matrix(35.701495,0,0,35.701495,-7953.871,-6729.9794)"
+       xml:space="preserve"
+       font-size="24"
+       id="svg_1"
+       y="208.04469"
+       x="225.94893"
+       style="font-size:24px;font-family:Helvetica, Arial, sans-serif;text-anchor:start;fill:#ffffff;stroke:#000000;stroke-width:0"><tspan
+         style="font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;font-size:24.00011635px;font-family:Z003;-inkscape-font-specification:'Z003, Medium Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff"
+         id="tspan4655">A</tspan></text>
+    <text
+       transform="rotate(98.05397)"
+       xml:space="preserve"
+       font-size="24"
+       id="svg_2"
+       y="-664.84985"
+       x="137.75478"
+       style="font-size:189.01403809px;font-family:Helvetica, Arial, sans-serif;text-anchor:start;fill:#ffffff;stroke:#000000;stroke-width:0"><tspan
+         style="font-style:italic;font-variant:normal;font-weight:500;font-stretch:normal;font-size:189.01477051px;font-family:Z003;-inkscape-font-specification:'Z003, Medium Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0;fill:#ffffff"
+         id="tspan4657">nirem</tspan></text>
+    <text
+       xml:space="preserve"
+       font-size="24"
+       id="svg_3"
+       y="256.5"
+       x="-5.5"
+       style="font-size:24px;font-family:Helvetica, Arial, sans-serif;text-anchor:start;fill:#ffffff;stroke:#000000;stroke-width:0" />
+  </g>
+</svg>

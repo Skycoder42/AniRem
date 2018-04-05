@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <aniremapp.h>
 #include <mainviewmodel.h>
+#include "instancesetup.h"
 
 WidgetsUpdateNotifier::WidgetsUpdateNotifier(QObject *parent) :
 	QObject(parent),
@@ -44,6 +45,10 @@ void WidgetsUpdateNotifier::timerTriggered()
 	else
 		_trayIcon->setIcon(_normalIcon);
 	_currentNormal = !_currentNormal;
+	if(getMainWindow()) {
+		_trayIcon->hide();
+		_blinkTimer->stop();
+	}
 }
 
 void WidgetsUpdateNotifier::trayActivated(QSystemTrayIcon::ActivationReason reason)
@@ -61,11 +66,13 @@ void WidgetsUpdateNotifier::trayActivated(QSystemTrayIcon::ActivationReason reas
 void WidgetsUpdateNotifier::showMainViewModel()
 {
 	_trayIcon->hide();
-	coreApp->show<MainViewModel>(); //TODO single instance it...
+	_blinkTimer->stop();
+	coreApp->show<MainViewModel>();
 }
 
 void WidgetsUpdateNotifier::quit()
 {
 	_trayIcon->hide();
+	_blinkTimer->stop();
 	qApp->quit();
 }

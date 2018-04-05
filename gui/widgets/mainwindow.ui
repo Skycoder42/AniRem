@@ -4,10 +4,10 @@
  <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
-	<x>0</x>
-	<y>0</y>
-	<width>800</width>
-	<height>600</height>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="toolButtonStyle">
@@ -18,81 +18,81 @@
   </property>
   <widget class="QTreeView" name="seasonTreeView">
    <property name="contextMenuPolicy">
-	<enum>Qt::ActionsContextMenu</enum>
+    <enum>Qt::ActionsContextMenu</enum>
    </property>
    <property name="editTriggers">
-	<set>QAbstractItemView::NoEditTriggers</set>
+    <set>QAbstractItemView::NoEditTriggers</set>
    </property>
    <property name="tabKeyNavigation">
-	<bool>true</bool>
+    <bool>true</bool>
    </property>
    <property name="alternatingRowColors">
-	<bool>true</bool>
+    <bool>true</bool>
    </property>
    <property name="rootIsDecorated">
-	<bool>false</bool>
+    <bool>false</bool>
    </property>
    <property name="itemsExpandable">
-	<bool>false</bool>
+    <bool>false</bool>
    </property>
    <property name="sortingEnabled">
-	<bool>true</bool>
+    <bool>true</bool>
    </property>
    <property name="animated">
-	<bool>true</bool>
+    <bool>true</bool>
    </property>
    <property name="expandsOnDoubleClick">
-	<bool>false</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
-	<rect>
-	 <x>0</x>
-	 <y>0</y>
-	 <width>800</width>
-	 <height>23</height>
-	</rect>
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>23</height>
+    </rect>
    </property>
    <widget class="QMenu" name="menuFile">
-	<property name="title">
-	 <string>&amp;File</string>
-	</property>
-	<addaction name="actionReload_Seasons"/>
-	<addaction name="separator"/>
-	<addaction name="action_Settings"/>
-	<addaction name="actionSynchronization"/>
-	<addaction name="separator"/>
-	<addaction name="actionQuit"/>
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionReload_Seasons"/>
+    <addaction name="separator"/>
+    <addaction name="action_Settings"/>
+    <addaction name="actionSynchronization"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
-	<property name="title">
-	 <string>&amp;Edit</string>
-	</property>
-	<addaction name="actionAdd_Anime"/>
-	<addaction name="actionPaste_ID_URL"/>
-	<addaction name="separator"/>
-	<addaction name="actionRemove_Anime"/>
+    <property name="title">
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="actionAdd_Anime"/>
+    <addaction name="actionPaste_ID_URL"/>
+    <addaction name="separator"/>
+    <addaction name="actionRemove_Anime"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
-	<property name="title">
-	 <string>&amp;Help</string>
-	</property>
-	<addaction name="action_About"/>
-	<addaction name="separator"/>
-	<addaction name="action_Unblock_IP_Captcha"/>
-	<addaction name="separator"/>
-	<addaction name="actionMigrate_from_SeasonProxer"/>
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="action_About"/>
+    <addaction name="separator"/>
+    <addaction name="action_Unblock_IP_Captcha"/>
+    <addaction name="separator"/>
+    <addaction name="actionMigrate_from_SeasonProxer"/>
    </widget>
    <widget class="QMenu" name="menu_Actions">
-	<property name="title">
-	 <string>&amp;Actions</string>
-	</property>
-	<addaction name="actionCopy_selected_Info"/>
-	<addaction name="separator"/>
-	<addaction name="action_Open_Anime_in_browser"/>
-	<addaction name="action_Unmark_new_seasons"/>
-	<addaction name="separator"/>
+    <property name="title">
+     <string>&amp;Actions</string>
+    </property>
+    <addaction name="actionCopy_selected_Info"/>
+    <addaction name="separator"/>
+    <addaction name="action_Open_Anime_in_browser"/>
+    <addaction name="action_Unmark_new_seasons"/>
+    <addaction name="separator"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -102,13 +102,13 @@
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
-	<string>Toolbar</string>
+    <string>Toolbar</string>
    </property>
    <attribute name="toolBarArea">
-	<enum>TopToolBarArea</enum>
+    <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-	<bool>false</bool>
+    <bool>false</bool>
    </attribute>
    <addaction name="actionReload_Seasons"/>
    <addaction name="separator"/>
@@ -120,150 +120,152 @@
   </widget>
   <action name="actionAdd_Anime">
    <property name="icon">
-	<iconset theme="gtk-add">
-	 <normaloff>:/icons/add.ico</normaloff>:/icons/add.ico</iconset>
+    <iconset theme="gtk-add" resource="anirem-widgets.qrc">
+     <normaloff>:/icons/add.ico</normaloff>:/icons/add.ico</iconset>
    </property>
    <property name="text">
-	<string>&amp;Add Anime</string>
+    <string>&amp;Add Anime</string>
    </property>
    <property name="shortcut">
-	<string>Ctrl+Ins</string>
+    <string notr="true">Ctrl+Ins</string>
    </property>
   </action>
   <action name="actionRemove_Anime">
    <property name="icon">
-	<iconset theme="edit-delete">
-	 <normaloff>:/icons/remove.ico</normaloff>:/icons/remove.ico</iconset>
+    <iconset theme="edit-delete" resource="anirem-widgets.qrc">
+     <normaloff>:/icons/remove.ico</normaloff>:/icons/remove.ico</iconset>
    </property>
    <property name="text">
-	<string>&amp;Remove Anime</string>
+    <string>&amp;Remove Anime</string>
    </property>
    <property name="shortcut">
-	<string>Del</string>
+    <string notr="true">Del</string>
    </property>
   </action>
   <action name="actionPaste_ID_URL">
    <property name="icon">
-	<iconset theme="edit-paste">
-	 <normaloff>:/icons/paste.ico</normaloff>:/icons/paste.ico</iconset>
+    <iconset theme="edit-paste" resource="anirem-widgets.qrc">
+     <normaloff>:/icons/paste.ico</normaloff>:/icons/paste.ico</iconset>
    </property>
    <property name="text">
-	<string>&amp;Paste ID/URL</string>
+    <string>&amp;Paste ID/URL</string>
    </property>
    <property name="shortcut">
-	<string>Ctrl+V</string>
+    <string notr="true">Ctrl+V</string>
    </property>
   </action>
   <action name="actionCopy_selected_Info">
    <property name="icon">
-	<iconset theme="edit-copy">
-	 <normaloff>:/icons/copy.ico</normaloff>:/icons/copy.ico</iconset>
+    <iconset theme="edit-copy" resource="anirem-widgets.qrc">
+     <normaloff>:/icons/copy.ico</normaloff>:/icons/copy.ico</iconset>
    </property>
    <property name="text">
-	<string>&amp;Copy selected Info</string>
+    <string>&amp;Copy selected Info</string>
    </property>
    <property name="shortcut">
-	<string>Ctrl+C</string>
+    <string notr="true">Ctrl+C</string>
    </property>
   </action>
   <action name="actionQuit">
    <property name="icon">
-	<iconset theme="gtk-quit">
-	 <normaloff>.</normaloff>.</iconset>
+    <iconset theme="gtk-quit">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-	<string>&amp;Quit</string>
+    <string>&amp;Quit</string>
    </property>
    <property name="toolTip">
-	<string>Quit</string>
+    <string>Quit</string>
    </property>
    <property name="shortcut">
-	<string>Alt+F4</string>
+    <string notr="true">Alt+F4</string>
    </property>
   </action>
   <action name="actionReload_Seasons">
    <property name="icon">
-	<iconset theme="view-refresh">
-	 <normaloff>:/icons/reload.ico</normaloff>:/icons/reload.ico</iconset>
+    <iconset theme="view-refresh" resource="anirem-widgets.qrc">
+     <normaloff>:/icons/reload.ico</normaloff>:/icons/reload.ico</iconset>
    </property>
    <property name="text">
-	<string>Season &amp;Check</string>
+    <string>Season &amp;Check</string>
    </property>
    <property name="shortcut">
-	<string>Ctrl+R</string>
+    <string notr="true">Ctrl+R</string>
    </property>
   </action>
   <action name="action_About">
    <property name="icon">
-	<iconset theme="help-about">
-	 <normaloff>.</normaloff>.</iconset>
+    <iconset theme="help-about">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-	<string>&amp;About</string>
+    <string>&amp;About</string>
    </property>
   </action>
   <action name="action_Settings">
    <property name="icon">
-	<iconset theme="configure">
-	 <normaloff>:/de/skycoder42/qtmvvm/icons/settings.ico</normaloff>:/de/skycoder42/qtmvvm/icons/settings.ico</iconset>
+    <iconset theme="configure">
+     <normaloff>:/de/skycoder42/qtmvvm/icons/settings.ico</normaloff>:/de/skycoder42/qtmvvm/icons/settings.ico</iconset>
    </property>
    <property name="text">
-	<string>&amp;Settings</string>
+    <string>&amp;Settings</string>
    </property>
    <property name="shortcut">
-	<string>Ctrl+Alt+S</string>
+    <string notr="true">Ctrl+Alt+S</string>
    </property>
   </action>
   <action name="action_Open_Anime_in_browser">
    <property name="icon">
-	<iconset theme="browser">
-	 <normaloff>:/icons/openLink.ico</normaloff>:/icons/openLink.ico</iconset>
+    <iconset theme="browser" resource="anirem-widgets.qrc">
+     <normaloff>:/icons/openLink.ico</normaloff>:/icons/openLink.ico</iconset>
    </property>
    <property name="text">
-	<string>&amp;Open Anime in browser</string>
+    <string>&amp;Open Anime in browser</string>
    </property>
    <property name="shortcut">
-	<string>Ctrl+U</string>
+    <string notr="true">Ctrl+U</string>
    </property>
   </action>
   <action name="action_Unmark_new_seasons">
    <property name="enabled">
-	<bool>false</bool>
+    <bool>false</bool>
    </property>
    <property name="icon">
-	<iconset theme="dialog-ok-apply">
-	 <normaloff>:/icons/unmarkNew.ico</normaloff>:/icons/unmarkNew.ico</iconset>
+    <iconset theme="dialog-ok-apply" resource="anirem-widgets.qrc">
+     <normaloff>:/icons/unmarkNew.ico</normaloff>:/icons/unmarkNew.ico</iconset>
    </property>
    <property name="text">
-	<string>&amp;Unmark new seasons</string>
+    <string>&amp;Unmark new seasons</string>
    </property>
    <property name="shortcut">
-	<string>Ctrl+K</string>
+    <string notr="true">Ctrl+K</string>
    </property>
   </action>
   <action name="actionSynchronization">
    <property name="icon">
-	<iconset theme="view-refresh">
-	 <normaloff>:/icons/reload.ico</normaloff>:/icons/reload.ico</iconset>
+    <iconset theme="view-refresh" resource="anirem-widgets.qrc">
+     <normaloff>:/icons/reload.ico</normaloff>:/icons/reload.ico</iconset>
    </property>
    <property name="text">
-	<string>Syn&amp;chronization</string>
+    <string>Syn&amp;chronization</string>
    </property>
    <property name="toolTip">
-	<string>Synchronization</string>
+    <string>Synchronization</string>
    </property>
   </action>
   <action name="action_Unblock_IP_Captcha">
    <property name="text">
-	<string>&amp;Unblock IP Captcha</string>
+    <string>&amp;Unblock IP Captcha</string>
    </property>
   </action>
   <action name="actionMigrate_from_SeasonProxer">
    <property name="text">
-	<string>&amp;Migrate from SeasonProxer</string>
+    <string>&amp;Migrate from SeasonProxer</string>
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="anirem-widgets.qrc"/>
+ </resources>
  <connections/>
 </ui>

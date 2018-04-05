@@ -60,10 +60,12 @@ int AniRemApp::startApp(const QStringList &arguments)
 	parser.addHelpOption();
 
 	//add more options
-	parser.addOption({
-						 QStringLiteral("passive"),
-						 tr("Start in passive mode. Useful only when running with an external backend service.")
-					 });
+	QCommandLineOption pOpt = {
+		QStringLiteral("passive"),
+		QStringLiteral("Start in passive mode. Useful only when running with an external backend service.")
+	};
+	pOpt.setFlags(QCommandLineOption::HiddenFromHelp);
+	parser.addOption(pOpt);
 	parser.addOption({
 						 {QStringLiteral("u"), QStringLiteral("update")},
 						 tr("Ani-Rem will start without a GUI, checking for updates passively")

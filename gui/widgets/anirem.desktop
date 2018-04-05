@@ -1,0 +1,18 @@
+[Desktop Entry]
+Type=Application
+Version=1.1
+Name=Ani-Rem — Anime Season Reminder
+Name[de]=Ani-Rem — Anime Season Erinnerungen
+Comment=A tool to passivly check for updates on seasons, for proxer.me
+Comment[de]=Ein Tool zum passiven überprüfen von Updates für Anime Seasons, basierend auf proxer.me
+Exec=anirem
+Icon=anirem
+Terminal=false
+Categories=Utility;Qt;
+Actions=UpdateCheck;
+
+[Desktop Action UpdateCheck]
+Exec=anirem --update
+Name=Check for updated seasons
+Name[de]=Auf neue Seasons überprüfen
+Icon=view-refresh

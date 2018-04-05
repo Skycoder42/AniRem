@@ -4,6 +4,11 @@
 #include <QClipboard>
 #include <QtMvvmCore/Binding>
 #include <localsettings.h>
+#include "instancesetup.h"
+
+#ifndef NO_AUTO_UPDATER
+#include <QtAutoUpdaterGui/UpdateController>
+#endif
 
 MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	QMainWindow(parent),
@@ -92,6 +97,9 @@ MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 		restoreState(LocalSettings::instance()->gui.mainwindow.state);
 	if(LocalSettings::instance()->gui.mainwindow.header.isSet())
 		_ui->seasonTreeView->header()->restoreState(LocalSettings::instance()->gui.mainwindow.header);
+
+	// final step: register in app
+	setMainWindow(this);
 }
 
 MainWindow::~MainWindow()

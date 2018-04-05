@@ -4,7 +4,6 @@
 	"export": "LIB_ANIREM_EXPORT",
 	"includes": [
 		">lib_anirem_global.h",
-		">apikeys.h",
 		">infoclass.h"
 	],
 

@@ -2,33 +2,57 @@ TEMPLATE = app
 
 QT += widgets mvvmwidgets mvvmdatasyncwidgets
 
-# TODO add
-DEFINES += NO_AUTO_UPDATER
+!qtHaveModule(autoupdatergui): CONFIG += no_updater
+!no_updater:QT += autoupdatergui
+else: DEFINES += NO_AUTO_UPDATER
 
 TARGET = anirem
 
+QMAKE_TARGET_PRODUCT = "Ani-Rem"
+RC_ICONS += ../../icn/anirem.ico
+ICON = ../../icn/anirem.icns
+
 HEADERS += mainwindow.h \
 	animemodel.h \
-    addanimedialog.h \
-    detailsdockwidget.h \
-    widgetsupdatenotifier.h
+	addanimedialog.h \
+	detailsdockwidget.h \
+	widgetsupdatenotifier.h \
+	instancesetup.h
 
 SOURCES += main.cpp \
 	mainwindow.cpp \
 	animemodel.cpp \
-    addanimedialog.cpp \
-    detailsdockwidget.cpp \
-    widgetsupdatenotifier.cpp
+	addanimedialog.cpp \
+	detailsdockwidget.cpp \
+	widgetsupdatenotifier.cpp
 
 FORMS += mainwindow.ui \
-    addanimedialog.ui \
-    detailsdockwidget.ui
+	addanimedialog.ui \
+	detailsdockwidget.ui
 
 RESOURCES += \
 	anirem-widgets.qrc
 
-TRANSLATIONS += gui_widgets_de.ts \
-	gui_widgets_template.ts
+TRANSLATIONS += anirem_widgets_de.ts
+
+no_updater: EXTRA_TRANSLATIONS += anirem_de.ts
+else: EXTRA_TRANSLATIONS += installer/anirem_de.ts
+
+DISTFILES += $$TRANSLATIONS \
+	$$EXTRA_TRANSLATIONS \
+	installer/config.xml
+	installer/meta/package.xml
+
+# install
+target.path = $$INSTALL_BINS
+qpmx_ts_target.path = $$INSTALL_TRANSLATIONS
+extra_ts_target.path = $$INSTALL_TRANSLATIONS
+desktop_install.files = anirem.desktop
+desktop_install.path = $$INSTALL_SHARE/applications/
+install_icons.path = $$INSTALL_SHARE
+install_icons.files = icons
+INSTALLS += target qpmx_ts_target extra_ts_target
+linux:!android: INSTALLS += desktop_install install_icons
 
 # Link with core project
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../core/release/ -lanirem-core

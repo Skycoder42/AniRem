@@ -6,4 +6,7 @@ SUBDIRS += \
 
 gui.depends += lib
 
+prepareRecursiveTarget(lrelease)
+QMAKE_EXTRA_TARGETS += lrelease
+
 DISTFILES += .qmake.conf
