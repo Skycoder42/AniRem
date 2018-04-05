@@ -66,6 +66,7 @@ header_install.files = $$PUBLIC_HEADERS \
 	$$OUT_PWD/proxerrelations.h \
 	$$OUT_PWD/infoclass.h \
 	$$OUT_PWD/proxerapi.h
+header_install.CONFIG += no_check_exist
 header_install.path = $$INSTALL_HEADERS/anirem
 INSTALLS += target qpmx_ts_target
 !android: INSTALLS += header_install

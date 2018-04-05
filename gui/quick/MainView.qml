@@ -4,10 +4,16 @@ import QtQuick.Layouts 1.3
 import de.skycoder42.QtMvvm.Core 1.0
 import de.skycoder42.QtMvvm.Quick 1.0
 import de.skycoder42.anirem 1.0
+import "../../qml"
 
 Page {
 	id: mainView
 	property MainViewModel viewModel: null
+
+	Connections {
+		target: viewModel
+		onShowStatus: console.log(message) //TODO show toast!
+	}
 
 	header: ContrastToolBar {
 		RowLayout {
@@ -15,15 +21,51 @@ Page {
 			spacing: 0
 
 			ToolBarLabel {
-				text: qsTr("MainViewModel")
+				text: qsTr("Anime List")
 				Layout.fillWidth: true
+			}
+
+			ActionButton {
+				id: refreshButton
+				icon.source: "qrc:/icons/ic_autorenew.svg"
+				icon.name: "view-refresh"
+				text: qsTr("Check for new Seasons")
+				onClicked: viewModel.reload()
 			}
 
 			MenuButton {
 				MenuItem {
+					id: pasteId
+					text: qsTr("Paste ID/URL")
+					onClicked: viewModel.addAnimeFromClipboard()
+				}
+
+				MenuSeparator {}
+
+				MenuItem {
 					id: settings
 					text: qsTr("Settings")
 					onClicked: viewModel.showSettings()
+				}
+
+				MenuItem {
+					id: sync
+					text: qsTr("Synchronization")
+					onClicked: viewModel.showSync()
+				}
+
+				MenuSeparator {}
+
+				MenuItem {
+					id: about
+					text: qsTr("About")
+					onClicked: viewModel.showAbout()
+				}
+
+				MenuItem {
+					id: unblockCaptcha
+					text: qsTr("Unblock IP Captcha")
+					onClicked: viewModel.showCaptcha()
 				}
 			}
 		}
@@ -31,39 +73,19 @@ Page {
 
 	PresenterProgress {}
 
-	Pane {
+	ListView {
 		anchors.fill: parent
 
-		ColumnLayout {
-			anchors.fill: parent
+		model: viewModel.animeModel // TODO sort in viewmodel
 
-			TextField {
-				id: textEdit
-				Layout.fillWidth: true
+		ScrollBar.vertical: ScrollBar {}
 
-				MvvmBinding {
-					viewModel: mainView.viewModel
-					viewModelProperty: "text"
-					view: textEdit
-					viewProperty: "text"
-				}
-			}
-
-			Label {
-				id: textLabel
-				Layout.fillWidth: true
-
-				MvvmBinding {
-					viewModel: mainView.viewModel
-					viewModelProperty: "text"
-					view: textLabel
-					viewProperty: "text"
-					type: MvvmBinding.OneWayToView
-				}
-			}
-
-			Item {
-				Layout.fillHeight: true
+		delegate: AnimeInfoDelegate {
+			onAnimeDeleted: viewModel.removeAnime(id)
+			onClicked: viewModel.showDetails(id)
+			onPressAndHold: {
+				QuickPresenter.hapticLongPress();
+				viewModel.itemAction(id);
 			}
 		}
 	}
