@@ -11,6 +11,7 @@
 #include <QStandardPaths>
 #include <libanirem.h>
 #include <seasonstatusloader.h>
+#include <passiveupdater.h>
 #include <syncedsettings.h>
 #include <localsettings.h>
 
@@ -24,7 +25,7 @@ AniRemApp::AniRemApp(QObject *parent) :
 	QCoreApplication::setOrganizationName(QStringLiteral(COMPANY));
 	QCoreApplication::setOrganizationDomain(QStringLiteral(BUNDLE));
 	QGuiApplication::setApplicationDisplayName(QStringLiteral("Ani-Rem"));
-	QGuiApplication::setWindowIcon(QIcon(QStringLiteral("")));
+	QGuiApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/main.ico")));
 }
 
 void AniRemApp::updateAutoStartState()
@@ -90,7 +91,10 @@ int AniRemApp::startApp(const QStringList &arguments)
 	updateAutoStartState();
 
 	//show a viewmodel to complete the startup
-	show<MainViewModel>();
+	if(parser.isSet(QStringLiteral("update")))
+		updateCheck();
+	else
+		show<MainViewModel>();
 	return EXIT_SUCCESS;
 }
 
@@ -167,4 +171,15 @@ bool AniRemApp::setAutoStart(bool autoStart)
 	bool didNotify = LocalSettings::instance()->updates.didNotify;
 	LocalSettings::instance()->updates.didNotify = autoStart;
 	return autoStart == didNotify;
+}
+
+void AniRemApp::updateCheck()
+{
+	auto updater = QtMvvm::ServiceRegistry::instance()->constructInjected<PassiveUpdater>();
+	connect(updater, &PassiveUpdater::done,
+			this, [](bool stay) {
+		if(!stay)
+			qApp->quit();
+	});
+	updater->performUpdateCheck();
 }

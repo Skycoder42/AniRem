@@ -20,7 +20,7 @@ public:
 	bool isUpdating() const;
 
 public slots:
-	void checkForUpdates(bool forceHasUpdates = false);
+	void checkForUpdates(bool useInterval = false);
 	void checkForUpdates(const AnimeInfo &info);
 
 signals:

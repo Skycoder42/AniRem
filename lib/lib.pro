@@ -12,14 +12,17 @@ HEADERS += lib_anirem_global.h \
 	apikeys.h \
 	animeinfo.h \
 	jsonseasondataconverter.h \
-	seasonstatusloader.h
+	seasonstatusloader.h \
+    iupdatenotifier.h \
+    passiveupdater.h
 
 SOURCES += \
 	libanirem.cpp \
 	apihelper.cpp \
 	animeinfo.cpp \
 	jsonseasondataconverter.cpp \
-	seasonstatusloader.cpp
+	seasonstatusloader.cpp \
+    passiveupdater.cpp
 
 REST_API_OBJECTS += api/proxerstatus.json \
 	api/proxerentryvalue.json \

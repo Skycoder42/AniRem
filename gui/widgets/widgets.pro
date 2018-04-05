@@ -10,13 +10,15 @@ TARGET = anirem
 HEADERS += mainwindow.h \
 	animemodel.h \
     addanimedialog.h \
-    detailsdockwidget.h
+    detailsdockwidget.h \
+    widgetsupdatenotifier.h
 
 SOURCES += main.cpp \
 	mainwindow.cpp \
 	animemodel.cpp \
     addanimedialog.cpp \
-    detailsdockwidget.cpp
+    detailsdockwidget.cpp \
+    widgetsupdatenotifier.cpp
 
 FORMS += mainwindow.ui \
     addanimedialog.ui \

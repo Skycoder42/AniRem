@@ -5,12 +5,14 @@
 #include <QLibraryInfo>
 #include <QLocale>
 #include <QTranslator>
+#include <QtMvvmCore/ServiceRegistry>
 #include <datasyncsettingsaccessor.h>
 
 #include "jsonseasondataconverter.h"
 #include "animeinfo.h"
 #include "proxerapi.h"
 #include "syncedsettings.h"
+#include "iupdatenotifier.h"
 
 void AniRem::prepareTranslations()
 {
@@ -55,6 +57,8 @@ void setupAniRemLib()
 	qRegisterMetaType<AnimeInfo::SeasonMap>("AnimeInfo::SeasonMap");
 
 	QJsonSerializer::registerListConverters<AnimeInfo>();
+
+	QtMvvm::registerInterfaceConverter<IUpdateNotifier>();
 
 	qAddPostRoutine(cleanSettings);
 }

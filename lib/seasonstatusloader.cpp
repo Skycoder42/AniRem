@@ -23,11 +23,8 @@ bool SeasonStatusLoader::isUpdating() const
 	return !_updateQueue.isEmpty();
 }
 
-void SeasonStatusLoader::checkForUpdates(bool forceHasUpdates)
+void SeasonStatusLoader::checkForUpdates(bool useInterval)
 {
-	if(forceHasUpdates)
-		_anyUpdated = true;
-
 	auto updateList = _store->loadAll();
 	if(updateList.isEmpty())
 		return;
@@ -42,7 +39,26 @@ void SeasonStatusLoader::checkForUpdates(bool forceHasUpdates)
 	if(maxSize > 0)
 		updateList = updateList.mid(0, maxSize);
 
-	addInfos(updateList);
+	//reduce to allowed interval
+	if(useInterval) {
+		auto interval = _settings->updates.autoCheck.get().toInt();
+		if(interval == 0) {
+			emit completed(false);
+			return;
+		}
+
+		for(auto i = 0; i < updateList.size(); i++) {
+			if(updateList[i].lastUpdateCheck().date().daysTo(QDate::currentDate()) < interval) {
+				updateList = updateList.mid(0, i);
+				break;
+			}
+		}
+	}
+
+	if(updateList.isEmpty())
+		emit completed(false);
+	else
+		addInfos(updateList);
 }
 
 void SeasonStatusLoader::checkForUpdates(const AnimeInfo &info)

@@ -18,6 +18,8 @@ protected:
 
 private:
 	bool setAutoStart(bool autoStart);
+
+	void updateCheck();
 };
 
 #undef coreApp
