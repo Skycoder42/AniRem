@@ -5,7 +5,6 @@ QT = core datasync restclient mvvmcore
 TARGET = anirem
 
 DEFINES += BUILD_LIB_ANIREM
-!include(../api.pri):error(You need to provide a proxer api key. Add it as DEFINES in a file name api.pri in the project root directory)
 
 PUBLIC_HEADERS = \
 	lib_anirem_global.h \
