@@ -70,6 +70,7 @@ void setupAniRemLib()
 	QJsonSerializer::registerListConverters<AnimeInfo>();
 
 	QtMvvm::registerInterfaceConverter<IUpdateNotifier>();
+	QtMvvm::ServiceRegistry::instance()->registerObject<SeasonStatusLoader>();
 
 	qAddPostRoutine(cleanSettings);
 }

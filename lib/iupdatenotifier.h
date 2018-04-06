@@ -5,11 +5,15 @@
 
 class IUpdateNotifier
 {
+	Q_DISABLE_COPY(IUpdateNotifier)
+
 public:
+	inline IUpdateNotifier() = default;
 	virtual inline ~IUpdateNotifier() = default;
 
 public slots:
 	virtual void showNotification(bool isPositive, const QString &title, const QString &description) = 0;
+	virtual void updateProgress(int value, int max) = 0;
 };
 
 #define IUpdateNotifierIid "de.skycoder42.anirem.IUpdateNotifier"

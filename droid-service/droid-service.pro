@@ -1,14 +1,18 @@
 TEMPLATE = app
 
-QT += androidextras
+QT += androidextras mvvmcore
 QT -= gui
 
 TARGET = anirem-service
 
-HEADERS +=
+HEADERS += \
+	starthelper.h \
+    androidupdatenotifier.h
 
 SOURCES += \
-		main.cpp
+	main.cpp \
+	starthelper.cpp \
+    androidupdatenotifier.cpp
 
 # TODO debug
 QMAKE_EXTRA_TARGETS += lrelease

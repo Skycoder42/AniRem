@@ -34,7 +34,11 @@ AniRemApp::AniRemApp(QObject *parent) :
 
 void AniRemApp::updateAutoStartState()
 {
-	auto interval = SyncedSettings::instance()->updates.autoCheck.get().toInt();
+	updateAutoStartState(SyncedSettings::instance()->updates.autoCheck.get().toInt());
+}
+
+void AniRemApp::updateAutoStartState(int interval)
+{
 	if(!setAutoStart(interval > 0)) {
 		if(interval > 0) {
 			QtMvvm::information(tr("Enable autostart"),
@@ -54,7 +58,6 @@ void AniRemApp::performRegistrations()
 	AniRem::prepareTranslations();
 
 	QtMvvm::ServiceRegistry::instance()->registerObject<ImageLoader>();
-	QtMvvm::ServiceRegistry::instance()->registerObject<SeasonStatusLoader>();
 }
 
 int AniRemApp::startApp(const QStringList &arguments)

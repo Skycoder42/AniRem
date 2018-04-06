@@ -38,6 +38,12 @@ void WidgetsUpdateNotifier::showNotification(bool isPositive, const QString &tit
 	_trayIcon->showMessage(title, description, isPositive ? QSystemTrayIcon::Information : QSystemTrayIcon::Critical);
 }
 
+void WidgetsUpdateNotifier::updateProgress(int value, int max)
+{
+	Q_UNUSED(value)
+	Q_UNUSED(max)
+}
+
 void WidgetsUpdateNotifier::timerTriggered()
 {
 	if(_currentNormal)

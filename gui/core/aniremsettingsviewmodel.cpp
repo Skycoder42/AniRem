@@ -8,18 +8,14 @@ AniremSettingsViewModel::AniremSettingsViewModel(QObject *parent) :
 
 void AniremSettingsViewModel::saveValue(const QString &key, const QVariant &value)
 {
-	if(key == QStringLiteral("updates/autoCheck")) {
-		SyncedSettings::instance()->updates.autoCheck = value;
-		coreApp->updateAutoStartState();
-	} else
-		DataSyncSettingsViewModel::saveValue(key, value);
+	DataSyncSettingsViewModel::saveValue(key, value);
+	if(key == QStringLiteral("updates/autoCheck"))
+		coreApp->updateAutoStartState(value.toInt());
 }
 
 void AniremSettingsViewModel::resetValue(const QString &key)
 {
-	if(key == QStringLiteral("updates/autoCheck")) {
-		SyncedSettings::instance()->updates.autoCheck.reset();
-		coreApp->updateAutoStartState();
-	} else
-		DataSyncSettingsViewModel::resetValue(key);
+	DataSyncSettingsViewModel::resetValue(key);
+	if(key == QStringLiteral("updates/autoCheck"))
+		coreApp->updateAutoStartState(7);
 }

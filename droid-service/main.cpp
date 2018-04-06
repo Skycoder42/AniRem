@@ -1,6 +1,10 @@
 #include <QAndroidService>
 #include <QDebug>
+#include <QMutex>
+#include <QtMvvmCore/ServiceRegistry>
 #include <libanirem.h>
+#include "starthelper.h"
+#include "androidupdatenotifier.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,12 +16,16 @@ int main(int argc, char *argv[])
 	//load translations
 	AniRem::prepareTranslations();
 
+	QtMvvm::ServiceRegistry::instance()->registerInterface<IUpdateNotifier, AndroidUpdateNotifier>();
+
 	try {
 		QtDataSync::Setup setup;
 		AniRem::setup(setup, true);
 		setup.create();
-		qInfo() << "service successfully started";
 
+		StartHelper starter;
+
+		qInfo() << "service successfully started";
 		return service.exec();
 	} catch(QException &e) {
 		qCritical() << e.what();

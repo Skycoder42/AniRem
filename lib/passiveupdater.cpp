@@ -11,7 +11,7 @@ PassiveUpdater::PassiveUpdater(QObject *parent) :
 
 void PassiveUpdater::performUpdateCheck()
 {
-	//INFO remove once patched
+	//WORKAROUND remove once patched
 	qtmvvm_init();
 
 	auto startFn = [this]() {
@@ -33,6 +33,8 @@ void PassiveUpdater::qtmvvm_init()
 {
 	connect(_loader, &SeasonStatusLoader::completed,
 			this, &PassiveUpdater::completed);
+	connect(_loader, SIGNAL(updated(int,int)),
+			dynamic_cast<QObject*>(_notifier), SLOT(updateProgress(int,int)));
 }
 
 void PassiveUpdater::completed(bool hasUpdates, const QString &errorString)

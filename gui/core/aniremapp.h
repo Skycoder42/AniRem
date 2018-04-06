@@ -11,6 +11,7 @@ public:
 	explicit AniRemApp(QObject *parent = nullptr);
 
 	void updateAutoStartState();
+	void updateAutoStartState(int interval);
 
 protected:
 	void performRegistrations() override;

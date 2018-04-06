@@ -18,6 +18,7 @@ public:
 
 public slots:
 	void showNotification(bool isPositive, const QString &title, const QString &description) override;
+	void updateProgress(int value, int max) override;
 
 private slots:
 	void timerTriggered();

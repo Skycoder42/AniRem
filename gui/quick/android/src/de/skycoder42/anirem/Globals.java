@@ -5,6 +5,7 @@ import android.os.Build;
 public class Globals {
 	// alarms
 	public static final int AlarmIntentId = 11;
+	public static final int OpenIntentId = 12;
 
 	// preferences
 	public static final String AutoStartPrefs = "de.skycoder42.anirem.preferences";

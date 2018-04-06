@@ -3,6 +3,7 @@
 	<string name="app_name">Ani-Rem</string>
 	<string name="update_progress_title">Checking for new seasons…</string>
 	<string name="update_progress_text">Loading Animes…</string>
+	<string name="update_progress_active_text">Checking Anime for updates: </string>
 
 	<string name="channel_nrm_name">Anime Informations</string>
 	<string name="channel_nrm_desc">Notifications about new relations of your saved animes</string>
