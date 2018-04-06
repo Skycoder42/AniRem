@@ -101,6 +101,15 @@ int AniRemApp::startApp(const QStringList &arguments)
 		updateCheck();
 	else
 		show<MainViewModel>();
+
+#ifdef Q_OS_ANDROID
+	static bool once = true;
+	if(once) {
+		QtAndroid::hideSplashScreen();
+		once = false;
+	}
+#endif
+
 	return EXIT_SUCCESS;
 }
 

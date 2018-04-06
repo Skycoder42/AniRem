@@ -10,10 +10,6 @@
 #include "addanimeviewmodel.h"
 #include "detailsviewmodel.h"
 
-#ifdef Q_OS_ANDROID
-#include <QtAndroid>
-#endif
-
 MainViewModel::MainViewModel(QObject *parent) :
 	ViewModel(parent),
 	_model(new QtDataSync::DataStoreModel(this)),
@@ -171,14 +167,6 @@ void MainViewModel::onInit(const QVariantHash &params)
 
 	if(_updater->isUpdating())
 		updaterStarted();
-
-#ifdef Q_OS_ANDROID
-	static bool once = true;
-	if(once) {
-		QtAndroid::hideSplashScreen();
-		once = false;
-	}
-#endif
 }
 
 void MainViewModel::setDetailsView(QPointer<DetailsViewModel> details)
