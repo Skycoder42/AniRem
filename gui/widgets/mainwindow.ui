@@ -216,14 +216,14 @@
   </action>
   <action name="action_Open_Anime_in_browser">
    <property name="icon">
-    <iconset theme="browser" resource="anirem-widgets.qrc">
+    <iconset theme="internet-web-browser" resource="anirem-widgets.qrc">
      <normaloff>:/icons/openLink.ico</normaloff>:/icons/openLink.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Open Anime in browser</string>
    </property>
    <property name="shortcut">
-    <string notr="true">Ctrl+U</string>
+    <string>Ctrl+U</string>
    </property>
   </action>
   <action name="action_Unmark_new_seasons">

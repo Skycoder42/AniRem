@@ -15,7 +15,15 @@ Page {
 		onShowStatus: console.log(message) //TODO show toast!
 	}
 
+	function closeAction() {
+		if(reloadingDialog.visible) {
+			return true;
+		} else
+			return false;
+	}
+
 	header: ContrastToolBar {
+		id: toolbar
 		RowLayout {
 			anchors.fill: parent
 			spacing: 0
@@ -73,19 +81,62 @@ Page {
 
 	PresenterProgress {}
 
-	ListView {
+	ScrollView {
 		anchors.fill: parent
+		clip: true
 
-		model: viewModel.animeModel // TODO sort in viewmodel
+		ListView {
+			model: viewModel.animeModel // TODO sort in viewmodel
 
-		ScrollBar.vertical: ScrollBar {}
+			delegate: AnimeInfoDelegate {
+				onAnimeDeleted: viewModel.removeAnime(id)
+				onClicked: viewModel.showDetails(id)
+				onPressAndHold: {
+					QuickPresenter.hapticLongPress();
+					viewModel.itemAction(id);
+				}
+			}
 
-		delegate: AnimeInfoDelegate {
-			onAnimeDeleted: viewModel.removeAnime(id)
-			onClicked: viewModel.showDetails(id)
-			onPressAndHold: {
-				QuickPresenter.hapticLongPress();
-				viewModel.itemAction(id);
+			footer: Item {
+				height: addButton.height + addButton.anchors.bottomMargin + addButton.anchors.topMargin
+			}
+		}
+	}
+
+	RoundActionButton {
+		id: addButton
+
+		anchors.right: parent.right
+		anchors.bottom: parent.bottom
+		anchors.margins: 16
+
+		icon.name: "gtk-add"
+		icon.source: "qrc:/icons/ic_add.svg"
+		text: qsTr("Add Anime")
+
+		onClicked: viewModel.addAnime()
+	}
+
+	AlertDialog {
+		id: reloadingDialog
+		title: qsTr("Checking for new seasons…")
+		closePolicy: Popup.NoAutoClose
+		visible: viewModel.reloadingAnimes
+		extraHeight: toolbar.height
+
+		ProgressBar {
+			anchors.left: parent.left
+			anchors.right: parent.right
+			id: reloadingProgress
+			to: 0.0
+			indeterminate: to == 0.0
+
+			Connections {
+				target: viewModel
+				onSetProgress: {
+					reloadingProgress.to = max;
+					reloadingProgress.value = value;
+				}
 			}
 		}
 	}

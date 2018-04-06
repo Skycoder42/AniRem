@@ -90,7 +90,7 @@
         <translation>&lt;b&gt;&lt;font color=&quot;#8A0E0E&quot;&gt;%L1 (neu)&lt;/font&gt;&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+40"/>
         <source>Adding failed!</source>
         <translation>Hinzufügen fehlgeschlagen!</translation>
     </message>
@@ -152,12 +152,12 @@
 <context>
     <name>qtmvvm_settings_xml</name>
     <message>
-        <location filename=".ts-dummy/settings.tsdummy.cpp" line="+4"/>
+        <location filename=".ts-dummy/settings.tsdummy.cpp" line="+10"/>
         <source>&amp;Unmark new seasons</source>
         <translation>Neue Seasons &amp;demarkieren</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-3"/>
         <source>&amp;Open Animes in browser</source>
         <translation>Animes im &amp;Browser öffnen</translation>
     </message>
@@ -167,7 +167,7 @@
         <translation>Wenn zu viele Animes überprüft werden, kann es sein, dass proxer.me die IP blockiert. Gibt das Limit für Checks pro Tag an(0 heißt kein Limit).</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+5"/>
         <source>Such an action will remove the &apos;new seasons&apos; mark from the anime, if it had one.</source>
         <translation>Eine solche Aktion entfernt automatisch die &quot;neue Seasons&quot; Information.</translation>
     </message>
@@ -177,22 +177,22 @@
         <translation>Wenn die Option aktiviert ist werden auch Erwachsenen-Inhalte geladen, wie z.B. Hentais. H-Mangas und Doujins.</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-5"/>
         <source>&amp;Automatic Season Check</source>
         <translation>&amp;Automatischer Season-Check</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>Season check &amp;limit</source>
         <translation>Season-Check &amp;Limit</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-1"/>
         <source>Such an action will automatically open the animes relations in your browser.</source>
         <translation>Eine solche Aktion öffnet Animes automatisch im Browser.</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-7"/>
         <source>Automatically check for new seaons every given interval.</source>
         <translation>Automatisch nach neuen Seasons suche, nach gegebenen Intervall.</translation>
     </message>

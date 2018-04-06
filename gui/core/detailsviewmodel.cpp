@@ -69,6 +69,7 @@ void DetailsViewModel::uncheckAnime()
 		try {
 			_animeInfo.setAllUnchanged();
 			_store->save(_animeInfo);
+			emit animeInfoChanged();
 		} catch(QException &e) {
 			_animeInfo = oldInfo;
 			qCritical() << "Failed to save entry with id" << _animeInfo.id()

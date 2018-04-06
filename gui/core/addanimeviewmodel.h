@@ -35,7 +35,7 @@ public:
 	ImageLoader* imageLoader() const;
 
 public slots:
-	bool accept(bool allowInvalid);
+	bool accept(bool allowInvalid = false);
 
 	void setId(int id);
 	void setTitle(QString title);

@@ -52,7 +52,7 @@ AddAnimeDialog::~AddAnimeDialog()
 
 void AddAnimeDialog::accept()
 {
-	if(_viewModel->accept(!_ui->titleLineEdit->isReadOnly()))
+	if(_viewModel->accept())
 		QDialog::accept();
 }
 

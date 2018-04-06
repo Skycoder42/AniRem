@@ -1,22 +1,24 @@
 <RCC>
-	<qresource prefix="/">
-		<file>qtquickcontrols2.conf</file>
-		<file alias="+android/qtquickcontrols2.conf">qtquickcontrols2_android.conf</file>
-		<file alias="+windows/qtquickcontrols2.conf">qtquickcontrols2_win.conf</file>
-	</qresource>
-	<qresource prefix="/qml">
-		<file>App.qml</file>
-		<file>AnimeInfoDelegate.qml</file>
-	</qresource>
-	<qresource prefix="/qtmvvm/views">
-		<file>MainView.qml</file>
-	</qresource>
-	<qresource prefix="/icons">
-		<file alias="ic_refresh.svg">icons/ic_refresh_white_24px.svg</file>
-		<file alias="ic_add.svg">icons/ic_add_white_24px.svg</file>
-		<file alias="ic_delete_forever.svg">icons/ic_delete_forever_white_24px.svg</file>
-		<file alias="ic_autorenew.svg">icons/ic_autorenew_white_24px.svg</file>
-		<file alias="ic_check.svg">icons/ic_check_white_24px.svg</file>
-		<file alias="ic_open_in_browser.svg">icons/ic_open_in_browser_white_24px.svg</file>
-	</qresource>
+    <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
+        <file alias="+android/qtquickcontrols2.conf">qtquickcontrols2_android.conf</file>
+        <file alias="+windows/qtquickcontrols2.conf">qtquickcontrols2_win.conf</file>
+    </qresource>
+    <qresource prefix="/qml">
+        <file>App.qml</file>
+        <file>AnimeInfoDelegate.qml</file>
+    </qresource>
+    <qresource prefix="/qtmvvm/views">
+        <file>MainView.qml</file>
+        <file>AddAnimeDialog.qml</file>
+        <file>DetailsView.qml</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file alias="ic_add.svg">icons/ic_add_white_24px.svg</file>
+        <file alias="ic_delete_forever.svg">icons/ic_delete_forever_white_24px.svg</file>
+        <file alias="ic_autorenew.svg">icons/ic_autorenew_white_24px.svg</file>
+        <file alias="ic_check.svg">icons/ic_check_white_24px.svg</file>
+        <file alias="ic_open_in_browser.svg">icons/ic_open_in_browser_white_24px.svg</file>
+        <file alias="ic_arrow_back.svg">icons/ic_arrow_back_white_24px.svg</file>
+    </qresource>
 </RCC>

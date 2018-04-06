@@ -155,7 +155,12 @@
         <translation>&amp;Season Check</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="+36"/>
+        <source>Ctrl+U</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+32"/>
         <source>&amp;Unblock IP Captcha</source>
         <translation>IP-&amp;Unblock Captcha öffnen</translation>
     </message>
@@ -195,7 +200,7 @@
         <translation>Synchronisation</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="+129"/>
+        <location filename="mainwindow.cpp" line="+133"/>
         <source>Checking for new seasons…</source>
         <translation>Überprüfe auf neue Seasons…</translation>
     </message>
