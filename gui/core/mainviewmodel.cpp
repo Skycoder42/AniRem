@@ -10,6 +10,10 @@
 #include "addanimeviewmodel.h"
 #include "detailsviewmodel.h"
 
+#ifdef Q_OS_ANDROID
+#include <QtAndroid>
+#endif
+
 MainViewModel::MainViewModel(QObject *parent) :
 	ViewModel(parent),
 	_model(new QtDataSync::DataStoreModel(this)),

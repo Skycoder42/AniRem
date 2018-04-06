@@ -15,6 +15,10 @@
 #include <syncedsettings.h>
 #include <localsettings.h>
 
+#ifdef Q_OS_ANDROID
+#include <QtAndroid>
+#endif
+
 #include "imageloader.h"
 
 AniRemApp::AniRemApp(QObject *parent) :
@@ -122,11 +126,12 @@ bool AniRemApp::setAutoStart(bool autoStart)
 	auto activity = QtAndroid::androidActivity();
 	if(activity.isValid()) {
 		QtAndroid::runOnAndroidThread([=](){
-			QAndroidJniObject::callStaticMethod<void>("de/skycoder42/anirem/AlarmReceiver",
+			//TODO fix method name etc.
+			QAndroidJniObject::callStaticMethod<void>("de/skycoder42/anirem/BootReceiver",
 													  "scheduleAutoCheck",
 													  "(Landroid/content/Context;Z)V",
 													  activity.object(),
-													  (jboolean)autoStart);
+													  static_cast<jboolean>(autoStart));
 		});
 		return true;
 	}

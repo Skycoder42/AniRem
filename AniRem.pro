@@ -6,6 +6,11 @@ SUBDIRS += \
 
 gui.depends += lib
 
+android {
+	SUBDIRS += droid-service
+	droid-service.depends += lib
+}
+
 prepareRecursiveTarget(lrelease)
 QMAKE_EXTRA_TARGETS += lrelease
 

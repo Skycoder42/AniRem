@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Ani-Rem</string>
+	<string name="update_progress_title">Checking for new seasons…</string>
+	<string name="update_progress_text">Loading Animes…</string>
+
+	<string name="channel_nrm_name">Anime Informations</string>
+	<string name="channel_nrm_desc">Notifications about new relations of your saved animes</string>
+	<string name="channel_svc_name">Service Status</string>
+	<string name="channel_svc_desc">Status notifications that Ani-Rem is updating relations</string>
+</resources>

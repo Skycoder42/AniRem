@@ -18,6 +18,7 @@ public:
 	Q_INVOKABLE explicit SeasonStatusLoader(QObject *parent = nullptr);
 
 	bool isUpdating() const;
+	void preClean();
 
 public slots:
 	void checkForUpdates(bool useInterval = false);

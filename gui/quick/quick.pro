@@ -1,8 +1,10 @@
 TEMPLATE = app
 
 QT += quick mvvmquick mvvmdatasyncquick
+android: QT += androidextras
 
-TARGET = anirem
+android: TARGET = anirem-activity
+else: TARGET = anirem
 
 HEADERS += \
 	proxerimageprovider.h
@@ -17,8 +19,28 @@ TRANSLATIONS += anirem_quick_de.ts
 
 EXTRA_TRANSLATIONS += anirem_de.ts
 
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
 DISTFILES += $$TRANSLATIONS \
-	$$EXTRA_TRANSLATIONS
+	$$EXTRA_TRANSLATIONS \
+	android/AndroidManifest.xml \
+	android/build.gradle \
+	android/src/de/skycoder42/anirem/* \
+	android/res/values/* \
+	android/res/values-de/* \
+	android/res/xml/* \
+	android/res/drawable-hdpi/* \
+	android/res/drawable-mdpi/* \
+	android/res/drawable-xhdpi/* \
+	android/res/drawable-xxhdpi/* \
+	android/res/drawable-xxxhdpi/* \
+	android/res/mipmap-hdpi/* \
+	android/res/mipmap-mdpi/* \
+	android/res/mipmap-xhdpi/* \
+	android/res/mipmap-xxhdpi/* \
+	android/res/mipmap-xxxhdpi/* \
+	android/res/mipmap-anydpi-v26/* \
+	android/src/de/skycoder42/anirem/Globals.java
 
 # install
 target.path = $$INSTALL_BINS
@@ -41,6 +63,14 @@ else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../core/libanirem-core.a
 
 include(../../lib.pri)
+
+android {
+	LIBS += -L$$PWD/openssl/openssl -lcrypto -lssl
+	ANDROID_EXTRA_LIBS += \
+		$$PWD/openssl/openssl/libcrypto.so \
+		$$PWD/openssl/openssl/libssl.so
+	RESOURCES += anirem_android.qrc
+}
 
 !ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
 else: include($$OUT_PWD/qpmx_generated.pri)

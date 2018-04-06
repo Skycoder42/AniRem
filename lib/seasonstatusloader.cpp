@@ -23,6 +23,12 @@ bool SeasonStatusLoader::isUpdating() const
 	return !_updateQueue.isEmpty();
 }
 
+void SeasonStatusLoader::preClean()
+{
+	delete _store;
+	_store = nullptr;
+}
+
 void SeasonStatusLoader::checkForUpdates(bool useInterval)
 {
 	auto updateList = _store->loadAll();

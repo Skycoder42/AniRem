@@ -13,6 +13,7 @@
 #include "proxerapi.h"
 #include "syncedsettings.h"
 #include "iupdatenotifier.h"
+#include "seasonstatusloader.h"
 
 void AniRem::prepareTranslations()
 {
@@ -49,6 +50,16 @@ void cleanSettings()
 		qDebug() << "Cleaned settings";
 	} catch(QException &e) {
 		qCritical() << "Failed to clean settings:" << e.what();
+	}
+
+	try {
+		//WORKAROUND for settings destruction bug
+		auto loader = QtMvvm::ServiceRegistry::instance()->service<SeasonStatusLoader>();
+		if(loader)
+			loader->preClean();
+		qDebug() << "Cleaned status loader";
+	} catch(QException &e) {
+		qCritical() << "Failed to status loader:" << e.what();
 	}
 }
 
