@@ -1,7 +1,6 @@
 #include <utility>
 
 #include "animeinfo.h"
-#include <QMutex>
 
 class AnimeInfoData : public QSharedData
 {
@@ -18,8 +17,8 @@ public:
 	AnimeInfo::SeasonMap seasonState;
 	QDateTime lastUpdateCheck;
 
-	mutable int seasonCount = -1; //TODO make threadsafe?
-	mutable int hasNewSeasons = -1;
+	mutable QAtomicInt seasonCount = -1;
+	mutable QAtomicInt hasNewSeasons = -1;
 
 	bool operator==(const AnimeInfoData &other) const {
 		return id == other.id &&
@@ -84,9 +83,10 @@ AnimeInfo::SeasonInfo AnimeInfo::seasonInfo(AnimeInfo::SeasonType type) const
 int AnimeInfo::totalSeasonCount() const
 {
 	if(d->seasonCount < 0) {
-		d->seasonCount = 0;
+		auto cnt = 0;
 		for(auto info : d->seasonState)
-			d->seasonCount += info.first;
+			cnt += info.first;
+		d->seasonCount = cnt;
 	}
 
 	return d->seasonCount;
@@ -95,13 +95,14 @@ int AnimeInfo::totalSeasonCount() const
 bool AnimeInfo::hasNewSeasons() const
 {
 	if(d->hasNewSeasons < 0) {
-		d->hasNewSeasons = false;
+		auto cnt = false;
 		for(auto info : d->seasonState) {
 			if(info.second) {
-				d->hasNewSeasons = true;
+				cnt = true;
 				break;
 			}
 		}
+		d->hasNewSeasons = cnt;
 	}
 
 	return d->hasNewSeasons;

@@ -1,6 +1,7 @@
 #ifndef MAINVIEWMODEL_H
 #define MAINVIEWMODEL_H
 
+#include <QSortFilterProxyModel>
 #include <QtMvvmCore/ViewModel>
 #include <QtDataSync/DataStoreModel>
 #include <syncedsettings.h>
@@ -14,6 +15,7 @@ class MainViewModel : public QtMvvm::ViewModel
 	Q_OBJECT
 
 	Q_PROPERTY(QtDataSync::DataStoreModel* animeModel READ animeModel CONSTANT)
+	Q_PROPERTY(QSortFilterProxyModel* sortedModel READ sortedModel CONSTANT)
 	Q_PROPERTY(bool reloadingAnimes READ isReloadingAnimes NOTIFY reloadingAnimesChanged)
 
 	QTMVVM_INJECT_PROP(SyncedSettings*, settings, _settings)
@@ -23,6 +25,7 @@ public:
 	Q_INVOKABLE explicit MainViewModel(QObject *parent = nullptr);
 
 	QtDataSync::DataStoreModel* animeModel() const;
+	QSortFilterProxyModel* sortedModel() const;
 
 	bool isReloadingAnimes() const;
 
@@ -59,6 +62,7 @@ private slots:
 
 private:
 	QtDataSync::DataStoreModel *_model;
+	QSortFilterProxyModel *_sortModel;
 	SyncedSettings *_settings;
 	SeasonStatusLoader *_updater;
 	bool _loading;

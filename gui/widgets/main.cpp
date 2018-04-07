@@ -24,7 +24,6 @@ int main(int argc, char *argv[])
 {
 	QtMvvm::CoreApp::disableAutoBoot();
 
-	//TODO test without icon theme
 	QApplication a(argc, argv);
 
 	QSingleInstance instance;

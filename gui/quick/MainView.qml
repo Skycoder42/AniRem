@@ -12,7 +12,7 @@ Page {
 
 	Connections {
 		target: viewModel
-		onShowStatus: console.log(message) //TODO show toast!
+		onShowStatus: QmlToast.toast(message)
 	}
 
 	function closeAction() {
@@ -86,7 +86,7 @@ Page {
 		clip: true
 
 		ListView {
-			model: viewModel.animeModel // TODO sort in viewmodel
+			model: viewModel.sortedModel
 
 			delegate: AnimeInfoDelegate {
 				onAnimeDeleted: viewModel.removeAnime(id)

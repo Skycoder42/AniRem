@@ -84,9 +84,8 @@ MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 
 #ifndef NO_AUTO_UPDATER
 	auto updater = new QtAutoUpdater::UpdateController(this, qApp);
-	auto action = _ui->menu_Help->actions().first();
+	auto action = _ui->menu_Help->actions().value(1);
 	_ui->menu_Help->insertAction(action, updater->createUpdateAction(_ui->menu_Help));
-	_ui->menu_Help->insertSeparator(action);
 	updater->start();
 #endif
 
@@ -221,11 +220,6 @@ void MainWindow::on_seasonTreeView_activated(const QModelIndex &index)
 	auto id = infoId(index);
 	if(id >= 0)
 		_viewModel->itemAction(id);
-}
-
-void MainWindow::on_actionMigrate_from_SeasonProxer_triggered()
-{
-	//TODO implement in core to migrate datasync
 }
 
 QModelIndex MainWindow::mapToModel(const QModelIndex &uiIndex) const

@@ -7,10 +7,12 @@ android: TARGET = anirem-activity
 else: TARGET = anirem
 
 HEADERS += \
-	proxerimageprovider.h
+	proxerimageprovider.h \
+	qmltoast.h
 
 SOURCES += main.cpp \
-	proxerimageprovider.cpp
+	proxerimageprovider.cpp \
+	qmltoast.cpp
 
 RESOURCES += \
 	anirem-quick.qrc

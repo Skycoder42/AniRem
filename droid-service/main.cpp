@@ -9,7 +9,7 @@
 int main(int argc, char *argv[])
 {
 	QAndroidService service(argc, argv);
-	//WORKAROUND
+	//WORKAROUND until fixed in upstream
 	qputenv("PLUGIN_KEYSTORES_PATH", QCoreApplication::applicationDirPath().toUtf8());
 	qInfo() << "Overwriting keystore path to:" << qgetenv("PLUGIN_KEYSTORES_PATH");
 

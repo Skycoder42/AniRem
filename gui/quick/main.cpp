@@ -1,5 +1,3 @@
-#include "proxerimageprovider.h"
-
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
 #include <QtMvvmDataSyncQuick/qtmvvmdatasyncquick_global.h>
@@ -8,6 +6,9 @@
 #include <mainviewmodel.h>
 #include <addanimeviewmodel.h>
 #include <detailsviewmodel.h>
+
+#include "proxerimageprovider.h"
+#include "qmltoast.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -45,6 +46,12 @@ void setStatusBarColor(QColor color)
 #endif
 }
 
+QObject *createQmlToast(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
+{
+	Q_UNUSED(jsEngine)
+	return new QmlToast(qmlEngine);
+}
+
 }
 
 int main(int argc, char *argv[])
@@ -53,6 +60,8 @@ int main(int argc, char *argv[])
 	setStatusBarColor(QColor(0x4E, 0x4E, 0x4E));
 	// If you want to support file dialogs on platforms other then android, use a QApplication instead (and add QT += widgets to the pro file)
 	QGuiApplication app(argc, argv);
+
+	qmlRegisterSingletonType<QmlToast>("de.skycoder42.anirem", 1, 0, "QmlToast", createQmlToast);
 
 	QtMvvm::registerDataSyncQuick();
 	qmlRegisterUncreatableType<MainViewModel>("de.skycoder42.anirem", 1, 0, "MainViewModel", QStringLiteral("ViewModels cannot be created!"));

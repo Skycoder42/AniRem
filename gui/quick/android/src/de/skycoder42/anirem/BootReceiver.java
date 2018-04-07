@@ -39,7 +39,7 @@ public class BootReceiver extends BroadcastReceiver {
 
 		AlarmManager alarm = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		if(autoCheck) {
-			alarm.setRepeating(AlarmManager.RTC_WAKEUP,
+			alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP,
 				System.currentTimeMillis() + AlarmManager.INTERVAL_DAY,
 				AlarmManager.INTERVAL_DAY - 3600000, //every 23 hours, to rotate over time
 				pending);

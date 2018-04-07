@@ -6,6 +6,7 @@
 #include <QGuiApplication>
 #include <QIcon>
 #include <QtMvvmCore/ServiceRegistry>
+#include <QtDataSync/MigrationHelper>
 #include <QCoreApplication>
 #include <QSettings>
 #include <QStandardPaths>
@@ -82,12 +83,13 @@ int AniRemApp::startApp(const QStringList &arguments)
 	if(!autoParse(parser, arguments))
 		return EXIT_SUCCESS;
 
+	auto warn = false;
 	try {
 		auto passive = parser.isSet(QStringLiteral("passive"));
 		QtDataSync::Setup setup;
 		AniRem::setup(setup, passive);
 		if(passive)
-			setup.createPassive(QtDataSync::DefaultSetup, 5000); //TODO log
+			warn = !setup.createPassive(QtDataSync::DefaultSetup, 5000);
 		else
 			setup.create();
 	} catch(QtDataSync::SetupLockedException &e) {
@@ -113,7 +115,32 @@ int AniRemApp::startApp(const QStringList &arguments)
 	}
 #endif
 
+	if(warn) {
+		QtMvvm::warning(tr("Service unavailable"),
+						tr("Failed to connect to service. The application will still work, "
+						   "but will not be able to properly display any data changes."));
+	}
+
+	//perform a migration
+	QMetaObject::invokeMethod(this, "migrate", Qt::QueuedConnection);
+
 	return EXIT_SUCCESS;
+}
+
+void AniRemApp::migrate()
+{
+	auto helper = new QtDataSync::MigrationHelper(this);
+	QObject::connect(helper, &QtDataSync::MigrationHelper::migrationDone,
+					 this, [](bool ok){
+		if(ok)
+			qDebug() << "Migration successfull or not required";
+		else
+			qWarning() << "Migration failed";
+	});
+
+	helper->startMigration(QtDataSync::MigrationHelper::DefaultOldStorageDir,
+						   QtDataSync::MigrationHelper::MigrateData |
+						   QtDataSync::MigrationHelper::MigrateWithCleanup);
 }
 
 bool AniRemApp::setAutoStart(bool autoStart)

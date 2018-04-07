@@ -13,6 +13,7 @@
 MainViewModel::MainViewModel(QObject *parent) :
 	ViewModel(parent),
 	_model(new QtDataSync::DataStoreModel(this)),
+	_sortModel(new QSortFilterProxyModel(this)),
 	_settings(nullptr),
 	_updater(nullptr),
 	_loading(false),
@@ -20,11 +21,21 @@ MainViewModel::MainViewModel(QObject *parent) :
 	_currentDetails()
 {
 	_model->setTypeId<AnimeInfo>();
+	_sortModel->setSourceModel(_model);
+	_sortModel->setSortLocaleAware(true);
+	_sortModel->setSortRole(_model->roleNames().key("title"));
+	_sortModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+	_sortModel->sort(0);
 }
 
 QtDataSync::DataStoreModel *MainViewModel::animeModel() const
 {
 	return _model;
+}
+
+QSortFilterProxyModel *MainViewModel::sortedModel() const
+{
+	return _sortModel;
 }
 
 bool MainViewModel::isReloadingAnimes() const

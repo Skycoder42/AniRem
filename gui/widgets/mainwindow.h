@@ -40,8 +40,6 @@ private slots:
 	void on_action_Unmark_new_seasons_triggered();
 	void on_seasonTreeView_activated(const QModelIndex &index);
 
-	void on_actionMigrate_from_SeasonProxer_triggered();
-
 private:
 	MainViewModel *_viewModel;
 	Ui::MainWindow *_ui;

@@ -17,6 +17,9 @@ protected:
 	void performRegistrations() override;
 	int startApp(const QStringList &arguments) override;
 
+private slots:
+	void migrate();
+
 private:
 	bool setAutoStart(bool autoStart);
 
