@@ -69,14 +69,23 @@ MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	_proxyModel->setSourceModel(_animeModel);
 	_ui->seasonTreeView->setModel(_proxyModel);
 
-	connect(_viewModel->animeModel(), &QObjectListModel::rowsInserted,
+	connect(_viewModel->animeModel(), &QtDataSync::DataStoreModel::rowsInserted,
 			this, &MainWindow::updateCount);
-	connect(_viewModel->animeModel(), &QObjectListModel::rowsRemoved,
+	connect(_viewModel->animeModel(), &QtDataSync::DataStoreModel::rowsRemoved,
 			this, &MainWindow::updateCount);
-	connect(_viewModel->animeModel(), &QObjectListModel::modelReset,
+	connect(_viewModel->animeModel(), &QtDataSync::DataStoreModel::modelReset,
 			this, &MainWindow::updateCount);
 	updateCount();
 
+	connect(_viewModel->animeModel(), &QtDataSync::DataStoreModel::dataChanged,
+			this, [this](const QModelIndex &topLeft, const QModelIndex &bottomRight) {
+		auto cRow = _ui->seasonTreeView->currentIndex().row();
+		if(!topLeft.isValid() ||
+		   !bottomRight.isValid() ||
+		   (topLeft.row() <= cRow && cRow <= bottomRight.row())) {
+			updatePreview(_ui->seasonTreeView->currentIndex());
+		}
+	});
 	connect(_ui->seasonTreeView->selectionModel(), &QItemSelectionModel::currentChanged,
 			this, &MainWindow::updatePreview);
 

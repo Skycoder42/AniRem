@@ -37,6 +37,9 @@ public slots:
 signals:
 	void animeInfoChanged();
 
+private slots:
+	void dataChanged(const QString &key, const QVariant &value);
+
 protected:
 	void onInit(const QVariantHash &params) override;
 

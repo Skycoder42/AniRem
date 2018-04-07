@@ -34,7 +34,7 @@ void AniRem::setup(QtDataSync::Setup &setup, bool passive)
 
 	//also: setup API
 	ProxerApi api;
-	api.restClient()->serializer()->setAllowDefaultNull(true);//DEBUG use this to provoke an error to test error handling
+	api.restClient()->serializer()->setAllowDefaultNull(true);
 }
 
 

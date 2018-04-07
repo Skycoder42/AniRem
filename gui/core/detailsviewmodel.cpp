@@ -17,7 +17,10 @@ DetailsViewModel::DetailsViewModel(QObject *parent) :
 	_store(new AniremStore(this)),
 	_loader(nullptr),
 	_animeInfo()
-{}
+{
+	connect(_store, &AniremStore::dataChanged,
+			this, &DetailsViewModel::dataChanged);
+}
 
 AnimeInfo DetailsViewModel::animeInfo() const
 {
@@ -77,6 +80,14 @@ void DetailsViewModel::uncheckAnime()
 			QtMvvm::critical(tr("Adding failed!"),
 							 tr("Failed to add anime to underlying data storage."));
 		}
+	}
+}
+
+void DetailsViewModel::dataChanged(const QString &key, const QVariant &value)
+{
+	if(_animeInfo.id() == AniremStore::toKey(key)) {
+		_animeInfo = value.value<AnimeInfo>();
+		emit animeInfoChanged();
 	}
 }
 
