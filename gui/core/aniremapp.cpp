@@ -15,6 +15,11 @@
 #include <passiveupdater.h>
 #include <syncedsettings.h>
 #include <localsettings.h>
+#include <QSqlDatabase>
+#include <QStandardPaths>
+#include <QDir>
+#include <QSqlQuery>
+#include <QSqlError>
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -129,13 +134,48 @@ int AniRemApp::startApp(const QStringList &arguments)
 
 void AniRemApp::migrate()
 {
+	//workaround: rename pointers to data
+	QDir storageDir = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+	if(!storageDir.cd(QtDataSync::MigrationHelper::DefaultOldStorageDir))
+		return;
+
+	auto oldDb = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), QStringLiteral("migration_remap"));
+	oldDb.setDatabaseName(storageDir.absoluteFilePath(QStringLiteral("store.db")));
+	if(!oldDb.open())
+		return;
+	QSqlQuery query(oldDb);
+	if(!query.prepare(QStringLiteral("UPDATE DataIndex SET Type = ? WHERE Type LIKE ?"))) {
+		qWarning().noquote() << "Failed to prepare migration query:" << query.lastError().text();
+		return;
+	}
+	query.addBindValue(QStringLiteral("AnimeInfo"));
+	query.addBindValue(QStringLiteral("AnimeInfo*"));
+	if(!query.exec()) {
+		qWarning().noquote() << "Failed to exec migration query:" << query.lastError().text();
+		return;
+	} else
+		qInfo() << "Renamed" << query.numRowsAffected() << "entries prior to migration";
+	oldDb.close();
+	oldDb = {};
+	QSqlDatabase::removeDatabase(QStringLiteral("migration_remap"));
+
+	if(!storageDir.rename(QStringLiteral("store/_416e696d65496e666f2a"), QStringLiteral("store/_416e696d65496e666f"))) {
+		qWarning().noquote() << "Failed to rename data directory";
+		return;
+	}
+
 	auto helper = new QtDataSync::MigrationHelper(this);
-	QObject::connect(helper, &QtDataSync::MigrationHelper::migrationDone,
-					 this, [](bool ok){
+	connect(helper, &QtDataSync::MigrationHelper::migrationPrepared,
+			this, &AniRemApp::updateMigrationProgressMax);
+	connect(helper, &QtDataSync::MigrationHelper::migrationProgress,
+			this, &AniRemApp::updateMigrationProgressValue);
+	connect(helper, &QtDataSync::MigrationHelper::migrationDone,
+					 this, [this](bool ok){
 		if(ok)
 			qDebug() << "Migration successfull or not required";
 		else
 			qWarning() << "Migration failed";
+		emit updateMigrationProgressMax(-1);
 	});
 
 	helper->startMigration(QtDataSync::MigrationHelper::DefaultOldStorageDir,

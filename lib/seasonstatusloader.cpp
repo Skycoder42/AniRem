@@ -109,7 +109,7 @@ void SeasonStatusLoader::checkNext()
 			try {
 				_store->save(animeInfo);
 
-				if(next.hasNewSeasons())
+				if(animeInfo.hasNewSeasons())
 					_anyUpdated = true;
 
 				_updateQueue.dequeue();

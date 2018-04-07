@@ -67,6 +67,7 @@ private:
 	SeasonStatusLoader *_updater;
 	bool _loading;
 	bool _showNoChanges;
+	int _migrationMax;
 
 	QPointer<DetailsViewModel> _currentDetails;
 

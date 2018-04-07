@@ -42,8 +42,13 @@ QVariant JsonSeasonDataConverter::deserialize(int propertyType, const QJsonValue
 	foreach(auto key, o.keys()) {
 		auto pair = o.value(key).toObject();
 		AnimeInfo::SeasonInfo info;
-		info.first = pair[QStringLiteral("count")].toInt();
-		info.second = pair[QStringLiteral("changed")].toBool();
+		if(pair.contains(QStringLiteral("first"))) {
+			info.first = pair[QStringLiteral("first")].toInt();
+			info.second = pair[QStringLiteral("second")].toBool();
+		} else {
+			info.first = pair[QStringLiteral("count")].toInt();
+			info.second = pair[QStringLiteral("changed")].toBool();
+		}
 		v.insert(static_cast<AnimeInfo::SeasonType>(metaEnum.keyToValue(key.toLatin1().constData())), info);
 	}
 	return QVariant::fromValue(v);

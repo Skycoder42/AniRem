@@ -9,6 +9,7 @@
 #include "aniremsettingsviewmodel.h"
 #include "addanimeviewmodel.h"
 #include "detailsviewmodel.h"
+#include "aniremapp.h"
 
 MainViewModel::MainViewModel(QObject *parent) :
 	ViewModel(parent),
@@ -18,6 +19,7 @@ MainViewModel::MainViewModel(QObject *parent) :
 	_updater(nullptr),
 	_loading(false),
 	_showNoChanges(false),
+	_migrationMax(-1),
 	_currentDetails()
 {
 	_model->setTypeId<AnimeInfo>();
@@ -26,6 +28,17 @@ MainViewModel::MainViewModel(QObject *parent) :
 	_sortModel->setSortRole(_model->roleNames().key("title"));
 	_sortModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 	_sortModel->sort(0);
+
+	connect(coreApp, &AniRemApp::updateMigrationProgressMax,
+			this, [this](int max) {
+		_migrationMax = max;
+		emit reloadingAnimesChanged(_migrationMax != -1);
+	});
+	connect(coreApp, &AniRemApp::updateMigrationProgressValue,
+			this, [this](int value) {
+		if(_migrationMax != -1)
+			emit setProgress(value, _migrationMax);
+	});
 }
 
 QtDataSync::DataStoreModel *MainViewModel::animeModel() const
@@ -200,10 +213,9 @@ void MainViewModel::updaterDone(bool hasUpdates, const QString &error)
 		QtMvvm::critical(tr("Season check failed"), error);
 	else if(hasUpdates)
 		QtMvvm::information(tr("Season check completed"), tr("New Seasons are available!"));
-	else if(_showNoChanges) {
-		_showNoChanges = false;
+	else if(_showNoChanges)
 		QtMvvm::information(tr("Season check completed"), tr("No seasons changed."));
-	}
+	_showNoChanges = false;
 }
 
 AnimeInfo MainViewModel::infoFromId(int id) const

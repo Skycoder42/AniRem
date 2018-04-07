@@ -13,6 +13,10 @@ public:
 	void updateAutoStartState();
 	void updateAutoStartState(int interval);
 
+signals:
+	void updateMigrationProgressMax(int max);
+	void updateMigrationProgressValue(int value);
+
 protected:
 	void performRegistrations() override;
 	int startApp(const QStringList &arguments) override;
