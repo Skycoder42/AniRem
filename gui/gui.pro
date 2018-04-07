@@ -9,6 +9,7 @@ widgets.depends += core
 quick.depends += core
 
 android: SUBDIRS -= widgets
+no_quick: SUBDIRS -= quick
 
 prepareRecursiveTarget(lrelease)
 QMAKE_EXTRA_TARGETS += lrelease

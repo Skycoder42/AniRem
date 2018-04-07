@@ -1,0 +1,68 @@
+language: cpp
+
+services:
+  - docker
+
+sudo: required
+dist: trusty
+osx_image: xcode9.2
+
+env:
+  global:
+    - QPMX_CACHE_DIR=$HOME/.qpmx-cache
+    - QT_VER=5.10.1
+    - EXTRA_MODULES=".qtremoteobjects .skycoder42 .gcc_64"
+    - NO_TESTS=true
+    - ANIREM_VER=1.1.0
+    - secure: xrjRnCXdhkR0vGe+I7eNRsodmwu59if9H8KMgrRvfNpFSulxTP6gLxV/fOn6tNXHNynKt1wwf6KqRGoDPu8iAaaHyFnXDT0a70TbUH+Sbk+8UuGYaoHT4e+A3ywEhj/u6jX/PpKv40o0iqno2TDXWYAyq63Ik3S6+pu13tLUCOEG+RuS0MGaeKPaZOQAqviGBL3suslYtk2+HCKUpg70S4nuf/fvZbe/3M6KJdGLdBNXj0HxG6h168HObchAyjvGbo2/6GzwRDXbCxLKh0GUl/3kgDSF9/31MoGFEHlZNopTyrmfa6VUgpQ+mdraeqqKv3kwRk/BmwBup7GUL7tCJBrqOfQYdnAaV3YZXJ/a2thechiKZiT4qjuTFBSFXP3hv/wh4ZUpqi0MBUzPe1u8YKbwrfCddeIIzioyP9qVFkXEdAto+WgEGuT58mX83q9fjgRaGMc9x2KzXrqbCH3czdjhoAsg2fTIrAofh3COP2LraeEsy7QN9x4xfl+ySXT+m9WMuj3bR+VMzRQXXc+i5rlH2HGvEBK0nWsvq5LlRiSUMf1vDaoCNIPrcDuvVaIeciAuONHIg4GEbfJbIxvHOWbCXlWVDVhhQqVD8pgZKqVfLjJ0fz+/m/lHfueHKrbts1RXfK+kunQ7thfrjc1s6sNRFdpOZhytZaazTv1Htx0=
+    - secure: lMC613uPXCZ/acVZBDOS1+9QdNkrB3MbkzlZOelrmR5T24p5DDzG9F1b01zH7QFc1LFcy8TCUR1ZD6a5j1sHi/ALWm2lAhJdbNTKlvtM71oP885gP0+IuHM6b/oRWZ14ER+Cug7zl34GmF76vMfm5QQe3cqQtreITzbf62R7QB5H2FpGT3lVz3nXHkZIhmSk3hOPRHDJKjdX0WUzk8rEQ1oq2mBjPl22BQUidsCVlnuhPokqWzreQ3/eGeH8G9iKkQXqY39vL5t88Yr8maJYMBNLfVAfbVblZmlruAqSMdakP3voWdkEQqT7nam3ZeNkYe8+vdBVwtsTsKAHpvydrouzjCfZr9pVYKjnDqqOe5ssgtxt/NtqDiczQutM/HDEUy/44AYJi8ljFSLfWgo4aVbz52XVAat12OELAEXggZsQMd1xXMtZCROtsshtGH+SvbVJ6ai2eHEDXqGpcp/mU6bEg8sgwbLipXzqMcLkfHWRO50UeSD7iint8Tc7pFvbr6QncY12YetLZ2XApzRDf2l9yxN+u2PbixPYHKDQrpL9+1GNC2MqBGiBLAY0PvljP+l/0+Wdh/uVlAUJXnBkifsKbLJLq6TmhLS3TKfdbRC84EkPbM4WGvWw1J5n9me67qzfr9EYv39cnKD3DwNMRRKg/efd1c0x3DzHWl1gB84=
+matrix:
+  include:
+    - os: linux
+      env:
+        - PLATFORM=gcc_64
+    - os: linux
+      env:
+        - PLATFORM=android_armv7
+    - os: linux
+      env:
+        - PLATFORM=android_x86
+    - os: osx
+      env:
+        - PLATFORM=clang_64
+
+before_install:
+  - git clone https://github.com/Skycoder42/QtModules.git ./qtmodules-travis
+  - travis_wait 40 ./qtmodules-travis/ci/$TRAVIS_OS_NAME/setup.sh
+
+script:
+  - ./ci/travis_init.sh
+  - ./qtmodules-travis/ci/$TRAVIS_OS_NAME/build.sh
+  - ./ci/droid_build.sh
+
+before_deploy:
+  - ./ci/travis_deploy.sh
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: mSzeSXiPdqGn7LoIWF7tPqM01IpA7Q44P8i3wB5V8jBqr5lRuhkLzE+j+EI6NzLtxZEYZLl/Y+s11E7Q8e36qQe0eJtlgb5CJC+CrAE4vGWV6BjZFhUsaB5fs8zLOhWL2fhdMiHUQaQrh1foWnvrtJqt2Av5jf9kTttrrqg/YGRly8omXe3MV+9ZbHcZTuDWISaD29nLPmr4obunrcjy8oWiP1MRJmPsEp3poTLTQjWSOBLlTKqK/JZtieTTS1vzG+lENxSxCaRGQRuEYji056KudKEvx8lxI1cP6nPG+h7L74plYIGRZZ3V4Ux7ytnn6UfdBU45wRLT1bDSfG6nyGHT+4CetVFDH9+DE00PFz3oEcVOpRavb4eRArSq1r45coYtTdFKtjnN4o6kbZ77AdXKKJbUKks9wbV9jJmfyK1RP+snH5VmY5r2R5FlTg2zbcl4oYY3lSjzgCwbFkuEXT9NjWeKUX0CIZ5C7vUTh8Yk3hB6jFa3ZUxcTOT0pmzgC7RVmWG/1k55daoLClxpdF/HUr/x+OyXqFLMY7bXzYLLT1TxUZg3B5zcGbuZecrLs35f5Jr3cB+aJG+4CADDBoY+3Kw2jM8j433pYHuJa2P1Zl6BaZvsPkOvfaVD+9Zq+mcenwh2QQ8tcGAWgKcLd3TcaNhYVvxn7+mIY+5brFk=
+  file_glob: true
+  file:
+    - ./install/repository_*.tar.xz
+    - ./install/AniRem Installer.*
+    - ./install/*.apk
+  on:
+    repo: Skycoder42/SeasonProxer
+    tags: true
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -fr $QPMX_CACHE_DIR/locks
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
+    - $QPMX_CACHE_DIR

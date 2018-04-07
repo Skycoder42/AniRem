@@ -21,7 +21,7 @@ QJsonValue JsonSeasonDataConverter::serialize(int propertyType, const QVariant &
 	auto v = value.value<AnimeInfo::SeasonMap>();
 	QJsonObject o;
 	auto metaEnum = QMetaEnum::fromType<AnimeInfo::SeasonType>();
-	foreach(auto key, v.keys()) {
+	for(const auto &key : v.keys()) {
 		QJsonObject pair;
 		pair[QStringLiteral("count")] = v.value(key).first;
 		pair[QStringLiteral("changed")] = v.value(key).second;
@@ -39,7 +39,7 @@ QVariant JsonSeasonDataConverter::deserialize(int propertyType, const QJsonValue
 	auto o = value.toObject();
 	AnimeInfo::SeasonMap v;
 	auto metaEnum = QMetaEnum::fromType<AnimeInfo::SeasonType>();
-	foreach(auto key, o.keys()) {
+	for(const auto &key : o.keys()) {
 		auto pair = o.value(key).toObject();
 		AnimeInfo::SeasonInfo info;
 		if(pair.contains(QStringLiteral("first"))) {
