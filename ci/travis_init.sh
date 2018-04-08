@@ -21,7 +21,6 @@ mkdir ../__private
 
 # install openssl for android
 if [[ $PLATFORM == "android_"* ]]; then
-	sudo apt-get -qq install --no-install-recommends xz-utils
 	pushd gui/quick/openssl
 	./get_openssl.sh
 	popd
