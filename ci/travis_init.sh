@@ -22,6 +22,6 @@ mkdir ../__private
 # install openssl for android
 if [[ $PLATFORM == "android_"* ]]; then
 	pushd gui/quick/openssl
-	get_openssl.sh
+	./get_openssl.sh
 	popd
 fi
