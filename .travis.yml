@@ -12,6 +12,7 @@ env:
     - QPMX_CACHE_DIR=$HOME/.qpmx-cache
     - QT_VER=5.10.1
     - EXTRA_MODULES=".qtremoteobjects .skycoder42 .gcc_64"
+    - DOCKER_IMAGE=full
     - NO_TESTS=true
     - ANIREM_VER=1.1.0
     - secure: xrjRnCXdhkR0vGe+I7eNRsodmwu59if9H8KMgrRvfNpFSulxTP6gLxV/fOn6tNXHNynKt1wwf6KqRGoDPu8iAaaHyFnXDT0a70TbUH+Sbk+8UuGYaoHT4e+A3ywEhj/u6jX/PpKv40o0iqno2TDXWYAyq63Ik3S6+pu13tLUCOEG+RuS0MGaeKPaZOQAqviGBL3suslYtk2+HCKUpg70S4nuf/fvZbe/3M6KJdGLdBNXj0HxG6h168HObchAyjvGbo2/6GzwRDXbCxLKh0GUl/3kgDSF9/31MoGFEHlZNopTyrmfa6VUgpQ+mdraeqqKv3kwRk/BmwBup7GUL7tCJBrqOfQYdnAaV3YZXJ/a2thechiKZiT4qjuTFBSFXP3hv/wh4ZUpqi0MBUzPe1u8YKbwrfCddeIIzioyP9qVFkXEdAto+WgEGuT58mX83q9fjgRaGMc9x2KzXrqbCH3czdjhoAsg2fTIrAofh3COP2LraeEsy7QN9x4xfl+ySXT+m9WMuj3bR+VMzRQXXc+i5rlH2HGvEBK0nWsvq5LlRiSUMf1vDaoCNIPrcDuvVaIeciAuONHIg4GEbfJbIxvHOWbCXlWVDVhhQqVD8pgZKqVfLjJ0fz+/m/lHfueHKrbts1RXfK+kunQ7thfrjc1s6sNRFdpOZhytZaazTv1Htx0=
