@@ -1,7 +1,7 @@
 # Ani-Rem
 A tool to passivly check for updates on seasons, for https://proxer.me
 
-[![Travis Build Status](https://travis-ci.org/Skycoder42/SeasonProxer.svg?branch=master)](https://travis-ci.org/Skycoder42/SeasonProxer)
+[![Travis Build Status](https://travis-ci.org/Skycoder42/AniRem.svg?branch=master)](https://travis-ci.org/Skycoder42/AniRem)
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/kqmf5af1ngg2phqo/branch/master?svg=true)](https://ci.appveyor.com/project/Skycoder42/seasonproxer/branch/master)
 
 ## Features
