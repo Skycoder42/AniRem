@@ -18,3 +18,10 @@ fi
 # unpack data
 mkdir ../__private
 7z x "-p$PROXER_DATA" -o. "./ci/proxer.data" > /dev/null
+
+# install openssl for android
+if [[ $PLATFORM == "android_"* ]]; then
+	pushd gui/quick/openssl
+	get_openssl.sh
+	popd
+fi
