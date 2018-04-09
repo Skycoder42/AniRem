@@ -40,7 +40,6 @@ before_install:
 script:
   - ./ci/travis_init.sh
   - ./qtmodules-travis/ci/$TRAVIS_OS_NAME/build.sh
-  - ./ci/droid_build.sh
 
 before_deploy:
   - ./ci/travis_deploy.sh

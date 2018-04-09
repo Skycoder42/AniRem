@@ -24,4 +24,7 @@ if [[ $PLATFORM == "android_"* ]]; then
 	pushd gui/quick/openssl
 	./get_openssl.sh
 	popd
+	
+	# append droid build script
+	echo "$currDir/droid_build.sh" >> qtmodules-travis/ci/linux/build-docker.sh
 fi
