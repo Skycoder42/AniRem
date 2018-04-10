@@ -1,6 +1,7 @@
 #ifndef ADDANIMEVIEWMODEL_H
 #define ADDANIMEVIEWMODEL_H
 
+#include <QStringListModel>
 #include <QtMvvmCore/ViewModel>
 #include <animeinfo.h>
 #include <libanirem.h>
@@ -14,6 +15,7 @@ class AddAnimeViewModel : public QtMvvm::ViewModel
 
 	Q_PROPERTY(int id READ id WRITE setId NOTIFY idChanged)
 	Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
+	Q_PROPERTY(QStringListModel* nameModel READ nameModel CONSTANT)
 	Q_PROPERTY(bool loading READ isLoading NOTIFY loadingChanged)
 	Q_PROPERTY(bool acceptable READ isAcceptable NOTIFY acceptableChanged)
 
@@ -29,6 +31,7 @@ public:
 
 	int id() const;
 	QString title() const;
+	QStringListModel* nameModel() const;
 	bool isLoading() const;
 	bool isAcceptable() const;
 
@@ -45,6 +48,7 @@ signals:
 
 	void idChanged(int id);
 	void titleChanged(QString title);
+	void allNamesChanged(QStringList allNames);
 	void loadingChanged(bool loading);
 	void acceptableChanged(bool acceptable);
 
@@ -59,13 +63,16 @@ private:
 	InfoClass *_infoClass;
 	ImageLoader *_loader;
 	SeasonStatusLoader *_updater;
+	QStringListModel *_nameModel;
 
 	int _id;
 	QString _title;
-	bool _loading;
+	bool _loadingEntry;
+	bool _loadingNames;
 	bool _acceptable;
 
-	void setLoading(bool loading);
+	void updateLoading();
+	void updateNames(const QStringList &allNames);
 	void setAcceptable(bool acceptable);
 };
 

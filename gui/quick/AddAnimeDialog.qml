@@ -6,6 +6,7 @@ import de.skycoder42.QtMvvm.Quick 1.0
 import de.skycoder42.anirem 1.0
 
 AlertDialog {
+	id: addAnimeDialog
 	title: qsTr("Add Anime")
 	property AddAnimeViewModel viewModel: null
 
@@ -67,12 +68,18 @@ AlertDialog {
 			text: qsTr("Title:")
 		}
 
-		TextField {
+		ComboBox {
 			id: titleField
 			Layout.fillWidth: true
-			readOnly: true
-			selectByMouse: true
-			text: viewModel.title
+			editable: false
+			model: viewModel.nameModel
+			textRole: "display"
+			onCurrentTextChanged: viewModel.title = currentText
+
+			Connections {
+				target: viewModel
+				onTitleChanged: titleField.currentIndex = titleField.find(title)
+			}
 		}
 	}
 

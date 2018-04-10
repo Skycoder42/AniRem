@@ -71,7 +71,7 @@ android {
 	ANDROID_EXTRA_LIBS += \
 		$$PWD/openssl/openssl/libcrypto.so \
 		$$PWD/openssl/openssl/libssl.so
-	RESOURCES += anirem_android.qrc
+	RESOURCES += anirem-android.qrc
 }
 
 !ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)

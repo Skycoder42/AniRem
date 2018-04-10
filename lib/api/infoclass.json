@@ -5,7 +5,8 @@
 	"includes": [
 		">lib_anirem_global.h",
 		">proxerentry.h",
-		">proxerrelations.h"
+		">proxerrelations.h",
+		">proxernames.h"
 	],
 
 	"path": "info",
@@ -18,6 +19,13 @@
 				"id;int"
 			],
 			"returns": "ProxerEntry"
+		},
+		"getNames": {
+			"path": "names",
+			"parameters": [
+				"id;int"
+			],
+			"returns": "ProxerNames"
 		},
 		"getRelations": {
 			"path": "relations",

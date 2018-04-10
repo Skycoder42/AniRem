@@ -29,7 +29,9 @@ SOURCES += \
 REST_API_OBJECTS += api/proxerstatus.json \
 	api/proxerentryvalue.json \
 	api/proxerentry.json \
-	api/proxerrelations.json
+	api/proxerrelations.json \
+	api/proxernamevalue.json \
+	api/proxernames.json
 
 REST_API_CLASSES += api/proxerapi.json \
 	api/infoclass.json

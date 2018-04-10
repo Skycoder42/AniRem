@@ -1,0 +1,11 @@
+{
+	"$type": "gadget",
+	"$name": "ProxerNameValue",
+	"$export": "LIB_ANIREM_EXPORT",
+	"$includes": [
+		">lib_anirem_global.h"
+	],
+
+	"eid": "int",
+	"name": "QString"
+}

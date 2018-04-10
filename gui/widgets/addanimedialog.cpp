@@ -17,6 +17,8 @@ AddAnimeDialog::AddAnimeDialog(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	DialogMaster::masterDialog(this, true);
 	_ui->proxerIDLineEdit->setValidator(new QIntValidator(0, INT_MAX, _ui->proxerIDLineEdit));
 
+	_ui->titleComboBox->setModel(_viewModel->nameModel());
+
 	connect(_viewModel->imageLoader(), &ImageLoader::imageLoaded,
 			this, &AddAnimeDialog::imageLoaded,
 			Qt::QueuedConnection);
@@ -27,12 +29,11 @@ AddAnimeDialog::AddAnimeDialog(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	connect(_ui->proxerIDLineEdit, &QLineEdit::editingFinished,
 			this, &AddAnimeDialog::uiIdChanged);
 
-	//control
+	//viewmodel
 	QtMvvm::bind(_viewModel, "id",
 				 this, "uiId");
 	QtMvvm::bind(_viewModel, "title",
-				 _ui->titleLineEdit, "text",
-				 QtMvvm::Binding::OneWayToView);
+				 _ui->titleComboBox, "currentText");
 	QtMvvm::bind(_viewModel, "acceptable",
 				 _ui->buttonBox->button(QDialogButtonBox::Ok), "enabled",
 				 QtMvvm::Binding::OneWayToView);

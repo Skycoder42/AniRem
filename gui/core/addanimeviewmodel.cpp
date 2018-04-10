@@ -19,14 +19,13 @@ AddAnimeViewModel::AddAnimeViewModel(QObject *parent) :
 	_infoClass(ProxerApi::factory().info().instance(this)),
 	_loader(nullptr),
 	_updater(nullptr),
+	_nameModel(new QStringListModel(this)),
 	_id(-1),
 	_title(),
-	_loading(false),
+	_loadingEntry(false),
+	_loadingNames(false),
 	_acceptable(false)
-{
-	connect(_infoClass, &InfoClass::apiError,
-			this, &AddAnimeViewModel::error);
-}
+{}
 
 int AddAnimeViewModel::id() const
 {
@@ -38,9 +37,14 @@ QString AddAnimeViewModel::title() const
 	return _title;
 }
 
+QStringListModel *AddAnimeViewModel::nameModel() const
+{
+	return _nameModel;
+}
+
 bool AddAnimeViewModel::isLoading() const
 {
-	return _loading;
+	return _loadingEntry || _loadingNames;
 }
 
 bool AddAnimeViewModel::isAcceptable() const
@@ -88,19 +92,55 @@ void AddAnimeViewModel::setId(int id)
 
 	_id = id;
 	emit idChanged(id);
-	setTitle(QString());
-	setLoading(true);
 
-	auto rep = _infoClass->getEntry(_id);
-	rep->onSucceeded([this](int code, ProxerEntry entry){
+	//clear names etc, enter loading state
+	_nameModel->setStringList({});
+	setTitle({});
+	_loadingEntry = true;
+	_loadingNames = true;
+	updateLoading();
+
+	// get the entry
+	auto repEntry = _infoClass->getEntry(_id);
+	repEntry->onSucceeded([this](int code, ProxerEntry entry){
+		_loadingEntry = false;
+		updateLoading();
+
 		if(ApiHelper::testValid(code, entry)) {
 			if(entry.data().id() == _id) {
-				setTitle(entry.data().name());
-				setLoading(false);
+				_title = entry.data().name();
+				updateNames({});
 				setAcceptable(true);
 			}
 		} else
 		   error(entry.message(), code, QtRestClient::RestReply::FailureError);
+	});
+	repEntry->onError([this](QString e, int c, QtRestClient::RestReply::ErrorType t){
+		_loadingEntry = false;
+		updateLoading();
+		error(e, c, t);
+	});
+
+	// get the names
+	auto repNames = _infoClass->getNames(_id);
+	repNames->onSucceeded([this](int code, ProxerNames names){
+		_loadingNames = false;
+		updateLoading();
+
+		if(ApiHelper::testValid(code, names)) {
+			QStringList allNames;
+			for(auto name : names.data()) {
+				if(name.eid() == _id)
+					allNames.append(name.name());
+			}
+			updateNames(allNames);
+		} else
+		   ApiHelper::formatError(names.message(), code, QtRestClient::RestReply::FailureError); //only log error, no dialog etc
+	});
+	repNames->onError([this](QString e, int c, QtRestClient::RestReply::ErrorType t){
+		_loadingNames = false;
+		updateLoading();
+		ApiHelper::formatError(e, c, t); //only log error, no dialog etc
 	});
 }
 
@@ -121,8 +161,6 @@ void AddAnimeViewModel::onInit(const QVariantHash &params)
 
 void AddAnimeViewModel::error(const QString &errorString, int errorCode, QtRestClient::RestReply::ErrorType errorType)
 {
-	setLoading(false);
-
 	QtMvvm::MessageConfig config {
 		QtMvvm::MessageConfig::TypeMessageBox,
 		QtMvvm::MessageConfig::SubTypeCritical,
@@ -157,19 +195,31 @@ void AddAnimeViewModel::error(const QString &errorString, int errorCode, QtRestC
 	});
 }
 
-void AddAnimeViewModel::setLoading(bool loading)
+void AddAnimeViewModel::updateLoading()
 {
-	if (_loading == loading)
-		return;
-	_loading = loading;
-	emit loadingChanged(loading);
-	if(loading)
+	emit loadingChanged(isLoading());
+	if(isLoading())
 		setAcceptable(false);
+}
+
+void AddAnimeViewModel::updateNames(const QStringList &allNames)
+{
+	QStringList mNames;
+	if(allNames.isEmpty())
+		mNames = _nameModel->stringList();
+	else
+		mNames = allNames;
+
+	if(!_title.isEmpty() && !mNames.contains(_title))
+		mNames.prepend(_title);
+	_nameModel->setStringList(mNames);
+
+	emit titleChanged(_title);
 }
 
 void AddAnimeViewModel::setAcceptable(bool acceptable)
 {
-	if (_loading == acceptable)
+	if (_acceptable == acceptable)
 		return;
 	_acceptable = acceptable;
 	emit acceptableChanged(acceptable);
