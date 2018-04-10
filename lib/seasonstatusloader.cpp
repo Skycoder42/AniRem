@@ -81,7 +81,7 @@ void SeasonStatusLoader::checkNext()
 		_anyUpdated = false;
 	} else {
 		auto next = _updateQueue.head();
-		auto rep = _infoClass->getRelations(next.id(), _settings->updates.hentai);
+		auto rep = _infoClass->getRelations(next.id(), _settings->content.hentai);
 		rep->onSucceeded([this, next](int code, ProxerRelations relation) {
 			auto animeInfo = next;
 			if(!ApiHelper::testValid(code, relation)) {
@@ -91,18 +91,27 @@ void SeasonStatusLoader::checkNext()
 
 			QHash<AnimeInfo::SeasonType, int> state;
 			for(const auto &season : relation.data()) {
-				auto type = toType(season.medium());
-				state[type]++;
+				AnimeInfo::SeasonType type;
+				bool allowed;
+				std::tie(type, allowed) = toType(season.medium());
+				if(allowed)
+					state[type]++;
 			}
 
 			auto infoState = animeInfo.seasonState();
-			auto wasEmpty = infoState.isEmpty();
+			const auto wasEmpty = infoState.isEmpty();
+			auto knownTypes = infoState.keys();
+			// update all loaded states
 			for(auto it = state.constBegin(); it != state.constEnd(); it++) {
+				knownTypes.removeOne(it.key());
 				if(infoState[it.key()].first != it.value()) {
 					infoState[it.key()].first = it.value();
 					infoState[it.key()].second = !wasEmpty;
 				}
 			}
+			// delete all unknown states
+			for(const auto &type : knownTypes)
+				infoState.remove(type);
 			animeInfo.setSeasonState(infoState);
 			animeInfo.setLastUpdateCheck(QDateTime::currentDateTime());
 
@@ -132,27 +141,27 @@ void SeasonStatusLoader::error(const QString &errorString, int errorCode, RestRe
 	_anyUpdated = false;
 }
 
-AnimeInfo::SeasonType SeasonStatusLoader::toType(const QString &medium)
+std::tuple<AnimeInfo::SeasonType, bool> SeasonStatusLoader::toType(const QString &medium)
 {
 	if(medium == QStringLiteral("animeseries"))
-		return AnimeInfo::Anime;
+		return std::make_tuple(AnimeInfo::Anime, _settings->content.type.anime.get());
 	else if(medium == QStringLiteral("movie"))
-		return AnimeInfo::Movie;
+		return std::make_tuple(AnimeInfo::Movie, _settings->content.type.movie.get());
 	else if(medium == QStringLiteral("ova"))
-		return AnimeInfo::Ova;
+		return std::make_tuple(AnimeInfo::Ova, _settings->content.type.ova.get());
 	else if(medium == QStringLiteral("hentai"))
-		return AnimeInfo::Hentai;
+		return std::make_tuple(AnimeInfo::Hentai, _settings->content.type.hentai.get());
 	else if(medium == QStringLiteral("mangaseries"))
-		return AnimeInfo::Manga;
+		return std::make_tuple(AnimeInfo::Manga, _settings->content.type.manga.get());
 	else if(medium == QStringLiteral("oneshot"))
-		return AnimeInfo::Oneshot;
+		return std::make_tuple(AnimeInfo::Oneshot, _settings->content.type.oneshot.get());
 	else if(medium == QStringLiteral("doujin"))
-		return AnimeInfo::Doujin;
+		return std::make_tuple(AnimeInfo::Doujin, _settings->content.type.doujin.get());
 	else if(medium == QStringLiteral("hmanga"))
-		return AnimeInfo::Hmanga;
+		return std::make_tuple(AnimeInfo::Hmanga, _settings->content.type.hmanga.get());
 	else {
 		qWarning() << "Unknown medium:" << medium;
-		return AnimeInfo::Unknown;
+		return std::make_tuple(AnimeInfo::Unknown, true);
 	}
 }
 
