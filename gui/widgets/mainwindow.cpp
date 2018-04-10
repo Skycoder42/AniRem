@@ -8,6 +8,8 @@
 
 #ifndef NO_AUTO_UPDATER
 #include <QtAutoUpdaterGui/UpdateController>
+
+#include <QLineEdit>
 #endif
 
 MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
@@ -58,6 +60,17 @@ MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 									   _ui->actionRemove_Anime
 								   });
 
+	auto filterEdit = new QLineEdit(this);
+	filterEdit->setClearButtonEnabled(true);
+	filterEdit->setPlaceholderText(tr("Filter the list…"));
+	QtMvvm::bind(_viewModel, "filterString",
+				 filterEdit, "text",
+				 QtMvvm::Binding::OneWayToViewModel);
+	connect(filterEdit, &QLineEdit::textChanged,
+			_proxyModel, &QSortFilterProxyModel::setFilterFixedString);
+	filterEdit->setMaximumWidth(200);
+	_ui->toolBar->addWidget(filterEdit);
+
 	statusBar()->addWidget(_statusLabel);
 	_statusProgress->setTextVisible(false);
 	_statusProgress->setFixedSize(125, 16);
@@ -66,8 +79,11 @@ MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 
 	_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 	_proxyModel->setSortLocaleAware(true);
+	_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+	_proxyModel->setFilterKeyColumn(1);
 	_proxyModel->setSourceModel(_animeModel);
 	_ui->seasonTreeView->setModel(_proxyModel);
+	_proxyModel->sort(1);
 
 	connect(_viewModel->animeModel(), &QtDataSync::DataStoreModel::rowsInserted,
 			this, &MainWindow::updateCount);

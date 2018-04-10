@@ -17,6 +17,7 @@ class MainViewModel : public QtMvvm::ViewModel
 	Q_PROPERTY(QtDataSync::DataStoreModel* animeModel READ animeModel CONSTANT)
 	Q_PROPERTY(QSortFilterProxyModel* sortedModel READ sortedModel CONSTANT)
 	Q_PROPERTY(bool reloadingAnimes READ isReloadingAnimes NOTIFY reloadingAnimesChanged)
+	Q_PROPERTY(QString filterString READ filterString WRITE setFilterString NOTIFY filterStringChanged)
 
 	QTMVVM_INJECT_PROP(SyncedSettings*, settings, _settings)
 	QTMVVM_INJECT_PROP(SeasonStatusLoader*, updater, _updater)
@@ -28,6 +29,8 @@ public:
 	QSortFilterProxyModel* sortedModel() const;
 
 	bool isReloadingAnimes() const;
+
+	QString filterString() const;
 
 public slots:
 	void reload();
@@ -46,11 +49,15 @@ public slots:
 
 	void removeAnime(int id);
 
+	void setFilterString(QString filterString);
+
 signals:
 	void showStatus(const QString &message);
 	void setProgress(int value, int max);
 
 	void reloadingAnimesChanged(bool reloadingAnimes);
+
+	void filterStringChanged(QString filterString);
 
 protected:
 	void onInit(const QVariantHash &params) override;
@@ -65,6 +72,7 @@ private:
 	QSortFilterProxyModel *_sortModel;
 	SyncedSettings *_settings;
 	SeasonStatusLoader *_updater;
+	QString _filterString;
 	bool _loading;
 	bool _showNoChanges;
 	int _migrationMax;

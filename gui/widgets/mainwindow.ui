@@ -112,9 +112,9 @@
    <addaction name="separator"/>
    <addaction name="actionAdd_Anime"/>
    <addaction name="actionPaste_ID_URL"/>
-   <addaction name="actionRemove_Anime"/>
    <addaction name="separator"/>
    <addaction name="action_Unmark_new_seasons"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionAdd_Anime">
    <property name="icon">

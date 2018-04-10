@@ -28,9 +28,48 @@ Page {
 			anchors.fill: parent
 			spacing: 0
 
-			ToolBarLabel {
-				text: qsTr("Anime List")
+			Item {
+				id: labelContainer
 				Layout.fillWidth: true
+				Layout.fillHeight: true
+				Layout.leftMargin: 16
+
+				ToolBarLabel {
+					id: titleLabel
+					anchors.fill: parent
+					leftPadding: 0
+					text: qsTr("Anime List")
+				}
+
+				TextField {
+					id: searchField
+					horizontalAlignment: Qt.AlignLeft
+					verticalAlignment: Qt.AlignVCenter
+					anchors.right: parent.right
+					anchors.verticalCenter: parent.verticalCenter
+					height: Math.min(implicitHeight, parent.height)
+					width: parent.width
+
+					placeholderText: qsTr("Filter the animes…")
+					MvvmBinding {
+						viewModel: mainView.viewModel
+						viewModelProperty: "filterString"
+						view: searchField
+						viewProperty: "text"
+						type: MvvmBinding.OneWayToViewModel
+					}
+				}
+			}
+
+			ActionButton {
+				id: searchButton
+				text: qsTr("Filter the animes")
+				onClicked: {
+					if(mainView.state == "title")
+						mainView.state = "search";
+					else
+						mainView.state = "title";
+				}
 			}
 
 			ActionButton {
@@ -140,4 +179,97 @@ Page {
 			}
 		}
 	}
+
+	states: [
+		State {
+			name: "title"
+			PropertyChanges {
+				target: searchButton
+				icon.name: "search"
+				icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_search.svg"
+			}
+			PropertyChanges {
+				target: titleLabel
+				visible: true
+			}
+			PropertyChanges {
+				target: searchField
+				visible: false
+				width: 0
+			}
+			StateChangeScript {
+				name: "focusScript"
+				script: searchField.clear();
+			}
+		},
+		State {
+			name: "search"
+			PropertyChanges {
+				target: searchButton
+				icon.name: "gtk-close"
+				icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_close.svg"
+			}
+			PropertyChanges {
+				target: titleLabel
+				visible: false
+			}
+			PropertyChanges {
+				target: searchField
+				visible: true
+				width: labelContainer.width
+			}
+			StateChangeScript {
+				name: "focusScript"
+				script: searchField.forceActiveFocus();
+			}
+		}
+	]
+	transitions: [
+		Transition {
+			from: "title"
+			to: "search"
+			SequentialAnimation {
+				PropertyAnimation {
+					target: searchField
+					property: "visible"
+					duration: 0
+				}
+				PropertyAnimation {
+					target: searchField
+					property: "width"
+					duration: 250
+					easing.type: Easing.InOutCubic
+				}
+				PropertyAnimation {
+					target: titleLabel
+					property: "visible"
+					duration: 0
+				}
+			}
+		},
+		Transition {
+			from: "search"
+			to: "title"
+			SequentialAnimation {
+				PropertyAnimation {
+					target: titleLabel
+					property: "visible"
+					duration: 0
+				}
+				PropertyAnimation {
+					target: searchField
+					property: "width"
+					duration: 250
+					easing.type: Easing.InOutCubic
+				}
+				PropertyAnimation {
+					target: searchField
+					property: "visible"
+					duration: 0
+				}
+			}
+		}
+	]
+
+	state: "title"
 }

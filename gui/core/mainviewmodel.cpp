@@ -27,6 +27,8 @@ MainViewModel::MainViewModel(QObject *parent) :
 	_sortModel->setSortLocaleAware(true);
 	_sortModel->setSortRole(_model->roleNames().key("title"));
 	_sortModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+	_sortModel->setFilterRole(_model->roleNames().key("title"));
+	_sortModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 	_sortModel->sort(0);
 
 	connect(coreApp, &AniRemApp::updateMigrationProgressMax,
@@ -54,6 +56,11 @@ QSortFilterProxyModel *MainViewModel::sortedModel() const
 bool MainViewModel::isReloadingAnimes() const
 {
 	return _loading;
+}
+
+QString MainViewModel::filterString() const
+{
+	return _filterString;
 }
 
 void MainViewModel::reload()
@@ -176,6 +183,16 @@ void MainViewModel::removeAnime(int id)
 		emit showStatus(tr("Removed Anime: %1").arg(info.title()));
 		_model->store()->remove<AnimeInfo>(info.id());
 	}
+}
+
+void MainViewModel::setFilterString(QString filterString)
+{
+	if (_filterString == filterString)
+		return;
+
+	_filterString = filterString;
+	_sortModel->setFilterFixedString(_filterString);
+	emit filterStringChanged(_filterString);
 }
 
 void MainViewModel::onInit(const QVariantHash &params)
