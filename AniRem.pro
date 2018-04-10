@@ -12,6 +12,8 @@ android {
 }
 
 prepareRecursiveTarget(lrelease)
-QMAKE_EXTRA_TARGETS += lrelease
+prepareRecursiveTarget(deploy)
+deploy.depends += install
+QMAKE_EXTRA_TARGETS += lrelease deploy
 
 DISTFILES += .qmake.conf

@@ -70,3 +70,5 @@ header_install.CONFIG += no_check_exist
 header_install.path = $$INSTALL_HEADERS/anirem
 INSTALLS += target qpmx_ts_target
 !android: INSTALLS += header_install
+
+QMAKE_EXTRA_TARGETS += deploy

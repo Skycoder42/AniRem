@@ -7,12 +7,12 @@ TARGET = anirem-service
 
 HEADERS += \
 	starthelper.h \
-    androidupdatenotifier.h
+	androidupdatenotifier.h
 
 SOURCES += \
 	main.cpp \
 	starthelper.cpp \
-    androidupdatenotifier.cpp
+	androidupdatenotifier.cpp
 
 # TODO debug
 QMAKE_EXTRA_TARGETS += lrelease

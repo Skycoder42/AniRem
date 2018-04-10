@@ -12,4 +12,5 @@ android: SUBDIRS -= widgets
 no_quick: SUBDIRS -= quick
 
 prepareRecursiveTarget(lrelease)
-QMAKE_EXTRA_TARGETS += lrelease
+prepareRecursiveTarget(deploy)
+QMAKE_EXTRA_TARGETS += lrelease deploy
