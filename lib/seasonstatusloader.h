@@ -42,7 +42,6 @@ private:
 	int _lastMax;
 	bool _anyUpdated;
 
-	std::tuple<AnimeInfo::SeasonType, bool> toType(const QString &medium);
 	void addInfos(const QList<AnimeInfo> &infos);
 };
 

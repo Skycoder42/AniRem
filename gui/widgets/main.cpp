@@ -7,6 +7,8 @@
 #include "mainwindow.h"
 #include "addanimedialog.h"
 #include "detailsdockwidget.h"
+#include "entrydialog.h"
+#include "logindialog.h"
 #include "widgetsupdatenotifier.h"
 #include "instancesetup.h"
 
@@ -35,6 +37,8 @@ int main(int argc, char *argv[])
 		QtMvvm::WidgetsPresenter::registerView<MainWindow>();
 		QtMvvm::WidgetsPresenter::registerView<AddAnimeDialog>();
 		QtMvvm::WidgetsPresenter::registerView<DetailsDockWidget>();
+		QtMvvm::WidgetsPresenter::registerView<EntryDialog>();
+		QtMvvm::WidgetsPresenter::registerView<LoginDialog>();
 
 		QObject::connect(&instance, &QSingleInstance::instanceMessage,
 						 coreApp, [](){

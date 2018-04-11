@@ -9,6 +9,7 @@
 #include "aniremsettingsviewmodel.h"
 #include "addanimeviewmodel.h"
 #include "detailsviewmodel.h"
+#include "entryviewmodel.h"
 #include "aniremapp.h"
 
 MainViewModel::MainViewModel(QObject *parent) :
@@ -120,7 +121,13 @@ void MainViewModel::itemAction(int id)
 
 void MainViewModel::addAnime()
 {
-	show<AddAnimeViewModel>();
+	//TODO debug show<AddAnimeViewModel>();
+	addAnimeFromEntryList();
+}
+
+void MainViewModel::addAnimeFromEntryList()
+{
+	show<EntryViewModel>();
 }
 
 void MainViewModel::addAnimeFromClipboard()

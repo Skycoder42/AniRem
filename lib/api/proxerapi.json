@@ -4,7 +4,8 @@
 	"export": "LIB_ANIREM_EXPORT",
 	"includes": [
 		">lib_anirem_global.h",
-		">infoclass.h"
+		">infoclass.h",
+		">userclass.h"
 	],
 
 	"baseUrl": "https://proxer.me/api",
@@ -16,6 +17,7 @@
 	"autoCreate": true,
 
 	"classes": {
-		"info": "InfoClass"
+		"info": "InfoClass",
+		"user": "UserClass"
 	}
 }

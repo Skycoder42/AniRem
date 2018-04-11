@@ -43,6 +43,7 @@ public slots:
 	void itemAction(int id);
 
 	void addAnime();
+	void addAnimeFromEntryList();
 	void addAnimeFromClipboard();
 	void showDetails(int id);
 	void openUrl(int id);

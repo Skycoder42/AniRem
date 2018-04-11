@@ -8,6 +8,7 @@
 #include <QUrl>
 #include <QCoreApplication>
 #include "lib_anirem_global.h"
+#include "syncedsettings.h"
 
 class AnimeInfoData;
 class LIB_ANIREM_EXPORT AnimeInfo
@@ -68,6 +69,8 @@ public:
 
 	bool operator==(const AnimeInfo &other) const;
 	bool operator!=(const AnimeInfo &other) const;
+
+	static std::tuple<SeasonType, bool> apiMediumToType(const QString &medium, SyncedSettings *settings);
 
 private:
 	QSharedDataPointer<AnimeInfoData> d;

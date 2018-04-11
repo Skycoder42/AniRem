@@ -113,7 +113,7 @@ void AddAnimeViewModel::setId(int id)
 				setAcceptable(true);
 			}
 		} else
-		   error(entry.message(), code, QtRestClient::RestReply::FailureError);
+		   error(entry.message(), entry.code(), QtRestClient::RestReply::FailureError);
 	});
 	repEntry->onError([this](QString e, int c, QtRestClient::RestReply::ErrorType t){
 		_loadingEntry = false;
@@ -135,7 +135,7 @@ void AddAnimeViewModel::setId(int id)
 			}
 			updateNames(allNames);
 		} else
-		   ApiHelper::formatError(names.message(), code, QtRestClient::RestReply::FailureError); //only log error, no dialog etc
+		   ApiHelper::formatError(names.message(), names.code(), QtRestClient::RestReply::FailureError); //only log error, no dialog etc
 	});
 	repNames->onError([this](QString e, int c, QtRestClient::RestReply::ErrorType t){
 		_loadingNames = false;

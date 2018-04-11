@@ -16,7 +16,8 @@ PUBLIC_HEADERS = \
 	passiveupdater.h
 
 HEADERS += $$PUBLIC_HEADERS \
-	jsonseasondataconverter.h
+	jsonseasondataconverter.h \
+	storedcookiejar.h
 
 SOURCES += \
 	libanirem.cpp \
@@ -24,17 +25,21 @@ SOURCES += \
 	animeinfo.cpp \
 	jsonseasondataconverter.cpp \
 	seasonstatusloader.cpp \
-	passiveupdater.cpp
+	passiveupdater.cpp \
+	storedcookiejar.cpp
 
 REST_API_OBJECTS += api/proxerstatus.json \
 	api/proxerentryvalue.json \
 	api/proxerentry.json \
 	api/proxerrelations.json \
 	api/proxernamevalue.json \
-	api/proxernames.json
+	api/proxernames.json \
+	api/proxerlistvalue.json \
+	api/proxerlist.json
 
 REST_API_CLASSES += api/proxerapi.json \
-	api/infoclass.json
+	api/infoclass.json \
+	api/userclass.json
 
 SETTINGS_GENERATORS += \
 	localsettings.xml \

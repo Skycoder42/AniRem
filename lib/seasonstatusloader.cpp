@@ -85,7 +85,7 @@ void SeasonStatusLoader::checkNext()
 		rep->onSucceeded([this, next](int code, ProxerRelations relation) {
 			auto animeInfo = next;
 			if(!ApiHelper::testValid(code, relation)) {
-				error(relation.message(), code, RestReply::FailureError);
+				error(relation.message(), relation.code(), RestReply::FailureError);
 				return;
 			}
 
@@ -93,7 +93,7 @@ void SeasonStatusLoader::checkNext()
 			for(const auto &season : relation.data()) {
 				AnimeInfo::SeasonType type;
 				bool allowed;
-				std::tie(type, allowed) = toType(season.medium());
+				std::tie(type, allowed) = AnimeInfo::apiMediumToType(season.medium(), _settings);
 				if(allowed)
 					state[type]++;
 			}
@@ -139,30 +139,6 @@ void SeasonStatusLoader::error(const QString &errorString, int errorCode, RestRe
 	_updateQueue.clear();
 	emit completed(_anyUpdated, ApiHelper::formatError(errorString, errorCode, errorType));
 	_anyUpdated = false;
-}
-
-std::tuple<AnimeInfo::SeasonType, bool> SeasonStatusLoader::toType(const QString &medium)
-{
-	if(medium == QStringLiteral("animeseries"))
-		return std::make_tuple(AnimeInfo::Anime, _settings->content.type.anime.get());
-	else if(medium == QStringLiteral("movie"))
-		return std::make_tuple(AnimeInfo::Movie, _settings->content.type.movie.get());
-	else if(medium == QStringLiteral("ova"))
-		return std::make_tuple(AnimeInfo::Ova, _settings->content.type.ova.get());
-	else if(medium == QStringLiteral("hentai"))
-		return std::make_tuple(AnimeInfo::Hentai, _settings->content.type.hentai.get());
-	else if(medium == QStringLiteral("mangaseries"))
-		return std::make_tuple(AnimeInfo::Manga, _settings->content.type.manga.get());
-	else if(medium == QStringLiteral("oneshot"))
-		return std::make_tuple(AnimeInfo::Oneshot, _settings->content.type.oneshot.get());
-	else if(medium == QStringLiteral("doujin"))
-		return std::make_tuple(AnimeInfo::Doujin, _settings->content.type.doujin.get());
-	else if(medium == QStringLiteral("hmanga"))
-		return std::make_tuple(AnimeInfo::Hmanga, _settings->content.type.hmanga.get());
-	else {
-		qWarning() << "Unknown medium:" << medium;
-		return std::make_tuple(AnimeInfo::Unknown, true);
-	}
 }
 
 void SeasonStatusLoader::addInfos(const QList<AnimeInfo> &infos)

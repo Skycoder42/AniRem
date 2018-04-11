@@ -1,4 +1,5 @@
 #include <utility>
+#include <QDebug>
 
 #include "animeinfo.h"
 
@@ -192,6 +193,30 @@ bool AnimeInfo::operator==(const AnimeInfo &other) const
 bool AnimeInfo::operator!=(const AnimeInfo &other) const
 {
 	return d != other.d && (*d) != *(other.d);
+}
+
+std::tuple<AnimeInfo::SeasonType, bool> AnimeInfo::apiMediumToType(const QString &medium, SyncedSettings *settings)
+{
+	if(medium == QStringLiteral("animeseries"))
+		return std::make_tuple(AnimeInfo::Anime,  settings->content.type.anime.get());
+	else if(medium == QStringLiteral("movie"))
+		return std::make_tuple(AnimeInfo::Movie, settings->content.type.movie.get());
+	else if(medium == QStringLiteral("ova"))
+		return std::make_tuple(AnimeInfo::Ova, settings->content.type.ova.get());
+	else if(medium == QStringLiteral("hentai"))
+		return std::make_tuple(AnimeInfo::Hentai, settings->content.type.hentai.get());
+	else if(medium == QStringLiteral("mangaseries"))
+		return std::make_tuple(AnimeInfo::Manga, settings->content.type.manga.get());
+	else if(medium == QStringLiteral("oneshot"))
+		return std::make_tuple(AnimeInfo::Oneshot, settings->content.type.oneshot.get());
+	else if(medium == QStringLiteral("doujin"))
+		return std::make_tuple(AnimeInfo::Doujin, settings->content.type.doujin.get());
+	else if(medium == QStringLiteral("hmanga"))
+		return std::make_tuple(AnimeInfo::Hmanga, settings->content.type.hmanga.get());
+	else {
+		qWarning() << "Unknown medium:" << medium;
+		return std::make_tuple(AnimeInfo::Unknown, true);
+	}
 }
 
 void AnimeInfo::setId(int id)

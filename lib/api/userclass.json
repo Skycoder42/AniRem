@@ -1,0 +1,28 @@
+{
+	"type": "class",
+	"name": "UserClass",
+	"export": "LIB_ANIREM_EXPORT",
+	"includes": [
+		">lib_anirem_global.h",
+		">proxerlist.h"
+	],
+
+	"path": "user",
+	"except": "ProxerStatus",
+
+	"methods": {
+		"listEntries": {
+			"path": "list",
+			"verb": "POST",
+			"parameters": [
+				"kat;QString",
+				"isH;bool;false",
+				"p;int;0",
+				"limit;int;100",
+				"sort;QString;QStringLiteral(\"changeDateDESC\")",
+				"filter;QString;QStringLiteral(\"stateFilter0\")"
+			],
+			"returns": "ProxerList"
+		}
+	}
+}

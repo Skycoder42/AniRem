@@ -134,15 +134,22 @@ int AniRemApp::startApp(const QStringList &arguments)
 
 void AniRemApp::migrate()
 {
+	if(LocalSettings::instance()->migrated)
+		return;
+
 	//workaround: rename pointers to data
 	QDir storageDir = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-	if(!storageDir.cd(QtDataSync::MigrationHelper::DefaultOldStorageDir))
+	if(!storageDir.cd(QtDataSync::MigrationHelper::DefaultOldStorageDir)) {
+		LocalSettings::instance()->migrated = true;
 		return;
+	}
 
 	auto oldDb = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), QStringLiteral("migration_remap"));
 	oldDb.setDatabaseName(storageDir.absoluteFilePath(QStringLiteral("store.db")));
-	if(!oldDb.open())
+	if(!oldDb.open()) {
+		LocalSettings::instance()->migrated = true;
 		return;
+	}
 	QSqlQuery query(oldDb);
 	if(!query.prepare(QStringLiteral("UPDATE DataIndex SET Type = ? WHERE Type LIKE ?"))) {
 		qWarning().noquote() << "Failed to prepare migration query:" << query.lastError().text();
@@ -171,9 +178,10 @@ void AniRemApp::migrate()
 			this, &AniRemApp::updateMigrationProgressValue);
 	connect(helper, &QtDataSync::MigrationHelper::migrationDone,
 					 this, [this](bool ok){
-		if(ok)
+		if(ok) {
 			qDebug() << "Migration successfull or not required";
-		else
+			LocalSettings::instance()->migrated = true;
+		} else
 			qWarning() << "Migration failed";
 		emit updateMigrationProgressMax(-1);
 	});
@@ -248,14 +256,14 @@ bool AniRemApp::setAutoStart(bool autoStart)
 			}
 		}
 	} else {
-		if(QFile::remove(autoStartPath))
+		if(!QFile::exists(autoStartPath) || QFile::remove(autoStartPath))
 			return true;
 	}
 #endif
 
 
-	bool didNotify = LocalSettings::instance()->updates.didNotify;
-	LocalSettings::instance()->updates.didNotify = autoStart;
+	bool didNotify = LocalSettings::instance()->didNotify;
+	LocalSettings::instance()->didNotify = autoStart;
 	return autoStart == didNotify;
 }
 

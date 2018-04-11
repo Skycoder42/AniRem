@@ -3,6 +3,8 @@
 	<Include>lib_anirem_global.h</Include>
 	<Include>QSize</Include>
 
+	<Entry key="migrated" type="bool" default="false"/>
+	<Entry key="didNotify" type="bool" default="false"/>
 	<Node key="gui">
 		<Node key="mainwindow">
 			<Entry key="geom" type="QByteArray"/>
@@ -10,7 +12,8 @@
 			<Entry key="header" type="QByteArray"/>
 		</Node>
 	</Node>
-	<Node key="updates">
-		<Entry key="didNotify" type="bool" default="false" />
+	<Node key="account">
+		<Entry key="username" type="QString"/>
+		<Entry key="storedPw" type="bool" default="false"/>
 	</Node>
 </Settings>

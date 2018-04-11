@@ -13,7 +13,10 @@ HEADERS += \
 	addanimeviewmodel.h \
 	imageloader.h \
 	detailsviewmodel.h \
-	aniremsettingsviewmodel.h
+	aniremsettingsviewmodel.h \
+    entryviewmodel.h \
+    proxerentrymodel.h \
+    loginviewmodel.h
 
 SOURCES += \
 	mainviewmodel.cpp \
@@ -22,7 +25,10 @@ SOURCES += \
 	addanimeviewmodel.cpp \
 	imageloader.cpp \
 	detailsviewmodel.cpp \
-	aniremsettingsviewmodel.cpp
+	aniremsettingsviewmodel.cpp \
+    entryviewmodel.cpp \
+    proxerentrymodel.cpp \
+    loginviewmodel.cpp
 
 RESOURCES += \
 	anirem-core.qrc

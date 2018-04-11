@@ -17,18 +17,24 @@ HEADERS += mainwindow.h \
 	addanimedialog.h \
 	detailsdockwidget.h \
 	widgetsupdatenotifier.h \
-	instancesetup.h
+	instancesetup.h \
+    entrydialog.h \
+    logindialog.h
 
 SOURCES += main.cpp \
 	mainwindow.cpp \
 	animemodel.cpp \
 	addanimedialog.cpp \
 	detailsdockwidget.cpp \
-	widgetsupdatenotifier.cpp
+	widgetsupdatenotifier.cpp \
+    entrydialog.cpp \
+    logindialog.cpp
 
 FORMS += mainwindow.ui \
 	addanimedialog.ui \
-	detailsdockwidget.ui
+	detailsdockwidget.ui \
+    entrydialog.ui \
+    logindialog.ui
 
 RESOURCES += \
 	anirem-widgets.qrc
