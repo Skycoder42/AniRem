@@ -10,6 +10,7 @@
 #include <QtAutoUpdaterGui/UpdateController>
 
 #include <QLineEdit>
+#include <QToolButton>
 #endif
 
 MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
@@ -23,6 +24,7 @@ MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 {
 	_ui->setupUi(this);
 
+	// setup general signals and actions
 	connect(_viewModel, &MainViewModel::showStatus,
 			this, &MainWindow::showStatus);
 	connect(_viewModel, &MainViewModel::setProgress,
@@ -40,6 +42,10 @@ MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 			_viewModel, &MainViewModel::showCaptcha);
 	connect(_ui->actionAdd_Anime, &QAction::triggered,
 			_viewModel, &MainViewModel::addAnime);
+	connect(_ui->actionAdd_Anime_blank, &QAction::triggered,
+			_viewModel, &MainViewModel::addAnimeBlank);
+	connect(_ui->actionAdd_Anime_entry, &QAction::triggered,
+			_viewModel, &MainViewModel::addAnimeFromEntryList);
 	connect(_ui->actionPaste_ID_URL, &QAction::triggered,
 			_viewModel, &MainViewModel::addAnimeFromClipboard);
 	connect(_ui->actionSynchronization, &QAction::triggered,
@@ -47,6 +53,7 @@ MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	connect(_ui->actionQuit, &QAction::triggered,
 			this, &MainWindow::close);
 
+	// setup the view
 	auto sep1 = new QAction(_ui->seasonTreeView);
 	sep1->setSeparator(true);
 	auto sep2 = new QAction(_ui->seasonTreeView);
@@ -60,6 +67,7 @@ MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 									   _ui->actionRemove_Anime
 								   });
 
+	//setup the toolbar
 	auto filterEdit = new QLineEdit(this);
 	filterEdit->setClearButtonEnabled(true);
 	filterEdit->setPlaceholderText(tr("Filter the list…"));
@@ -71,12 +79,28 @@ MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 	filterEdit->setMaximumWidth(200);
 	_ui->toolBar->addWidget(filterEdit);
 
+	auto addAnimeButton = qobject_cast<QToolButton*>(_ui->toolBar->widgetForAction(_ui->actionAdd_Anime));
+	if(addAnimeButton) {
+		addAnimeButton->setPopupMode(QToolButton::MenuButtonPopup);
+		auto menu = new QMenu(addAnimeButton);
+		menu->addActions({
+							 _ui->actionAdd_Anime_blank,
+							 _ui->actionAdd_Anime_entry
+						 });
+		menu->addSeparator();
+		menu->addAction(_ui->actionPaste_ID_URL);
+		addAnimeButton->setMenu(menu);
+		addAnimeButton->setDefaultAction(_ui->actionAdd_Anime);
+	}
+
+	// setup the statusbar
 	statusBar()->addWidget(_statusLabel);
 	_statusProgress->setTextVisible(false);
 	_statusProgress->setFixedSize(125, 16);
 	statusBar()->addPermanentWidget(_statusProgress);
 	_statusProgress->hide();
 
+	// setup the models
 	_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 	_proxyModel->setSortLocaleAware(true);
 	_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);

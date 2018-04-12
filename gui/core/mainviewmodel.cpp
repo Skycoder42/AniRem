@@ -121,12 +121,21 @@ void MainViewModel::itemAction(int id)
 
 void MainViewModel::addAnime()
 {
-	//TODO debug show<AddAnimeViewModel>();
-	addAnimeFromEntryList();
+	if(_settings->gui.addFromEntries)
+		addAnimeFromEntryList();
+	else
+		addAnimeBlank();
+}
+
+void MainViewModel::addAnimeBlank()
+{
+	_settings->gui.addFromEntries = false;
+	show<AddAnimeViewModel>();
 }
 
 void MainViewModel::addAnimeFromEntryList()
 {
+	_settings->gui.addFromEntries = true;
 	show<EntryViewModel>();
 }
 

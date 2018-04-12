@@ -69,7 +69,8 @@
     <property name="title">
      <string>&amp;Edit</string>
     </property>
-    <addaction name="actionAdd_Anime"/>
+    <addaction name="actionAdd_Anime_blank"/>
+    <addaction name="actionAdd_Anime_entry"/>
     <addaction name="actionPaste_ID_URL"/>
     <addaction name="separator"/>
     <addaction name="actionRemove_Anime"/>
@@ -111,7 +112,7 @@
    <addaction name="actionReload_Seasons"/>
    <addaction name="separator"/>
    <addaction name="actionAdd_Anime"/>
-   <addaction name="actionPaste_ID_URL"/>
+   <addaction name="actionRemove_Anime"/>
    <addaction name="separator"/>
    <addaction name="action_Unmark_new_seasons"/>
    <addaction name="separator"/>
@@ -254,6 +255,30 @@
   <action name="action_Unblock_IP_Captcha">
    <property name="text">
     <string>&amp;Unblock IP Captcha</string>
+   </property>
+  </action>
+  <action name="actionAdd_Anime_blank">
+   <property name="icon">
+    <iconset theme="gtk-add" resource="anirem-widgets.qrc">
+     <normaloff>:/icons/add.ico</normaloff>:/icons/add.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Add Anime by it's &amp;id</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Anime by it's id</string>
+   </property>
+  </action>
+  <action name="actionAdd_Anime_entry">
+   <property name="icon">
+    <iconset theme="gtk-add" resource="anirem-widgets.qrc">
+     <normaloff>:/icons/add.ico</normaloff>:/icons/add.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Add Anime from &amp;history</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Anime from history</string>
    </property>
   </action>
  </widget>
