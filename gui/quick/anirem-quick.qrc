@@ -8,6 +8,7 @@
         <file>App.qml</file>
         <file>AnimeInfoDelegate.qml</file>
         <file>AnimeHistoryDelegate.qml</file>
+        <file>SubButton.qml</file>
     </qresource>
     <qresource prefix="/qtmvvm/views">
         <file>MainView.qml</file>

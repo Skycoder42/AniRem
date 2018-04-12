@@ -65,10 +65,10 @@ Page {
 				id: searchButton
 				text: qsTr("Filter the animes")
 				onClicked: {
-					if(mainView.state == "title")
-						mainView.state = "search";
+					if(toolbar.state == "title")
+						toolbar.state = "search";
 					else
-						mainView.state = "title";
+						toolbar.state = "title";
 				}
 			}
 
@@ -81,14 +81,6 @@ Page {
 			}
 
 			MenuButton {
-				MenuItem {
-					id: pasteId
-					text: qsTr("Paste ID/URL")
-					onClicked: viewModel.addAnimeFromClipboard()
-				}
-
-				MenuSeparator {}
-
 				MenuItem {
 					id: settings
 					text: qsTr("Settings")
@@ -116,6 +108,99 @@ Page {
 				}
 			}
 		}
+
+		states: [
+			State {
+				name: "title"
+				PropertyChanges {
+					target: searchButton
+					icon.name: "search"
+					icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_search.svg"
+				}
+				PropertyChanges {
+					target: titleLabel
+					visible: true
+				}
+				PropertyChanges {
+					target: searchField
+					visible: false
+					width: 0
+				}
+				StateChangeScript {
+					name: "focusScript"
+					script: searchField.clear();
+				}
+			},
+			State {
+				name: "search"
+				PropertyChanges {
+					target: searchButton
+					icon.name: "gtk-close"
+					icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_close.svg"
+				}
+				PropertyChanges {
+					target: titleLabel
+					visible: false
+				}
+				PropertyChanges {
+					target: searchField
+					visible: true
+					width: labelContainer.width
+				}
+				StateChangeScript {
+					name: "focusScript"
+					script: searchField.forceActiveFocus();
+				}
+			}
+		]
+		transitions: [
+			Transition {
+				from: "title"
+				to: "search"
+				SequentialAnimation {
+					PropertyAnimation {
+						target: searchField
+						property: "visible"
+						duration: 0
+					}
+					PropertyAnimation {
+						target: searchField
+						property: "width"
+						duration: 250
+						easing.type: Easing.InOutCubic
+					}
+					PropertyAnimation {
+						target: titleLabel
+						property: "visible"
+						duration: 0
+					}
+				}
+			},
+			Transition {
+				from: "search"
+				to: "title"
+				SequentialAnimation {
+					PropertyAnimation {
+						target: titleLabel
+						property: "visible"
+						duration: 0
+					}
+					PropertyAnimation {
+						target: searchField
+						property: "width"
+						duration: 250
+						easing.type: Easing.InOutCubic
+					}
+					PropertyAnimation {
+						target: searchField
+						property: "visible"
+						duration: 0
+					}
+				}
+			}
+		]
+
+		state: "title"
 	}
 
 	PresenterProgress {}
@@ -145,15 +230,65 @@ Page {
 	RoundActionButton {
 		id: addButton
 
+		z: 7
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
 		anchors.margins: 16
+		checkable: true
 
-		icon.name: "gtk-add"
-		icon.source: "qrc:/icons/ic_add.svg"
+		icon.name: checked ? "tab-close" : "list-add"
+		icon.source: checked ?
+						 "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_close.svg" :
+						 "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_add.svg"
 		text: qsTr("Add Anime")
+	}
 
-		onClicked: viewModel.addAnime()
+	SubButton {
+		id: addEntryButton
+		z: 3
+		reference: addButton
+		expanded: addButton.checked
+
+		text: qsTr("Add Anime from your history")
+		icon.name: "list-add" //TODO better icons
+		icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_add.svg"
+
+		onClicked: {
+			viewModel.addAnimeFromEntryList();
+			addButton.checked = false;
+		}
+	}
+
+	SubButton {
+		id: addBlankButton
+		z: 3
+		reference: addEntryButton
+		expanded: addButton.checked
+
+		text: qsTr("Add Anime by it's id")
+		icon.name: "list-add" //TODO better icons
+		icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_add.svg"
+
+		onClicked: {
+			viewModel.addAnimeBlank();
+			addButton.checked = false;
+		}
+	}
+
+	SubButton {
+		id: addClipboardButton
+		z: 3
+		reference: addBlankButton
+		expanded: addButton.checked
+
+		text: qsTr("Paste ID/URL")
+		icon.name: "list-add" //TODO better icons
+		icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_add.svg"
+
+		onClicked: {
+			viewModel.addAnimeFromClipboard();
+			addButton.checked = false;
+		}
 	}
 
 	AlertDialog {
@@ -179,97 +314,4 @@ Page {
 			}
 		}
 	}
-
-	states: [
-		State {
-			name: "title"
-			PropertyChanges {
-				target: searchButton
-				icon.name: "search"
-				icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_search.svg"
-			}
-			PropertyChanges {
-				target: titleLabel
-				visible: true
-			}
-			PropertyChanges {
-				target: searchField
-				visible: false
-				width: 0
-			}
-			StateChangeScript {
-				name: "focusScript"
-				script: searchField.clear();
-			}
-		},
-		State {
-			name: "search"
-			PropertyChanges {
-				target: searchButton
-				icon.name: "gtk-close"
-				icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_close.svg"
-			}
-			PropertyChanges {
-				target: titleLabel
-				visible: false
-			}
-			PropertyChanges {
-				target: searchField
-				visible: true
-				width: labelContainer.width
-			}
-			StateChangeScript {
-				name: "focusScript"
-				script: searchField.forceActiveFocus();
-			}
-		}
-	]
-	transitions: [
-		Transition {
-			from: "title"
-			to: "search"
-			SequentialAnimation {
-				PropertyAnimation {
-					target: searchField
-					property: "visible"
-					duration: 0
-				}
-				PropertyAnimation {
-					target: searchField
-					property: "width"
-					duration: 250
-					easing.type: Easing.InOutCubic
-				}
-				PropertyAnimation {
-					target: titleLabel
-					property: "visible"
-					duration: 0
-				}
-			}
-		},
-		Transition {
-			from: "search"
-			to: "title"
-			SequentialAnimation {
-				PropertyAnimation {
-					target: titleLabel
-					property: "visible"
-					duration: 0
-				}
-				PropertyAnimation {
-					target: searchField
-					property: "width"
-					duration: 250
-					easing.type: Easing.InOutCubic
-				}
-				PropertyAnimation {
-					target: searchField
-					property: "visible"
-					duration: 0
-				}
-			}
-		}
-	]
-
-	state: "title"
 }
