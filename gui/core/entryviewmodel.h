@@ -22,6 +22,7 @@ public slots:
 
 signals:
 	void modelChanged(ProxerEntryModel *model);
+	void close();
 
 protected:
 	void onInit(const QVariantHash &params) override;
@@ -33,10 +34,11 @@ private slots:
 
 private:
 	static const int LoginRequestCode = 0x4201;
+	static const int AddRequestCode = 0x4202;
 
 	SyncedSettings *_settings;
 	ProxerEntryModel *_model;
-	bool _showingLogin;
+	bool _showingChild;
 };
 
 #endif // ENTRYVIEWMODEL_H

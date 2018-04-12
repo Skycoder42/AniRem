@@ -3,12 +3,13 @@
 #include <apihelper.h>
 #include <proxerapi.h>
 #include "loginviewmodel.h"
+#include "addanimeviewmodel.h"
 
 EntryViewModel::EntryViewModel(QObject *parent) :
 	ViewModel(parent),
 	_settings(nullptr),
 	_model(nullptr),
-	_showingLogin(false)
+	_showingChild(false)
 {}
 
 ProxerEntryModel *EntryViewModel::model() const
@@ -18,7 +19,13 @@ ProxerEntryModel *EntryViewModel::model() const
 
 void EntryViewModel::addAnime(int id)
 {
-	qDebug() << Q_FUNC_INFO << id;
+	if(id == -1)
+		return;
+
+	if(!_showingChild) {
+		_showingChild = true;
+		showForResult<AddAnimeViewModel>(AddRequestCode, AddAnimeViewModel::params(id));
+	}
 }
 
 void EntryViewModel::onInit(const QVariantHash &params)
@@ -35,17 +42,26 @@ void EntryViewModel::onInit(const QVariantHash &params)
 
 void EntryViewModel::onResult(quint32 requestCode, const QVariant &result)
 {
-	if(requestCode == LoginRequestCode) {
-		_showingLogin = false;
+	switch(requestCode) {
+	case LoginRequestCode:
+		_showingChild = false;
 		if(result.toBool())
 			_model->fetchMore();
+		break;
+	case AddRequestCode:
+		_showingChild = false;
+		if(result.value<AnimeInfo>())
+			emit close();
+		break;
+	default:
+		break;
 	}
 }
 
 void EntryViewModel::loginNeeded()
 {
-	if(!_showingLogin) {
-		_showingLogin = true;
+	if(!_showingChild) {
+		_showingChild = true;
 		showForResult<LoginViewModel>(LoginRequestCode);
 	}
 }
