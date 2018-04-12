@@ -13,6 +13,18 @@ ProxerEntryModel::ProxerEntryModel(SyncedSettings *settings, QObject *parent) :
 {
 	connect(_user, &UserClass::apiError,
 			this, &ProxerEntryModel::apiError);
+	connect(this, &ProxerEntryModel::apiError,
+			this, [this](){
+		_isFetching = false;
+	});
+}
+
+int ProxerEntryModel::getId(const QModelIndex &index) const
+{
+	if(index.isValid())
+		return _data.value(index.row()).id();
+	else
+		return -1;
 }
 
 int ProxerEntryModel::rowCount(const QModelIndex &parent) const
@@ -35,6 +47,7 @@ QHash<int, QByteArray> ProxerEntryModel::roleNames() const
 {
 	return {
 		{NameRole, "name"},
+		{IdRole, "id"},
 		{TypeRole, "type"},
 		{DateRole, "date"},
 		{RatingRole, "rating"}
@@ -86,6 +99,7 @@ void ProxerEntryModel::fetchMore(const QModelIndex &parent)
 								  _data.size() / PageSize,
 								  PageSize);
 	res->onSucceeded([this](int code, ProxerList entryList){
+		_isFetching = false;
 		if(ApiHelper::testValid(code, entryList)) {
 			beginInsertRows({}, _data.size(), _data.size() + entryList.data().size() - 1);
 			_data.append(entryList.data());
@@ -98,10 +112,6 @@ void ProxerEntryModel::fetchMore(const QModelIndex &parent)
 				emit apiError(entryList.message(), entryList.code(), QtRestClient::RestReply::FailureError);
 		}
 	});
-	connect(res, &QtRestClient::RestReply::completed,
-			this, [this](){
-		_isFetching = false;
-	}, Qt::QueuedConnection);
 }
 
 QVariant ProxerEntryModel::data(const QModelIndex &index, int role) const
@@ -112,6 +122,8 @@ QVariant ProxerEntryModel::data(const QModelIndex &index, int role) const
 	switch(indexRole(index, role)) {
 	case NameRole:
 		return _data.value(index.row()).name();
+	case IdRole:
+		return _data.value(index.row()).id();
 	case TypeRole:
 		return std::get<0>(AnimeInfo::apiMediumToType(_data.value(index.row()).medium(), _settings));
 	case DateRole:

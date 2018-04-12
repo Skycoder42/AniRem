@@ -12,7 +12,8 @@ class ProxerEntryModel : public QAbstractTableModel
 public:
 	enum Roles {
 		NameRole = Qt::DisplayRole,
-		TypeRole = Qt::UserRole + 1,
+		IdRole = Qt::UserRole + 1,
+		TypeRole,
 		DateRole,
 		RatingRole,
 
@@ -23,6 +24,8 @@ public:
 	static const int PageSize = 50;
 
 	explicit ProxerEntryModel(SyncedSettings *settings, QObject *parent = nullptr);
+
+	int getId(const QModelIndex &index) const;
 
 	int rowCount(const QModelIndex &parent = {}) const override;
 	int columnCount(const QModelIndex &parent = {}) const override;

@@ -16,6 +16,11 @@ ProxerEntryModel *EntryViewModel::model() const
 	return _model;
 }
 
+void EntryViewModel::addAnime(int id)
+{
+	qDebug() << Q_FUNC_INFO << id;
+}
+
 void EntryViewModel::onInit(const QVariantHash &params)
 {
 	Q_UNUSED(params)

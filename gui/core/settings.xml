@@ -33,8 +33,15 @@
 				   default="15">
 				<Property key="specialValueText" type="string">No limit</Property>
 			</Entry>
+			<Entry key="clearcache"
+				   type="action"
+				   title="&amp;Clear image cache"
+				   tooltip="If the cache of anime images becomes to big, you can clear by pressing this button. This will delete all cached images.">
+				<Property key="text" type="string">Clear cache</Property>
+			</Entry>
+			<!-- TODO implement -->
 		</Group>
-		<Group title="Long/Double click actions">
+		<Group title="Long/Double click action">
 			<Entry key="gui/openEntries"
 				   type="bool"
 				   title="&amp;Open Animes in browser"

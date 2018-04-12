@@ -17,6 +17,9 @@ public:
 
 	ProxerEntryModel *model() const;
 
+public slots:
+	void addAnime(int id);
+
 signals:
 	void modelChanged(ProxerEntryModel *model);
 
