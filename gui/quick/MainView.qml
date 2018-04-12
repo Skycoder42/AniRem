@@ -250,8 +250,8 @@ Page {
 		expanded: addButton.checked
 
 		text: qsTr("Add Anime from your history")
-		icon.name: "list-add" //TODO better icons
-		icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_add.svg"
+		icon.name: "format-list-unordered"
+		icon.source: "qrc:/icons/ic_playlist_add.svg"
 
 		onClicked: {
 			viewModel.addAnimeFromEntryList();
@@ -266,8 +266,8 @@ Page {
 		expanded: addButton.checked
 
 		text: qsTr("Add Anime by it's id")
-		icon.name: "list-add" //TODO better icons
-		icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_add.svg"
+		icon.name: "tool-text"
+		icon.source: "qrc:/icons/ic_text_fields.svg"
 
 		onClicked: {
 			viewModel.addAnimeBlank();
@@ -282,8 +282,8 @@ Page {
 		expanded: addButton.checked
 
 		text: qsTr("Paste ID/URL")
-		icon.name: "list-add" //TODO better icons
-		icon.source: "qrc:/de/skycoder42/qtmvvm/quick/icons/ic_add.svg"
+		icon.name: "edit-paste"
+		icon.source: "qrc:/icons/ic_content_paste.svg"
 
 		onClicked: {
 			viewModel.addAnimeFromClipboard();

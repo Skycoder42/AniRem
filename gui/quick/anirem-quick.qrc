@@ -24,5 +24,8 @@
         <file alias="ic_check.svg">icons/ic_check_white_24px.svg</file>
         <file alias="ic_open_in_browser.svg">icons/ic_open_in_browser_white_24px.svg</file>
         <file alias="ic_arrow_back.svg">icons/ic_arrow_back_white_24px.svg</file>
+        <file alias="ic_text_fields.svg">icons/ic_text_fields_white_24px.svg</file>
+        <file alias="ic_playlist_add.svg">icons/ic_playlist_add_white_24px.svg</file>
+        <file alias="ic_content_paste.svg">icons/ic_content_paste_white_24px.svg</file>
     </qresource>
 </RCC>

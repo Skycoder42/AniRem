@@ -246,7 +246,7 @@
      <normaloff>:/icons/reload.ico</normaloff>:/icons/reload.ico</iconset>
    </property>
    <property name="text">
-    <string>Syn&amp;chronization</string>
+    <string>S&amp;ynchronization</string>
    </property>
    <property name="toolTip">
     <string>Synchronization</string>
@@ -259,8 +259,8 @@
   </action>
   <action name="actionAdd_Anime_blank">
    <property name="icon">
-    <iconset theme="gtk-add" resource="anirem-widgets.qrc">
-     <normaloff>:/icons/add.ico</normaloff>:/icons/add.ico</iconset>
+    <iconset theme="tool-text" resource="anirem-widgets.qrc">
+     <normaloff>:/icons/blank_add.ico</normaloff>:/icons/blank_add.ico</iconset>
    </property>
    <property name="text">
     <string>Add Anime by it's &amp;id</string>
@@ -271,8 +271,8 @@
   </action>
   <action name="actionAdd_Anime_entry">
    <property name="icon">
-    <iconset theme="gtk-add" resource="anirem-widgets.qrc">
-     <normaloff>:/icons/add.ico</normaloff>:/icons/add.ico</iconset>
+    <iconset theme="format-list-unordered" resource="anirem-widgets.qrc">
+     <normaloff>:/icons/entry_add.ico</normaloff>:/icons/entry_add.ico</iconset>
    </property>
    <property name="text">
     <string>Add Anime from &amp;history</string>

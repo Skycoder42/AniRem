@@ -8,6 +8,8 @@
         <file alias="openLink.ico">resources/world_go.ico</file>
         <file alias="unmarkNew.ico">resources/bell_valid.ico</file>
         <file alias="inverted.ico">resources/anirem_inverted.ico</file>
+        <file alias="blank_add.ico">resources/textfield_add.ico</file>
+        <file alias="entry_add.ico">resources/scroll_pane_list_add.ico</file>
     </qresource>
     <qresource prefix="/animations">
         <file alias="loading.gif">resources/ajax-loader.gif</file>
