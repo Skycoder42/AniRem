@@ -62,6 +62,7 @@ else:win32:CONFIG(debug, debug|release): INCLUDEPATH += $$OUT_PWD/debug
 else: include($$OUT_PWD/qpmx_generated.pri)
 
 # install copy
+system($$QMAKE_MKDIR $$shell_quote($$shell_path($$shadowed($$SETTINGSGENERATOR_DIR))))
 for(header, SETTINGSGENERATOR_BUILD_HEADERS) {
 	theader = $$shadowed($$SETTINGSGENERATOR_DIR/$$basename(header))
 	!exists($$theader):system($$QMAKE_COPY_FILE $$shell_quote($$shell_path($$header)) $$shell_quote($$shell_path($$theader)))
