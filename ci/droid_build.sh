@@ -2,10 +2,10 @@
 set -e
 
 if [[ $PLATFORM == "android_"* ]]; then
-	if [[ "$PLATFORM" == "android_armv7" ]]
+	if [[ "$PLATFORM" == "android_armv7" ]]; then
 		PCODE=0
 	fi
-	if [[ "$PLATFORM" == "android_x86" ]]
+	if [[ "$PLATFORM" == "android_x86" ]]; then
 		PCODE=1
 	fi
 	
