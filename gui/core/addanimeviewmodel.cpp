@@ -22,10 +22,12 @@ AddAnimeViewModel::AddAnimeViewModel(QObject *parent) :
 	_nameModel(new QStringListModel(this)),
 	_id(-1),
 	_title(),
-	_loadingEntry(false),
-	_loadingNames(false),
+	_loading(false),
 	_acceptable(false)
-{}
+{
+	connect(_infoClass, &InfoClass::apiError,
+			this, &AddAnimeViewModel::error);
+}
 
 int AddAnimeViewModel::id() const
 {
@@ -44,7 +46,7 @@ QStringListModel *AddAnimeViewModel::nameModel() const
 
 bool AddAnimeViewModel::isLoading() const
 {
-	return _loadingEntry || _loadingNames;
+	return _loading;
 }
 
 bool AddAnimeViewModel::isAcceptable() const
@@ -65,13 +67,15 @@ bool AddAnimeViewModel::accept(bool allowInvalid)
 
 		try {
 			try {
-				_store->load(_id);
+				auto info = _store->load(_id);
 				// can load -> already exists!
 				QtMvvm::information(tr("Anime exists!"), tr("Anime does already exist. If you wanted to reset it, delete it first!"));
+				emit resultReady(QVariant::fromValue(info));
 			} catch(QtDataSync::NoDataException &) {
 				AnimeInfo info {_id, _title};
 				_store->save(info);
 				_updater->checkForUpdates(info);
+				emit resultReady(QVariant::fromValue(info));
 			}
 			return true;
 		} catch(QException &e) {
@@ -96,51 +100,25 @@ void AddAnimeViewModel::setId(int id)
 	//clear names etc, enter loading state
 	_nameModel->setStringList({});
 	setTitle({});
-	_loadingEntry = true;
-	_loadingNames = true;
-	updateLoading();
-
-	// get the entry
-	auto repEntry = _infoClass->getEntry(_id);
-	repEntry->onSucceeded([this](int code, ProxerEntry entry){
-		_loadingEntry = false;
-		updateLoading();
-
-		if(ApiHelper::testValid(code, entry)) {
-			if(entry.data().id() == _id) {
-				_title = entry.data().name();
-				updateNames({});
-				setAcceptable(true);
-			}
-		} else
-		   error(entry.message(), entry.code(), QtRestClient::RestReply::FailureError);
-	});
-	repEntry->onError([this](QString e, int c, QtRestClient::RestReply::ErrorType t){
-		_loadingEntry = false;
-		updateLoading();
-		error(e, c, t);
-	});
+	updateLoading(true);
 
 	// get the names
 	auto repNames = _infoClass->getNames(_id);
 	repNames->onSucceeded([this](int code, ProxerNames names){
-		_loadingNames = false;
-		updateLoading();
-
 		if(ApiHelper::testValid(code, names)) {
 			QStringList allNames;
 			for(auto name : names.data()) {
 				if(name.eid() == _id)
 					allNames.append(name.name());
 			}
-			updateNames(allNames);
+			_nameModel->setStringList(allNames);
+			if(!allNames.isEmpty())
+				setTitle(allNames.first());
+
+			updateLoading(false);
+			setAcceptable(true);
 		} else
-		   ApiHelper::formatError(names.message(), names.code(), QtRestClient::RestReply::FailureError); //only log error, no dialog etc
-	});
-	repNames->onError([this](QString e, int c, QtRestClient::RestReply::ErrorType t){
-		_loadingNames = false;
-		updateLoading();
-		ApiHelper::formatError(e, c, t); //only log error, no dialog etc
+			error(names.message(), names.code(), QtRestClient::RestReply::FailureError);
 	});
 }
 
@@ -161,6 +139,8 @@ void AddAnimeViewModel::onInit(const QVariantHash &params)
 
 void AddAnimeViewModel::error(const QString &errorString, int errorCode, QtRestClient::RestReply::ErrorType errorType)
 {
+	updateLoading(false);
+
 	QtMvvm::MessageConfig config {
 		QtMvvm::MessageConfig::TypeMessageBox,
 		QtMvvm::MessageConfig::SubTypeCritical,
@@ -195,26 +175,12 @@ void AddAnimeViewModel::error(const QString &errorString, int errorCode, QtRestC
 	});
 }
 
-void AddAnimeViewModel::updateLoading()
+void AddAnimeViewModel::updateLoading(bool loading)
 {
-	emit loadingChanged(isLoading());
-	if(isLoading())
+	_loading = loading;
+	emit loadingChanged(loading);
+	if(loading)
 		setAcceptable(false);
-}
-
-void AddAnimeViewModel::updateNames(const QStringList &allNames)
-{
-	QStringList mNames;
-	if(allNames.isEmpty())
-		mNames = _nameModel->stringList();
-	else
-		mNames = allNames;
-
-	if(!_title.isEmpty() && !mNames.contains(_title))
-		mNames.prepend(_title);
-	_nameModel->setStringList(mNames);
-
-	emit titleChanged(_title);
 }
 
 void AddAnimeViewModel::setAcceptable(bool acceptable)

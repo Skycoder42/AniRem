@@ -67,12 +67,10 @@ private:
 
 	int _id;
 	QString _title;
-	bool _loadingEntry;
-	bool _loadingNames;
+	bool _loading;
 	bool _acceptable;
 
-	void updateLoading();
-	void updateNames(const QStringList &allNames);
+	void updateLoading(bool loading);
 	void setAcceptable(bool acceptable);
 };
 
