@@ -2,6 +2,7 @@
 #include <QtMvvmCore/Messages>
 #include <apihelper.h>
 #include <proxerapi.h>
+#include <libanirem.h>
 
 LoginViewModel::LoginViewModel(QObject *parent) :
 	ViewModel(parent),
@@ -93,16 +94,17 @@ void LoginViewModel::login()
 		.setVerb(QtRestClient::RestClass::PostVerb)
 		.send();
 
-	auto reply = new QtRestClient::GenericRestReply<ProxerStatus, ProxerStatus> {
+	auto reply = new QtRestClient::GenericRestReply<ProxerLogin, ProxerStatus> {
 		nmReply,
 		_user->restClient(),
 		this
 	};
-	reply->onSucceeded([this](int code, ProxerStatus status){
-		if(ApiHelper::testValid(code, status) ||
+	reply->onSucceeded([this](int code, ProxerLogin login){
+		if(ApiHelper::testValid(code, login) ||
 		   code == 3012) { // user already logged in
 			_settings->account.username = _userName;
 			_settings->account.storedPw = _storePassword;
+			AniRem::setProxerToken(login.data().token(), _settings);
 			if(_storePassword) {
 				//TODO store password to keystore
 			} else {
@@ -112,7 +114,7 @@ void LoginViewModel::login()
 			emit resultReady(true);
 			emit loginSuccessful();
 		 } else
-			apiError(status.message(), status.code(), QtRestClient::RestReply::FailureError);
+			apiError(login.message(), login.code(), QtRestClient::RestReply::FailureError);
 	});
 	reply->onAllErrors([this](QString e, int c, QtRestClient::RestReply::ErrorType t) {
 		apiError(e, c, t);

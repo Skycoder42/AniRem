@@ -43,6 +43,7 @@ private:
 	SyncedSettings *_settings;
 	UserClass *_user;
 	bool _isFetching;
+	bool _skipNext;
 
 	QList<ProxerListValue> _data;
 

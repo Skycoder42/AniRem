@@ -15,5 +15,6 @@
 	<Node key="account">
 		<Entry key="username" type="QString"/>
 		<Entry key="storedPw" type="bool" default="false"/>
+		<Entry key="token" type="QString"/>
 	</Node>
 </Settings>

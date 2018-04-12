@@ -8,6 +8,7 @@ ProxerEntryModel::ProxerEntryModel(SyncedSettings *settings, QObject *parent) :
 	_settings(settings),
 	_user(ProxerApi::factory().user().instance(this)),
 	_isFetching(false),
+	_skipNext(false),
 	_data()
 {
 	connect(_user, &UserClass::apiError,
@@ -70,20 +71,26 @@ bool ProxerEntryModel::canFetchMore(const QModelIndex &parent) const
 
 void ProxerEntryModel::fetchMore(const QModelIndex &parent)
 {
+	qDebug() << "Trying to fetch" << (!_isFetching && !_skipNext);
 	if(!canFetchMore(parent) || _isFetching)
 		return;
 
+	if(_skipNext) {
+		_skipNext = false;
+		return;
+	}
+
 	_isFetching = true;
-	qDebug() << "Fetching more";
 	auto res = _user->listEntries(QStringLiteral("anime"), //TODO make type selectable
 								  _settings->content.hentai,
-								  _data.size(),
+								  _data.size() / PageSize,
 								  PageSize);
 	res->onSucceeded([this](int code, ProxerList entryList){
 		if(ApiHelper::testValid(code, entryList)) {
 			beginInsertRows({}, _data.size(), _data.size() + entryList.data().size() - 1);
 			_data.append(entryList.data());
 			endInsertRows();
+			_skipNext = true;
 		} else {
 			if(entryList.code() == 3003) // user does not exist -> means a login is needed
 				emit loginNeeded();
@@ -94,7 +101,7 @@ void ProxerEntryModel::fetchMore(const QModelIndex &parent)
 	connect(res, &QtRestClient::RestReply::completed,
 			this, [this](){
 		_isFetching = false;
-	});
+	}, Qt::QueuedConnection);
 }
 
 QVariant ProxerEntryModel::data(const QModelIndex &index, int role) const

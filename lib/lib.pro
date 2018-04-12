@@ -35,7 +35,9 @@ REST_API_OBJECTS += api/proxerstatus.json \
 	api/proxernamevalue.json \
 	api/proxernames.json \
 	api/proxerlistvalue.json \
-	api/proxerlist.json
+	api/proxerlist.json \
+	api/proxerlogin.json \
+	api/proxerloginvalue.json
 
 REST_API_CLASSES += api/proxerapi.json \
 	api/infoclass.json \

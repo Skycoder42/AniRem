@@ -4,16 +4,36 @@
 	"export": "LIB_ANIREM_EXPORT",
 	"includes": [
 		">lib_anirem_global.h",
-		">proxerlist.h"
+		">proxerlist.h",
+		">proxerlogin.h"
 	],
 
 	"path": "user",
 	"except": "ProxerStatus",
 
 	"methods": {
+		"login": {
+			"path": "login",
+			"verb": "POST",
+			"parameters": [
+				"username;QString",
+				"password;QString"
+			],
+			"returns": "ProxerLogin"
+		},
+		"login2FA": {
+			"path": "login",
+			"verb": "POST",
+			"parameters": [
+				"username;QString",
+				"password;QString",
+				"secretkey;QString"
+			],
+			"returns": "ProxerLogin"
+		},
+
 		"listEntries": {
 			"path": "list",
-			"verb": "POST",
 			"parameters": [
 				"kat;QString",
 				"isH;bool;false",

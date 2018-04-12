@@ -37,7 +37,17 @@ void AniRem::setup(QtDataSync::Setup &setup, bool passive)
 	ProxerApi api;
 	api.restClient()->serializer()->setAllowDefaultNull(true);
 	api.restClient()->manager()->setCookieJar(new StoredCookieJar());
+	if(LocalSettings::instance()->account.token.isSet())
+		api.restClient()->addGlobalHeader("proxer-api-token", LocalSettings::instance()->account.token.get().toUtf8());
 }
+
+void AniRem::setProxerToken(const QString &token, LocalSettings *settings)
+{
+	settings->account.token = token;
+	ProxerApi api;
+	api.restClient()->addGlobalHeader("proxer-api-token", token.toUtf8());
+}
+
 
 
 namespace {
@@ -78,5 +88,4 @@ void setupAniRemLib()
 }
 
 }
-
 Q_COREAPP_STARTUP_FUNCTION(setupAniRemLib)
