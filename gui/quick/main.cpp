@@ -1,11 +1,13 @@
-#include <QtGui/QGuiApplication>
-#include <QtQml/QQmlApplicationEngine>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 #include <QtMvvmDataSyncQuick/qtmvvmdatasyncquick_global.h>
 #include <aniremapp.h>
 
 #include <mainviewmodel.h>
 #include <addanimeviewmodel.h>
 #include <detailsviewmodel.h>
+#include <entryviewmodel.h>
+#include <loginviewmodel.h>
 
 #include "proxerimageprovider.h"
 #include "qmltoast.h"
@@ -67,6 +69,8 @@ int main(int argc, char *argv[])
 	qmlRegisterUncreatableType<MainViewModel>("de.skycoder42.anirem", 1, 0, "MainViewModel", QStringLiteral("ViewModels cannot be created!"));
 	qmlRegisterUncreatableType<AddAnimeViewModel>("de.skycoder42.anirem", 1, 0, "AddAnimeViewModel", QStringLiteral("ViewModels cannot be created!"));
 	qmlRegisterUncreatableType<DetailsViewModel>("de.skycoder42.anirem", 1, 0, "DetailsViewModel", QStringLiteral("ViewModels cannot be created!"));
+	qmlRegisterUncreatableType<EntryViewModel>("de.skycoder42.anirem", 1, 0, "EntryViewModel", QStringLiteral("ViewModels cannot be created!"));
+	qmlRegisterUncreatableType<LoginViewModel>("de.skycoder42.anirem", 1, 0, "LoginViewModel", QStringLiteral("ViewModels cannot be created!"));
 
 	QQmlApplicationEngine engine;
 	engine.load(QUrl(QStringLiteral("qrc:/qml/App.qml")));

@@ -19,8 +19,6 @@ EntryDialog::EntryDialog(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 		_ui->treeView->header()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
 		_ui->treeView->header()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
 	});
-	connect(_viewModel, &EntryViewModel::close,
-			this, &EntryDialog::close);
 }
 
 EntryDialog::~EntryDialog()

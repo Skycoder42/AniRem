@@ -16,31 +16,20 @@ AlertDialog {
 	}
 
 	GridLayout {
-		columns: 3
+		columns: 2
 		columnSpacing: 20
 		width: parent.width
 
 		Label {
 			text: qsTr("Proxer-ID:")
-		}
-
-		TextField {
 			Layout.fillWidth: true
-			placeholderText: "894"
-			focus: true
-			selectByMouse: true
-			validator: IntValidator {
-				bottom: 1
-				top: 2147483647
-			}
-
-			text: viewModel.id > 0 ? viewModel.id : ""
-			onEditingFinished: viewModel.id = text;
+			color: idEdit.focus ? idEdit.selectionColor : idEdit.color
+			opacity: idEdit.focus ? 1 : 0.5
 		}
 
 		Item {
 			id: previewItem
-			Layout.rowSpan: 2
+			Layout.rowSpan: 3
 			Layout.preferredHeight: 100
 			Layout.preferredWidth: 66
 
@@ -64,13 +53,32 @@ AlertDialog {
 			}
 		}
 
+		TextField {
+			id: idEdit
+			Layout.fillWidth: true
+			placeholderText: "894"
+			focus: true
+			selectByMouse: true
+			validator: IntValidator {
+				bottom: 1
+				top: 2147483647
+			}
+
+			text: viewModel.id > 0 ? viewModel.id : ""
+			onEditingFinished: viewModel.id = text;
+		}
+
 		Label {
 			text: qsTr("Title:")
+			Layout.fillWidth: true
+			color: titleField.focus ? idEdit.selectionColor : idEdit.color
+			opacity: titleField.focus ? 1 : 0.5
 		}
 
 		ComboBox {
 			id: titleField
 			Layout.fillWidth: true
+			Layout.columnSpan: 2
 			editable: false
 			model: viewModel.nameModel
 			textRole: "display"

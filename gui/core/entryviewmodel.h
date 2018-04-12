@@ -22,7 +22,6 @@ public slots:
 
 signals:
 	void modelChanged(ProxerEntryModel *model);
-	void close();
 
 protected:
 	void onInit(const QVariantHash &params) override;

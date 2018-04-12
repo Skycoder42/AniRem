@@ -3,14 +3,13 @@
 
 #include <QClipboard>
 #include <QtMvvmCore/Binding>
+#include <QLineEdit>
+#include <QToolButton>
 #include <localsettings.h>
 #include "instancesetup.h"
 
 #ifndef NO_AUTO_UPDATER
 #include <QtAutoUpdaterGui/UpdateController>
-
-#include <QLineEdit>
-#include <QToolButton>
 #endif
 
 MainWindow::MainWindow(QtMvvm::ViewModel *viewModel, QWidget *parent) :

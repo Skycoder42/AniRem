@@ -7,11 +7,14 @@
     <qresource prefix="/qml">
         <file>App.qml</file>
         <file>AnimeInfoDelegate.qml</file>
+        <file>AnimeHistoryDelegate.qml</file>
     </qresource>
     <qresource prefix="/qtmvvm/views">
         <file>MainView.qml</file>
         <file>AddAnimeDialog.qml</file>
         <file>DetailsView.qml</file>
+        <file>EntryView.qml</file>
+        <file>LoginDialog.qml</file>
     </qresource>
     <qresource prefix="/icons">
         <file alias="ic_add.svg">icons/ic_add_white_24px.svg</file>

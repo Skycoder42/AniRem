@@ -50,8 +50,6 @@ void EntryViewModel::onResult(quint32 requestCode, const QVariant &result)
 		break;
 	case AddRequestCode:
 		_showingChild = false;
-		if(result.value<AnimeInfo>())
-			emit close();
 		break;
 	default:
 		break;
