@@ -5,9 +5,10 @@
 #include <genericrestreply.h>
 #include <functional>
 
+#include "lib_anirem_global.h"
 #include "proxerstatus.h"
 
-class ApiHelper
+class LIB_ANIREM_EXPORT ApiHelper
 {
 	Q_DECLARE_TR_FUNCTIONS(ApiHelper)
 

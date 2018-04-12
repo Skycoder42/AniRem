@@ -1,6 +1,7 @@
 TEMPLATE = lib
 
 QT = core datasync restclient mvvmcore
+win32: CONFIG += skip_target_version_ext
 
 TARGET = anirem
 
@@ -52,6 +53,10 @@ MVVM_SETTINGS_FILES += $$PWD/../gui/core/settings.xml
 TRANSLATIONS += anirem_lib_de.ts
 
 DISTFILES += $$TRANSLATIONS
+
+win32:CONFIG(release, debug|release): INCLUDEPATH += $$OUT_PWD/release
+else:win32:CONFIG(debug, debug|release): INCLUDEPATH += $$OUT_PWD/debug
+
 
 !ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
 else: include($$OUT_PWD/qpmx_generated.pri)

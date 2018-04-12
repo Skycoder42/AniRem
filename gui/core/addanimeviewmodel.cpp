@@ -16,7 +16,8 @@ QVariantHash AddAnimeViewModel::params(int id)
 AddAnimeViewModel::AddAnimeViewModel(QObject *parent) :
 	ViewModel(parent),
 	_store(new AniremStore(this)),
-	_infoClass(ProxerApi::factory().info().instance(this)),
+	//WORKAROUND _infoClass(ProxerApi::factory().info().instance(this)),
+	_infoClass((new ProxerApi(this))->info()),
 	_loader(nullptr),
 	_updater(nullptr),
 	_nameModel(new QStringListModel(this)),

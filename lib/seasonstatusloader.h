@@ -4,11 +4,12 @@
 #include <QObject>
 #include <QQueue>
 #include <QtMvvmCore/Injection>
+#include "lib_anirem_global.h"
 #include "libanirem.h"
 #include "infoclass.h"
 #include "syncedsettings.h"
 
-class SeasonStatusLoader : public QObject
+class LIB_ANIREM_EXPORT SeasonStatusLoader : public QObject
 {
 	Q_OBJECT
 

@@ -4,11 +4,12 @@
 #include <QObject>
 #include <QtDataSync/SyncManager>
 #include <QtMvvmCore/Injection>
+#include "lib_anirem_global.h"
 #include "libanirem.h"
 #include "seasonstatusloader.h"
 #include "iupdatenotifier.h"
 
-class PassiveUpdater : public QObject
+class LIB_ANIREM_EXPORT PassiveUpdater : public QObject
 {
 	Q_OBJECT
 

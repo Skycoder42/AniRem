@@ -7,7 +7,8 @@
 LoginViewModel::LoginViewModel(QObject *parent) :
 	ViewModel(parent),
 	_settings(nullptr),
-	_user(ProxerApi::factory().user().instance(this)),
+	//WORKAROUND _user(ProxerApi::factory().user().instance(this)),
+	_user((new ProxerApi(this))->user()),
 	_userName(),
 	_password(),
 	_authCode(),

@@ -6,7 +6,8 @@
 ProxerEntryModel::ProxerEntryModel(SyncedSettings *settings, QObject *parent) :
 	QAbstractTableModel(parent),
 	_settings(settings),
-	_user(ProxerApi::factory().user().instance(this)),
+	//WORKAROUND _user(ProxerApi::factory().user().instance(this)),
+	_user((new ProxerApi(this))->user()),
 	_isFetching(false),
 	_skipNext(false),
 	_data()

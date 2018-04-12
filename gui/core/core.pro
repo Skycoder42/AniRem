@@ -3,6 +3,7 @@ TEMPLATE = lib
 QT += mvvmcore mvvmdatasynccore
 android: QT += androidextras
 CONFIG += static
+win32: CONFIG += skip_target_version_ext
 
 TARGET = anirem-core
 
@@ -14,9 +15,9 @@ HEADERS += \
 	imageloader.h \
 	detailsviewmodel.h \
 	aniremsettingsviewmodel.h \
-    entryviewmodel.h \
-    proxerentrymodel.h \
-    loginviewmodel.h
+	entryviewmodel.h \
+	proxerentrymodel.h \
+	loginviewmodel.h
 
 SOURCES += \
 	mainviewmodel.cpp \
@@ -26,9 +27,9 @@ SOURCES += \
 	imageloader.cpp \
 	detailsviewmodel.cpp \
 	aniremsettingsviewmodel.cpp \
-    entryviewmodel.cpp \
-    proxerentrymodel.cpp \
-    loginviewmodel.cpp
+	entryviewmodel.cpp \
+	proxerentrymodel.cpp \
+	loginviewmodel.cpp
 
 RESOURCES += \
 	anirem-core.qrc
