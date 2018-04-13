@@ -21,9 +21,8 @@ build_script:
   - .\ci\appveyor_postbuild.bat
 
 artifacts:
-  - path: install\repository
-    type: zip
-  - path: install\AniRem Installer.exe
+  - path: install\repository_win.zip
+  - path: install\Ani-Rem Installer.exe
 
 deploy:
   provider: GitHub
@@ -33,3 +32,6 @@ deploy:
   force_update: false
   on:
     appveyor_repo_tag: true
+
+cache:
+  - 'C:\Users\appveyor\AppData\Local\Skycoder42\qpmx\cache -> appveyor.yml'

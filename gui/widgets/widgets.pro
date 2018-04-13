@@ -49,18 +49,12 @@ DISTFILES += $$TRANSLATIONS \
 	installer/config.xml \
 	installer/meta/package.xml
 
-# install
+# install / qtifw
 target.path = $$INSTALL_BINS
 qpmx_ts_target.path = $$INSTALL_TRANSLATIONS
 extra_ts_target.path = $$INSTALL_TRANSLATIONS
-desktop_install.files = anirem.desktop
-desktop_install.path = $$INSTALL_SHARE/applications/
-install_icons.path = $$INSTALL_SHARE
-install_icons.files = icons
 INSTALLS += target qpmx_ts_target extra_ts_target
-linux:!android: INSTALLS += desktop_install install_icons
 
-# qtifw
 create_installer {
 	QTIFW_TARGET = "Ani-Rem Installer"
 	QTIFW_MODE = online_all
@@ -72,7 +66,17 @@ create_installer {
 	anirem_qtifw_meta.files += $$PWD/installer/meta/
 	INSTALLS += anirem_qtifw_meta
 
+	install_icons.path = $$INSTALL_PREFIX
+	install_icons.files = installer/main.png
+	INSTALLS += install_icons
+
 	# TODO add seasonproxer symlink to keep old installs intact
+} else {
+	desktop_install.files = anirem.desktop
+	desktop_install.path = $$INSTALL_SHARE/applications/
+	install_icons.path = $$INSTALL_SHARE
+	install_icons.files = icons
+	linux:!android: INSTALLS += desktop_install install_icons
 }
 
 # Link with core project

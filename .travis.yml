@@ -52,7 +52,7 @@ deploy:
   file_glob: true
   file:
     - ./install/repository_*.tar.xz
-    - ./install/AniRem Installer.*
+    - ./install/Ani-Rem Installer.*
     - ./install/*.apk
   on:
     repo: Skycoder42/AniRem

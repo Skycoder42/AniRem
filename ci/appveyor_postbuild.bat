@@ -7,5 +7,3 @@ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary
 
 cd build-%qtplatform%
 nmake INSTALL_ROOT=\projects\%CurrDirName%\install qtifw || exit /B 1
-
-dir /s /b
