@@ -9,6 +9,9 @@ echo 'CONFIG += create_installer' >> install.pri
 if [[ $TRAVIS_OS_NAME == "linux" ]]; then
 	sudo apt-get -qq update
 	sudo apt-get -qq install --no-install-recommends p7zip-full
+	
+	# append post build script
+	echo "$currDir/travis_postbuild.sh" >> qtmodules-travis/ci/linux/build-docker.sh
 fi
 
 if [[ $TRAVIS_OS_NAME == "osx" ]]; then
@@ -24,7 +27,4 @@ if [[ $PLATFORM == "android_"* ]]; then
 	pushd gui/quick/openssl
 	./get_openssl.sh
 	popd
-	
-	# append droid build script
-	echo "$currDir/travis_postbuild.sh" >> qtmodules-travis/ci/linux/build-docker.sh
 fi
