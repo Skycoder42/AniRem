@@ -15,6 +15,11 @@ if [[ $PLATFORM == "android_"* ]]; then
 	mv install build-$PLATFORM/android-build
 	/opt/qt/$QT_VER/$PLATFORM/bin/androiddeployqt --input "build-$PLATFORM/gui/quick/android-libanirem-activity.so-deployment-settings.json" --output "build-$PLATFORM/android-build" --deployment bundled --gradle --no-gdbserver --release
 else
+	if [[ $TRAVIS_OS_NAME == "linux" ]]; then
+		apt-get -qq update
+		apt-get -qq install libxrender1
+	fi
+
 	rootdir=$(pwd)
 	pushd build-$PLATFORM
 	make INSTALL_ROOT="$rootdir/install" qtifw
