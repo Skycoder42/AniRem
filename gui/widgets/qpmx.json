@@ -14,6 +14,11 @@
             "package": "de.skycoder42.qsingleinstance",
             "provider": "qpm",
             "version": "1.2.2"
+        },
+        {
+            "package": "de.skycoder42.qtifw-advanced-setup",
+            "provider": "qpm",
+            "version": "2.0.0"
         }
     ],
     "license": {
