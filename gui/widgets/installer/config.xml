@@ -4,7 +4,7 @@
 	<Version>2.0.0</Version>
 	<Title>AniRem Season Reminder Installer</Title>
 	<Publisher>Sykcoder42</Publisher>
-	<ProductUrl>https://github.com/Skycoder42/SeasonProxer</ProductUrl>
+	<ProductUrl>https://github.com/Skycoder42/AniRem</ProductUrl>
 	<StartMenuDir>AniRem</StartMenuDir>
 	<TargetDir>AniRem</TargetDir>
 	<RunProgram>anirem</RunProgram>
@@ -12,7 +12,7 @@
 	<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
 	<RemoteRepositories>
 		<Repository>
-			<Url>https://install.skycoder42.de/installers/SeasonProxer</Url>
+			<Url>https://install.skycoder42.de/installers/AniRem</Url>
 			<Enabled>1</Enabled>
 			<DisplayName>AniRem Season Reminder Repository</DisplayName>
 		</Repository>

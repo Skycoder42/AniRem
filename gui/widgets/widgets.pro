@@ -18,8 +18,8 @@ HEADERS += mainwindow.h \
 	detailsdockwidget.h \
 	widgetsupdatenotifier.h \
 	instancesetup.h \
-    entrydialog.h \
-    logindialog.h
+	entrydialog.h \
+	logindialog.h
 
 SOURCES += main.cpp \
 	mainwindow.cpp \
@@ -27,14 +27,14 @@ SOURCES += main.cpp \
 	addanimedialog.cpp \
 	detailsdockwidget.cpp \
 	widgetsupdatenotifier.cpp \
-    entrydialog.cpp \
-    logindialog.cpp
+	entrydialog.cpp \
+	logindialog.cpp
 
 FORMS += mainwindow.ui \
 	addanimedialog.ui \
 	detailsdockwidget.ui \
-    entrydialog.ui \
-    logindialog.ui
+	entrydialog.ui \
+	logindialog.ui
 
 RESOURCES += \
 	anirem-widgets.qrc
@@ -46,7 +46,7 @@ else: EXTRA_TRANSLATIONS += installer/anirem_de.ts
 
 DISTFILES += $$TRANSLATIONS \
 	$$EXTRA_TRANSLATIONS \
-	installer/config.xml
+	installer/config.xml \
 	installer/meta/package.xml
 
 # install
@@ -59,6 +59,21 @@ install_icons.path = $$INSTALL_SHARE
 install_icons.files = icons
 INSTALLS += target qpmx_ts_target extra_ts_target
 linux:!android: INSTALLS += desktop_install install_icons
+
+# qtifw
+create_installer {
+	QTIFW_TARGET = "Ani-Rem Installer"
+	QTIFW_MODE = online_all
+
+	qtifw_advanced_config.files += $$PWD/installer/config.xml
+	CONFIG += qtifw_target
+
+	anirem_qtifw_meta.path = $$QTIFW_PKG_ROOT
+	anirem_qtifw_meta.files += $$PWD/installer/meta/
+	INSTALLS += anirem_qtifw_meta
+
+	# TODO add seasonproxer symlink to keep old installs intact
+}
 
 # Link with core project
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../core/release/ -lanirem-core

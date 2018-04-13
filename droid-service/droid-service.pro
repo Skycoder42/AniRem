@@ -15,6 +15,6 @@ SOURCES += \
 	androidupdatenotifier.cpp
 
 # TODO debug
-QMAKE_EXTRA_TARGETS += lrelease
+QMAKE_EXTRA_TARGETS += lrelease qtifw
 
 include(../lib.pri)
