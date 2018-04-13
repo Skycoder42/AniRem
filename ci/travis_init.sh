@@ -3,7 +3,7 @@ set -e
 
 currDir=$(dirname $0)
 
-echo '!android: CONFIG += no_quick' >> .qmake.conf
+echo 'CONFIG += create_installer' >> install.pri
 
 # install 7z
 if [[ $TRAVIS_OS_NAME == "linux" ]]; then
@@ -26,5 +26,5 @@ if [[ $PLATFORM == "android_"* ]]; then
 	popd
 	
 	# append droid build script
-	echo "$currDir/droid_build.sh" >> qtmodules-travis/ci/linux/build-docker.sh
+	echo "$currDir/travis_postbuild.sh" >> qtmodules-travis/ci/linux/build-docker.sh
 fi

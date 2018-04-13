@@ -18,6 +18,7 @@ install:
 build_script:
   - .\ci\appveyor_init.bat
   - .\qtmodules-travis\ci\win\build.bat
+  - .\ci\appveyor_postbuild.bat
 
 artifacts:
   - path: install\repository
