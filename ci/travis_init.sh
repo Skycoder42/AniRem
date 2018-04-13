@@ -8,7 +8,7 @@ echo 'CONFIG += create_installer' >> install.pri
 # install 7z
 if [[ $TRAVIS_OS_NAME == "linux" ]]; then
 	sudo apt-get -qq update
-	sudo apt-get -qq install --no-install-recommends p7zip-full
+	sudo apt-get -qq install --no-install-recommends p7zip-full libxrender1
 	
 	# append post build script
 	echo "$currDir/travis_postbuild.sh" >> qtmodules-travis/ci/linux/build-docker.sh
