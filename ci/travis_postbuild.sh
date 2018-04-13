@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 if [[ $PLATFORM == "android_"* ]]; then
 	if [[ "$PLATFORM" == "android_armv7" ]]; then

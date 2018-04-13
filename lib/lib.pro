@@ -73,8 +73,8 @@ target.path = $$INSTALL_LIBS
 qpmx_ts_target.path = $$INSTALL_TRANSLATIONS
 header_install.files = $$PUBLIC_HEADERS \
 	$$SETTINGSGENERATOR_BUILD_HEADERS \
-	$$SETTINGSGENERATOR_DIR/localsettings.h \
-	$$SETTINGSGENERATOR_DIR/syncedsettings.h \
+	$$OUT_PWD/localsettings.h \
+	$$OUT_PWD/syncedsettings.h \
 	$$OUT_PWD/proxerstatus.h \
 	$$OUT_PWD/proxerentryvalue.h \
 	$$OUT_PWD/proxerentry.h \
