@@ -51,11 +51,16 @@ DISTFILES += $$TRANSLATIONS \
 	installer/meta/package.xml
 
 # install / qtifw
-mac: target.path = $$INSTALL_APP
+mac: target.path = $$INSTALL_APPS
 else: target.path = $$INSTALL_BINS
 qpmx_ts_target.path = $$INSTALL_TRANSLATIONS
 extra_ts_target.path = $$INSTALL_TRANSLATIONS
 INSTALLS += target qpmx_ts_target extra_ts_target
+
+win32:for(tsfile, EXTRA_TRANSLATIONS) {
+	tsBase = $$basename(tsfile)
+	qpmx_ts_target.files += "$$OUT_PWD/$$replace(tsBase, \.ts, .qm)"
+}
 
 create_installer {
 	QTIFW_TARGET = "Ani-Rem Installer"
