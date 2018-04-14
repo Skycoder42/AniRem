@@ -57,9 +57,13 @@ qpmx_ts_target.path = $$INSTALL_TRANSLATIONS
 extra_ts_target.path = $$INSTALL_TRANSLATIONS
 INSTALLS += target qpmx_ts_target extra_ts_target
 
-win32:for(tsfile, EXTRA_TRANSLATIONS) {
-	tsBase = $$basename(tsfile)
-	qpmx_ts_target.files += "$$OUT_PWD/$$replace(tsBase, \.ts, .qm)"
+win32 {
+	for(tsfile, EXTRA_TRANSLATIONS) {
+		tsBase = $$basename(tsfile)
+		qpmx_ts_target_fixed.files += "$$OUT_PWD/$$replace(tsBase, \.ts, .qm)"
+	}
+	qpmx_ts_target_fixed.path = $$INSTALL_TRANSLATIONS
+	INSTALLS += qpmx_ts_target_fixed
 }
 
 create_installer {
@@ -67,7 +71,7 @@ create_installer {
 	QTIFW_MODE = online_all
 
 	qtifw_advanced_config.files += $$PWD/installer/config.xml
-	CONFIG += qtifw_target
+	CONFIG += qtifw_target qtifw_deploy_no_install
 
 	anirem_qtifw_meta.path = $$QTIFW_PKG_ROOT
 	anirem_qtifw_meta.files += $$PWD/installer/meta/
