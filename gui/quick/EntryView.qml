@@ -13,10 +13,41 @@ Page {
 	header: ContrastToolBar {
 		id: toolbar
 
-		ToolBarLabel {
-			id: titleLabel
+		RowLayout {
 			anchors.fill: parent
-			text: qsTr("Anime History")
+			spacing: 0
+
+			ToolBarLabel {
+				id: titleLabel
+				Layout.fillWidth: true
+				text: qsTr("%1 History").arg(viewModel.listTypes[viewModel.typeIndex])
+			}
+
+			MenuButton {
+				id: menuButton
+				icon.name: "view-filter"
+				icon.source: "qrc:/icons/ic_filter_list.svg"
+				text: qsTr("Select Mode")
+
+				ButtonGroup {
+					id: indexGroup
+					exclusive: true
+				}
+
+				Repeater {
+					id: typeRep
+					model: viewModel.listTypes
+					delegate: MenuItem {
+						id: mItem
+						text: modelData
+						checkable: true
+						checked: viewModel.typeIndex == index
+						onClicked: viewModel.typeIndex = index
+
+						Component.onCompleted: indexGroup.addButton(mItem)
+					}
+				}
+			}
 		}
 	}
 

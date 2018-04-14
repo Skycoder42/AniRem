@@ -8,6 +8,7 @@ ProxerEntryModel::ProxerEntryModel(SyncedSettings *settings, QObject *parent) :
 	_settings(settings),
 	//WORKAROUND _user(ProxerApi::factory().user().instance(this)),
 	_user((new ProxerApi(this))->user()),
+	_listType(ListAnimes),
 	_isFetching(false),
 	_skipNext(false),
 	_data()
@@ -95,7 +96,7 @@ void ProxerEntryModel::fetchMore(const QModelIndex &parent)
 	}
 
 	_isFetching = true;
-	auto res = _user->listEntries(QStringLiteral("anime"), //TODO make type selectable
+	auto res = _user->listEntries(typeName(_listType),
 								  _settings->content.hentai,
 								  _data.size() / PageSize,
 								  PageSize);
@@ -136,6 +137,27 @@ QVariant ProxerEntryModel::data(const QModelIndex &index, int role) const
 	}
 }
 
+ProxerEntryModel::ListType ProxerEntryModel::listType() const
+{
+	return _listType;
+}
+
+void ProxerEntryModel::setListType(ProxerEntryModel::ListType listType)
+{
+	if (_listType == listType)
+		return;
+
+	_listType = listType;
+	emit listTypeChanged(_listType);
+
+	// reset the model as all data will change now
+	beginResetModel();
+	_data.clear();
+	_isFetching = false;
+	_skipNext = false;
+	endResetModel();
+}
+
 ProxerEntryModel::Roles ProxerEntryModel::indexRole(const QModelIndex &index, int role) const
 {
 	if(index.column() == 0)
@@ -156,4 +178,17 @@ ProxerEntryModel::Roles ProxerEntryModel::indexRole(const QModelIndex &index, in
 	}
 
 	return InvalidRole;
+}
+
+QString ProxerEntryModel::typeName(ProxerEntryModel::ListType listType) const
+{
+	switch(listType) {
+	case ListAnimes:
+		return QStringLiteral("anime");
+	case ListMangas:
+		return QStringLiteral("manga");
+	default:
+		Q_UNREACHABLE();
+		return {};
+	}
 }

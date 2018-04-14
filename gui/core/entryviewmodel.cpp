@@ -17,6 +17,19 @@ ProxerEntryModel *EntryViewModel::model() const
 	return _model;
 }
 
+int EntryViewModel::typeIndex() const
+{
+	return _model ? _model->listType() : ProxerEntryModel::ListAnimes;
+}
+
+QStringList EntryViewModel::listTypes() const
+{
+	return {
+		tr("Animes"),
+		tr("Mangas")
+	};
+}
+
 void EntryViewModel::addAnime(int id)
 {
 	if(id == -1)
@@ -28,11 +41,19 @@ void EntryViewModel::addAnime(int id)
 	}
 }
 
+void EntryViewModel::setTypeIndex(int typeIndex)
+{
+	if(_model)
+		_model->setListType(static_cast<ProxerEntryModel::ListType>(typeIndex));
+}
+
 void EntryViewModel::onInit(const QVariantHash &params)
 {
 	Q_UNUSED(params)
 
 	_model = new ProxerEntryModel(_settings, this);
+	connect(_model, &ProxerEntryModel::listTypeChanged,
+			this, &EntryViewModel::typeIndexChanged);
 	connect(_model, &ProxerEntryModel::loginNeeded,
 			this, &EntryViewModel::loginNeeded);
 	connect(_model, &ProxerEntryModel::apiError,

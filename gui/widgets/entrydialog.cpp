@@ -1,5 +1,6 @@
 #include "entrydialog.h"
 #include "ui_entrydialog.h"
+#include <QtMvvmCore/Binding>
 #include <dialogmaster.h>
 
 EntryDialog::EntryDialog(QtMvvm::ViewModel *viewModel, QWidget *parent) :
@@ -9,6 +10,10 @@ EntryDialog::EntryDialog(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 {
 	_ui->setupUi(this);
 	DialogMaster::masterDialog(this);
+
+	_ui->typeComboBox->addItems(_viewModel->listTypes());
+	QtMvvm::bind(_viewModel, "typeIndex",
+				 _ui->typeComboBox, "currentIndex");
 
 	connect(_viewModel, &EntryViewModel::modelChanged,
 			this, [this](ProxerEntryModel *model){

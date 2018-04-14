@@ -73,6 +73,8 @@ create_installer {
 	qtifw_advanced_config.files += $$PWD/installer/config.xml
 	CONFIG += qtifw_target qtifw_deploy_no_install
 
+	mac: qtifw_deploy_target.path = $${INSTALL_PREFIX}
+
 	anirem_qtifw_meta.path = $$QTIFW_PKG_ROOT
 	anirem_qtifw_meta.files += $$PWD/installer/meta/
 	INSTALLS += anirem_qtifw_meta

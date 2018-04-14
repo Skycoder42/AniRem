@@ -9,7 +9,15 @@ class ProxerEntryModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
+	Q_PROPERTY(ListType listType READ listType WRITE setListType NOTIFY listTypeChanged)
+
 public:
+	enum ListType {
+		ListAnimes = 0,
+		ListMangas = 1
+	};
+	Q_ENUM(ListType)
+
 	enum Roles {
 		NameRole = Qt::DisplayRole,
 		IdRole = Qt::UserRole + 1,
@@ -38,19 +46,28 @@ public:
 
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+	ListType listType() const;
+
+public slots:
+	void setListType(ListType listType);
+
 signals:
 	void loginNeeded();
 	void apiError(const QString &errorString, int errorCode, QtRestClient::RestReply::ErrorType errorType);
 
+	void listTypeChanged(ListType listType);
+
 private:
 	SyncedSettings *_settings;
 	UserClass *_user;
+	ListType _listType;
 	bool _isFetching;
 	bool _skipNext;
 
 	QList<ProxerListValue> _data;
 
 	Roles indexRole(const QModelIndex &index, int role) const;
+	QString typeName(ListType listType) const;
 };
 
 #endif // PROXERENTRYMODEL_H
