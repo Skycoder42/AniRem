@@ -54,9 +54,10 @@ TRANSLATIONS += anirem_lib_de.ts
 
 DISTFILES += $$TRANSLATIONS
 
-win32:CONFIG(release, debug|release): INCLUDEPATH += $$OUT_PWD/release
-else:win32:CONFIG(debug, debug|release): INCLUDEPATH += $$OUT_PWD/debug
-
+win32:CONFIG(release, debug|release): OUT_INC_DIR += $$OUT_PWD/release
+else:win32:CONFIG(debug, debug|release): OUT_INC_DIR += $$OUT_PWD/debug
+else: OUT_INC_DIR = $$OUT_PWD
+INCLUDEPATH += $$OUT_INC_DIR
 
 !ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
 else: include($$OUT_PWD/qpmx_generated.pri)
@@ -73,14 +74,14 @@ target.path = $$INSTALL_LIBS
 qpmx_ts_target.path = $$INSTALL_TRANSLATIONS
 header_install.files = $$PUBLIC_HEADERS \
 	$$SETTINGSGENERATOR_BUILD_HEADERS \
-	$$OUT_PWD/localsettings.h \
-	$$OUT_PWD/syncedsettings.h \
-	$$OUT_PWD/proxerstatus.h \
-	$$OUT_PWD/proxerentryvalue.h \
-	$$OUT_PWD/proxerentry.h \
-	$$OUT_PWD/proxerrelations.h \
-	$$OUT_PWD/infoclass.h \
-	$$OUT_PWD/proxerapi.h
+	$$OUT_INC_DIR/localsettings.h \
+	$$OUT_INC_DIR/syncedsettings.h \
+	$$OUT_INC_DIR/proxerstatus.h \
+	$$OUT_INC_DIR/proxerentryvalue.h \
+	$$OUT_INC_DIR/proxerentry.h \
+	$$OUT_INC_DIR/proxerrelations.h \
+	$$OUT_INC_DIR/infoclass.h \
+	$$OUT_INC_DIR/proxerapi.h
 header_install.CONFIG += no_check_exist
 header_install.path = $$INSTALL_HEADERS/anirem
 INSTALLS += target qpmx_ts_target

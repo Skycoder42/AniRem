@@ -1,12 +1,13 @@
 TEMPLATE = app
 
-QT += widgets mvvmwidgets mvvmdatasyncwidgets
+QT += widgets mvvmwidgets mvvmdatasyncwidgets svg
 
 !qtHaveModule(autoupdatergui): CONFIG += no_updater
 !no_updater:QT += autoupdatergui
 else: DEFINES += NO_AUTO_UPDATER
 
-TARGET = anirem
+mac|win32: TARGET = Ani-Rem
+else: TARGET = anirem
 
 QMAKE_TARGET_PRODUCT = "Ani-Rem"
 RC_ICONS += ../../icn/anirem.ico
@@ -50,7 +51,8 @@ DISTFILES += $$TRANSLATIONS \
 	installer/meta/package.xml
 
 # install / qtifw
-target.path = $$INSTALL_BINS
+mac: target.path = $$INSTALL_APP
+else: target.path = $$INSTALL_BINS
 qpmx_ts_target.path = $$INSTALL_TRANSLATIONS
 extra_ts_target.path = $$INSTALL_TRANSLATIONS
 INSTALLS += target qpmx_ts_target extra_ts_target
