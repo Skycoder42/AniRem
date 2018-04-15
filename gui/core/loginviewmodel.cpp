@@ -107,9 +107,9 @@ void LoginViewModel::login()
 			_settings->account.storedPw = _storePassword;
 			AniRem::setProxerToken(login.data().token(), _settings);
 			if(_storePassword) {
-				//TODO store password to keystore
+				//FEATURE store password to keystore
 			} else {
-				//TODO remove password from keystore
+				//FEATURE remove password from keystore
 			}
 
 			emit resultReady(true);
@@ -129,7 +129,7 @@ void LoginViewModel::onInit(const QVariantHash &params)
 	setStorePassword(_settings->account.storedPw);
 
 	if(_storePassword) {
-		//TODO load password from keystore
+		//FEATURE load password from keystore
 	}
 }
 

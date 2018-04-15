@@ -33,6 +33,9 @@ LoginDialog::LoginDialog(QtMvvm::ViewModel *viewModel, QWidget *parent) :
 			this, &LoginDialog::setDisabled);
 	connect(_viewModel, &LoginViewModel::loginSuccessful,
 			this, &LoginDialog::close);
+
+	//FEATURE disable for now
+	_ui->rememberPasswordCheckBox->hide();
 }
 
 LoginDialog::~LoginDialog()

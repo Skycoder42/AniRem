@@ -95,17 +95,18 @@ AlertDialog {
 				}
 			}
 
-			Switch {
-				id: storePwSwitch
-				text: qsTr("Remember my password")
+			//FEATURE disable for now
+//			Switch {
+//				id: storePwSwitch
+//				text: qsTr("Remember my password")
 
-				MvvmBinding {
-					viewModel: loginDialog.viewModel
-					viewModelProperty: "storePassword"
-					view: storePwSwitch
-					viewProperty: "checked"
-				}
-			}
+//				MvvmBinding {
+//					viewModel: loginDialog.viewModel
+//					viewModelProperty: "storePassword"
+//					view: storePwSwitch
+//					viewProperty: "checked"
+//				}
+//			}
 		}
 
 		BusyIndicator {

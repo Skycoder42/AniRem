@@ -213,7 +213,6 @@ bool AniRemApp::setAutoStart(bool autoStart)
 	auto activity = QtAndroid::androidActivity();
 	if(activity.isValid()) {
 		QtAndroid::runOnAndroidThread([=](){
-			//TODO fix method name etc.
 			QAndroidJniObject::callStaticMethod<void>("de/skycoder42/anirem/BootReceiver",
 													  "scheduleAutoCheck",
 													  "(Landroid/content/Context;Z)V",
