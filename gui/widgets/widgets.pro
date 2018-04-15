@@ -85,6 +85,11 @@ create_installer {
 	install_icons.path = $$INSTALL_PREFIX
 	install_icons.files = installer/main.png
 	INSTALLS += install_icons
+
+	# deploy extra plugins
+	anirem_ds_plugins.path = $$INSTALL_PLUGINS
+	anirem_ds_plugins.files += $$[QT_INSTALL_PLUGINS]/keystores
+	INSTALLS += anirem_ds_plugins
 } else {
 	desktop_install.files = anirem.desktop
 	desktop_install.path = $$INSTALL_SHARE/applications/
