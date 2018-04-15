@@ -19,18 +19,13 @@
         <translation>894</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Title: </source>
-        <translation>Titel: </translation>
-    </message>
-    <message>
         <location line="+10"/>
-        <source>Filled in automatically…</source>
-        <translation>Wird automatisch befüllt…</translation>
+        <source>&amp;Title:</source>
+        <translation>&amp;Titel:</translation>
     </message>
     <message>
-        <location line="+36"/>
-        <location filename="addanimedialog.cpp" line="+119"/>
+        <location line="+39"/>
+        <location filename="addanimedialog.cpp" line="+120"/>
         <source>&lt;i&gt;Preview&lt;/i&gt;</source>
         <translation>&lt;i&gt;Vorschau&lt;/i&gt;</translation>
     </message>
@@ -93,6 +88,57 @@
     </message>
 </context>
 <context>
+    <name>EntryDialog</name>
+    <message>
+        <location filename="entrydialog.ui" line="+14"/>
+        <source>Anime/Manga History</source>
+        <translation>Anime/Manga Verlauf</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>List entries of &amp;type:</source>
+        <translation>Inhalte anzeigen vom &amp;Typ:</translation>
+    </message>
+</context>
+<context>
+    <name>LoginDialog</name>
+    <message>
+        <location filename="logindialog.ui" line="+14"/>
+        <source>Login</source>
+        <translation>Log-In</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>&amp;Username:</source>
+        <translation>&amp;Benutzername:</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>&amp;Password:</source>
+        <translation>&amp;Passwort:</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>2FA-&amp;Code:</source>
+        <translation>2FA-&amp;Code:</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>999999</source>
+        <translation>999999</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Only enter if you have 2FA enabled</source>
+        <translation>Nur eingeben, falls Sie 2FA aktiviert haben</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>&amp;Remember my password</source>
+        <translation>Passwort &amp;speichern</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="+59"/>
@@ -105,12 +151,12 @@
         <translation>&amp;Bearbeiten</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+8"/>
         <source>&amp;Actions</source>
         <translation>&amp;Aktionen</translation>
     </message>
@@ -155,22 +201,37 @@
         <translation>&amp;Season Check</translation>
     </message>
     <message>
-        <location line="+36"/>
-        <source>Ctrl+U</source>
-        <translation type="unfinished"></translation>
+        <location line="+60"/>
+        <source>S&amp;ynchronization</source>
+        <translation>S&amp;ynchronisation</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+8"/>
         <source>&amp;Unblock IP Captcha</source>
         <translation>IP-&amp;Unblock Captcha öffnen</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>&amp;Migrate from SeasonProxer</source>
-        <translation>Von SeasonProxer &amp;migrieren</translation>
+        <location line="+9"/>
+        <source>Add Anime by it&apos;s &amp;id</source>
+        <translation>Anime nach &amp;ID hinzufügen</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="+3"/>
+        <source>Add Anime by it&apos;s id</source>
+        <translation>Anime nach ID hinzufügen</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Add Anime from &amp;history</source>
+        <translation>Anime nach &amp;Verlauf hinzufügen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Add Anime from history</source>
+        <translation>Anime nach Verlauf hinzufügen</translation>
+    </message>
+    <message>
+        <location line="-80"/>
         <source>&amp;About</source>
         <translation>&amp;Info</translation>
     </message>
@@ -190,17 +251,17 @@
         <translation>Neue Seasons &amp;demarkieren</translation>
     </message>
     <message>
-        <location line="+12"/>
-        <source>Syn&amp;chronization</source>
-        <translation>S&amp;ynchronisation</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+15"/>
         <source>Synchronization</source>
         <translation>Synchronisation</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="+133"/>
+        <location filename="mainwindow.cpp" line="+72"/>
+        <source>Filter the list…</source>
+        <translation>Liste filtern…</translation>
+    </message>
+    <message>
+        <location line="+108"/>
         <source>Checking for new seasons…</source>
         <translation>Überprüfe auf neue Seasons…</translation>
     </message>

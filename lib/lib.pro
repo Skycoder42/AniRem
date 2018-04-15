@@ -91,7 +91,6 @@ INSTALLS += target qpmx_ts_target
 # install osx headers
 FRAMEWORK_HEADERS.version = Versions
 for(hfile, header_install.files): FRAMEWORK_HEADERS.files += $$relative_path($$hfile, $$OUT_PWD)
-message($${FRAMEWORK_HEADERS.files})
 FRAMEWORK_HEADERS.path = Headers
 QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
 

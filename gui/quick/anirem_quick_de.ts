@@ -4,7 +4,7 @@
 <context>
     <name>AddAnimeDialog</name>
     <message>
-        <location filename="AddAnimeDialog.qml" line="+9"/>
+        <location filename="AddAnimeDialog.qml" line="+10"/>
         <source>Add Anime</source>
         <translation>Anime hinzufügen</translation>
     </message>
@@ -14,9 +14,17 @@
         <translation>Proxer-ID:</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+48"/>
         <source>Title:</source>
         <translation>Titel:</translation>
+    </message>
+</context>
+<context>
+    <name>AnimeHistoryDelegate</name>
+    <message>
+        <location filename="AnimeHistoryDelegate.qml" line="+43"/>
+        <source>%1/10 ☆</source>
+        <translation>%1/10 ☆</translation>
     </message>
 </context>
 <context>
@@ -64,29 +72,75 @@
     </message>
 </context>
 <context>
+    <name>EntryView</name>
+    <message>
+        <location filename="EntryView.qml" line="+23"/>
+        <source>%1 History</source>
+        <translation>%1 Verlauf</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Select Mode</source>
+        <translation>Verlaufs-Typ auswählen</translation>
+    </message>
+</context>
+<context>
+    <name>LoginDialog</name>
+    <message>
+        <location filename="LoginDialog.qml" line="+10"/>
+        <source>Login</source>
+        <translation>Log-In</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Username:</source>
+        <translation>Benutzername:</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Password:</source>
+        <translation>Passwort:</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Authenticaton Code (optional):</source>
+        <translation>2FA-Code (optional):</translation>
+    </message>
+</context>
+<context>
     <name>MainView</name>
     <message>
-        <location filename="MainView.qml" line="+32"/>
+        <location filename="MainView.qml" line="+41"/>
         <source>Anime List</source>
         <translation>Anime Liste</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+38"/>
         <source>Check for new Seasons</source>
         <translation>Auf neue Seasons prüfen</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+205"/>
         <source>Paste ID/URL</source>
         <translation>ID/URL einfügen</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="-198"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-33"/>
+        <source>Filter the animes…</source>
+        <translation>Einträge filtern…</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Filter the animes</source>
+        <translation>Einträge filtern</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Synchronization</source>
         <translation>Synchronisation</translation>
     </message>
@@ -101,12 +155,22 @@
         <translation>IP-Unblock Captcha öffnen</translation>
     </message>
     <message>
-        <location line="+40"/>
+        <location line="+137"/>
         <source>Add Anime</source>
         <translation>Anime hinzufügen</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
+        <source>Add Anime from your history</source>
+        <translation>Anime vom Verlauf hinzufügen</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Add Anime by it&apos;s id</source>
+        <translation>Anime von ID hinzufügen</translation>
+    </message>
+    <message>
+        <location line="+28"/>
         <source>Checking for new seasons…</source>
         <translation>Überprüfe auf neue Seasons…</translation>
     </message>

@@ -9,19 +9,19 @@
 				   default="7">
 					<Property key="listElements" type="list">
 						<Element type="object">
-							<Property key="name" type="string">Never</Property>
+							<Property key="name" type="string" ts="true">Never</Property>
 							<Property key="value" type="int">0</Property>
 						</Element>
 						<Element type="object">
-							<Property key="name" type="string">Dayly</Property>
+							<Property key="name" type="string" ts="true">Dayly</Property>
 							<Property key="value" type="int">1</Property>
 						</Element>
 						<Element type="object">
-							<Property key="name" type="string">Weekly</Property>
+							<Property key="name" type="string" ts="true">Weekly</Property>
 							<Property key="value" type="int">7</Property>
 						</Element>
 						<Element type="object">
-							<Property key="name" type="string">Monthly</Property>
+							<Property key="name" type="string" ts="true">Monthly</Property>
 							<Property key="value" type="int">30</Property>
 						</Element>
 					</Property>
@@ -31,13 +31,13 @@
 				   title="Season check &amp;limit"
 				   tooltip="If checking for too many seasons at once, proxer.me may block your ip. To prevent this, limit the amount of checked animes per day (0 equals no limit)."
 				   default="15">
-				<Property key="specialValueText" type="string">No limit</Property>
+				<Property key="specialValueText" type="string" ts="true">No limit</Property>
 			</Entry>
 			<Entry key="clearcache"
 				   type="action"
 				   title="&amp;Clear image cache"
 				   tooltip="If the cache of anime images becomes to big, you can clear by pressing this button. This will delete all cached images.">
-				<Property key="text" type="string">Clear cache</Property>
+				<Property key="text" type="string" ts="true">Clear cache</Property>
 			</Entry>
 		</Group>
 		<Group title="Long/Double click action">

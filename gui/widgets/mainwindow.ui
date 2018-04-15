@@ -222,7 +222,7 @@
     <string>&amp;Open Anime in browser</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+U</string>
+    <string notr="true">Ctrl+U</string>
    </property>
   </action>
   <action name="action_Unmark_new_seasons">

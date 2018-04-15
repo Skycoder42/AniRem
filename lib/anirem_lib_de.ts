@@ -4,7 +4,7 @@
 <context>
     <name>AnimeInfo</name>
     <message>
-        <location filename="animeinfo.cpp" line="+163"/>
+        <location filename="animeinfo.cpp" line="+165"/>
         <source>Animes</source>
         <translation>Animes</translation>
     </message>
@@ -71,7 +71,7 @@
 <context>
     <name>PassiveUpdater</name>
     <message>
-        <location filename="passiveupdater.cpp" line="+41"/>
+        <location filename="passiveupdater.cpp" line="+43"/>
         <location line="+30"/>
         <source>Season check failed!</source>
         <translation>Season-Check fehlgeschlagen!</translation>
@@ -101,7 +101,7 @@
 <context>
     <name>SeasonStatusLoader</name>
     <message>
-        <location filename="seasonstatusloader.cpp" line="+115"/>
+        <location filename="seasonstatusloader.cpp" line="+130"/>
         <source>Failed to store update anime infos</source>
         <translation>Konnte die aktualisierten Anime-Infos nicht speichern</translation>
     </message>
