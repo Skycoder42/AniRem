@@ -71,6 +71,10 @@ create_installer {
 	QTIFW_TARGET = "Ani-Rem Installer"
 	QTIFW_MODE = online_all
 
+	QTIFW_QM_DEPS = qtbase qtwebsockets qtdatasync \
+		qtmvvmcore qtmvvmdatasynccore qtmvvmwidgets qtmvvmdatasyncwidgets \
+		qtautoupdatergui
+
 	qtifw_advanced_config.files += $$PWD/installer/config.xml
 	CONFIG += qtifw_target qtifw_deploy_no_install
 
