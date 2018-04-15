@@ -63,6 +63,7 @@ win32 {
 		qpmx_ts_target_fixed.files += "$$OUT_PWD/$$replace(tsBase, \.ts, .qm)"
 	}
 	qpmx_ts_target_fixed.path = $$INSTALL_TRANSLATIONS
+	qpmx_ts_target_fixed.CONFIG += no_check_exist
 	INSTALLS += qpmx_ts_target_fixed
 }
 

@@ -9,13 +9,13 @@ TARGET = anirem
 DEFINES += BUILD_LIB_ANIREM
 
 PUBLIC_HEADERS = \
-	lib_anirem_global.h \
-	libanirem.h \
-	apihelper.h \
-	seasonstatusloader.h \
-	iupdatenotifier.h \
-	animeinfo.h \
-	passiveupdater.h
+	$$PWD/lib_anirem_global.h \
+	$$PWD/libanirem.h \
+	$$PWD/apihelper.h \
+	$$PWD/seasonstatusloader.h \
+	$$PWD/iupdatenotifier.h \
+	$$PWD/animeinfo.h \
+	$$PWD/passiveupdater.h
 
 HEADERS += $$PUBLIC_HEADERS \
 	jsonseasondataconverter.h \
@@ -90,7 +90,8 @@ INSTALLS += target qpmx_ts_target
 
 # install osx headers
 FRAMEWORK_HEADERS.version = Versions
-FRAMEWORK_HEADERS.files = $${header_install.files}
+for(hfile, header_install.files): FRAMEWORK_HEADERS.files += $$relative_path($$hfile, $$OUT_PWD)
+message($${FRAMEWORK_HEADERS.files})
 FRAMEWORK_HEADERS.path = Headers
 QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
 
