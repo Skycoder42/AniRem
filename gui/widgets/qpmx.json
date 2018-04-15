@@ -18,7 +18,7 @@
         {
             "package": "de.skycoder42.qtifw-advanced-setup",
             "provider": "qpm",
-            "version": "2.1.0"
+            "version": "2.1.1"
         }
     ],
     "license": {
