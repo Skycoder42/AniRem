@@ -72,6 +72,19 @@ android {
 		$$PWD/openssl/openssl/libcrypto.so \
 		$$PWD/openssl/openssl/libssl.so
 	RESOURCES += anirem-android.qrc
+
+	tsqtInstall.path = $$INSTALL_TRANSLATIONS
+	tsqtInstall.files = \
+		$$[QT_INSTALL_TRANSLATIONS]/qtbase_*.qm \
+		$$[QT_INSTALL_TRANSLATIONS]/qtdeclarative_*.qm \
+		$$[QT_INSTALL_TRANSLATIONS]/qtquickcontrols_*.qm \
+		$$[QT_INSTALL_TRANSLATIONS]/qtwebsockets_*.qm \
+		$$[QT_INSTALL_TRANSLATIONS]/qtdatasync_*.qm \
+		$$[QT_INSTALL_TRANSLATIONS]/qtmvvmcore_*.qm \
+		$$[QT_INSTALL_TRANSLATIONS]/qtmvvmdatasynccore_*.qm \
+		$$[QT_INSTALL_TRANSLATIONS]/qtmvvmquick_*.qm \
+		$$[QT_INSTALL_TRANSLATIONS]/qtmvvmdatasyncquick_*.qm
+	INSTALLS += tsqtInstall
 }
 
 !ReleaseBuild:!DebugBuild:!system(qpmx -d $$shell_quote($$_PRO_FILE_PWD_) --qmake-run init $$QPMX_EXTRA_OPTIONS $$shell_quote($$QMAKE_QMAKE) $$shell_quote($$OUT_PWD)): error(qpmx initialization failed. Check the compilation log for details.)
