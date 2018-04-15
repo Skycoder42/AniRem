@@ -6,4 +6,5 @@
 	<ReleaseDate>2018-04-05</ReleaseDate>
 	<ForcedInstallation>true</ForcedInstallation>
 	<Default>true</Default>
+	<Replaces>de.skycoder42.seasonproxer</Replaces>
 </Package>

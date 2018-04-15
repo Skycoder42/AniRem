@@ -82,8 +82,6 @@ create_installer {
 	install_icons.path = $$INSTALL_PREFIX
 	install_icons.files = installer/main.png
 	INSTALLS += install_icons
-
-	# TODO add seasonproxer symlink to keep old installs intact
 } else {
 	desktop_install.files = anirem.desktop
 	desktop_install.path = $$INSTALL_SHARE/applications/
