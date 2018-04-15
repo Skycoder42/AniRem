@@ -3,7 +3,8 @@ set -e
 
 if [[ $PLATFORM == "android_"* ]]; then
 	# install android deps for signing
-	apt-get -qq install --no-install-recommends openjdk-8-jdk unzip
+	sudo apt-get -qq update
+	sudo apt-get -qq install --no-install-recommends openjdk-8-jdk unzip
 
 	# android skd
 	curl -Lo /tmp/android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip

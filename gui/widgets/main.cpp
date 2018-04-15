@@ -1,6 +1,7 @@
 #include <QtWidgets/QApplication>
 #include <QtMvvmWidgets/WidgetsPresenter>
 #include <QtMvvmDataSyncWidgets/qtmvvmdatasyncwidgets_global.h>
+#include <QSvgRenderer>
 #include <aniremapp.h>
 #include <qsingleinstance.h>
 
@@ -45,6 +46,9 @@ int main(int argc, char *argv[])
 			if(!currentMainWindow)
 				coreApp->show<MainViewModel>();
 		});
+
+		//workaround to force svg deployment
+		QSvgRenderer _unused;
 
 		coreApp->bootApp();
 		return EXIT_SUCCESS;
