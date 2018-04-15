@@ -2,6 +2,7 @@ TEMPLATE = lib
 
 QT = core datasync restclient mvvmcore
 win32: CONFIG += skip_target_version_ext
+CONFIG += lib_bundle
 
 TARGET = anirem
 
@@ -85,6 +86,12 @@ header_install.files = $$PUBLIC_HEADERS \
 header_install.CONFIG += no_check_exist
 header_install.path = $$INSTALL_HEADERS/anirem
 INSTALLS += target qpmx_ts_target
-!android: INSTALLS += header_install
+!android:!mac: INSTALLS += header_install
+
+# install osx headers
+FRAMEWORK_HEADERS.version = Versions
+FRAMEWORK_HEADERS.files = $${header_install.files}
+FRAMEWORK_HEADERS.path = Headers
+QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
 
 QMAKE_EXTRA_TARGETS += qtifw
