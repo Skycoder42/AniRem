@@ -3,7 +3,7 @@
 	<DisplayName>Ani-Rem Season Reminder</DisplayName>
 	<Description>Ani-Rem Season Reminder</Description>
 	<Version>2.0.0</Version>
-	<ReleaseDate>2018-04-05</ReleaseDate>
+	<ReleaseDate>2018-04-15</ReleaseDate>
 	<ForcedInstallation>true</ForcedInstallation>
 	<Default>true</Default>
 	<Replaces>de.skycoder42.seasonproxer</Replaces>

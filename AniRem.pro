@@ -15,7 +15,8 @@ prepareRecursiveTarget(lrelease)
 prepareRecursiveTarget(qtifw)
 QMAKE_EXTRA_TARGETS += lrelease qtifw
 
-DISTFILES += .qmake.conf
+DISTFILES += .qmake.conf \
+	README.md
 
 mac {
 	install_join.commands += cp -pRv "$(INSTALL_ROOT)$$INSTALL_APPS/" "$(INSTALL_ROOT)$${INSTALL_PREFIX}/" \

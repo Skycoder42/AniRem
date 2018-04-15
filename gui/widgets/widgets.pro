@@ -6,10 +6,9 @@ QT += widgets mvvmwidgets mvvmdatasyncwidgets svg concurrent
 !no_updater:QT += autoupdatergui
 else: DEFINES += NO_AUTO_UPDATER
 
-mac|win32: TARGET = Ani-Rem
-else: TARGET = anirem
+TARGET = Ani-Rem
 
-QMAKE_TARGET_PRODUCT = "Ani-Rem"
+QMAKE_TARGET_PRODUCT = "$$TARGET"
 RC_ICONS += ../../icn/anirem.ico
 ICON = ../../icn/anirem.icns
 
@@ -68,7 +67,6 @@ win32 {
 }
 
 create_installer {
-	QTIFW_TARGET = "Ani-Rem Installer"
 	QTIFW_MODE = online_all
 
 	QTIFW_QM_DEPS = qtbase qtwebsockets qtdatasync \

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
-	<Name>AniRem Season Reminder</Name>
+	<Name>Ani-Rem Season Reminder</Name>
 	<Version>2.0.0</Version>
-	<Title>AniRem Season Reminder Installer</Title>
+	<Title>Ani-Rem Season Reminder Installer</Title>
 	<Publisher>Sykcoder42</Publisher>
 	<ProductUrl>https://github.com/Skycoder42/AniRem</ProductUrl>
-	<StartMenuDir>AniRem</StartMenuDir>
-	<TargetDir>AniRem</TargetDir>
-	<RunProgram>anirem</RunProgram>
+	<StartMenuDir>Ani-Rem</StartMenuDir>
+	<TargetDir>Ani-Rem</TargetDir>
+	<RunProgram>Ani-Rem</RunProgram>
 	<AllowSpaceInPath>true</AllowSpaceInPath>
 	<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
 	<RemoteRepositories>
 		<Repository>
-			<Url>https://install.skycoder42.de/installers/AniRem</Url>
+			<Url>https://install.skycoder42.de/installers/anirem</Url>
 			<Enabled>1</Enabled>
-			<DisplayName>AniRem Season Reminder Repository</DisplayName>
+			<DisplayName>Ani-Rem Season Reminder Repository</DisplayName>
 		</Repository>
 	</RemoteRepositories>
 	<ControlScript>controller.js</ControlScript>
