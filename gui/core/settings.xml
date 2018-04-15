@@ -39,7 +39,6 @@
 				   tooltip="If the cache of anime images becomes to big, you can clear by pressing this button. This will delete all cached images.">
 				<Property key="text" type="string">Clear cache</Property>
 			</Entry>
-			<!-- TODO implement -->
 		</Group>
 		<Group title="Long/Double click action">
 			<Entry key="gui/openEntries"

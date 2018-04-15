@@ -1,6 +1,6 @@
 TEMPLATE = lib
 
-QT += mvvmcore mvvmdatasynccore
+QT += mvvmcore mvvmdatasynccore concurrent
 android: QT += androidextras
 CONFIG += static
 win32: CONFIG += skip_target_version_ext

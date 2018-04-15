@@ -16,12 +16,15 @@ public:
 public slots:
 	void loadImage(int id);
 
+	void clearCache();
+
 signals:
 	void imageLoaded(int id, const QImage &image);
 	void imageLoadFailed(int id, const QString &errorString);
 
 private slots:
 	void loadImageImpl(int id);
+	void clearCacheImpl();
 
 private:
 	static const QString CacheDirName;

@@ -2,6 +2,8 @@
 #include <QDir>
 #include <QImageReader>
 #include <QStandardPaths>
+#include <QUuid>
+#include <QtConcurrent>
 
 const QString ImageLoader::CacheDirName = QStringLiteral("preview-images");
 const QString ImageLoader::ImageNameTemplate = QStringLiteral("img_%1.png");
@@ -16,6 +18,11 @@ void ImageLoader::loadImage(int id)
 {
 	QMetaObject::invokeMethod(this, "loadImageImpl", Qt::QueuedConnection,
 							  Q_ARG(int, id));
+}
+
+void ImageLoader::clearCache()
+{
+	QMetaObject::invokeMethod(this, "clearCacheImpl", Qt::QueuedConnection);
 }
 
 void ImageLoader::loadImageImpl(int id)
@@ -49,6 +56,25 @@ void ImageLoader::loadImageImpl(int id)
 	connect(reply, &QNetworkReply::finished, this, [=](){
 		imageNetworkReply(id, reply);
 	}, Qt::QueuedConnection);
+}
+
+void ImageLoader::clearCacheImpl()
+{
+	_cache.clear();
+
+	QDir cacheDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+	if(cacheDir.exists(CacheDirName)) {
+		QString rmName = QStringLiteral(".rm-dir-") + QUuid::createUuid().toString();
+		if(cacheDir.rename(CacheDirName, rmName)) {
+			if(cacheDir.cd(rmName)) {
+				QtConcurrent::run([cacheDir](){
+					auto cDir = cacheDir;
+					cDir.removeRecursively();
+				});
+			}
+		} else if(cacheDir.cd(CacheDirName))
+			cacheDir.removeRecursively();
+	}
 }
 
 void ImageLoader::imageNetworkReply(int id, QNetworkReply *reply)

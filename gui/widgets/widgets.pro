@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += widgets mvvmwidgets mvvmdatasyncwidgets svg
+QT += widgets mvvmwidgets mvvmdatasyncwidgets svg concurrent
 
 !qtHaveModule(autoupdatergui): CONFIG += no_updater
 !no_updater:QT += autoupdatergui
