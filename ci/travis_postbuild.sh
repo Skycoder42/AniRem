@@ -26,6 +26,6 @@ else
 	
 	find "$rootdir/install"
 	if [[ $TRAVIS_OS_NAME == "osx" ]]; then
-		otool -l "$rootdir/install/packages/de.skycoder42.anirem/data/Contents/MacOS/Ani-Rem"
+		otool -L "$rootdir/install/packages/de.skycoder42.anirem/data/Contents/MacOS/Ani-Rem"
 	fi
 fi
