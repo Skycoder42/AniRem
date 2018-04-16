@@ -4,6 +4,8 @@ A tool to passivly check for updates on seasons, for https://proxer.me
 [![Travis Build Status](https://travis-ci.org/Skycoder42/AniRem.svg?branch=master)](https://travis-ci.org/Skycoder42/AniRem)
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/kqmf5af1ngg2phqo/branch/master?svg=true)](https://ci.appveyor.com/project/Skycoder42/seasonproxer/branch/master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d75777e4fcda476a9dbc5bc0a40d2869)](https://www.codacy.com/app/Skycoder42/AniRem)
+[![AUR](https://img.shields.io/aur/version/anirem.svg)](https://aur.archlinux.org/packages/anirem/)
+[![AUR](https://img.shields.io/aur/version/anirem-git.svg)](https://aur.archlinux.org/packages/anirem-git/)
 
 **Important:** If you have been using Ani-Rem (or Season-Proxer) pre Version 2.0.0, read the section [Migration](#Migration) below.
 
@@ -17,6 +19,17 @@ Proxer is awesome, but misses one feature: A notification when a new season/ova/
 	- The app notifies you when a new season/... gets released
 - Secure End-to-End encrypted synchronization between multiple devices
 - Available for all desktop platforms and Android (no iOS version due to API limitations & high appstore fees)
+
+## Screenshots
+### Desktop
+ Overview									| Add Animes
+----	-----------------------------------------|------------
+ ![desktop overview](img/desktop_main.png)	| ![desktop add](img/desktop_add.png)
+
+### Mobile
+ Overview									| Details 									| Add Animes
+----	-----------------------------------------|--------------------------------------------|------------
+ ![mobile overview](img/mobile_main.png)		| ![mobile details](img/mobile_detail.png)	| ![mobile add](img/mobile_add.png)
 
 ## Installation
 There are multiple ways to get the application:
