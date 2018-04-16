@@ -22,14 +22,14 @@ Proxer is awesome, but misses one feature: A notification when a new season/ova/
 
 ## Screenshots
 ### Desktop
- Overview									| Add Animes
-----	-----------------------------------------|------------
+ Overview					| Add Animes
+------------------------------------------------|------------
  ![desktop overview](img/desktop_main.png)	| ![desktop add](img/desktop_add.png)
 
 ### Mobile
- Overview									| Details 									| Add Animes
-----	-----------------------------------------|--------------------------------------------|------------
- ![mobile overview](img/mobile_main.png)		| ![mobile details](img/mobile_detail.png)	| ![mobile add](img/mobile_add.png)
+ Overview					| Details					| Add Animes
+------------------------------------------------|-----------------------------------------------|------------
+ ![mobile overview](img/mobile_main.png)	| ![mobile details](img/mobile_detail.png)	| ![mobile add](img/mobile_add.png)
 
 ## Installation
 There are multiple ways to get the application:
