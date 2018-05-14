@@ -26,6 +26,7 @@ AddAnimeViewModel::AddAnimeViewModel(QObject *parent) :
 	_loading(false),
 	_acceptable(false)
 {
+	_infoClass->setErrorTranslator(&ApiHelper::transformError);
 	connect(_infoClass, &InfoClass::apiError,
 			this, &AddAnimeViewModel::error);
 }

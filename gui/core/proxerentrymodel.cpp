@@ -15,6 +15,7 @@ ProxerEntryModel::ProxerEntryModel(SyncedSettings *settings, QObject *parent) :
 	_skipNext(false),
 	_data()
 {
+	_user->setErrorTranslator(&ApiHelper::transformError);
 	connect(_user, &UserClass::apiError,
 			this, &ProxerEntryModel::apiError);
 	connect(this, &ProxerEntryModel::apiError,

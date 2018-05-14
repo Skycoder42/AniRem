@@ -14,6 +14,7 @@ LoginViewModel::LoginViewModel(QObject *parent) :
 	_authCode(),
 	_storePassword(false)
 {
+	_user->setErrorTranslator(&ApiHelper::transformError);
 	connect(_user, &UserClass::apiError,
 			this, &LoginViewModel::apiError);
 }

@@ -14,6 +14,7 @@ SeasonStatusLoader::SeasonStatusLoader(QObject *parent) :
 	_lastMax(0),
 	_anyUpdated(false)
 {
+	_infoClass->setErrorTranslator(&ApiHelper::transformError);
 	connect(_infoClass, &InfoClass::apiError,
 			this, &SeasonStatusLoader::error);
 }
