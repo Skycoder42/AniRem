@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RestGadget xmlns="https://skycoder42.de/QtRestClient/qrestbuilder" name="ProxerListValue" export="LIB_ANIREM_EXPORT">
+	<Include local="true">lib_anirem_global.h</Include>
+
+	<Property key="id" type="int"/>
+	<Property key="medium" type="QString"/>
+	<Property key="name" type="QString"/>
+	<Property key="rating" type="int"/>
+	<Property key="timestamp" type="uint"/>
+</RestGadget>

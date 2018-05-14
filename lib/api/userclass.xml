@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RestClass xmlns="https://skycoder42.de/QtRestClient/qrestbuilder" name="UserClass" export="LIB_ANIREM_EXPORT" except="ProxerStatus">
+	<Include local="true">lib_anirem_global.h</Include>
+	<Include local="true">proxerlist.h</Include>
+	<Include local="true">proxerlogin.h</Include>
+
+	<Path>user</Path>
+
+	<Method name="listEntries" returns="ProxerList">
+		<Path>list</Path>
+		<Param key="kat" type="QString"/>
+		<Param key="isH" type="bool">false</Param>
+		<Param key="p" type="int">0</Param>
+		<Param key="limit" type="int">100</Param>
+		<Param key="sort" type="QString" asStr="true">changeDateDESC</Param>
+		<Param key="filter" type="QString" asStr="true">stateFilter0</Param>
+	</Method>
+	<Method name="login" verb="POST" returns="ProxerLogin">
+		<Path>login</Path>
+		<Param key="username" type="QString"/>
+		<Param key="password" type="QString"/>
+	</Method>
+	<Method name="login2FA" verb="POST" returns="ProxerLogin">
+		<Path>login</Path>
+		<Param key="username" type="QString"/>
+		<Param key="password" type="QString"/>
+		<Param key="secretkey" type="QString"/>
+	</Method>
+</RestClass>

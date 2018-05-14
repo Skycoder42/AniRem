@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RestClass xmlns="https://skycoder42.de/QtRestClient/qrestbuilder" name="InfoClass" export="LIB_ANIREM_EXPORT" except="ProxerStatus">
+	<Include local="true">lib_anirem_global.h</Include>
+	<Include local="true">proxerentry.h</Include>
+	<Include local="true">proxerrelations.h</Include>
+	<Include local="true">proxernames.h</Include>
+
+	<Path>info</Path>
+
+	<Method name="getEntry" returns="ProxerEntry">
+		<Path>entry</Path>
+		<Param key="id" type="int"/>
+	</Method>
+	<Method name="getNames" returns="ProxerNames">
+		<Path>names</Path>
+		<Param key="id" type="int"/>
+	</Method>
+	<Method name="getRelations" returns="ProxerRelations">
+		<Path>relations</Path>
+		<Param key="id" type="int"/>
+		<Param key="isH" type="bool">false</Param>
+	</Method>
+</RestClass>

@@ -30,20 +30,19 @@ SOURCES += \
 	passiveupdater.cpp \
 	storedcookiejar.cpp
 
-REST_API_OBJECTS += api/proxerstatus.json \
-	api/proxerentryvalue.json \
-	api/proxerentry.json \
-	api/proxerrelations.json \
-	api/proxernamevalue.json \
-	api/proxernames.json \
-	api/proxerlistvalue.json \
-	api/proxerlist.json \
-	api/proxerlogin.json \
-	api/proxerloginvalue.json
-
-REST_API_CLASSES += api/proxerapi.json \
-	api/infoclass.json \
-	api/userclass.json
+REST_API_FILES += api/proxerstatus.xml \
+	api/proxerentryvalue.xml \
+	api/proxerentry.xml \
+	api/proxerrelations.xml \
+	api/proxernamevalue.xml \
+	api/proxernames.xml \
+	api/proxerlistvalue.xml \
+	api/proxerlist.xml \
+	api/proxerlogin.xml \
+	api/proxerloginvalue.xml \
+	api/proxerapi.xml \
+	api/infoclass.xml \
+	api/userclass.xml
 
 SETTINGS_GENERATORS += \
 	localsettings.xml \

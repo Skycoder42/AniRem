@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RestGadget xmlns="https://skycoder42.de/QtRestClient/qrestbuilder" name="ProxerRelations" base="ProxerStatus" export="LIB_ANIREM_EXPORT">
+	<Include local="true">lib_anirem_global.h</Include>
+	<Include local="true">proxerstatus.h</Include>
+	<Include local="true">proxerentryvalue.h</Include>
+
+	<Property key="data" type="QList&lt;ProxerEntryValue&gt;"/>
+</RestGadget>

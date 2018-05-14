@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RestApi xmlns="https://skycoder42.de/QtRestClient/qrestbuilder" name="ProxerApi" export="LIB_ANIREM_EXPORT" globalName="proxer" autoCreate="true">
+	<Include local="true">lib_anirem_global.h</Include>
+	<Include local="true">infoclass.h</Include>
+	<Include local="true">userclass.h</Include>
+
+	<BaseUrl apiVersion="1">https://proxer.me/api</BaseUrl>
+	<Header key="proxer-api-key" expr="true">PROXER_API_KEY</Header>
+
+	<Class key="info" type="InfoClass"/>
+	<Class key="user" type="UserClass"/>
+</RestApi>
