@@ -201,7 +201,7 @@
 <context>
     <name>ProxerEntryModel</name>
     <message>
-        <location filename="proxerentrymodel.cpp" line="+67"/>
+        <location filename="proxerentrymodel.cpp" line="+69"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
@@ -224,173 +224,173 @@
 <context>
     <name>qtmvvm_settings_xml</name>
     <message>
-        <location filename=".ts-dummy/settings.tsdummy.cpp" line="+7"/>
+        <location filename=".ts-dummy/settings.tsdummy.cpp" line="+9"/>
         <source>&amp;Unmark new seasons</source>
         <translation>Neue Seasons &amp;demarkieren</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+16"/>
         <source>&amp;Open Animes in browser</source>
         <translation>Animes im &amp;Browser öffnen</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>If checking for too many seasons at once, proxer.me may block your ip. To prevent this, limit the amount of checked animes per day (0 equals no limit).</source>
         <translation>Wenn zu viele Animes überprüft werden, kann es sein, dass proxer.me die IP blockiert. Gibt das Limit für Checks pro Tag an(0 heißt kein Limit).</translation>
     </message>
     <message>
-        <location line="-22"/>
+        <location line="+7"/>
         <source>Such an action will remove the &apos;new seasons&apos; mark from the anime, if it had one.</source>
         <translation>Eine solche Aktion entfernt automatisch die &quot;neue Seasons&quot; Information.</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="-15"/>
         <source>Select the kinds of relations of adult you want to check. Those will only be checked if adult content itself is enabled.</source>
         <oldsource>When enabled, the applications update-checks will include Adult-Content, like Hentais, H-Mangas and Doujins.</oldsource>
         <translation>Wählen Sie die Arten von Erwachsenen-Verbindungen, welche überprüft werden sollen. Diese werden nur beachten, wenn Erwachseneninhalte ansich zugelassen sind.</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
         <source>Adult Relation types</source>
         <translation>Vebindungs-Typen (Erwachsenen-Inhalte)</translation>
     </message>
     <message>
-        <location line="-17"/>
+        <location line="+25"/>
         <source>General application settings</source>
         <translation>Allgemeine Anwendungseinstellungen</translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-19"/>
         <source>Weekly</source>
         <translation>Wöchentlich</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+11"/>
         <source>Never</source>
         <translation>Nie</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+7"/>
         <source>Clear cache</source>
         <translation>Cache leeren</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-25"/>
         <source>When enabled, the applications update-checks will include Adult-Content, like Hentais, H-Mangas and Doujinshi.</source>
         <translation>Wenn die Option aktiviert ist werden auch Erwachsenen-Inhalte geladen, wie z.B. Hentais. H-Mangas und Doujins.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+24"/>
         <source>Monthly</source>
         <translation>Monatlich</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-2"/>
         <source>Filter the types to check animes for</source>
         <translation>Filtern Sie die Typen von Verbindungen, welche auf neue Inhalte überprüft werden sollen</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-10"/>
         <source>No limit</source>
         <translation>Kein Limit</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+17"/>
         <source>Select the kinds of relations you want to check</source>
         <translation>Wählen Sie die Arten von Verbindungen, welche überprüft werden sollen</translation>
     </message>
     <message>
-        <location line="-5"/>
+        <location line="-12"/>
         <source>Standard Relation types</source>
         <translation>Normale Vebindungs-Typen</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="-11"/>
         <source>&amp;Clear image cache</source>
         <translation>Bilder-&amp;Cache zurücksetzen</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+25"/>
         <source>Movies</source>
         <translation>Filme</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-21"/>
         <source>Dayly</source>
         <translation>Täglich</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-12"/>
         <source>Oneshots</source>
         <translation>Oneshots</translation>
     </message>
     <message>
-        <location line="-13"/>
+        <location line="+11"/>
         <source>Contents</source>
         <translation>Inhalte</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-5"/>
         <source>Mangas</source>
         <translation>Mangas</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="+11"/>
         <source>Long/Double click action</source>
         <translation>Lang/Doppel-Klick Aktion</translation>
     </message>
     <message>
-        <location line="-16"/>
+        <location line="+5"/>
         <source>&amp;Automatic Season Check</source>
         <translation>&amp;Automatischer Season-Check</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-4"/>
         <source>Doujinshi</source>
         <translation>Doujinshi</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="+11"/>
         <source>Animes</source>
         <translation>Animes</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-28"/>
         <source>If the cache of anime images becomes to big, you can clear by pressing this button. This will delete all cached images.</source>
         <translation>Wenn die gecachten Vorschaubilder zu viel Platz einnehmen können diese gelöscht werden.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+31"/>
         <source>Season check &amp;limit</source>
         <translation>Season-Check &amp;Limit</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-22"/>
         <source>Such an action will automatically open the animes relations in your browser.</source>
         <translation>Eine solche Aktion öffnet Animes automatisch im Browser.</translation>
     </message>
     <message>
-        <location line="-14"/>
+        <location line="-6"/>
         <source>Hentais</source>
         <translation>Hentais</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+9"/>
         <source>OVAs</source>
         <translation>OVAs</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-6"/>
         <source>H-Mangas</source>
         <translation>H-Mangas</translation>
     </message>
     <message>
-        <location line="-26"/>
+        <location line="+9"/>
         <source>Automatically check for new seaons every given interval.</source>
         <translation>Automatisch nach neuen Seasons suche, nach gegebenen Intervall.</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="+9"/>
         <source>Include &amp;Adult content</source>
         <translation>&amp;Erwachsenen-Inhalte einschließen</translation>
     </message>

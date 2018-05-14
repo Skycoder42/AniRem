@@ -1,5 +1,7 @@
 #include "apihelper.h"
 #include <QDebug>
+#include <localsettings.h>
+#include "libanirem.h"
 using namespace QtRestClient;
 
 QString ApiHelper::transformError(ProxerStatus status, int)
@@ -22,7 +24,11 @@ QString ApiHelper::formatError(const QString &error, int errorCode, RestReply::E
 	case RestReply::JsonParseError:
 		return tr("Data Error: <i>%1</i>").arg(error);
 	case RestReply::FailureError:
-		return tr("Proxer-API Error: <i>%1</i>").arg(error);
+		if(errorCode == 1005) {
+			AniRem::setProxerToken({}, LocalSettings::instance());
+			return tr("Invalid Login-Token! The old token has been removed. Please try again.");
+		} else
+			return tr("Proxer-API Error: <i>%1</i>").arg(error);
 	case RestReply::DeserializationError:
 		return tr("Data Error: <i>%1</i>").arg(error);
 	default:

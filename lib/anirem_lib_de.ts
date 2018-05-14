@@ -52,18 +52,23 @@
 <context>
     <name>ApiHelper</name>
     <message>
-        <location filename="apihelper.cpp" line="+21"/>
+        <location filename="apihelper.cpp" line="+23"/>
         <source>Network Error: &lt;i&gt;%1&lt;/i&gt;</source>
         <translation>Netzwerk-Fehler: &lt;i&gt;%1&lt;/i&gt;</translation>
     </message>
     <message>
         <location line="+2"/>
-        <location line="+4"/>
+        <location line="+8"/>
         <source>Data Error: &lt;i&gt;%1&lt;/i&gt;</source>
         <translation>Daten-Fehler: &lt;i&gt;%1&lt;/i&gt;</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="-4"/>
+        <source>Invalid Login-Token! The old token has been removed. Please try again.</source>
+        <translation>Ungültiges Login-Token! Das alte Token wurde entfernt. Bitte versuchen Sie es erneut.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Proxer-API Error: &lt;i&gt;%1&lt;/i&gt;</source>
         <translation>Proxer-API Fehler: &lt;i&gt;%1&lt;/i&gt;</translation>
     </message>

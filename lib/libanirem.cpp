@@ -43,9 +43,15 @@ void AniRem::setup(QtDataSync::Setup &setup, bool passive)
 
 void AniRem::setProxerToken(const QString &token, LocalSettings *settings)
 {
-	settings->account.token = token;
-	ProxerApi api;
-	api.restClient()->addGlobalHeader("proxer-api-token", token.toUtf8());
+	if(token.isEmpty()) {
+		settings->account.token.reset();
+		ProxerApi api;
+		api.restClient()->removeGlobalHeader("proxer-api-token");
+	} else {
+		settings->account.token = token;
+		ProxerApi api;
+		api.restClient()->addGlobalHeader("proxer-api-token", token.toUtf8());
+	}
 }
 
 
