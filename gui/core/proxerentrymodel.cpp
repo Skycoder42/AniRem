@@ -3,6 +3,8 @@
 #include <apihelper.h>
 #include <proxerapi.h>
 
+const int ProxerEntryModel::PageSize = 50;
+
 ProxerEntryModel::ProxerEntryModel(SyncedSettings *settings, QObject *parent) :
 	QAbstractTableModel(parent),
 	_settings(settings),

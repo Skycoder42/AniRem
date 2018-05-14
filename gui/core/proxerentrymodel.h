@@ -29,7 +29,7 @@ public:
 	};
 	Q_ENUM(Roles)
 
-	static const int PageSize = 50;
+	static const int PageSize;
 
 	explicit ProxerEntryModel(SyncedSettings *settings, QObject *parent = nullptr);
 

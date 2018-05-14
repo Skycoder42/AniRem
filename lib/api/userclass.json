@@ -39,8 +39,8 @@
 				"isH;bool;false",
 				"p;int;0",
 				"limit;int;100",
-				"sort;QString;QStringLiteral(\"changeDateDESC\")",
-				"filter;QString;QStringLiteral(\"stateFilter0\")"
+				"sort;QString;changeDateDESC",
+				"filter;QString;stateFilter0"
 			],
 			"returns": "ProxerList"
 		}
