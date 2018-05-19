@@ -17,7 +17,7 @@ if [[ $PLATFORM == "android_"* ]]; then
 else
 	if [[ $TRAVIS_OS_NAME == "linux" ]]; then
 		apt-get -qq update
-		apt-get -qq install libxrender1
+		apt-get -qq install libxrender1 libsecret-1-0
 	fi
 
 	rootdir=$(pwd)
